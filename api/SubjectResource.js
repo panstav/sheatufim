@@ -10,40 +10,28 @@ var resources = require('jest'),
     models = require('../models'),
     common = require('./common');
 
-var SubjectResource = module.exports = resources.MongooseResource.extend({
+var SubjectResource = module.exports = common.BaseModelResource.extend({
     init:function(){
         this._super(models.Subject);
         this.allowed_methods = ['get'];
         this.filtering = {tags:null};
+        this.authentication = new common.SessionAuthentication(true);
         this.max_limit = 8;
         this.default_query = function(query){
             return query.sort({'is_uru':-1,gui_order:1});
         };
+        this.fields = ['name','tooltip','description','text_field_preview','image_field',
+            'tags','is_hot_object','is_uru','isAllowed','_id'];
     },
     get_objects:function(req,filters,sorts,limit,offset,callback) {
         this._super(req,filters,sorts,limit,offset,function(err,rsp) {
-            if(rsp)
-            {
-                if(rsp.meta.total_count != 8)
-                    console.error('there should always be 8 subjects');
-
-                if(!_.any(rsp.objects,function(subject) {
-                    return subject.is_uru;
-                })) {
-                    console.log('creating uru subject');
-                    var uru_subject = new models.Subject();
-                    uru_subject.name = 'עורו';
-                    uru_subject.description = 'עורו זה נושא מונפץ';
-                    uru_subject.is_uru = true;
-                    uru_subject.save(function(err,subject) {
-                        if(subject){
-                            rsp.meta.total_count++;
-                            rsp.objects.push(subject);
-                        }
-                        callback(err,rsp);
-                    });
-                    return;
-                }
+            if(rsp && rsp.objects){
+                var userSubjects = req.user ? req.user.subjects.map(function(subject){
+                    return subject + '';
+                }) : [];
+                rsp.objects.forEach(function(subject){
+                    subject.isAllowed = userSubjects.indexOf(subject.id) > -1;
+                });
             }
             callback(err,rsp);
         });

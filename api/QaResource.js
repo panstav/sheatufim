@@ -9,12 +9,11 @@ var common = require('./common')
 models = require('../models'),
     async = require('async');
 
-var QaResource = module.exports = common.GamificationMongooseResource.extend(
+var QaResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.Qa, null, null);
+            this._super(models.Qa);
             this.allowed_methods = ['get'];
-            this.authentication = new common.SessionAuthentication();
         }
     }
 )

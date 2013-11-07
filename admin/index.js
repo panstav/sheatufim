@@ -5,13 +5,10 @@ var mongoose_admin = require('formage-admin'),
     SuggestionResource = require('../api/suggestionResource'),
     ActionResource = require('../api/actions/ActionResource'),
     models = require('../models');
-var ActionForm = require('./action');
-var GamificationForm = require('./gamification_tokens');
+
 var UserForm = require('./user');
 var DiscussionForm = require('./discussion');
-var CycleForm = require('./cycle');
 var SuggestionForm = require('./suggestion');
-var IdkunimForm = require('./update');
 
 mongoose_admin.register_models(Models);
 
@@ -80,7 +77,7 @@ module.exports = function (app) {
 
     admin.registerMongooseModel("User", Models.User, null, {
         form:UserForm,
-        list:['username', 'first_name', 'last_name'],
+        list:['first_name', 'last_name','email'],
         //  filters: ['email', 'gender', 'identity_provider'],
         order_by:['-last_visit'],
         search:'__value__.test(this.first_name+ " "+this.last_name)',
@@ -239,9 +236,7 @@ module.exports = function (app) {
         //filters: ['discussion_id', 'creator_id']
     });
 */
-    admin.registerSingleRowModel(Models.GamificationTokens, 'GamificationTokens', {
-            form:GamificationForm}
-    );
+
 
     admin.registerMongooseModel("DiscussionHistory", Models.DiscussionHistory, null, {
         list:['discussion_id', 'date'],

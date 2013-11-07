@@ -16,10 +16,11 @@ var resources = require('jest'),
     _ = require('underscore');
     calc_thresh = require('../../tools/calc_thresh.js'),
     Suggestion = require('../suggestionResource.js'),
+    discussionCommon = require('./common'),
     notifications = require('../notifications.js');
 
 //Authorization
-var Authoriztion = resources.Authorization.extend({
+var Authorization = discussionCommon.DiscussionAuthorization.extend({
     edit_object : function(req,object,callback){
     //check if user already grade this discussion
 
@@ -51,13 +52,12 @@ var Authoriztion = resources.Authorization.extend({
 });
 
 
-var GradeResource = module.exports = common.GamificationMongooseResource.extend({
+var GradeResource = module.exports = common.BaseModelResource.extend({
     init:function(){
-        this._super(models.Grade,'grade', null);
+        this._super(models.Grade);
 //        GradeResource.super_.call(this,models.Grade);
         this.allowed_methods = ["get", "put", "post"];
-        this.authorization = new Authoriztion();
-        this.authentication = new common.SessionAuthentication();
+        this.authorization = new Authorization();
         this.filtering = {discussion_id: {
             exact:null,
             in:null
@@ -227,8 +227,8 @@ var GradeResource = module.exports = common.GamificationMongooseResource.extend(
                 ],
                 // Final) set gamification details, return object
                 function(err, args){
-                    req.gamification_type = "grade_discussion";
-                    req.token_price = common.getGamificationTokenPrice('grade_discussion') > -1 ? common.getGamificationTokenPrice('grade_discussion') : 0;
+//                    req.gamification_type = "grade_discussion";
+//                    req.token_price = common.getGamificationTokenPrice('grade_discussion') > -1 ? common.getGamificationTokenPrice('grade_discussion') : 0;
 
                     callback(err, {new_grade: new_grade, evaluate_counter: counter, grade_id: grade_object._id || 0});
                 });

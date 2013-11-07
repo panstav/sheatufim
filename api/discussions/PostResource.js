@@ -10,20 +10,20 @@ var resources = require('jest'),
     og_action = require('../../og/og.js').doAction,
     models = require('../../models'),
     common = require('../common.js'),
+    discussionCommon = require('./common'),
     async = require('async'),
     _ = require('underscore'),
     notifications = require('../notifications.js');
 
 var EDIT_TEXT_LEGIT_TIME = 60 * 1000 * 15;
 
-var PostResource = module.exports = common.GamificationMongooseResource.extend({
+var PostResource = module.exports = common.BaseModelResource.extend({
     init:function () {
 
-        this._super(models.Post, 'post', null);
+        this._super(models.Post);
         this.allowed_methods = ['get', 'post', 'put', 'delete'];
-        this.authorization = new common.TokenAuthorization();
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:null};
+        this.authorization = new discussionCommon.DiscussionAuthorization();
         this.default_query = function (query) {
             return query.sort({creation_date:'ascending'});
         };
@@ -308,21 +308,6 @@ var PostResource = module.exports = common.GamificationMongooseResource.extend({
                         models.User.update({_id:user.id},{$set: {"actions_done_by_user.post_on_object": true}}, function(err){
                             cbk2(err);
                         });
-                    },
-
-
-                    //if this post create on discussion create, its free of tokens, otherwise put it on req
-                    // TODO remove this. Post on Discussion create should be one single resource and one single calls, creation of first post should be done from there -> this check won't be necessary
-
-                    function(cbk2){
-                        models.Post.count({discussion_id: post_object.discussion_id}, function(err, count){
-                            if(!err){
-                                if(count > 1)
-                                    req.token_price = common.getGamificationTokenPrice('post');
-                            }
-
-                            cbk2(err, count);
-                        })
                     }
                     ],
                     cbk);

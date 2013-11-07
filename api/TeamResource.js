@@ -9,12 +9,11 @@ var common = require('./common')
 models = require('../models'),
     async = require('async');
 
-var TeamResource = module.exports = common.GamificationMongooseResource.extend(
+var TeamResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.Team, null, null);
+            this._super(models.Team);
             this.allowed_methods = ['get'];
-            this.authentication = new common.SessionAuthentication();
         }
     }
 )

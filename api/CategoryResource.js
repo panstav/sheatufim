@@ -21,6 +21,6 @@ var CategoryResource = module.exports = resources.MongooseResource.extend(
         this.allowed_methods = ['get', 'post'];
         this.authentication = new common.SessionAuthentication();
         this.update_fields = {name: null};
-//        this.authorization = new common.TokenAuthorization();
+//        this.authorization = new common.SubjectAuthorization();
     }
 });

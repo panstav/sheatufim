@@ -3,7 +3,9 @@ var mongoose = require("mongoose"),
     ObjectId = Schema.ObjectId,
 
     common = require('./common'),
-    utils = require('./../utils');
+    utils = require('./../utils'),
+    async = require('async'),
+    _ = require('underscore');
 
 
 var MinLengthValidator = function (min) {
@@ -48,66 +50,16 @@ var User = module.exports = new Schema({
             get_alert_of_approved_suggestions: {type: Boolean, 'default': true}
         })
     ],
-    //followers - - in the redesign it is the same as cycles.users
-    cycles:[
-        new Schema({
-            cycle_id:{type:ObjectId, ref:'Cycle'},
-            join_date: {type:Date},
-            get_alert_of_updates: {type: Boolean, 'default': true},
-            time_of_alert: {type:String, "enum":['now', 'today', 'this_week'], 'default': 'now'},
-            get_alert_of_new_action: {type: Boolean, 'default': true},
-            get_alert_of_approved_action: {type: Boolean, 'default': true},
-            get_reminder_of_action: {type: Boolean, 'default': true}
-        })
-    ],
-    // i dont know what this fields is, this is not "going users", it might be duplication of "people that connected somehow to the action" for efficiency
-    actions:[
-        new Schema( {action_id:{type:ObjectId, ref:'Action'}, join_date: {type:Date, 'default':Date.now}})
-    ],
-    followers: [
-        new Schema({follower_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY}, join_date: {type:Date, 'default':Date.now}})
-    ],
-    invited_friends: [
-        new Schema({
-            object_type:{type:String},
-            object_id:{type:ObjectId},
-            facebook_request:{type:String}  ,
-            facebook_ids:[{type:String}]  ,
-            emails:[{type:String}]  ,
-            date: {type:Date, 'default':Date.now}
-        })
-    ],
+// List of subject ref ids, that the user is authorized to view
+    subjects:[{type:ObjectId, ref:'Subject',query:common.SUBJECT_QUERY,help:'Add subject that this user is authorized to view'}],
 
     password: {type: String, editable:false},
     validation_code: {type: String, editable:false},
-    tokens:{type:Number, 'default':9, min: 0/*, max:15.9*/},
-    gamification: {type:Schema.Types.Mixed,editable:false },
-    updates: Schema.Types.Mixed,
-    //proxy - people i gave my tokens
-    proxy: [
-        new Schema(
-            {
-                user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY},
-                number_of_tokens: {type:Number, 'default': 0, /*min: 0,*/ max: 3},
-                number_of_tokens_to_get_back: {type:Number, 'default': 0,/* min: 0,*/ max: 3
-            }
-        })
-    ],
-//    num_of_mandates_i_gave: {type: Number, 'default': 0},
-    num_of_given_mandates: {type: Number, 'default': 0},
-    //bookmark
-    num_of_proxies_i_represent: {type: Number, 'default': 0},
-    score:{type:Number, 'default':0},
-//    unseen_notifications: {type:Number, 'default':0},
-    decoration_status:{type:String, "enum":['a', 'b', 'c'], editable: false},
-    invited_by: {type: ObjectId, ref: 'User', query:common.FIND_USER_QUERY},
-    has_been_invited : {type: Boolean, 'default': false, editable: false},
-    tokens_achivements_to_user_who_invited_me: Schema.Types.Mixed,
-    num_of_extra_tokens: {type: Schema.Types.Integer, 'default': 0, max:6, min: 0},
-    number_of_days_of_spending_all_tokens: {type: Number, 'default' : 0, editable: false},
+
+    updates: {type:Schema.Types.Mixed,editable:false},
+
     avatar : Schema.Types.File,
-    minisite_code : String,
-    sent_mail: {type:Date},
+    sent_mail: {type:Date,editable:false},
     actions_done_by_user:{
         create_object:false,
         post_on_object:false,
@@ -117,8 +69,6 @@ var User = module.exports = new Schema({
         join_to_object:false
     },
     no_mail_notifications: {type : Boolean, "default": true},
-    has_voted: [String] ,
-
     mail_notification_configuration: {
 
         // general
@@ -137,21 +87,9 @@ var User = module.exports = new Schema({
         //general discussions
         get_alert_of_comments_for_all_discussions: {type: Boolean, 'default': true},
         get_alert_of_suggestions_for_all_discussions: {type: Boolean, 'default': true},
-        get_alert_of_approved_suggestions_for_all_discussions: {type: Boolean, 'default': true},
-
-        // general cycles notifications
-        get_cycles_new_updates: {type: Boolean, 'default': true},// update objects
-        get_cycles_system_information: {type: Boolean, 'default': true},
-        get_alert_of_new_action_for_all_cycles: {type: Boolean, 'default': true},
-        get_alert_of_approved_action_for_all_cycles: {type: Boolean, 'default': true},
-
-
-        // actions
-        get_alert_of_new_posts_in_actions: {type: Boolean, 'default': true}
+        get_alert_of_approved_suggestions_for_all_discussions: {type: Boolean, 'default': true}
     }
-
-    //weekly_mails: [ {type: ObjectId, ref: 'Notification'}]
-}, {strict:true});
+}, {strict:false});
 
 User.methods.toString = function()
 {
@@ -166,20 +104,67 @@ User.methods.avatar_url = function()
         return this.facebook_id ? 'http://graph.facebook.com/' + this.facebook_id + '/picture/?type=large' : "/images/default_user_img.gif";
 };
 
-//User.post('save', function () {
-//   console.log('user post save');
-//});
 
-//User.methods.toString = function()
-//{
-//    return this.first_name + ' ' + this.last_name;
-//};
-//
-//User.methods.avatar_url = function()
-//{
-//    return this.avatar;
-////    if(this.avatar && this.avatar.url)
-////        return this.avatar.url;
-////    else
-////        return this.facebook_id ? 'http://graph.facebook.com/' + this.facebook_id + '/picture/?type=large' : "/images/default_user_img.gif";
-//};
+/**
+ * Post-init hook - save a copy of subject list
+ */
+User.post('init',function(){
+    this._lastSubjects = (this.subjects || []).map(function(subject) { return subject + ''; });
+});
+
+/**
+ * Pre-save hook - check is subject list was changed.
+ * If so, collect new subjects and notify user
+ */
+User.pre('save',function(next){
+
+
+    if(!this._lastSubjects && !this.isNew)
+        return next();
+
+    // get new subjects ids
+    var newSubjectList = (this.subjects || []).map(function(subject) { return subject + '';});
+    var newSubjects = _.difference(newSubjectList,this._lastSubjects || []);
+    delete this._lastSubjects;
+    // continue
+    next();
+    if(!newSubjects.length)
+        return;
+
+
+    var self = this;
+    // get subject objects
+    mongoose.model('Subject').find()
+        .where('_id').in(newSubjects)
+        .exec(function(err,subjects){
+            if(err) return console.error('Error getting subjects from DB with ids ' + newSubjects,err);
+
+            if(!subjects.length) return;
+
+            var firstSubjectUrl = '/discussions/subject/' + subjects[0].id;
+
+            if(self.isNew || !self.is_activated){
+                // if the user is new, need to send activation mail
+
+                require('../routes/account/activation').sendActivationMail(self,firstSubjectUrl,'inviteNewUserToSubject',{subjects:subjects},function(err){
+                    if(err)
+                        console.error('Error sending mail to user ' + self,err);
+                });
+            }
+            else {
+                // if the user exists, send only activation mail
+                async.waterfall([
+                    function(cbk){
+
+                        require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects},cbk);
+                    },
+                    function(string,cbk) {
+                        require('../lib/mail').sendMailFromTemplate(self.email, string , cbk);
+                    }
+                ],function(err){
+                    if(err)
+                        console.error('Error sending mail to user ' + self,err);
+                });
+            }
+        });
+});

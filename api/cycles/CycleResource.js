@@ -16,10 +16,9 @@ var jest = require('jest'),
     og_action = require('../../og/og.js').doAction,
     _ = require('underscore');
 
-var CycleResource = module.exports = common.GamificationMongooseResource.extend({
+var CycleResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.Cycle, null, 0);
-        this.authentication = new common.SessionAuthentication();
+        this._super(models.Cycle);
         this.allowed_methods = ['get', 'put'];
         this.filtering = {
             is_private: null,

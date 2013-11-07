@@ -14,7 +14,7 @@ var resources = require('jest'),
 var Authoriztion = function() {};
 util.inherits(Authoriztion,resources.Authorization);
 
-//Authoriztion.prototype.edit_object = function(req,object,callback){
+//Authorization.prototype.edit_object = function(req,object,callback){
 //    //check if user already grade this action
 //    var flag = false;
 //

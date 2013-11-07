@@ -37,11 +37,10 @@ var Authorization = resources.Authorization.extend({
     }
 });
 
-var UserFollowerResource = module.exports = common.GamificationMongooseResource.extend({
+var UserFollowerResource = module.exports = common.BaseModelResource.extend({
     init: function(){
-        this._super(models.User, null, 0);
+        this._super(models.User);
         this.allowed_methods = ['get', 'put'];
-        this.authentication = new common.SessionAuthentication();
         this.authorization = new Authorization();
         this.fields = {
             _id: null,

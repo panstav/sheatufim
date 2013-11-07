@@ -6,11 +6,10 @@ var resources = require('jest'),
     common = require('../common.js');
 notifications = require('../notifications.js');
 
-var VoteActionPostResource = module.exports = common.GamificationMongooseResource.extend({
+var VoteActionPostResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.VoteActionPost, 'vote_on_action_post', common.getGamificationTokenPrice('vote_on_action_post'));
+        this._super(models.VoteActionPost);
         this.allowed_methods = ['post'];
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:null},
             this.update_fields = {
                 post_action_id: null

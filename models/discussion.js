@@ -104,4 +104,20 @@ Discussion.pre('save',function(next){
     });
 });
 
+/**
+ *  check if discussion subject is in user allowed subject ids
+ * @param user
+ * @returns {boolean}
+ * Is allowed
+ */
+Discussion.methods.isUserAllowed = function(user){
+    if(!user)
+        return false;
+    var subjectIds = user.subjects.map(function(subject) { return subject + '';});
+    var discussionSubjectId = this.subject_id + '';
+        return subjectIds.indexOf(discussionSubjectId) == -1;
+}
+
 module.exports = utils.revertibleModel(Discussion);
+
+

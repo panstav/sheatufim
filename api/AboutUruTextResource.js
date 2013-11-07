@@ -9,12 +9,11 @@ var common = require('./common')
 models = require('../models'),
     async = require('async');
 
-var AboutUruTextResource = module.exports = common.GamificationMongooseResource.extend(
+var AboutUruTextResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.AboutUruText, null, null);
+            this._super(models.AboutUruText);
             this.allowed_methods = ['get'];
-            this.authentication = new common.SessionAuthentication();
 
         }
     }

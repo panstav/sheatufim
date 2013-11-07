@@ -18,11 +18,10 @@ var resources = require('jest'),
 var EDIT_TEXT_LEGIT_TIME = 60 * 1000 * 15;
 
 
-var SuggestionResource = module.exports = common.GamificationMongooseResource.extend({
+var SuggestionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.Suggestion, 'suggestion', common.getGamificationTokenPrice('suggestion_on_discussion') > -1 ? common.getGamificationTokenPrice('suggestion') : 0);
+        this._super(models.Suggestion);
         this.allowed_methods = ['get', 'post', 'put', 'delete'];
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:null, is_approved:null};
         this.default_query = function (query) {
             return query.sort({'creation_date':'descending'}).populate('creator_id').where('under_moderation').ne('true');

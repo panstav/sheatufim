@@ -9,12 +9,11 @@ var common = require('./common')
 models = require('../models'),
     async = require('async');
 
-var FounderResource = module.exports = common.GamificationMongooseResource.extend(
+var FounderResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.Founder, null, null);
+            this._super(models.Founder);
             this.allowed_methods = ['get'];
-            this.authentication = new common.SessionAuthentication();
 
             this.default_query = function (query) {
                 return query.sort({'last_name': 'ascending',tag:1});

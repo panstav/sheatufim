@@ -17,7 +17,7 @@ var PostActionResource = module.exports = common.GamificationMongooseResource.ex
     init:function () {
         this._super(models.PostAction, 'post_action');
         this.allowed_methods = ['get', 'post'];
-        this.authorization = new common.TokenAuthorization();
+        this.authorization = new common.SubjectAuthorization();
         this.authentication = new common.SessionAuthentication();
         this.filtering = {action_id:null};
         this.default_query = function (query) {

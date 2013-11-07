@@ -27,9 +27,9 @@ var asArray = function (arg) {
         return [];
 };
 
-var ActionResource = module.exports = common.GamificationMongooseResource.extend({
+var ActionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.Action, 'create_action', common.getGamificationTokenPrice('create_action') > -1 ? common.getGamificationTokenPrice('create_action') : 3);
+        this._super(models.Action);
         this.allowed_methods = ['get', 'post', 'put'];
         this.filtering = {
             subject_id: null,
@@ -42,7 +42,6 @@ var ActionResource = module.exports = common.GamificationMongooseResource.extend
                 in:true
             }
         };
-        this.authentication = new common.SessionAuthentication();
         this.default_query = function (query) {
             return query.sort({"execution_date.date":'descending'});
         };

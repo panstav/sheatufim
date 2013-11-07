@@ -3,7 +3,8 @@ var models = require('../../models'),
     templates = require('../../lib/templates'),
     mail = require('../../lib/mail'),
     async = require('async')
-    ,crypto = require('crypto');
+    ,crypto = require('crypto')
+    ,_ = require('underscore');
 
 module.exports = {
     get:function(req, res) {
@@ -97,8 +98,13 @@ module.exports = {
 };
 
 
-var sendActivationMail = module.exports.sendActivationMail = function(user,next,mail_template,callback)
+var sendActivationMail = module.exports.sendActivationMail = function(user,next,mail_template,context,callback)
 {
+    if(typeof(context) == 'function'){
+        callback = context;
+        context = null;
+    }
+
 
     var temp_password;
     var template =mail_template || 'activation';
@@ -131,7 +137,7 @@ var sendActivationMail = module.exports.sendActivationMail = function(user,next,
             });
         },
         function(user,cbk) {
-            templates.renderTemplate(template,{user:user, temp_password:temp_password,next:next},cbk);
+            templates.renderTemplate(template,_.extend({user:user, temp_password:temp_password,next:next},context||{}),cbk);
         },
         function(body,cbk) {
             mail.sendMail(user.email, body, 'אימות חשבון באתר עוּרו', cbk);

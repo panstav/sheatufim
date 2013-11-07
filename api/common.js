@@ -31,7 +31,13 @@ var user_public_fields = exports.user_public_fields = {
     identity_provider:null
 };
 
+
+
 var SessionAuthentication = exports.SessionAuthentication = jest.Authentication.extend({
+    init:function(allowAnonymous){
+        this._super();
+        this.allowAnonymous = allowAnonymous;
+    },
     is_authenticated : function(req, callback){
 
         //noinspection JSUnresolvedFunction
@@ -80,34 +86,38 @@ var SessionAuthentication = exports.SessionAuthentication = jest.Authentication.
         }
         else
         {
-            if(req.method != 'GET')
-                callback(null,false);
-            else
+            if(this.allowAnonymous && req.method == 'GET')
                 callback(null,true);
+            else
+                callback(null,false);
         }
     }
 });
 
-var TokenAuthorization = exports.TokenAuthorization = jest.Authorization.extend({
-    init:function(token_price)
-    {
-        this.token_price = token_price;
-    },
-
-    edit_object : function(req,object,callback){
-
-        if (this.token_price || req.token_price)
-        {
-            if(req.user.tokens >= (this.token_price || req.token_price)){
-                 callback(null, object);
-            }else{
-                callback({message:"Error: Unauthorized - there is not enought tokens",code:401}, null);
-            }
-        }
-        else
-            callback(null,object);
+/**
+ * Base API Resources for model based resources
+ */
+exports.BaseModelResource = jest.MongooseResource.extend({
+    init:function(model){
+        this._super(model);
+        this.authentication = new SessionAuthentication();
     }
 });
+
+/**
+ * Base API Resources for bare resources
+ */
+exports.BaseResource = jest.Resource.extend({
+    init:function(){
+        this._super();
+        this.authentication = new SessionAuthentication();
+    }
+});
+
+/**
+ * Base class for authorization
+ */
+exports.BaseAuthorization = jest.Authorization;
 
 
 var isArgIsInList = exports.isArgIsInList = function(arg_id, collection_list){
@@ -123,156 +133,7 @@ var isArgIsInList = exports.isArgIsInList = function(arg_id, collection_list){
 };
 
 
-var score = {};
-score.grade = 1;
-score.vote = 1;
-//score.post = 20;
-//score.suggestion = 20;
-//score.discussion = 30;
 
-//
-//function approve_item (item,item_type,user,callback)
-//{
-//    update_user_gamification(null,'approved_' + item_type,user,0,callback);
-//}
-
-function update_user_gamification(req, game_type, user, price, callback)
-{
-    var inc_user_gamification ={};
-    var inc_user_gamification_score ={};
-    inc_user_gamification['gamification.'+game_type] = 1;
-    inc_user_gamification['score'] = score[game_type] || 0;
-
-    if(price)
-        inc_user_gamification['tokens'] = -price;
-
-        user.gamification = user.gamification || {};
-        user.gamification[game_type] = user.gamification[game_type] || 0;
-        user.gamification[game_type] += 1;
-        user.score += score[game_type];
-        if(price)
-            user.tokens -= price;
-        models.User.update({_id:user.id},{$inc:inc_user_gamification},function(err,num)
-        {
-            if(err)
-                callback(err);
-            else
-            {
-//                async.parallel([
-//                    function(cbk){
-//                        set_passive_user_updates(req, cbk);
-//                    },
-//
-//                    function(cbk){
-//                        check_gamification_rewards(user, cbk);
-//
-//                    }
-//                ], function(err, args){
-//                    console.log('user gamification saved');
-//                    callback(err, args[1]);
-//                })
-
-//                check_gamification_rewards(user, callback);
-                callback(err, 0);//TODO change it
-                console.log('user gamification saved');
-
-            }
-        });
-}
-
-function set_passive_user_updates(req, callback){
-
-//    req.update_type = req.update_type || {};
-    if(req.update_type){
-
-    }else{
-        callback(null, 0);
-    }
-}
-
-function check_gamification_rewards(user,callback)
-{
-    //if rewards reurn it
-    //+ if perminant reward (king or something) insert to data base the new status
-
-    callback(null,/*reward*/null);
-}
-
-function gamification_deserilize(self,base,req,res,obj,status)
-{
-    if(status == 201 || status == 202 && self.gamification_type || req.gamification_type)
-    {
-        update_user_gamification(req, self.gamification_type || req.gamification_type, req.user, self.token_price || req.token_price,function(err,rewards)
-        {
-            if(rewards)
-                obj['rewards'] = rewards;
-
-            if (obj)
-                obj.updated_user_tokens = req.user.tokens;
-            else
-            {
-                var temp_obj = {}
-                    temp_obj.updated_user_tokens = req.user.tokens;
-            }
-            req.session.user = req.user;
-            base(req,res,obj || temp_obj,status);
-        });
-    }else{
-        base(req,res,obj,status);
-    }
-}
-
-var GamificationResource = exports.GamificationResource  = jest.Resource.extend({
-    init:function(type,price)
-    {
-        this.gamification_type = type;
-        this._super();
-        this.authorization = new TokenAuthorization(price || 0);
-        this.token_price = price;
-    },
-    deserialize:function(req, res,obj,status)
-    {
-        gamification_deserilize(this,this._super,req,res,obj,status);
-    }
-});
-
-var GamificationMongooseResource = exports.GamificationMongooseResource = jest.MongooseResource.extend({
-    init:function(model,type,price)
-    {
-        this.gamification_type = type;
-        this._super(model);
-        this.authorization = new TokenAuthorization(price || 0);
-        this.token_price = price;
-    },
-    deserialize:function(req, res, obj, status)
-    {
-        gamification_deserilize(this, this._super, req, res, obj, status);
-    }
-});
-
-var token_prices = {};
-function load_token_prices(){
-    models.GamificationTokens.findOne({},function(err,doc)
-    {
-        if(doc)
-            token_prices = doc._doc;
-        if(err)
-            console.error(err);
-    });
-};
-
-load_token_prices();
-
-models.GamificationTokens.schema.pre('save',function(next)
-{
-    setTimeout(load_token_prices, 1000);
-    next();
-});
-
-exports.getGamificationTokenPrice = function(type)
-{
-    return token_prices[type] || 0;
-};
 
 var threshold_calc_variables = {};
 function load_threshold_calc_variables(){

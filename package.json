@@ -14,16 +14,14 @@
     "dustjs-linkedin": "1.x.x",
     "request": "2.x.x",
     "logging": "2.x.x",
-    "sendgrid": "0.2.x",
     "xml": "0.0.x",
     "formage-admin": "git://github.com/IshaiJaffe/formage-admin.git",
     "facebook-signed-request": "0.0.x",
     "knox": "0.0.11",
-     "nodetime":"",
-      "http-proxy":""
+    "http-proxy": "",
+    "nodemailer": "~0.5.5"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "engines": {
     "node": "0.10.x",
     "npm": ">= 1.1.65"

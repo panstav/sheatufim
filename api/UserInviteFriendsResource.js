@@ -12,11 +12,10 @@ var resources = require('jest'),
     _ = require('underscore');
 
 
-var UserInviteFriendsResource = module.exports = common.GamificationMongooseResource.extend({
+var UserInviteFriendsResource = module.exports = common.BaseModelResource.extend({
     init: function(){
-        this._super(models.User, null, 0);
+        this._super(models.User);
         this.allowed_methods = ['post'];
-        this.authentication = new common.SessionAuthentication();
         //returned
         this.fields = {
             _id: null   ,

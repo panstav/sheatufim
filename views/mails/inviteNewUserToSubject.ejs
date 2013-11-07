@@ -1,0 +1,53 @@
+הזמנה להשתתף בזירת שיח באתר שיתופים
+<!--body -->
+<div style="direction:rtl" xmlns="http://www.w3.org/1999/html">
+    <div align="center"><font face="arial"><br><br></font></div>
+    <table border="0" align="center" cellpadding="0" cellspacing="0" dir="rtl" lang="HE" style="olor:rgb(34,34,34);font-family:arial,sans-serif;direction:rtl;" dir="RTL">
+        <tbody>
+        <tr>
+            <td>
+                <p><br></p>
+
+                <p></p>
+
+                <p class="MsoNormal">
+                </p>
+
+                <p class="MsoNormal">
+                    <span>
+                        שלום
+                        <%= user %>
+                 </span></p>
+
+                <p class="MsoNormal">
+                    <br>
+                </p>
+
+                <p class="MsoNormal">
+                    הוזמנת להשתתף בדיון וירטואלי בזירת השיח
+                    <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
+                    באתר שיתופים.
+                </p>
+                <p>
+                    סיסמת הכניסה שלך למערכת היא
+                    <%= temp_password %>
+                </p>
+                <p>
+                    אפשר להחליף אותה ולבחור סיסמא אישית
+                    <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">
+                        כאן
+                    </a>
+                </p>
+                <p>
+                    לכניסה לזירת השיח יש ללחוץ
+                    <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">
+                        כאן
+                    </a>
+                    ולהזין סיסמה להתחברות לאתר.
+                </p>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+</div>

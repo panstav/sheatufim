@@ -6,33 +6,32 @@ var resources = require('jest'),
     _ = require('underscore'),
     notifications = require('../notifications.js');
 
-//Authorization
-var Authorization = common.TokenAuthorization.extend({
-    limit_object_list:function (req, query, callback) {
+/**
+ *  Discussion Authorization
+ */
 
-        if (req.method == "PUT" || req.method == "DELETE") {
-            id = req.user._id;
-//            query.where('is_published', false).where('creator_id', id);
-            callback(null, query);
-        } else {
-            if (req.method == "GET") {
+var Authorization = common.BaseAuthorization.extend({
+    /**
+     * limits discussion query to published discussions that have a subjectId that the user is allowed to view
+     */
+    limit_object_list:function (req, query, callback) {
+        var subjectIds = req.user.subjects.map(function(subject) { return subject + '';});
+        query.where('subject_id').in(subjectIds);
+        if (req.method == "GET") {
                 query.where('is_published', true);
-                callback(null, query);
-            } else {
-                callback(null, query);
-            }
+                return callback(null, query);
         }
+        callback(null, query);
     },
     limit_object:function (req, query, callback) {
         return this.limit_object_list(req, query, callback);
     }
 });
 
-var DiscussionResource = module.exports = common.GamificationMongooseResource.extend({
+var DiscussionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.Discussion, null, 0);
+        this._super(models.Discussion);
         this.allowed_methods = ['get', 'post', 'put', 'delete'];
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {subject_id:null, users:null, is_published:null, is_private:null, tags:null,
             'users.user_id':{
                 exact:true,
@@ -171,8 +170,6 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
         if(fields.image_field)
             fields.image_field_preview = fields.image_field;
 
-        var min_tokens = common.getGamificationTokenPrice('min_tokens_to_create_dicussion') > -1 ? common.getGamificationTokenPrice('min_tokens_to_create_dicussion') : 10;
-//        var total_tokens = user.tokens + user.num_of_extra_tokens;
 
         var iterator = function (info_item, itr_cbk) {
             info_item.discussions.push(created_discussion_id);
@@ -218,29 +215,22 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
                 //conditions for creating a new discussion
 
                 var is_good_flag = true;
-                if (user_cup < min_tokens && user_cup < min_tokens - (Math.min(Math.floor(number_of_taged_info_items / 2), 2)) && fields.subject_id != '4fd0dae0ded0cb0100000fde') {
-                    console.log(false);
-                    cbk({message:"you don't have the min amount of tokens to open discussion", code:401}, null);
-                }
-                else {
-                    console.log(true);
-                    //vision cant be more than 800 words, title can't be more than 75 letters
-                    var vision_splited_to_words = fields.text_field.split(" ");
-                    var words_counter = 0;
-                    var title_length = fields.title.length;
+                //vision cant be more than 800 words, title can't be more than 75 letters
+                var vision_splited_to_words = fields.text_field.split(" ");
+                var words_counter = 0;
+                var title_length = fields.title.length;
 
-                    _.each(vision_splited_to_words, function (word) {
-                        if (word != " " && word != "") words_counter++
-                    });
-                    if (words_counter >= 800) {
-                        cbk({message:"vision can't be more than 800 words", code:401}, null);
-                    } else if(title_length > 75) {
-                        cbk({message:"title can't be longer than 75 characters", code:401}, null);
-                    } else {
+                _.each(vision_splited_to_words, function (word) {
+                    if (word != " " && word != "") words_counter++
+                });
+                if (words_counter >= 800) {
+                    cbk({message: "vision can't be more than 800 words", code: 401}, null);
+                } else if (title_length > 75) {
+                    cbk({message: "title can't be longer than 75 characters", code: 401}, null);
+                } else {
 
-                        //get subject_name
+                    //get subject_name
                     models.Subject.findById(fields.subject_id, cbk);
-                    }
                 }
             },
 
@@ -265,13 +255,10 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
                     object.set(field, fields[field]);
                 }
 
-                req.gamification_type = "discussion";
 
                 //set create_discussion_ price
                 // for each tagging of 2 information items the price is minus 1 tokens
                 // the max discount is 3;
-                var price_discount = (Math.min(Math.floor(number_of_taged_info_items / 2), 3));
-                req.token_price = common.getGamificationTokenPrice('create_discussion') > -1 ? common.getGamificationTokenPrice('create_discussion') - price_discount : 3;
                 self.authorization.edit_object(req, object, cbk);
             },
 
@@ -328,18 +315,6 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
                         });
                     },
 
-                    //set notification for users that i'm their proxy
-                    function(cbk1){
-                        models.User.find({"proxy.user_id": user_id}, function(err, slaves_users){
-                            async.forEach(slaves_users, function(slave, itr_cbk){
-                                notifications.create_user_notification("proxy_created_new_discussion", object._id, slave._id, user_id, null, '/discussions/' + object._id, function(err, result){
-                                    itr_cbk(err);
-                                })
-                            }, function(err){
-                                cbk1(err);
-                            })
-                        })
-                    },
 
                     // create new DiscussionHistory schema for this Discussion
                     function(cbk1){
@@ -365,17 +340,17 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
             },
 
             // 8) publish to facebook
-            function(cbk) {
-                og_action({
-                    action: 'created',
-                    object_name:'discussion',
-                    object_url : '/discussions/' + object.id,
-                    fid : user.facebook_id,
-                    access_token:user.access_token,
-                    user:user
-                });
-		        cbk();
-            }
+//            function(cbk) {
+//                og_action({
+//                    action: 'created',
+//                    object_name:'discussion',
+//                    object_url : '/discussions/' + object.id,
+//                    fid : user.facebook_id,
+//                    access_token:user.access_token,
+//                    user:user
+//                });
+//		        cbk();
+//            }
         ],
             // Final) return discussion object
             function(err) {
@@ -458,8 +433,6 @@ var DiscussionResource = module.exports = common.GamificationMongooseResource.ex
                 if (object.is_published) {
                     callback("this discussion is already published", null);
                 } else {
-                    req.gamification_type = "discussion";
-                    req.token_price = common.getGamificationTokenPrice('create_discussion') > -1 ? common.getGamificationTokenPrice('create_discussion') : 3;
                     object.is_published = true;
 
                     object.save(function (err, disc_obj) {

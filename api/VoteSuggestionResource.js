@@ -20,7 +20,7 @@ var VoteSuggestoinResource = module.exports = common.GamificationMongooseResourc
     init:function(){
         this._super(models.VoteSuggestion,'vote_suggestion', common.getGamificationTokenPrice('vote_suggestion'));
         this.allowed_methods = ['post'];
-        //    this.authorization = new Authoriztion();
+        //    this.authorization = new Authorization();
         this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id: null},
         this.fields = {

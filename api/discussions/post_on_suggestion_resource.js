@@ -6,13 +6,11 @@ var resources = require('jest'),
     async = require('async'),
     _ = require('underscore');
 
-var PostOnSuggestionResource = module.exports = common.GamificationMongooseResource.extend({
+var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
 
-        this._super(models.PostSuggestion, null, 0);
+        this._super(models.PostSuggestion);
         this.allowed_methods = ['get', 'post', 'delete'];
-        this.authorization = new common.TokenAuthorization();
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {suggestion_id: null};
         this.default_query = function (query) {
             return query.sort({creation_date:'ascending'});

@@ -14,11 +14,10 @@ var models = require('../models'),
     NUM_OF_TAG_SUGG_BEFORE_APPROVAL = 1,
     SUGGEST_TAG_PRICE = 1;
 
-var InformationItemResource = module.exports = common.GamificationMongooseResource.extend(
+var InformationItemResource = module.exports = common.BaseModelResource.extend(
 {
     init:function () {
-        this._super(models.InformationItem, null, null);
-        this.authentication = new common.SessionAuthentication();
+        this._super(models.InformationItem);
         this.allowed_methods = ['get', 'post', 'put'];
 //        this.authentication = new common.SessionAuthentication();
         this.filtering = {

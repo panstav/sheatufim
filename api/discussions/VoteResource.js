@@ -16,12 +16,10 @@ var resources = require('jest'),
 
 //  jstat = require('./jstat');
 
-var VoteResource = module.exports = common.GamificationMongooseResource.extend({
+var VoteResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.Vote, 'vote_on_post', common.getGamificationTokenPrice('vote_on_post'));
+        this._super(models.Vote);
         this.allowed_methods = ['post'];
-        //    this.authorization = new Authoriztion();
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:null},
             this.fields = {
                 votes_for:null,
@@ -32,10 +30,6 @@ var VoteResource = module.exports = common.GamificationMongooseResource.extend({
             };
     },
 
-    dispatch: function(){
-        this.token_price = common.getGamificationTokenPrice('vote_on_post') > -1 ? common.getGamificationTokenPrice('vote_on_post') : 0;
-        this._super.apply(this,arguments);
-    },
     //returns post_
     create_obj:function (req, fields, callback) {
         var self = this;
@@ -139,26 +133,8 @@ var VoteResource = module.exports = common.GamificationMongooseResource.extend({
                                             models.User.update({_id:user_object._id}, {$set: {"actions_done_by_user.vote_on_object": true}}, function(err){
                                                 cbk(err);
                                             });
-                                        },
-
-                                        //set notifications for all my slaves
-                                        function(cbk){
-                                            //Todo - i remove it for now because of the duplicate key error
-
-                                            models.User.find({"proxy.user_id": req.user._id}, function(err, slaves_users){
-                                                async.forEach(slaves_users, function(slave, itr_cbk){
-                                                    notifications.create_user_proxy_vote_or_grade_notification(
-                                                        "proxy_vote_to_post", post_object._id, slave._id, req.user._id,
-                                                        discussion_id,  null, vote_object.ballance,
-                                                        function(err, results){
-                                                            itr_cbk(err);
-                                                        })
-                                                }, function(err){
-                                                    cbk(err);
-                                                })
-                                            })
-//                                            cbk();
                                         }
+
                                         ],
                                         function (err, args) {
                                             if(err)

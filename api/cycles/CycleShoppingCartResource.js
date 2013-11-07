@@ -13,12 +13,11 @@ var Authorization = resources.Authorization.extend({
     }
 });
 
-var CycleShoppingCartResource = module.exports = common.GamificationMongooseResource.extend({
+var CycleShoppingCartResource = module.exports = common.BaseModelResource.extend({
 
     init:function () {
-        this._super(models.InformationItem, null, 0);
+        this._super(models.InformationItem);
         this.allowed_methods = ['get'];
-        this.authentication = new common.SessionAuthentication();
         this.authorization = new Authorization();
         this.default_query = function(query)
         {

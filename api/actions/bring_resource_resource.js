@@ -5,11 +5,10 @@ var resources = require('jest'),
     notifications = require('../notifications.js'),
     _ = require('underscore');
 
-var BringResourceResource = module.exports = common.GamificationMongooseResource.extend({
+var BringResourceResource = module.exports = common.BaseModelResource.extend({
     init: function () {
-        this._super(models.Action, null, 0);
+        this._super(models.Action);
         this.allowed_methods = ['put'];
-        this.authentication = new common.SessionAuthentication();
     },
 
     //update gets action_id, user_id and array of resources ids with amount to add or reduce

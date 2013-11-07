@@ -39,13 +39,12 @@ Authoriztion.prototype.edit_object = function (req, object, callback) {
     }
 };
 
-var GradeSuggestionResource = module.exports = common.GamificationMongooseResource.extend({
+var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.GradeSuggestion, 'grade_suggestion', null);
+        this._super(models.GradeSuggestion);
         //        GradeResource.super_.call(this,models.Grade);
         this.allowed_methods = ['get', 'put', 'post'];
         this.authorization = new Authoriztion();
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:{
             exact:null,
             in:null

@@ -10,13 +10,11 @@ var common = require('./common'),
     models = require('../models');
 
 
-var HeadlineResource = module.exports = common.GamificationMongooseResource.extend(
+var HeadlineResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.Headline, null, null);
+            this._super(models.Headline);
             this.allowed_methods = ['get'];
-            this.authentication = new common.SessionAuthentication();
-//            this.filtering = {};
             this.default_query = function (query) {
                 return query.where('is_visible', true).sort({'creation_date': 'descending'});
             };

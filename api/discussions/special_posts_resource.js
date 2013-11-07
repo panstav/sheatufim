@@ -2,18 +2,19 @@ var jest = require('jest'),
     og_action = require('../../og/og.js').doAction,
     models = require('../../models'),
     common = require('../common.js'),
+    discussionCommon = require('./common'),
     async = require('async'),
     _ = require('underscore');
 
 var EDIT_TEXT_LEGIT_TIME = 60 * 1000 * 15;
 
-var SpecialPostsResource = module.exports = jest.MongooseResource.extend({
+var SpecialPostsResource = module.exports = common.BaseModelResource.extend({
     init:function () {
 
         this._super(models.Post);
         this.allowed_methods = ['get'];
-        this.authentication = new common.SessionAuthentication();
         this.filtering = {discussion_id:null};
+        this.authorization = new discussionCommon.DiscussionAuthorization();
         this.fields = {
             creator_id : common.user_public_fields,
             voter_balance: null,

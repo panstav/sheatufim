@@ -77,7 +77,6 @@ app.set('facebook_pages_admin_pass', "uruuruuru");
 
 app.set('sendgrid_user', process.env.SENDGRID_USER || config.sendgrid_user);
 app.set('sendgrid_key',process.env.SENDGRID_KEY || config.sendgrid_key);
-app.set('system_email', process.env.SYSTEM_EMAIL || config.system_email);
 app.set('root_path', config.ROOT_PATH);
 
 // TODO delete?
@@ -128,7 +127,8 @@ formage_admin.serve_static(app, express);
 app.use(express.compress());
 app.use(express.static(app.settings.public_folder));
 app.use(express.errorHandler());
-app.use(express.bodyParser());
+app.use(express.urlencoded());
+app.use(express.json());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
 app.use(express.cookieSession({secret: 'Rafdo5L2iyhcsGoEcaBd', cookie: { path: '/', httpOnly: false, maxAge: 60 * 24 * 60 * 60 * 1000}}));
@@ -151,6 +151,11 @@ app.use(account.populate_user);
 // ######### locals #########
 app.use(function (req, res, next) {
     //noinspection JSUnresolvedVariable
+    res.handle500 = function(err){
+        console.error(err);
+        res.render('500.ejs', {error: err});
+    };
+
     res.locals({
         tag_name: req.query.tag_name,
         logged: req.isAuthenticated && req.isAuthenticated(),
@@ -197,7 +202,7 @@ app.locals({
                     throw new Error('unknown type ' + type);
             }
         }
-        var conf = require('./conf.js').headConfigs[name];
+        var conf = config.headConfigs[name];
         var type = conf.type;
         if (isDev)
             return _.map(conf.src,
@@ -267,8 +272,8 @@ if (IS_PROCESS_WEB) {
 }
 
 var fs = require('fs');
-var privateKey = fs.readFileSync(__dirname + '/private.pem').toString();
-var certificate = fs.readFileSync(__dirname + '/public.pem').toString();  
+var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
+var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();
 
 require('https').createServer({key: privateKey, cert: certificate},app).listen(443,function(){
 	console.log('Listening on 443');
