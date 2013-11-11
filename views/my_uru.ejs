@@ -57,7 +57,6 @@
                 <textarea id="biography" placeholder=" כאן אפשר לכתוב ביוגרפיה קצרה דברים שאתה אוהב, אג’נדה, דעות, ומה שתרצה על עצמך." cols="0" <%=biographyReadonly? 'readonly': '' %>
                 rows="0"><% if(pageUser.biography){%><%=pageUser.biography%> <% } else { %><% } %></textarea>
                 <% if(!isHisUru){ %>
-                  <input id="invite_friends_bt" type="submit" value="הזמן חברים" />
                 <%} else{ %>
              <!--    <input id="send_message_bt" type="submit"    class="gray_and_soon"
                         value="שלח הודעה" />-->
@@ -277,21 +276,7 @@
 
         });
 
-        $('#invite_friends_bt').click(function(e){
-            e.preventDefault();
-            sendFacebookInvite('Come see that great site', "/",function(err, data){
-                if(!err)
-                {
-                    popupProvider.showOkPopup({message:"ההזמנה הצליחה!"});
-                    console.log(data);
-                }
-            });
-        });
-
-
         $('#discussions-tab').on('click','.join_button',function(e){
-
-
 
             var item=  $(this).parents('[data-id]');
             var item_id=   item.data('id');

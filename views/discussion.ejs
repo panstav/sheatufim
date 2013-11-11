@@ -281,14 +281,6 @@ var error_message = error_message || '';
                 <h4>אני</h4>
 
                 <div class="date"><%=(new Date()).format('dd.mm.yy') %></div>
-                <% if(user_logged){ %>
-                <div class="proxy">
-                    <span>3</span>
-                </div>
-                <div class="respect">
-                    <span>20</span>
-                </div>
-                <% } %>
             </div>
         </div>
         <a class="grey-btn" id="cancelWriteCommentBT" href="javascript:void(0);"><span>
@@ -363,12 +355,6 @@ var error_message = error_message || '';
                         <span class="time"><%=(new Date()).format('H:MM') %></span>
                         <span class="date"><%=(new Date()).format('dd.mm.yy') %></span>
                     </div>
-                    <% if(user_logged){ %>
-                    <div class="ratings">
-                        <span class="friends"><%=user.num_of_proxies_i_represent%></span>
-                        <span class="awards"><%=user.score%></span>
-                    </div>
-                    <% } %>
                 </div>
                 <div class="content">
                     <textarea id="discussion_comment" dir="rtl" class="four-col" cols="0" rows="0"></textarea>
@@ -830,7 +816,9 @@ $(document).ready(function () {
     }
 
     function vote(actionType){
-        var post_id = $(this).parents('.comment_wrapper').data("id");
+//        var post_id = $(this).parents('.comment_wrapper').data("id");
+        var post_id = $(this).parents('.comment_main_wrapper').data("id");
+
         var button = $(this);
         var user_info = {
             user_logged_in : user.first_name ? true : false,
@@ -2114,18 +2102,6 @@ $(document).ready(function () {
             });
         });
     });
-
-
-    <%
-    if (user_logged) { %>
-        var proxy = JSON.parse('<%-proxy%>');
-    <%
-    } else { %>
-        var proxy = [];
-    <%
-    }
-    %>
-
 
     $('#suggestions_wrapper').on('click', '#add_or_remove_proxy', function (e) {
         var userData = $(this).parents('.person');
