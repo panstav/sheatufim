@@ -174,48 +174,32 @@ var PostResource = module.exports = common.BaseModelResource.extend({
          */
         async.waterfall([
 
-            // 0.1) user can comment only if he grade the discussion
-            function (cbk) {
-
-                async.parallel([
-                    function(cbk1){
-                        models.Grade.findOne({user_id: user_id, discussion_id: discussion_id}, cbk1);
-                    },
-
-                    function(cbk1){
-                        models.Discussion.findById(discussion_id, cbk1);
-                    }
-                ], cbk)
+            function(cbk){
+                models.Discussion.findById(discussion_id, cbk);
             },
 
             // 1) set post object fields, send to authorization
-            function(args, cbk)
+            function(discussion_obj, cbk)
             {
-                var grade_discussion = args[0];
-                var discussion_obj = args[1];
-                if (!grade_discussion && (user_id != discussion_obj.creator_id + "")) {
-                    cbk({code:401, message:"must grade discussion first"}, null);
+                console.log('debugging waterfall 1');
+                fields.creator_id = user_id;
+                fields.first_name = user.first_name;
+                fields.last_name = user.last_name;
+                fields.avatar = user.avatar;
+                if(!fields.ref_to_post_id || fields.ref_to_post_id == "null" || fields.ref_to_post_id == "undefined"){
+                    delete fields.ref_to_post_id;
                 }else{
-                    console.log('debugging waterfall 1');
-                    fields.creator_id = user_id;
-                    fields.first_name = user.first_name;
-                    fields.last_name = user.last_name;
-                    fields.avatar = user.avatar;
-                    if(!fields.ref_to_post_id || fields.ref_to_post_id == "null" || fields.ref_to_post_id == "undefined"){
-                        delete fields.ref_to_post_id;
-                    }else{
-                        setQuotedPost(post_object._id, fields.ref_to_post_id, req.user.toString());
-                    }
-
-
-                    // TODO add better sanitizer
-                    //   fields.text = sanitizer.sanitize(fields.text);
-
-                    for (var field in fields) {
-                        post_object.set(field, fields[field]);
-                    }
-                    self.authorization.edit_object(req, post_object, cbk);
+                    setQuotedPost(post_object._id, fields.ref_to_post_id, req.user.toString());
                 }
+
+
+                // TODO add better sanitizer
+                //   fields.text = sanitizer.sanitize(fields.text);
+
+                for (var field in fields) {
+                    post_object.set(field, fields[field]);
+                }
+                self.authorization.edit_object(req, post_object, cbk);
             },
 
             //  2) save post object
