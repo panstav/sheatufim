@@ -236,18 +236,12 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
             }
 
         ], function (err, obj) {
-            if (!err) {
-                req.gamification_type = "grade_suggestion";
-                req.token_price = common.getGamificationTokenPrice('grade_suggestion') > -1 ? common.getGamificationTokenPrice('grade_suggestion') : 0;
-            }
             callback(err, {
                 grade_id:grade_id,
                 new_grade:new_grade,
                 evaluate_counter:counter,
-                //                    already_graded: true,
                 agrees:agrees,
                 not_agrees:not_agrees,
-                //                    wanted_amount_of_tokens: real_threshold,
                 curr_amount_of_tokens:curr_tokens_amout,
                 is_approved:is_approved,
                 replaced_text:replaced_text,
@@ -272,7 +266,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
         var curr_tokens_amout;
         var real_threshold;
         var g_sugg_obj;
-        var proxy_power = req.user.num_of_given_mandates ? 1 + req.user.num_of_given_mandates * 1 / 9 : 1;
         var previous_proxy_power = object.proxy_power || proxy_power;
         var discussion_participants_count;
         var is_approved;
@@ -375,13 +368,13 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
 
                         if (object.not_agrees < 0) {
                             object.not_agrees = 0;
-                            console.log("error - suggestion agrees < 0");
+                            console.log("error - suggestion not agrees < 0");
                         }
 
                         base.call(self, req, object, cbk1);
                     },
 
-                    //set notifications for all users of proxy
+                   /* //set notifications for all users of proxy
                     function (cbk1) {
                         if (did_user_change_his_agree) {
                             models.User.find({"proxy.user_id":req.user._id}, function (err, slaves_users) {
@@ -396,15 +389,13 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                         } else {
                             cbk1(null, null);
                         }
-                    }
+                    }*/
                 ], function (err, args) {
                     cbk(err, args[1]);
                 })
             },
 
             function (grade_sugg_object, cbk) {
-                //                g_grade = grade_sugg_object;
-
                 calculateSuggestionGrade(object.suggestion_id, discussion_id, is_agree, did_user_change_his_agree, null, proxy_power, previous_proxy_power, function (err, _new_grade, _evaluate_counter) {
                     if (!err) {
                         new_grade = _new_grade;
@@ -475,7 +466,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                 });
             }
         ], function (err) {
-
 
             callback(err, {
                     grade_id:grade_id,

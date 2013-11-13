@@ -319,10 +319,22 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                     //add user that connected somehow to discussion
                     function(cbk2)
                     {
-                        models.User.update({_id: user_id, "discussions.discussion_id": {$ne: disc_obj._id}},
-                            {$addToSet: {discussions: {discussion_id:  disc_obj._id, join_date: Date.now()}}}, function(err, num){
-                                cbk2(err);
+                        if (!user.discussions) {
+                            var discussions = [];
+                            discussions.push({
+                                "discussion_id": disc_obj,
+                                "join_date": Date.now()
                             });
+
+                            models.User.update({_id: user_id}, {$set: {discussions: discussions}}, function(err, num){
+                                    cbk2(err);
+                                });
+                        }else {
+                            models.User.update({_id: user_id, "discussions.discussion_id": {$ne: disc_obj._id}},
+                                {$addToSet: {discussions: {discussion_id:  disc_obj._id, join_date: Date.now()}}}, function(err, num){
+                                    cbk2(err);
+                                });
+                        }
                     },
 
                     //add notification for the dicussion's participants or creator
@@ -344,25 +356,6 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                                 err.trace();
                             }
                         });
-                    },
-
-                    //set notifications for users that i represent (proxy)
-                    function (cbk2) {
-                        // first return the cbk
-                        cbk2();
-
-                        models.User.find({"proxy.user_id":user_id}, function (err, slaves_users) {
-                            async.forEach(slaves_users, function (slave, itr_cbk) {
-                                notifications.create_user_notification("proxy_created_change_suggestion", suggestion_obj._id, slave._id, user_id, discussion_id, '/discussions/' + discussion_id, function (err, result) {
-                                    itr_cbk(err);
-                                })
-                            }, function (err) {
-                                if(err){
-                                    console.error(err);
-                                    err.trace();
-                                }
-                            })
-                        })
                     },
 
                     // update actions done by user
