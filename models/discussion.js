@@ -111,7 +111,7 @@ Discussion.pre('save',function(next){
  * Is allowed
  */
 Discussion.methods.isUserAllowed = function(user){
-    if(!user)
+    if(!user || !user.subjects)
         return false;
     var subjectIds = user.subjects.map(function(subject) { return subject + '';});
     var discussionSubjectId = this.subject_id + '';

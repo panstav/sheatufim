@@ -26,7 +26,7 @@ var SubjectResource = module.exports = common.BaseModelResource.extend({
     get_objects:function(req,filters,sorts,limit,offset,callback) {
         this._super(req,filters,sorts,limit,offset,function(err,rsp) {
             if(rsp && rsp.objects){
-                var userSubjects = req.user ? req.user.subjects.map(function(subject){
+                var userSubjects = req.user && req.user.subjects ? req.user.subjects.map(function(subject){
                     return subject + '';
                 }) : [];
                 rsp.objects.forEach(function(subject){

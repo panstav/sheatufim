@@ -25,9 +25,9 @@ var User = module.exports = new Schema({
     //this is for validation
     is_activated: {type: Boolean, 'default': false},
     is_suspended: {type: Boolean, 'default': false},
-    identity_provider:{type:String, "enum":['facebook', 'register']},
-    facebook_id:String,
-    access_token:String,
+    identity_provider:{type:String, "enum":['facebook', 'register'], 'default': 'register'},
+    facebook_id: {type: String, editable:false},
+    access_token: {type: String, editable:false},
     first_name:{type:String, required:true, validate:MinLengthValidator(2)},
     last_name:{type:String, required:false},
     email:{type:String, required:true},//, match:/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/},
@@ -37,7 +37,7 @@ var User = module.exports = new Schema({
     address: String,
     occupation: String,
     biography: String,
-    invitation_code: String,
+    invitation_code: {type: String, editable:false},
     //followers - in the redesign it is the same as discussion.users
     discussions:[
         new Schema({

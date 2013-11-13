@@ -91,12 +91,8 @@ module.exports = {
                     sent:true
                 });
         });
-
-
-
     }
 };
-
 
 var sendActivationMail = module.exports.sendActivationMail = function(user,next,mail_template,context,callback)
 {
@@ -104,7 +100,6 @@ var sendActivationMail = module.exports.sendActivationMail = function(user,next,
         callback = context;
         context = null;
     }
-
 
     var temp_password;
     var template =mail_template || 'activation';
