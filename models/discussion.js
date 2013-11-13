@@ -72,7 +72,7 @@ var Discussion = new Schema({
     threshold_for_accepting_change_suggestions: {type: Number, min: 0, max: 501, 'default': 2},
     admin_threshold_for_accepting_change_suggestions: {type: Number, max: 500, 'default': 0},
 //        popular_comments: [{type: ObjectId, ref: 'Post', index: true}],
-    grade:{type:Number, 'default':0},
+    grade:{type:Number, 'default':5},
     evaluate_counter:{type:Number, 'default':0},
     grade_sum:{type:Number, 'default':0, editable:false},
 //    grades_count_thresh:{type:Number, 'default':0, editable:false},
