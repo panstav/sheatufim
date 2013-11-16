@@ -89,7 +89,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
 
             suggestion.curr_amount_of_tokens = suggestion.agrees - suggestion.not_agrees;
 
-            //wanted amount of tokens is either what admin has entered to the specific suggestion, or the discussion threshold...
+            /*//wanted amount of tokens is either what admin has entered to the specific suggestion, or the discussion threshold...
             if (suggestion.admin_threshold_for_accepting_the_suggestion > 0)
                 suggestion.wanted_amount_of_tokens = suggestion.admin_threshold_for_accepting_the_suggestion;
             else{
@@ -99,7 +99,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
 
             if (Number(suggestion.wanted_amount_of_tokens) > discussion_participants_count)
                 suggestion.wanted_amount_of_tokens = discussion_participants_count - 1;
-
+*/
             if (req.user) {
                 models.GradeSuggestion.findOne({user_id:req.user._id, suggestion_id:suggestion._id + ""}, {"_id":1, "evaluation_grade":1, "does_support_the_suggestion":1}, function (err, grade_sugg_obj) {
                     if (!err && grade_sugg_obj) {

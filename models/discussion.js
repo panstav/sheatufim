@@ -112,7 +112,7 @@ Discussion.pre('save',function(next){
  */
 Discussion.methods.isUserAllowed = function(user){
     if(!user || !user.subjects)
-        return false;
+        return true;
     var subjectIds = user.subjects.map(function(subject) { return subject + '';});
     var discussionSubjectId = this.subject_id + '';
         return subjectIds.indexOf(discussionSubjectId) == -1;

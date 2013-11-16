@@ -164,26 +164,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                         });
                     },
 
-                    function (cbk1) {
-                        //if there is an admin threshokd specified for the suggestion - it wins
-
-                        real_threshold = Number(suggestion_obj.admin_threshold_for_accepting_the_suggestion) || suggestion_obj.threshold_for_accepting_the_suggestion;
-                        if (real_threshold > discussion_participants_count)
-                            real_threshold = discussion_participants_count - 1;
-
-                        if (curr_tokens_amout >= real_threshold) {
-                            Suggestion.approveSuggestion(suggestion_obj._id, function (err, obj1, suggestion_object) {
-                                if (!err) {
-                                    is_approved = true;
-                                    replaced_text = suggestion_object.replaced_text;
-                                    approve_date = suggestion_object.approve_date;
-                                }
-                                cbk1(err, obj1);
-                            })
-                        } else {
-                            cbk1();
-                        }
-                    },
                     //set notification for suggestion creator ("user agree/disagree your suggestion")
                     function (cbk1) {
                         var method;
@@ -195,19 +175,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                             suggestion_obj._id, suggestion_obj.creator_id, req.user._id, discussion_id, method, false, true, '/discussions/' + discussion_id, function (err, result) {
                                 cbk1(err, result);
                             })
-                    },
-
-                    //set notifications for all users of proxy
-                    function (cbk1) {
-                        models.User.find({"proxy.user_id":req.user._id}, function (err, slaves_users) {
-                            async.forEach(slaves_users, function (slave, itr_cbk) {
-                                notifications.create_user_proxy_vote_or_grade_notification("proxy_graded_change_suggestion", suggestion_obj._id, slave._id, req.user._id, discussion_id, is_agree, null, function (err) {
-                                    itr_cbk(err);
-                                })
-                            }, function (err) {
-                                cbk1(err);
-                            })
-                        })
                     },
 
                     //add user to be part of the discussion
@@ -266,6 +233,7 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
         var curr_tokens_amout;
         var real_threshold;
         var g_sugg_obj;
+        var proxy_power = req.user.num_of_given_mandates ? 1 + req.user.num_of_given_mandates * 1 / 9 : 1;
         var previous_proxy_power = object.proxy_power || proxy_power;
         var discussion_participants_count;
         var is_approved;
@@ -325,7 +293,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                 var method;
                 g_sugg_obj = sugg_obj;
 
-
                 agrees = sugg_obj.agrees;
                 not_agrees = sugg_obj.not_agrees;
 
@@ -374,22 +341,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                         base.call(self, req, object, cbk1);
                     },
 
-                   /* //set notifications for all users of proxy
-                    function (cbk1) {
-                        if (did_user_change_his_agree) {
-                            models.User.find({"proxy.user_id":req.user._id}, function (err, slaves_users) {
-                                async.forEach(slaves_users, function (slave, itr_cbk) {
-                                    notifications.create_user_proxy_vote_or_grade_notification("proxy_graded_change_suggestion", sugg_obj._id, slave._id, req.user._id, discussion_id, is_agree, null, function (err) {
-                                        itr_cbk(err);
-                                    })
-                                }, function (err) {
-                                    cbk1(err);
-                                })
-                            })
-                        } else {
-                            cbk1(null, null);
-                        }
-                    }*/
                 ], function (err, args) {
                     cbk(err, args[1]);
                 })
@@ -397,72 +348,25 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
 
             function (grade_sugg_object, cbk) {
                 calculateSuggestionGrade(object.suggestion_id, discussion_id, is_agree, did_user_change_his_agree, null, proxy_power, previous_proxy_power, function (err, _new_grade, _evaluate_counter) {
-                    if (!err) {
-                        new_grade = _new_grade;
-                        evaluate_counter = _evaluate_counter;
+                    if (err) return cbk(err);
 
-                        // if user grades his
-                        if (did_user_change_his_agree || g_sugg_obj.is_approved) {
-                            if (did_user_change_his_agree) {
-                                if (is_agree) {
-                                    agrees = g_sugg_obj.agrees + (1 * proxy_power);
-                                    not_agrees = g_sugg_obj.not_agrees - (1 * previous_proxy_power);
-                                    curr_tokens_amout = Math.round(agrees) - Math.round(not_agrees);
+                    new_grade = _new_grade;
+                    evaluate_counter = _evaluate_counter;
 
-                                }
-                                else {
-                                    agrees = g_sugg_obj.agrees - (1 * previous_proxy_power);
-                                    not_agrees = g_sugg_obj.not_agrees + (1 * proxy_power);
-                                    curr_tokens_amout = Math.round(agrees) - Math.round(not_agrees);
-                                }
+                    // if user change his agreement update suggestion agreees/not_agrees his
+                    if (did_user_change_his_agree || g_sugg_obj.is_approved) {
+                        if (did_user_change_his_agree) {
+                            if (is_agree) {
+                                agrees = g_sugg_obj.agrees + 1;
+                                not_agrees = g_sugg_obj.not_agrees - 1;
                             }
-
-                            //if there is an admin threshokd specified for the suggestion - it wins
-
-                            real_threshold = Number(g_sugg_obj.admin_threshold_for_accepting_the_suggestion) || g_sugg_obj.threshold_for_accepting_the_suggestion;
-                            if (real_threshold > discussion_participants_count)
-                                real_threshold = discussion_participants_count - 1;
-                            if (curr_tokens_amout >= real_threshold) {
-                                if (g_sugg_obj.is_approved) {
-                                    is_approved = true;
-                                    g_sugg_obj.grade = new_grade;
-                                    g_discussion_obj.grade = new_grade;
-                                    g_sugg_obj.save(function (err) {
-                                        if (err) {
-                                            cbk(err);
-                                        } else {
-                                            g_discussion_obj.save(function (err) {
-                                                if (err) {
-                                                    cbk(err);
-                                                } else {
-                                                    models.GradeSuggestion.find({suggestion_id:g_sugg_obj._id}, function (err, sugg_grades) {
-                                                        async.forEach(sugg_grades, iterator, function (err, result) {
-                                                            cbk(err || null, result || 0);
-                                                        });
-                                                    });
-                                                }
-                                            })
-                                        }
-                                    })
-                                } else {
-                                    Suggestion.approveSuggestion(g_sugg_obj._id, function (err, obj1, suggestion_object) {
-                                        if (!err) {
-                                            is_approved = true;
-                                            replaced_text = suggestion_object.replaced_text;
-                                            approve_date = suggestion_object.approve_date;
-                                        }
-                                        cbk(err, obj1);
-                                    })
-                                }
-                            } else {
-                                cbk();
+                            else {
+                                agrees = g_sugg_obj.agrees - 1;
+                                not_agrees = g_sugg_obj.not_agrees + 1;
                             }
                         }
-                        else {
-                            cbk(null, 0);
-                        }
-                    } else
-                        cbk(err, 0);
+                    }
+                    cbk();
                 });
             }
         ], function (err) {
@@ -473,7 +377,6 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
                     evaluate_counter:evaluate_counter,
                     agrees:agrees,
                     not_agrees:not_agrees,
-                    //                wanted_amount_of_tokens: real_threshold,
                     curr_amount_of_tokens:curr_tokens_amout,
                     is_approved:is_approved,
                     replaced_text:replaced_text,

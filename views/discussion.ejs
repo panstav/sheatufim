@@ -1918,8 +1918,8 @@ $(document).ready(function () {
                 self.addClass('active');
 
                 var $suggestion = $("div[data-id=" + suggestion_id + "]");
-                $suggestion.find('.supporters_wanted span').text(data.wanted_amount_of_tokens);
-                $suggestion.find('.supporters_current span').text(Math.round(data.curr_amount_of_tokens));
+                $suggestion.find('.not_agrees span').text(data.not_agrees);
+                $suggestion.find('.agrees span').text(Math.round(data.agrees));
 
                 suggest_grade_id = data.grade_id;
                 $suggestion_wrapper.data('my_grade_id', data.grade_id);
@@ -1927,9 +1927,7 @@ $(document).ready(function () {
                 activateMailNotifications();
             }
         });
-
     });
-
 
     $('.back_to_doc').live('click', function (event) {
         showFullText();

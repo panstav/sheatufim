@@ -1948,18 +1948,18 @@ span.remark{
     cursor: default;
 }
 
-.supporters_wanted{
+.agrees{
     margin-bottom:10px;
 }
 
-.supporters_wanted,
-.supporters_current{
+.agrees,
+.not_agrees{
     float:right;
     width:100%;
 }
 
-.supporters_current span,
-.supporters_wanted span{
+.agrees span,
+.not_agrees span{
     float:left;
     background:url(/images/bg_bubble_small.png) 0 0 no-repeat;
     padding-right:8px;
