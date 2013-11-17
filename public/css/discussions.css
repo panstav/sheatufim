@@ -1787,7 +1787,7 @@ span.remark{
 .suggestion_details .name{
     font-weight:bold;
     padding-bottom:10px;
-    background:url(/images/sep_photo.png) center bottom no-repeat;
+   /* background:url(/images/sep_photo.png) center bottom no-repeat;*/
     margin-bottom:3px;
 }
 
@@ -2315,8 +2315,8 @@ span.remark{
 
 .comment_details .name{
     font-weight:bold;
-    padding-bottom:10px;
-    background:url(/images/sep_photo.png) center bottom no-repeat;
+    padding-bottom:8px;
+    /*background:url(/images/sep_photo.png) center bottom no-repeat;*/
     margin-bottom:3px;
 }
 
