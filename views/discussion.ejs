@@ -351,6 +351,7 @@ var error_message = error_message || '';
             <div class="content">
                 <textarea id="discussion_comment" dir="rtl" class="four-col" cols="0" rows="0"></textarea>
             </div>
+            <div id="uploadAttachment" >Upload file</div>
         </div>
         <input id="submit_post" type="button" class="button_submit_comment"/>
     </div>
@@ -723,72 +724,100 @@ $(document).ready(function () {
         }
     });
 
+    var attachment;
+
+    var uploader = new qq.FileUploader({
+        element: document.getElementById('uploadAttachment'),
+        action: '/api/image_upload',
+        debug: false,
+        onProgress: function(id, fileName, loaded, total){
+            // TODO show upload progess
+            $("#submit_post").addClass('disable');
+            console.log(loaded);
+        },
+        onComplete: function(id, fileName, responseJSON){
+             attachment = responseJSON.image;
+            $("#submit_post").removeClass('disable');
+            // TODO show uploaded file represenation
+
+        },
+        // template for one item in file list
+        fileTemplate: '<li>' +
+                '<span class="qq-upload-file"></span>' +
+                '<span class="qq-upload-spinner"></span>' +
+                '<span class="qq-upload-size"></span>' +
+                '<a class="qq-upload-cancel" href="#">Cancel</a>' +
+                '<span class="qq-upload-failed-text">Failed</span>' +
+                '</li>'
+
+    });
+
     $("#submit_post").on('click', function (e) {
+
         activateMailNotifications();
         e.preventDefault();
         var $this = $(this);
 
-        if ($this.data('executing')) {
+        if ($this.data('executing'))
             return;
-        }
 
         $this.data('executing', true);
         $this.addClass('disable');
 
-        var user_info = {
-            user_logged_in: user.first_name ? true : false,
-            action_done: (user.actions_done_by_user && user.actions_done_by_user.post_on_object) ? true : false,
-            action_name: "post_on_object",
-            tokens_owned: user.tokens ? user.tokens : 0,
-            price: gamification_price['post_on_discussion']
-        }
 
-        db_functions.addPostToDiscussion(discussion_id, $("textarea#discussion_comment").val(), new_post_ref_id, user_info, function (err, post) {
-            // $("#user_tokens").text(post.updated_user_tokens);
-            if (!err) {
-                if (post == 'canceled') {
-                    $this.data('executing', false);
-                    $this.removeClass('disable');
-                }
-                else {
-                    if (!user.actions_done_by_user.post_on_object) {
-                        user.actions_done_by_user.post_on_object = true;
-                    }
-                    if (my_id)
-                        setUserScore(my_id, post.creator_id.score);
-                    post.voting = post.votes_for - post.votes_against;
-
-                    //is new comment even or not
-                    var num_of_comments = $('.comment_wrapper.regular_comment').length;
-                    if (num_of_comments % 2 === 0) post.is_even = true;
-
-                    dust.render('discussion_comment', post, function (err, out) {
-                        var pagination = $(".first_pagination");
-
-                        pagination.after(out);
-                        var new_comment = $('.regular_comment').first();
-                        new_comment.addClass('odd');
-                        var bgc = new_comment.css('background-color')
-                        new_comment.css('background-color', 'pink')
-                        new_comment.animate({backgroundColor: bgc}, 3000);
-                        $('html, body').animate({
-                            scrollTop: new_comment.offset().top - 50
-                        }, 500);
-                        $("textarea#discussion_comment").val('');
-                        new_post_ref_id = null;
-//                        postsNumber++;
-//                        setCommentNumber(postsNumber);
-                        $this.data('executing', false);
-                        $this.removeClass('disable')
-                    });
-                }
-            } else {
-                if (err.responseText == "must grade discussion first") {
-                    $this.data('executing', false);
-                    $this.removeClass('disable');
-                }
+            var user_info = {
+                user_logged_in: user.first_name ? true : false,
+                action_done: (user.actions_done_by_user && user.actions_done_by_user.post_on_object) ? true : false,
+                action_name: "post_on_object",
+                tokens_owned: user.tokens ? user.tokens : 0
             }
-        })
+
+            db_functions.addPostToDiscussion(discussion_id, $("textarea#discussion_comment").val(), new_post_ref_id, user_info, attachment, function (err, post) {
+                // $("#user_tokens").text(post.updated_user_tokens);
+                if (!err) {
+                    if (post == 'canceled') {
+                        $this.data('executing', false);
+                        $this.removeClass('disable');
+                    }
+                    else {
+                        if (!user.actions_done_by_user.post_on_object) {
+                            user.actions_done_by_user.post_on_object = true;
+                        }
+                        if (my_id)
+                            setUserScore(my_id, post.creator_id.score);
+                        post.voting = post.votes_for - post.votes_against;
+
+                        //is new comment even or not
+                        var num_of_comments = $('.comment_wrapper.regular_comment').length;
+                        if (num_of_comments % 2 === 0) post.is_even = true;
+
+                        dust.render('discussion_comment', post, function (err, out) {
+                            var pagination = $(".first_pagination");
+
+                            pagination.after(out);
+                            var new_comment = $('.regular_comment').first();
+                            new_comment.addClass('odd');
+                            var bgc = new_comment.css('background-color')
+                            new_comment.css('background-color', 'pink')
+                            new_comment.animate({backgroundColor: bgc}, 3000);
+                            $('html, body').animate({
+                                scrollTop: new_comment.offset().top - 50
+                            }, 500);
+                            $("textarea#discussion_comment").val('');
+                            new_post_ref_id = null;
+    //                        postsNumber++;
+    //                        setCommentNumber(postsNumber);
+                            $this.data('executing', false);
+                            $this.removeClass('disable')
+                        });
+                    }
+                } else {
+                    if (err.responseText == "must grade discussion first") {
+                        $this.data('executing', false);
+                        $this.removeClass('disable');
+                    }
+                }
+            })
     });
 
     var new_post_ref_id = null;  //if not null =>the create new post is connected to anther post

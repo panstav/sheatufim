@@ -17,7 +17,8 @@ exports.PostOrSuggestion = {
     tokens:{type:Number, 'default':0, index: true},
     popularity: {type:Number, 'default':0},
     gamification: {high_number_of_tokens_bonus : {type: Boolean, 'default': false}},
-    is_hidden:{type:Boolean,'default':true}
+    is_hidden:{type:Boolean,'default':true},
+    attachment:{type:Schema.Types.File}
 };
 
 exports.Schema = new Schema(exports.PostOrSuggestion,{strict:true});

@@ -906,12 +906,12 @@ var db_functions = {
 
     },
 
-    addPostToDiscussion:function (discussion_id, post_content, refParentPostId, user_info, callback) {
+    addPostToDiscussion:function (discussion_id, post_content, refParentPostId, user_info,attachment, callback) {
         db_functions.loggedInAjax({
             url:'/api/posts/',
             type:"POST",
             async:true,
-            data:{"discussion_id":discussion_id, "text":post_content, "ref_to_post_id":refParentPostId},
+            data:{"discussion_id":discussion_id, "text":post_content, "ref_to_post_id":refParentPostId,attachment:attachment},
             user_info: user_info,
             success:function (data) {
                 console.log(data);

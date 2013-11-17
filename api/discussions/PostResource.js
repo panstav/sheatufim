@@ -44,9 +44,10 @@ var PostResource = module.exports = common.BaseModelResource.extend({
             discussion_id:null,
             is_user_follower: null,
             is_editable: null,
-            is_my_comment: null
+            is_my_comment: null,
+            attachment:null
         };
-        this.update_fields = {text: null, discussion_id: null, ref_to_post_id: null};
+        this.update_fields = {text: null, discussion_id: null, ref_to_post_id: null, attachment:null};
 //    this.validation = new resources.Validation();=
         this.default_limit = 50;
     },

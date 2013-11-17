@@ -67,6 +67,9 @@
             </div>
 
         </div>
+        {?attachment}
+        <a href="{attachment.url}" download="file">File</a>
+        {/attachment}
     </div>
     <div class="post_comments_holder post_or_suggestion_comments_holder">
         <div class="add_comment" data-can-add="true">

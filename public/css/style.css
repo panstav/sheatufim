@@ -6149,6 +6149,10 @@ div.action_list::-webkit-scrollbar-button {
     padding: 7px 0;
     text-align: center;
 }
+/* TODO remove this, once design is set*/
+#uploadAttachment .qq-upload-button{
+    height:auto;
+}
 
 .qq-upload-button-hover {
 }

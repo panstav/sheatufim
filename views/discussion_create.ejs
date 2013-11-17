@@ -327,7 +327,7 @@
                                      tokens_owned : user.tokens ? user.tokens : 0,
                                      price: gamification_price['post_on_discussion']
                                  }
-                                 db_functions.addPostToDiscussion(created_discussion_id, first_post,null, user_info, function(err, data){
+                                 db_functions.addPostToDiscussion(created_discussion_id, first_post,null, user_info, undefined, function(err, data){
                                      if (err){
                                          console.error(err);
                                      }else{

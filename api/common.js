@@ -160,6 +160,14 @@ exports.getThresholdCalcVariables = function(type)
 };
 
 
+/**
+ * Upload file from http request.
+ * Content type is file
+ * @param req
+ * Http request with content-type as file, body is the file stream
+ * @param callback
+ * function(err, {url:'uploaded file url',path:'uploaded file path on server'})
+ */
 var uploadHandler = exports.uploadHandler = function(req,callback) {
 
 	var sanitize_filename = function(filename) {
@@ -172,6 +180,7 @@ var uploadHandler = exports.uploadHandler = function(req,callback) {
 			return path.join(__dirname,'..','public','cdn', filename);
 		},
 		create_file = function (filename, callback) {
+
 			// This function attempts to create 0_filename, 1_filename, etc., until it finds a file that doesn't exist.
 			// Then it creates that and returns by calling callback(null, name, path, stream);
 			var attempt = function (index) {
@@ -190,85 +199,48 @@ var uploadHandler = exports.uploadHandler = function(req,callback) {
 		},
 		writeToFile = function (fName, stream, callback){
 			create_file(sanitize_filename(fName), function (err, filename, fullPath, os) {
-				if (err) {
-					return callback(err);
-				}
+				if (err) return callback(err);
 
+                // listen to stream data events
 				stream.on('data',function(data) {
 					os.write(data);
 				});
 
 				stream.on('end',function() {
+                    // when stream ended, close the file
 					os.on('close', function () {
+                        // when file is successuly closed
 						callback(null,{
-							filename: filename,
-							fullPath: fullPath
+							url: '/cdn/' + filename,
+							path: fullPath
 						});
 					});
 
 					os.end();
 				});
 
+                // start receiving the stream
 				stream.resume();
 			});
 		};
 
-    var knoxClient = formage.fields.getKnoxClient();
-
     var fName = req.header('x-file-name');
     var fType = req.header('x-file-type');
 
-    if(!fName && !fType){
-        callback({code:404,message:'bad file upload'});
-        return;
-    }
+    if(!fName && !fType)
+        return callback({code:404,message:'bad file upload'});
 
     var stream = req.queueStream || req;
 
-    if(knox && knoxClient)
-    {
-		// First, we write the file to disk. Then we upload it to Amazon.
-        writeToFile(fName, stream, function(err,value) {
-
-            if(err) {
-                callback(err);
-                return;
-            }
-
-            setTimeout(function() {
-
-                var value_full_path = value.fullPath;
-
-                stream = fs.createReadStream(value.fullPath);
-
-                knoxClient.putStream(stream, '/' + value.filename + '_' + (new Date().getTime()), function(err, res){
-                    if(err)
-                        callback(err);
-                    else {
-                        var path = res.socket._httpMessage.url;
-
-                        fs.unlink(value_full_path);
-                        console.log("res.socket._httpMessage");
-                        console.log(res.socket._httpMessage);
-                        var value = {
-                            path: path,
-                            url: path
-                        };
-                        callback(null,value);
-                    }
-                });
-            },200);
-        });
-	} else {
-		writeToFile(fName, stream, function (err, value) {
-			if (err) {
-				callback(err);
-			} else {
-				callback(null, {
-					path: value.filename,
-					url: '/cdn/' + value.filename
-				});
-			}
-		});
-	}
+    writeToFile(fName, stream,callback);
 };
+
+
+
+/**
+ * Ensure cdn folder exists, all file uploads will go to this folder
+ */
+if(!fs.existsSync(path.join(__dirname,'..','public','cdn'))){
+    console.log('create folder ' + path.join(__dirname,'..','public','cdn'));
+    fs.mkdirSync(path.join(__dirname,'..','public','cdn'));
+}
