@@ -115,7 +115,7 @@ Discussion.methods.isUserAllowed = function(user){
         return false;
     var subjectIds = user.subjects.map(function(subject) { return subject + '';});
     var discussionSubjectId = this.subject_id + '';
-        return subjectIds.indexOf(discussionSubjectId) == -1;
+        return subjectIds.indexOf(discussionSubjectId) != -1;
 }
 
 module.exports = utils.revertibleModel(Discussion);
