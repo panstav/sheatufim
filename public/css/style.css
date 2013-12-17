@@ -4384,9 +4384,10 @@ h2 small {
 
 .one-box .right {
     float: right;
-    width: 834px;
-    padding-left: 7px;
-    border-left: 1px solid #ededed;
+    /*width: 834px;*/
+    width: 100%;
+  /* padding-left: 7px;
+    border-left: 1px solid #ededed;*/
 }
 
 .one-box .left {
