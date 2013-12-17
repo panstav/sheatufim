@@ -118,8 +118,8 @@ User.post('init',function(){
  */
 User.pre('save',function(next){
 
-
-    if(!this._lastSubjects && !this.isNew)
+    var is_new = this.isNew;
+    if(!this._lastSubjects && !is_new)
         return next();
 
     // get new subjects ids
@@ -128,7 +128,7 @@ User.pre('save',function(next){
     delete this._lastSubjects;
     // continue
     next();
-    if(!newSubjects.length)
+    if(!newSubjects.length && !is_new)
         return;
 
 
@@ -155,7 +155,6 @@ User.pre('save',function(next){
                 // if the user exists, send only activation mail
                 async.waterfall([
                     function(cbk){
-
                         require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects},cbk);
                     },
                     function(string,cbk) {
