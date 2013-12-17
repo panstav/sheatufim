@@ -37,7 +37,9 @@ var LoginResource = module.exports =  jest.Resource.extend({
                     if(!is_authenticated)
                         callback({message:"",code:401}, null);
                     else {
-                        var user = req.session.user;
+                        var user = req.session.user || {
+                            _id: req.session.auth.user.user_id
+                        };
                         callback(null, user);
                     }
                 }
