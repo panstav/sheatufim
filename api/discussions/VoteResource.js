@@ -21,13 +21,13 @@ var VoteResource = module.exports = common.BaseModelResource.extend({
         this._super(models.Vote);
         this.allowed_methods = ['post'];
         this.filtering = {discussion_id:null},
-            this.fields = {
-                votes_for:null,
-                votes_against:null,
-                popularity:null,
-                voter_balance:null,
-                updated_user_tokens:null
-            };
+        this.fields = {
+            votes_for:null,
+            votes_against:null,
+            popularity:null,
+            voter_balance:null,
+            updated_user_tokens:null
+        };
     },
 
     //returns post_
