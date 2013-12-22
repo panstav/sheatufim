@@ -80,10 +80,12 @@ config.headConfigs = {
             '/js/jquerypp/jquery.compare.js',
             '/js/jquerypp/jquery.range.js',
             '/js/jquerypp/jquery.selection.js',
+            '/js/jquerypp/jquery.truncate.js',
 
             '/js/jquery.cookie.js',
             '/js/lib/date.format.js',
             '/js/select2.js',
+
 
             /*'/plugins/ckeditor/ckeditor.js',
              '/plugins/ckeditor/adapters/jquery.js',*/

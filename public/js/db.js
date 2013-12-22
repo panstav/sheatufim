@@ -687,6 +687,17 @@ var db_functions = {
             }
         });
     },
+
+    createForumPost: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/forum_posts/',
+            type: 'POST',
+            data: data,
+            async: true,
+            success: function (data) { callback(data); },
+            error: function () { callback('error'); }
+        });
+    },
     
     removeSuggestion: function(suggestion_id, callback){
         db_functions.loggedInAjax({

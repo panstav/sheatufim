@@ -2,6 +2,7 @@ var _ = require('underscore'),
     Navigation = require('./navigation'),
     InformationItems = require('./information_items'),
     Discussions = require('./discussions'),
+    Forum = require('./forum'),
     Account = require('./account'),
     AppError = require('./app_error'),
     MyUru = require('./myuru');
@@ -111,6 +112,8 @@ module.exports = function (app) {
     router.include('/meida', InformationItems);
 
     router.include('/discussions', Discussions);
+
+    router.include('/forum', Forum);
 
     router.include('/myuru', MyUru);
 

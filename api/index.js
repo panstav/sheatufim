@@ -17,6 +17,7 @@ var mongoose_resource = require('jest'),
     PostOnCommentResource = require('./discussions/post_on_comment_resource.js'),
     SpecialPostsResource = require('./discussions/special_posts_resource.js'),
     DiscussionHistoryResource = require('./discussions/DiscussionHistoryResource.js'),
+    PostForumResource = require('./forum/postForumResource.js'),
 //    PostsActionResource = require('./actions/PostActionResource.js'),
     VoteResource = require('./discussions/VoteResource.js'),
     VoteActionPostResource = require('./actions/VoteActionPostResource'),
@@ -65,6 +66,7 @@ module.exports = function(app)
     var rest_api = new mongoose_resource.Api('api',app);
     rest_api.register_resource('users',new UserResource());
     rest_api.register_resource('information_items',new InformationItemResource());
+    rest_api.register_resource('forum_posts',new PostForumResource());
     rest_api.register_resource('headlines',new HeadlineResource());
     rest_api.register_resource('updates',new UpdateResource());
     rest_api.register_resource('shopping_cart',new ShoppingCartResource());

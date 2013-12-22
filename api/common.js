@@ -28,7 +28,8 @@ var user_public_fields = exports.user_public_fields = {
     num_of_proxies_i_represent: null,
     has_voted: null,
     no_mail_notifications: null  ,
-    identity_provider:null
+    identity_provider:null,
+    occupation: null
 };
 
 
