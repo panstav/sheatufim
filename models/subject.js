@@ -19,3 +19,17 @@ var Subject  = module.exports = new Schema({
 Subject.methods.toString = function(){
     return this.name;
 };
+
+/**
+ *  check if discussion subject is in user allowed subject ids
+ * @param user
+ * @returns {boolean}
+ * Is allowed
+ */
+Subject.methods.isUserAllowed = function(user){
+    if(!user || !user.subjects)
+        return false;
+    var subjectIds = user.subjects.map(function(subject) { return subject + '';});
+    var subjectId = this._id + '';
+    return subjectIds.indexOf(subjectId) != -1;
+}

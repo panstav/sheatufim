@@ -16,6 +16,10 @@ module.exports = function(req,res) {
             });
         },
         function(subject, cbk){
+
+            if (!subject.isUserAllowed(req.user))
+                return res.redirect('/discussions');
+
             models.PostForum
                 .find()
                 .where('subject_id', subject_id)
