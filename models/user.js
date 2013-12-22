@@ -105,6 +105,7 @@ User.methods.avatar_url = function()
 };
 
 
+
 /**
  * Post-init hook - save a copy of subject list
  */

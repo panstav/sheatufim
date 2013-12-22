@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>זירות שיח</title>
+    <% include partials/head.ejs %>
+    <% include partials/forum_head.ejs %>
+
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <% include partials/forum_menu.ejs %>
+    </header>
+    <!-- Content -->
+    <section class="content">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div id="breadcrumbs"><a href="#">זירות שיח</a> > <a href="#"><%=subject.name%></a> > <a href="#">פורום</a></div>
+            <div class="row">
+                <!-- Sidebar -->
+                <aside id="sidebar" class="left">
+                    <!-- Basket -->
+                    <div class="aside-info sidebox">
+                        <div class="row">
+                            <i class="icon icon-small-pad-left icon-basket right"></i>
+                            <h2 class="aside-info-title right">סל מידע</h2>
+                        </div>
+                        <div class="spacer"></div>
+                        <ul class="list">
+                            <li class="row info-item-container info-item-1">
+                                 <div class="info-item right">
+                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
+                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
+                                 </div>
+                                 <div class="info-item-img left"><img src="/img/info_img1.png" alt="תמונה 1" title="תמונה 1"/></div>
+                            </li>
+                            <li class="row info-item-container info-item-2">
+                                 <div class="info-item right">
+                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
+                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
+                                 </div>
+                                 <div class="info-item-img left"><img src="/img/info_img2.png" alt="תמונה 2" title="תמונה 2"/></div>
+                            </li>
+                            <li class="row info-item-container info-item-3">
+                                 <div class="info-item right">
+                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
+                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
+                                 </div>
+                                    <div class="info-item-img left"><img src="/img/info_img3.png" alt="תמונה 3" title="תמונה 3"/></div>
+                            </li>
+                        </ul>
+                        <div class="aside-more-info">
+                            <div class="spacer-plus"><a href="#"><i class="icon icon-plus"></i></a></div>
+                            <div class="aside-show-more">הצג את כל הרשומות</div>
+                        </div>
+                    </div>
+                    <!-- Useful Links -->
+                    <div class="aside-links sidebox">
+                        <div class="row">
+                            <i class="icon icon-medium-pad-left icon-link right"></i>        
+                            <h2 class="aside-links-title right">לינקים שימושיים</h2>
+                        </div>
+                        <div class="spacer"></div>
+                        <ul class="list">
+                            <li class="row link-container link-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row link-container link-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                            <li class="row link-container link-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row link-container link-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                            <li class="row link-container link-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row link-container link-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                        </ul>
+                    </div>  
+                </aside>
+                <!-- Post -->
+                <div class="right post-container">
+                    <!-- Post Header -->
+                    <div class="row post-header">
+                        <div class="right sidebox post-image">
+                            <img src="/img/post-image.png" alt="תמונה" title="תמונה"/>
+                        </div>
+                        <div class="left post-headerbox">
+                            <h1 class="post-title">חברה אזרחית והלאה בשתי שורות ארוכות</h1>
+                            <div class="row">
+                                <a href="/discussions/subject/<%=subject._id%>">
+                                    <div class="right link-home">
+                                        <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-home right"></i>לעמוד זירה ראשי</div>
+                                    </div>
+                                </a>
+                                <a href="#">
+                                    <div class="left link-forum">פורום</div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Post Body -->
+                    <div class="post-body">
+                        <div class="post-new-message">
+                            <div class="post-new-message-head row">
+                                <div class="post-new-message-title right">הוסף הודעה חדשה</div>
+                                <div class="left"><i class="icon icon-box-top-left-tip"></i> </div>
+                            </div>
+                            <div class="new_post post-new-message-body row">
+                                <div class="post-new-message-body-image"><img src="<%=avatar%>" class="circle" alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/></div>
+                                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
+                                <div class="post-new-message-body-actions">
+                                    <div class="row">
+                                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+                                    </div>
+                                    <div class="row">
+                                        <button class="btn btn-medium btn-green create_post">פרסם</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="spacer-large"></div>
+                        <!-- Pagination -->
+                        <div class="pagination-container row">
+                            <div class="right pagination-title right">הודעות</div>
+                            <div class="right pagination-stats right">עמוד <span class="pagination-current">5</span> מתוך <span class="pagination-total">8</span></div>
+                            <div class="right pagination-pages left">
+                                <ul class="inline-list">
+                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
+                                    <li><a href="#">8 </a></li>
+                                    <li><a href="#">7 </a></li>
+                                    <li><a href="#">6 </a></li>
+                                    <li class="pagination-current-page"><a href="#">5</a></li>
+                                    <li><a href="#">4 </a></li>
+                                    <li><a href="#">3 </a></li>
+                                    <li><a href="#">2 </a></li>
+                                    <li><a href="#">1 </a></li>
+                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                        <!-- Messages -->
+                        <div class="post-messages-container">
+                            <ul class="main_container">
+
+                            </ul>
+                        </div>
+                        <!-- Pagination -->
+                        <div class="pagination-container row">
+                            <div class="right pagination-pages left">
+                                <ul class="inline-list">
+                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
+                                    <li><a href="#">8 </a></li>
+                                    <li><a href="#">7 </a></li>
+                                    <li><a href="#">6 </a></li>
+                                    <li class="pagination-current-page"><a href="#">5</a></li>
+                                    <li><a href="#">4 </a></li>
+                                    <li><a href="#">3 </a></li>
+                                    <li><a href="#">2 </a></li>
+                                    <li><a href="#">1 </a></li>
+                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="back-to-top hand" onclick="scrollToTop();">
+            <div class=""><i class="icon icon-back-to-top"></i></div>
+            <div class="back-to-top-text">לראש הדף</div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div id="footer-about" class="footer-column">
+                    <p class="title">על זירות השיח</p>
+                    <div>מרכז שיתופים מהווה בית מקצועי וצומת של מידע וידע לקהילות החברה האזרחית - ארגוני מגזר שלישי, פילנתרופיה, שותפויות חברתיות והתארגנויות אזרחיות. מרכז "שיתופים" פועל לחיזוק החברה האזרחית באמצעות פיתוח הניהול החברתי, הרחבת הפילנתרופיה הפרטית וקידום השיח הבין מגזרי.</div>
+                </div>
+                <div id="footer-links" class="footer-column">
+                    <p class="title">לינקים מהירים</p>
+                    <ul>
+                        <li><a href="#">דף הבית</a></li>
+                        <li><a href="#">אודות</a></li>
+                        <li><a href="#">מאגרי מידע</a></li>
+                        <li><a href="#">אתר עורו</a></li>
+                        <li><a href="#">אתר אג'נדה</a></li>
+                        <li><a href="#">צור קשר</a></li>
+                    </ul>
+                </div>
+                <div id="footer-contact" class="footer-column">
+                    <p class="title">פרטי התקשרות</p>
+                    <div>שיתופים לקידום החברה האזרחית,</div>
+                    <div>ת.ד. 3225 בית יהושע 40591</div>
+                    <div>טלפון: 09-8301400</div>
+                    <div><a href="#">info@shitufim.com</a></div>
+                </div>
+                <div id="footer-credits" class="footer-column">
+                    <p class="title">קרדיטים ושת"פים</p>
+                    <div><img src="img/chemiko.png" alt="chemiko" title="chemiko"/></div>
+                    <div><img src="img/hercuvrok.png" alt="hercuvrok" title="hercuvrok"/></div>
+                    <div><img src="img/porter.png" alt="porter" title="porter"/></div>
+                    <div><img src="img/bebell.png" alt="bebell" title="bebell"/></div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="text/javascript">
+        var current_section=1;
+        $(document).ready(function () {
+            var subject = '<%= subject._id %>';
+            var is_logged = <%= user_logged %>;
+            var user = <%- JSON.stringify(user) %>;
+            var posts = <%- JSON.stringify(posts) %>;
+            var post_groups = <%- JSON.stringify(post_groups) %>;
+            var discussion_image = {};
+
+            //render a main post and responses if the post has any recursively
+            var render_post = function(type, data, level){
+                dust.render('forum_post', data, function(err, out){
+                if(!err)
+                    if(type == 'main')
+                        $('.post-messages-container ul.main_container').prepend(out);
+                    else
+                        $('ul.replies-' + data.parent_id).append(out);
+                    //check if the post has any responses
+                    if(post_groups[data._id] && post_groups[data._id].length > 0) {
+                        var child_posts = post_groups[data._id];
+                         $.each(child_posts, function(i, child_post){
+                               var index = child_post.creation_date.indexOf('T');
+                               var date = child_post.creation_date.substring(0, index);
+                               var new_level = level + 1;
+                               child_post.time = child_post.creation_date.substring(index + 1, index + 6);
+                               child_post.date = date.replace(/-/g, ".");
+                               child_post.level = level + 1;
+                               child_post.reply_level = level + 2;
+                               child_post.text_short = data.text.substring(0, 140) + '...';
+                               child_post.last = level == 2 ? true : false;
+                               child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
+                               render_post('child', child_post, new_level);
+                         });
+                    }
+                });
+            };
+            var init = function() {
+                $.each(posts, function(i, post){
+                     var index = post.creation_date.indexOf('T');
+                     var date = post.creation_date.substring(0, index);
+
+                     post.time = post.creation_date.substring(index + 1, index + 6);
+                     post.date = date.replace(/-/g, ".");
+                     post.level = 0;
+                     post.reply_level = 1;
+                     post.text_short = post.text.substring(0, 140) + '...';
+                     post.hidden = true;
+                     post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
+                     render_post('main', post, 0);
+
+                });
+            };
+
+            init();
+
+            //create new post and render it on post button click
+            $('.create_post').on('click', function(){
+                console.log('here');
+                var text = $('.new_post .post-new-message-body-text textarea').val();
+                if(!text) {
+                    //show error message?
+                } else if(is_logged) {
+                    console.log(user);
+                    var data = {
+                        text: text,
+                        creator_id: user._id,
+                        subject_id: subject
+                    }
+                    db_functions.createForumPost(data, function(data){
+                         var index = data.creation_date.indexOf('T');
+                         var date = data.creation_date.substring(0, index);
+                         data.time = data.creation_date.substring(index + 1, index + 6);
+                         data.date = date.replace(/-/g, ".");
+                         data.level = 0;
+                         data.reply_level = 1;
+                         data.text_short = data.text.substring(0, 140) + '...';
+                         data.replies = 0;
+                         dust.render('forum_post', data, function(err, out){
+                            if(!err)
+                                 $('.post-messages-container ul.main_container').prepend(out);
+                                 $('.new_post .post-new-message-body-text textarea').val("");
+                         });
+                    });
+                }
+            });
+
+            //create and render post response
+            $('.main_container').on('click', '.create_secondary_post', function(e){
+                var $parent_post = $(e.target).closest('li')
+                var parent_id = $parent_post.data('id');
+                var parent_level = $parent_post.data('level');
+                var text = $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val();
+                if(!text) {
+                    //show error message?
+                } else if(is_logged) {
+                    console.log(user);
+                    var data = {
+                        parent_id: parent_id,
+                        text: text,
+                        creator_id: user._id,
+                        subject_id: subject,
+                    }
+                    db_functions.createForumPost(data, function(data){
+                         var index = data.creation_date.indexOf('T');
+                         var date = data.creation_date.substring(0, index);
+                         data.time = data.creation_date.substring(index + 1, index + 6);
+                         data.date = date.replace(/-/g, ".");
+                         data.level = parent_level + 1;
+                         data.reply_level = parent_level + 2;
+                         data.text_short = data.text.substring(0, 140) + '...';
+                         data.last = parent_level == 2 ? true : false;
+                         data.replies = 0;
+                         dust.render('forum_post', data, function(err, out){
+                            if(!err){
+                                $('ul.replies-' + parent_id).append(out);
+                                $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val("");
+                                $('.reply-to-message-' + parent_id + ' .icon-close').click();
+
+                                var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
+                                if($primary_message.hasClass('message-closed')) {
+                                     $primary_message.find('.icon-expand').click();
+                                }
+                                var $replies = $('.message-' + parent_id + '.message-text .message-replies');
+                                var reply_count = $replies.data('replies') + 1;
+                                $replies.html(reply_count + ' תגובות');
+                                $replies.data('replies', reply_count);
+                            }
+                         });
+                    });
+                }
+            });
+
+            $('.main_container').on('click', '.show_all_text', function(e){
+                var text = $(e.target).closest('.message-content').data('text');
+                $(e.target).closest('.message-content').html(text);
+            });
+        });
+     </script>
+</body>
+</html>

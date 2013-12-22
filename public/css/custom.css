@@ -1,0 +1,17 @@
+ .circle {
+    width: 80px;
+}
+.message.primary-message {
+    min-width: 725px;
+}
+.message.message-pad-1 {
+    min-width: 685px;
+}
+
+ .message.message-pad-2 {
+     min-width: 665px;
+ }
+
+ .message.message-pad-3 {
+     min-width: 645px;
+ }

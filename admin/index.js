@@ -167,6 +167,13 @@ module.exports = function (app) {
         // filters: ['discussion_id', 'creator_id']
     });
 
+    admin.registerMongooseModel('PostForum', Models.PostForum, null, {
+        list:['text', 'subject_id.title'],
+        list_populate:['subject_id'],
+        order_by:['-creation_date'],
+        search:['text', 'first_name', 'last_name']
+    });
+
     admin.registerMongooseModel('PressItem', mongoose.model('PressItem'), null, {
         list:['title'],
         order_by:['gui_order'],
