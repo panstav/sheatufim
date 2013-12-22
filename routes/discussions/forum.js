@@ -6,7 +6,7 @@ var models = require('../../models'),
 module.exports = function(req,res) {
 //    var resource = new PostForumResource();
     var subject_id = req.params[0];
-    var page = req.params.page || 0,
+    var page = req.query.page || 0,
         limit = 10,
         offset = (page - 1) * limit;
     async.waterfall([
