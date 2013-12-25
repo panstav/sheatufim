@@ -6,12 +6,27 @@ var resources = require('jest'),
     async = require('async'),
     _ = require('underscore');
 
+var Authorization = common.BaseAuthorization.extend({
+    /**
+     * limits discussion query to published discussions that have a subjectId that the user is allowed to view
+     */
+    limit_object_list: function (req, query, callback) {
+
+        var subjectIds = req.user.subjects ? req.user.subjects.map(function(subject) { return subject + '';}) : [];
+        query.where('subject_id').in(subjectIds);
+        callback(null, query);
+    },
+    limit_object:function (req, query, callback) {
+        return this.limit_object_list(req, query, callback);
+    }
+});
+
 var PostForumResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-
         this._super(models.PostForum);
         this.allowed_methods = ['get', 'post', 'delete'];
         this.filtering = {subject_id: null};
+        this.authorization = new Authorization();
         this.default_query = function (query) {
             return query.sort({creation_date:'ascending'});
         };
