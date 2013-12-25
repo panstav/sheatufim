@@ -119,16 +119,17 @@
                             <div class="right pagination-stats right">עמוד <span class="pagination-current">5</span> מתוך <span class="pagination-total">8</span></div>
                             <div class="right pagination-pages left">
                                 <ul class="inline-list">
-                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
-                                    <li><a href="#">8 </a></li>
-                                    <li><a href="#">7 </a></li>
-                                    <li><a href="#">6 </a></li>
-                                    <li class="pagination-current-page"><a href="#">5</a></li>
-                                    <li><a href="#">4 </a></li>
-                                    <li><a href="#">3 </a></li>
-                                    <li><a href="#">2 </a></li>
-                                    <li><a href="#">1 </a></li>
-                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                    <li><a href="?page=<%=next%>"><i class="icon icon-arrow-right"></i></a></li>
+                                    <% for(var i = 0, p = 1; i < count; i+=10, p++) { %>
+                                        <% if(page == p) { %>
+                                        <li class="pagination-current-page">
+                                        <% } else { %>
+                                        <li>
+                                        <% } %>
+                                            <a href="?page=<%=p%>"><%=p%></a>
+                                        </li>
+                                    <% } %>
+                                    <li><a href="?page=<%=prev%>"><i class="icon icon-arrow-left"></i></a></li>
                                 </ul>
                             </div>
                         </div>
