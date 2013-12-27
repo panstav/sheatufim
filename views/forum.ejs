@@ -29,9 +29,10 @@
                         <ul class="list">
                             <% for(var i = 0; i < information_items.length; i++) { %>
                                 <li class="row info-item-container info-item-<%=information_items[i]._id%>">
-                                     <div class="info-item right">
+                                     <div class="info-item right"><a href="#">
                                          <div class="info-item-title"><%=information_items[i].title%></div>
                                          <div class="info-item-text"><%=information_items[i].text_field_preview.replace(/(<([^>]+)>)/ig,"")%></div>
+                                         </a>
                                      </div>
                                      <div class="info-item-img left"><img src="<%=information_items[i].image_field_preview.url%>" alt="תמונה 1" title="תמונה 1"/></div>
                                 </li>
@@ -50,12 +51,11 @@
                         </div>
                         <div class="spacer"></div>
                         <ul class="list">
-                            <li class="row link-container link-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row link-container link-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row link-container link-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                            <% for(var i = 0; i < links.length; i++) { %>
+                                <li class="row link-container link-1">
+                                    <a href="<%=links[i].link%>"><%=links[i].title%></a>
+                                </li>
+                            <% } %>
                         </ul>
                     </div>  
                 </aside>
@@ -244,11 +244,10 @@
                     if(post_groups[data._id] && post_groups[data._id].length > 0) {
                         var child_posts = post_groups[data._id];
                          $.each(child_posts, function(i, child_post){
-                               var index = child_post.creation_date.indexOf('T');
-                               var date = child_post.creation_date.substring(0, index);
+
                                var new_level = level + 1;
-                               child_post.time = child_post.creation_date.substring(index + 1, index + 6);
-                               child_post.date = date.replace(/-/g, ".");
+                               child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
+                               child_post.date = new Date(child_post.creation_date).format('HH:MM');
                                child_post.level = level + 1;
                                child_post.reply_level = level + 2;
                                if(child_post.text.length > 140)
@@ -262,11 +261,9 @@
             };
             var init = function() {
                 $.each(posts, function(i, post){
-                     var index = post.creation_date.indexOf('T');
-                     var date = post.creation_date.substring(0, index);
 
-                     post.time = post.creation_date.substring(index + 1, index + 6);
-                     post.date = date.replace(/-/g, ".");
+                     post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                     post.date = new Date(post.creation_date).format('HH:MM');
                      post.level = 0;
                      post.reply_level = 1;
                      if(post.text.length > 140)
@@ -294,10 +291,8 @@
                         subject_id: subject
                     }
                     db_functions.createForumPost(data, function(data){
-                         var index = data.creation_date.indexOf('T');
-                         var date = data.creation_date.substring(0, index);
-                         data.time = data.creation_date.substring(index + 1, index + 6);
-                         data.date = date.replace(/-/g, ".");
+                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                         data.date = new Date(data.creation_date).format('HH:MM');
                          data.level = 0;
                          data.reply_level = 1;
                          if(data.text.length > 140)
@@ -329,10 +324,8 @@
                         subject_id: subject,
                     }
                     db_functions.createForumPost(data, function(data){
-                         var index = data.creation_date.indexOf('T');
-                         var date = data.creation_date.substring(0, index);
-                         data.time = data.creation_date.substring(index + 1, index + 6);
-                         data.date = date.replace(/-/g, ".");
+                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                         data.date = new Date(data.creation_date).format('HH:MM');
                          data.level = parent_level + 1;
                          data.reply_level = parent_level + 2;
                          if(data.text.length > 140)

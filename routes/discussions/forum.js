@@ -1,17 +1,21 @@
 var models = require('../../models'),
     async = require('async'),
     InformationItemResource = require('../../api/InformationItemResource.js'),
+    PressItemResource = require('../../api/PressItemResource.js'),
     PostForumResource = require('../../api/forum/postForumResource.js');
 
 
 module.exports = function(req,res) {
     var post_resource = new PostForumResource();
     var information_item_resource = new InformationItemResource();
+    var links_resource = new PressItemResource();
 
     var subject_id = req.params[0];
     var page = req.query.page || 1,
         limit = 10,
         offset = (page - 1) * limit;
+
+    //get all the needed data for forum page
     async.parallel([
         function(cbk) {
             models.Subject.findById(subject_id).exec(function(err, result){
@@ -19,15 +23,21 @@ module.exports = function(req,res) {
             });
         },
         function(cbk){
-            post_resource.get_objects(req, {subject_id: subject_id}, {creation_date: 1}, limit, offset, function(err, posts){
+            post_resource.get_objects(req, {subject_id: subject_id}, {creation_date: -1}, limit, offset, function(err, posts){
                 cbk(err, posts);
             });
         },
 
         function(cbk){
-            information_item_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 0, 0, function(err, information_items){
+            information_item_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 3, 0, function(err, information_items){
                 console.log(information_items);
                 cbk(err, information_items);
+            });
+        },
+        function(cbk){
+            links_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 6, 0, function(err, link_items){
+                console.log(link_items);
+                cbk(err, link_items);
             });
         }
     ], function(err, results){
@@ -35,7 +45,8 @@ module.exports = function(req,res) {
             count = results[1].count,
             main_posts = results[1].page_posts,
             post_groups = results[1].post_groups,
-            information_items = results[2].objects;
+            information_items = results[2].objects,
+            links = results[3].objects;
         if (!subject.isUserAllowed(req.user))
             return res.redirect('/discussions');
 
@@ -52,7 +63,8 @@ module.exports = function(req,res) {
             page: page,
             next: Number(page) + 1,
             prev: Number(page) - 1,
-            information_items: information_items
+            information_items: information_items,
+            links: links
         });
     });
 

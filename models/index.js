@@ -316,9 +316,10 @@ var Schemas = exports.Schemas = {
         date:  {type:Date, required:true},
         source:{type:String, "enum":["דה מרקר", "כלכליסט","גלובס", "ynet", "הארץ", "nrg", "walla", "mako",  "אחר"], required:true}    ,
         alternative_source:{type:String},
+        subjects:[{type:ObjectId, ref:'Subject'}],
 
-        discussions:{type:[ObjectId], limit: 1000, ref:'Discussion'  , index:true},
-        cycles:     {type:[ObjectId], limit: 1000, ref:'Cycle', index:true}
+        discussions:[{type: ObjectId, limit: 1000, ref:'Discussion', index:true}],
+        cycles:     [{type: ObjectId, limit: 1000, ref:'Cycle', index:true}]
     }
 };
 

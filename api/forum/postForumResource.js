@@ -70,14 +70,19 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
                 new_posts.push(new_post);
             });
-            var post_groups = _.groupBy(new_posts, function(post){
-                return post.parent_id;
-            });
 
             //the posts with no parents are main posts
             var main_posts = _.filter(new_posts, function(post){
                 return !post.parent_id;
             });
+
+            _.chain(new_posts).sortBy('creation_date').reverse();
+
+            //group sub_posts by their parents
+            var post_groups = _.groupBy(new_posts, function(post){
+                return post.parent_id;
+            });
+
 
             //paginate
             var page_posts = _.first(_.rest(main_posts, offset),limit);
