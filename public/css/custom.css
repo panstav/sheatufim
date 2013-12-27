@@ -29,3 +29,6 @@ li.arrow a.disabled i.icon-arrow-left:hover {
     background-image: url('../img/icon-arrow-left.png');
 
 }
+div.info-item-img img{
+    width: 70px;
+}

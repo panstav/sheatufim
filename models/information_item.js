@@ -13,6 +13,7 @@ var InformationItem = module.exports = utils.revertibleModel(new Schema({
     title: {type: String, required: true},
     tooltip:String,
     subject_id:[{type:ObjectId, ref:'Subject',required:true}],
+    subjects:[{type:ObjectId, ref:'Subject'}],
     category:{type:String, "enum":['test', 'statistics', 'infographic', 'graph'], required:true},
     text_field:{type:Schema.Types.Text, required:true},
     text_field_preview:{type:Schema.Types.Html},

@@ -27,27 +27,15 @@
                         </div>
                         <div class="spacer"></div>
                         <ul class="list">
-                            <li class="row info-item-container info-item-1">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                 <div class="info-item-img left"><img src="/img/info_img1.png" alt="תמונה 1" title="תמונה 1"/></div>
-                            </li>
-                            <li class="row info-item-container info-item-2">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                 <div class="info-item-img left"><img src="/img/info_img2.png" alt="תמונה 2" title="תמונה 2"/></div>
-                            </li>
-                            <li class="row info-item-container info-item-3">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                    <div class="info-item-img left"><img src="/img/info_img3.png" alt="תמונה 3" title="תמונה 3"/></div>
-                            </li>
+                            <% for(var i = 0; i < information_items.length; i++) { %>
+                                <li class="row info-item-container info-item-<%=information_items[i]._id%>">
+                                     <div class="info-item right">
+                                         <div class="info-item-title"><%=information_items[i].title%></div>
+                                         <div class="info-item-text"><%=information_items[i].text_field_preview.replace(/(<([^>]+)>)/ig,"")%></div>
+                                     </div>
+                                     <div class="info-item-img left"><img src="<%=information_items[i].image_field_preview.url%>" alt="תמונה 1" title="תמונה 1"/></div>
+                                </li>
+                            <% } %>
                         </ul>
                         <div class="aside-more-info">
                             <div class="spacer-plus"><a href="#"><i class="icon icon-plus"></i></a></div>

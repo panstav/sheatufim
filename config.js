@@ -106,6 +106,7 @@ config.headConfigs = {
             '/js/jquerypp/jquery.movingboxes.js',
             '/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js',
             '/js/timeline.js'
+
             /*'/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js'*/
         ]
     }
