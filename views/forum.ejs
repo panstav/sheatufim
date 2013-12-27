@@ -15,7 +15,7 @@
     <section class="content">
         <div class="container">
             <!-- Breadcrumbs -->
-            <div id="breadcrumbs"><a href="#">זירות שיח</a> > <a href="#"><%=subject.name%></a> > <a href="#">פורום</a></div>
+            <div id="breadcrumbs"><a href="#">זירות שיח</a> > <a href="/discussions/subject/<%=subject._id%>"><%=subject.name%></a> > <a href="#">פורום</a></div>
             <div class="row">
                 <!-- Sidebar -->
                 <aside id="sidebar" class="left">
@@ -64,10 +64,10 @@
                     <!-- Post Header -->
                     <div class="row post-header">
                         <div class="right sidebox post-image">
-                            <img src="/img/post-image.png" alt="תמונה" title="תמונה"/>
+                            <img src="<%=subject.image_field.url%>" style="width: 230px; height: 230px;" alt="תמונה" title="תמונה"/>
                         </div>
                         <div class="left post-headerbox">
-                            <h1 class="post-title">חברה אזרחית והלאה בשתי שורות ארוכות</h1>
+                            <h1 class="post-title"><%=subject.name%></h1>
                             <div class="row">
                                 <a href="/discussions/subject/<%=subject._id%>">
                                     <div class="right link-home">
