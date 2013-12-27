@@ -116,11 +116,19 @@
                         <!-- Pagination -->
                         <div class="pagination-container row">
                             <div class="right pagination-title right">הודעות</div>
-                            <div class="right pagination-stats right">עמוד <span class="pagination-current">5</span> מתוך <span class="pagination-total">8</span></div>
+                            <div class="right pagination-stats right">עמוד <span class="pagination-current"><%=page%></span> מתוך <span class="pagination-total"><%=Math.ceil(count / 10)%></span></div>
                             <div class="right pagination-pages left">
                                 <ul class="inline-list">
-                                    <li><a href="?page=<%=next%>"><i class="icon icon-arrow-right"></i></a></li>
-                                    <% for(var i = 0, p = 1; i < count; i+=10, p++) { %>
+                                    <li class="arrow">
+                                        <% if(next > Math.ceil(count / 10)) { %>
+                                        <a href="?page=<%=next%>" class="disabled">
+                                        <% } else { %>
+                                        <a href="?page=<%=next%>">
+                                        <% } %>
+                                            <i class="icon icon-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
                                         <% if(page == p) { %>
                                         <li class="pagination-current-page">
                                         <% } else { %>
@@ -129,7 +137,14 @@
                                             <a href="?page=<%=p%>"><%=p%></a>
                                         </li>
                                     <% } %>
-                                    <li><a href="?page=<%=prev%>"><i class="icon icon-arrow-left"></i></a></li>
+                                    <li class="arrow">
+                                    <% if(prev < 1) { %>
+                                    <a href="?page=<%=prev%>" class="disabled">
+                                    <% } else { %>
+                                    <a href="?page=<%=prev%>">
+                                    <% } %>
+                                        <i class="icon icon-arrow-left"></i>
+                                    </a>
                                 </ul>
                             </div>
                         </div>
@@ -145,16 +160,32 @@
                         <div class="pagination-container row">
                             <div class="right pagination-pages left">
                                 <ul class="inline-list">
-                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
-                                    <li><a href="#">8 </a></li>
-                                    <li><a href="#">7 </a></li>
-                                    <li><a href="#">6 </a></li>
-                                    <li class="pagination-current-page"><a href="#">5</a></li>
-                                    <li><a href="#">4 </a></li>
-                                    <li><a href="#">3 </a></li>
-                                    <li><a href="#">2 </a></li>
-                                    <li><a href="#">1 </a></li>
-                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                    <li class="arrow">
+                                        <% if(next > Math.ceil(count / 10)) { %>
+                                        <a href="?page=<%=next%>" class="disabled">
+                                        <% } else { %>
+                                        <a href="?page=<%=next%>">
+                                        <% } %>
+                                            <i class="icon icon-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
+                                        <% if(page == p) { %>
+                                        <li class="pagination-current-page">
+                                        <% } else { %>
+                                        <li>
+                                        <% } %>
+                                            <a href="?page=<%=p%>"><%=p%></a>
+                                        </li>
+                                    <% } %>
+                                    <li class="arrow">
+                                    <% if(prev < 1) { %>
+                                    <a href="?page=<%=prev%>" class="disabled">
+                                    <% } else { %>
+                                    <a href="?page=<%=prev%>">
+                                    <% } %>
+                                        <i class="icon icon-arrow-left"></i>
+                                    </a>
                                 </ul>
                             </div>
                         </div>
@@ -232,7 +263,8 @@
                                child_post.date = date.replace(/-/g, ".");
                                child_post.level = level + 1;
                                child_post.reply_level = level + 2;
-                               child_post.text_short = data.text.substring(0, 140) + '...';
+                               if(child_post.text.length > 140)
+                                   child_post.text_short = child_post.text.substring(0, 140) + '...';
                                child_post.last = level == 2 ? true : false;
                                child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
                                render_post('child', child_post, new_level);
@@ -249,7 +281,8 @@
                      post.date = date.replace(/-/g, ".");
                      post.level = 0;
                      post.reply_level = 1;
-                     post.text_short = post.text.substring(0, 140) + '...';
+                     if(post.text.length > 140)
+                         post.text_short = post.text.substring(0, 140) + '...';
                      post.hidden = true;
                      post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                      render_post('main', post, 0);
@@ -279,7 +312,8 @@
                          data.date = date.replace(/-/g, ".");
                          data.level = 0;
                          data.reply_level = 1;
-                         data.text_short = data.text.substring(0, 140) + '...';
+                         if(data.text.length > 140)
+                              data.text_short = data.text.substring(0, 140) + '...';
                          data.replies = 0;
                          dust.render('forum_post', data, function(err, out){
                             if(!err)
@@ -313,7 +347,8 @@
                          data.date = date.replace(/-/g, ".");
                          data.level = parent_level + 1;
                          data.reply_level = parent_level + 2;
-                         data.text_short = data.text.substring(0, 140) + '...';
+                         if(data.text.length > 140)
+                              data.text_short = data.text.substring(0, 140) + '...';
                          data.last = parent_level == 2 ? true : false;
                          data.replies = 0;
                          dust.render('forum_post', data, function(err, out){

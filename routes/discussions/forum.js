@@ -69,8 +69,8 @@ module.exports = function(req,res) {
             post_groups: post_groups,
             count: main_posts.length,
             page: page,
-            next: Number(page + 1),
-            prev: Number(page - 1)
+            next: Number(page) + 1,
+            prev: Number(page) - 1
         });
     });
 

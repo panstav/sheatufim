@@ -13,7 +13,13 @@
                 <div class="message-author-role right">{user.occupation}{?user_occupation}{user_occupation}{/user_occupation}</div>
             </div>
             <div class="row">
-                <div class="message-content right" data-text="{text}">{text_short} <a class="show_all_text" href="javascript:;">קרא עוד</a></div>
+                <div class="message-content right" data-text="{text}">
+                    {?text_short}
+                        {text_short}<a class="show_all_text" href="javascript:;">קרא עוד</a>
+                    {:else}
+                        {text}
+                    {/text_short}
+                </div>
             </div>
             <div class="spacer"></div>
             <div class="message-bar row">

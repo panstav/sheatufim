@@ -15,3 +15,17 @@
  .message.message-pad-3 {
      min-width: 645px;
  }
+
+ li.arrow a.disabled i:hover,
+ li.arrow a.disabled:hover{
+     pointer-events: none;
+     cursor: default;
+ }
+
+li.arrow a.disabled i.icon-arrow-right:hover {
+    background-image: url('../img/icon-arrow-right.png');
+}
+li.arrow a.disabled i.icon-arrow-left:hover {
+    background-image: url('../img/icon-arrow-left.png');
+
+}
