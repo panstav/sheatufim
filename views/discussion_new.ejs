@@ -44,7 +44,7 @@
                     <!-- Useful Links -->
                     <div class="aside-links sidebox">
                         <div class="row">
-                            <i class="icon icon-medium-pad-left icon-link right"></i>        
+                            <i class="icon icon-medium-pad-left icon-link right"></i>
                             <h2 class="aside-links-title right">לינקים שימושיים</h2>
                         </div>
                         <div class="spacer"></div>
@@ -55,7 +55,7 @@
                                 </li>
                             <% } %>
                         </ul>
-                    </div>  
+                    </div>
                 </aside>
                 <!-- Post -->
                 <div class="right post-container">
@@ -185,140 +185,7 @@
         <% include partials/footer.ejs %>
     </footer>
     <script type="text/javascript">
-        var current_section=1;
-        $(document).ready(function () {
-            var subject = '<%= subject._id %>';
-            var is_logged = <%= user_logged %>;
-            var user = <%- JSON.stringify(user) %>;
-            var posts = <%- JSON.stringify(posts) %>;
-            var post_groups = <%- JSON.stringify(post_groups) %>;
-            var discussion_image = {};
 
-            //render a main post and responses if the post has any recursively
-            var render_post = function(type, data, level){
-                dust.render('forum_post', data, function(err, out){
-                if(!err)
-                    if(type == 'main')
-                        $('.post-messages-container ul.main_container').prepend(out);
-                    else
-                        $('ul.replies-' + data.parent_id).append(out);
-                    //check if the post has any responses
-                    if(post_groups[data._id] && post_groups[data._id].length > 0) {
-                        var child_posts = post_groups[data._id];
-                         $.each(child_posts, function(i, child_post){
-
-                               var new_level = level + 1;
-                               child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
-                               child_post.date = new Date(child_post.creation_date).format('HH:MM');
-                               child_post.level = level + 1;
-                               child_post.reply_level = level + 2;
-                               if(child_post.text.length > 140)
-                                   child_post.text_short = child_post.text.substring(0, 140) + '...';
-                               child_post.last = level == 2 ? true : false;
-                               child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
-                               render_post('child', child_post, new_level);
-                         });
-                    }
-                });
-            };
-            var init = function() {
-                $.each(posts, function(i, post){
-
-                     post.time = new Date(post.creation_date).format('dd.mm.yyyy');
-                     post.date = new Date(post.creation_date).format('HH:MM');
-                     post.level = 0;
-                     post.reply_level = 1;
-                     if(post.text.length > 140)
-                         post.text_short = post.text.substring(0, 140) + '...';
-                     post.hidden = true;
-                     post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
-                     render_post('main', post, 0);
-
-                });
-            };
-
-            init();
-
-            //create new post and render it on post button click
-            $('.create_post').on('click', function(){
-                console.log('here');
-                var text = $('.new_post .post-new-message-body-text textarea').val();
-                if(!text) {
-                    //show error message?
-                } else if(is_logged) {
-                    console.log(user);
-                    var data = {
-                        text: text,
-                        creator_id: user._id,
-                        subject_id: subject
-                    }
-                    db_functions.createForumPost(data, function(data){
-                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
-                         data.date = new Date(data.creation_date).format('HH:MM');
-                         data.level = 0;
-                         data.reply_level = 1;
-                         if(data.text.length > 140)
-                              data.text_short = data.text.substring(0, 140) + '...';
-                         data.replies = 0;
-                         dust.render('forum_post', data, function(err, out){
-                            if(!err)
-                                 $('.post-messages-container ul.main_container').prepend(out);
-                                 $('.new_post .post-new-message-body-text textarea').val("");
-                         });
-                    });
-                }
-            });
-
-            //create and render post response
-            $('.main_container').on('click', '.create_secondary_post', function(e){
-                var $parent_post = $(e.target).closest('li')
-                var parent_id = $parent_post.data('id');
-                var parent_level = $parent_post.data('level');
-                var text = $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val();
-                if(!text) {
-                    //show error message?
-                } else if(is_logged) {
-                    console.log(user);
-                    var data = {
-                        parent_id: parent_id,
-                        text: text,
-                        creator_id: user._id,
-                        subject_id: subject,
-                    }
-                    db_functions.createForumPost(data, function(data){
-                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
-                         data.date = new Date(data.creation_date).format('HH:MM');
-                         data.level = parent_level + 1;
-                         data.reply_level = parent_level + 2;
-                         if(data.text.length > 140)
-                              data.text_short = data.text.substring(0, 140) + '...';
-                         data.last = parent_level == 2 ? true : false;
-                         data.replies = 0;
-                         dust.render('forum_post', data, function(err, out){
-                            if(!err){
-                                $('ul.replies-' + parent_id).append(out);
-                                $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val("");
-                                $('.reply-to-message-' + parent_id + ' .icon-close').click();
-
-                                var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
-                                if($primary_message.hasClass('message-closed')) {
-                                     $primary_message.find('.icon-expand').click();
-                                }
-                                var $replies = $('.message-' + parent_id + '.message-text .message-replies');
-                                var reply_count = $replies.data('replies') + 1;
-                                $replies.html(reply_count + ' תגובות');
-                                $replies.data('replies', reply_count);
-                            }
-                         });
-                    });
-                }
-            });
-
-            $('.main_container').on('click', '.show_all_text', function(e){
-                var text = $(e.target).closest('.message-content').data('text');
-                $(e.target).closest('.message-content').html(text);
-            });
-        });
-     </script>
+    </script>
 </body>
 </html>

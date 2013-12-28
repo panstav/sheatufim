@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+<html lang="he-IL">
+<head>
+    <title>זירות שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<body class="zirot logged">
+    <!-- Header -->
+    <header>
+         <% include partials/menu.ejs %>
+    </header>
+    <!-- Content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="welcome">
+                    <div class="welcome-pre-title">ברוכים באים</div>
+                    <div class="welcome-title">לזירות השיח</div>
+                    <div class="welcome-tagline">נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי במר מודוף. אודיפו בלאסטיק מונופץ קליר, בנפת נפקט למסון וענוף להאמית קרהשק סכעיט דז מא, מנכם למטכין נשואי מנורך גולר מונפרר סוברט לורם שבצק יהול.</div>
+                </div>
+            </div>
+            <div class="row zirot-container">
+                <!-- Enter a zira -->
+                <div class="zirot-library-container right">
+                    <div class="row zirot-section-content zirot-library-step-box">
+                        <div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Latest News -->
+                <aside id="sidebar" class="zirot-sidebar right">
+                    <div class="zirot-messages-container sidebox">
+                        <div class="row">
+                            <i class="icon icon-medium-pad-left icon-message right"></i>
+                            <h2 class="zirot-messages-container-title right">עדכונים אחרונים</h2>
+                        </div>
+                        <div class="spacer"></div>
+                        <ul class="list">
+                            <li class="row zirot-message message-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row zirot-message message-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                            <li class="row zirot-message message-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row zirot-message message-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                            <li class="row zirot-message message-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
+                            <li class="row zirot-message message-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
+                        </ul>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <% include partials/footer.ejs %>
+    </footer>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            db_functions.getAllSubjects(function(err, subjects){
+                if(err) return;
+                $.each(subjects.objects, function(i, subject){
+                    dust.render('subject', subject, function(err, html){
+                        if(err) return;
+                        $('.zirot-container .zirot-section-content').append(html);
+                    });
+                });
+            });
+        });
+     </script>
+</body>
+</html>

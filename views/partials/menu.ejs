@@ -1,15 +1,15 @@
-<a href="/" id="logo"></a>
-<ul id="main-menu">
-    <li class="menu_item about_item">
-        <a href="/about">אודות עורו</a>
-        <ul>
-            <% footer_links('is_on_top').forEach(function(menu){ %>
-                <li><a href="<%= menu.link %>"><%= menu.name %></a></li>
-            <% }) %>
-        </ul>
-    </li>
-    <li class="menu_item"><a href="/information_items">מאגר מידע</a></li>
-    <li class="menu_item"><a href="/discussions">זירות שיח</a></li>
-    <li class="menu_item ui-tabs-hide"><a href="/cycles">קמפיינים</a></li>
-    <li class="menu_item ui-tabs-hide"><a href="/actions">פעולות ואירועים</a></li>
-</ul>
+<div class="container">
+    <div class="row">
+        <!-- Logo -->
+        <div id="logo" class="col4"><img src="/img/logo.png" alt="זירות שיח מבית שיתופים" title="זירות שיח מבית שיתופים"/></div>
+        <!-- Navigation -->
+        <nav id="header-nav" class="col6">
+            <ul class="menu inline-list">
+                <li><a href="/about">אודות</a></li>
+                <li><a href="/information_items">מאגרי מידע</a></li>
+                <li><a href="#">צור קשר</a></li>
+                <li id="header-nav-login"><button class="btn btn-large btn-green"><i class="icon icon-small-pad-left icon-size2 icon-login"></i>התחברות</button></li>
+            </ul>
+        </nav>
+    </div>
+</div>
