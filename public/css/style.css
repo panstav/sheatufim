@@ -534,7 +534,7 @@ body {
     position: absolute;
     left: -8px;
     top: -8px;
-   /* background: url(/images/URU_User.btn_sprite.png)   -89px 1px  no-repeat; */
+    /* background: url(/images/URU_User.btn_sprite.png)   -89px 1px  no-repeat; */
     background-color: #ff00af;
     display:     block;
     width:23px;
@@ -632,8 +632,8 @@ body {
 }
 
 .user-info-box div.fame{
-  border: 0;
-  background: url(/images/URU_User.Info_Repute_Icon.gif) 180px 10px no-repeat;;
+    border: 0;
+    background: url(/images/URU_User.Info_Repute_Icon.gif) 180px 10px no-repeat;;
 }
 .user-info-box .user-box-top .right
 {
@@ -660,7 +660,7 @@ body {
     font-family: 'AdumaFOTRegular';
 }
 .user-info-box .user-box-top .messages .left{
-color: #ff00af;
+    color: #ff00af;
 }
 
 .user-info-box .user-box-bottom div{
@@ -732,7 +732,7 @@ color: #ff00af;
 }
 
 .big-head .search-box {
-   margin-top: 8px;
+    margin-top: 8px;
 }
 
 .big-head .search-box input[type=text] {
@@ -745,7 +745,7 @@ color: #ff00af;
     float: right;
     background: transparent url(/images/URU_search_btn_reg.png) -71px 0 no-repeat;
     border: 0;
-     margin-top: -1px;
+    margin-top: -1px;
     width: 34px;
     height: 38px;
     color: #ffffff;
@@ -2688,7 +2688,7 @@ color: #ff00af;
 
 .extended .discussion_content, .action_content {
     /*  height:400px;     */
-       display: inline-block;
+    display: inline-block;
     overflow: inherit;
 }
 
@@ -4386,8 +4386,8 @@ h2 small {
     float: right;
     /*width: 834px;*/
     width: 100%;
-  /* padding-left: 7px;
-    border-left: 1px solid #ededed;*/
+    /* padding-left: 7px;
+      border-left: 1px solid #ededed;*/
 }
 
 .one-box .left {
@@ -5003,7 +5003,7 @@ div.action_list::-webkit-scrollbar-button {
 .upload-popup .tab input {
     color: #50504f;
     font: normal 12px/16px Arial;
-	width: 531px;
+    width: 531px;
 }
 
 .upload-tabs ul {
@@ -5064,14 +5064,14 @@ div.action_list::-webkit-scrollbar-button {
 }
 
 .upload-tabs .tab#image .img-box {
-	height: 147px;
+    height: 147px;
 }
 
 .upload-tabs .tab#video .img-box {
-	height: 100px;
+    height: 100px;
 }
 .upload-tabs .tab#video img {
-	display: none;
+    display: none;
 }
 
 .tabs img {
@@ -6068,9 +6068,9 @@ div.action_list::-webkit-scrollbar-button {
 }
 
 .cycle-content {
- /*   height: 250px;
-    overflow: hidden;
-*/
+    /*   height: 250px;
+       overflow: hidden;
+   */
 }
 .add-offer .text-box a.read_more{
     text-decoration: underline;
@@ -6079,7 +6079,7 @@ div.action_list::-webkit-scrollbar-button {
     margin-bottom: 10px;
     font-family: arial;
     font-size: 13px;
- }
+}
 
 .add-offer .text-box.text-full{
     display: none;
@@ -6257,7 +6257,7 @@ div.action_list::-webkit-scrollbar-button {
 
 }
 .add-offer .text-box p{
-       font-size: 14px;
+    font-size: 14px;
     line-height: 21px;;
 }
 .add-offer .text-box h3 {
@@ -6269,7 +6269,7 @@ div.action_list::-webkit-scrollbar-button {
 
 .add-offer-small .add-offer-bottom .right {
     float: right;
-     width: 100%;
+    width: 100%;
 }
 
 .add-offer-small .add-offer-bottom {
@@ -6287,7 +6287,7 @@ div.action_list::-webkit-scrollbar-button {
     font-size: 12px;
 }
 .add-offer-small .add-offer-bottom .right .tags a{
-color: #5578f1;
+    color: #5578f1;
     background-color: transparent;
 }
 
@@ -6316,7 +6316,7 @@ color: #5578f1;
 .add-offer-small .dots
 {
     background: transparent    url(/images/Cycles_Tabs_Upper.Dots.gif) 0 0 repeat-x;
-     width: 100%;
+    width: 100%;
     height: 25px;
     clear: both;
 }
@@ -6691,7 +6691,7 @@ a.fraction-btn {
     top:39px;
     width: 111px;
     height: 42px;
-     display: none;
+    display: none;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -webkit-border-radius: 2px;
@@ -7055,7 +7055,7 @@ a.fraction-btn {
     display: none;
 }
 #my-timeline-button   .btn-box
- {
+{
     padding-bottom: 17px;
 }
 
@@ -7656,7 +7656,7 @@ body.body-action .followers-box h5 {
 .add-offer .details {
     border-top: 1px solid #ececec;
     margin-bottom: 20px;
-	margin-right:  139px;
+    margin-right:  139px;
 }
 
 .add-offer .details div {
@@ -8699,7 +8699,7 @@ body.body-action .followers-box h5 {
 .add-offer .details {
     border-top: 1px solid #ececec;
     margin-bottom: 20px;
-	margin-right:  139px;
+    margin-right:  139px;
 }
 
 .add-offer .details>div {
@@ -9736,7 +9736,7 @@ div.icons img {
 .cornerPromotionTitle:hover {text-decoration:underline !important;}
 
 input[type=url] {
-	direction: ltr;
+    direction: ltr;
 }
 
 .tags-box #search_suggestion{
@@ -9935,7 +9935,7 @@ change .current class name using plugin option, currentPanel : 'current' */
 /*** Inside the panel ***/
 #info_items .mb-inside {
     padding: 20px;
-   cursor: pointer;
+    cursor: pointer;
 }
 
 #content  #info_items .mb-inside  h2 {
@@ -10061,7 +10061,7 @@ change .current class name using plugin option, currentPanel : 'current' */
     display: inline-block;
     width: 28px;
     height: 26px;
-   margin-left: 5px;
+    margin-left: 5px;
     background: transparent url('/images/URU_Pro.Sharing_Icon_sprite.png') no-repeat scroll right top;
 }
 
@@ -10209,7 +10209,7 @@ change .current class name using plugin option, currentPanel : 'current' */
     margin-right: 50px;
 }
 .cycle_banner .banner_text #readmore{
-  display: block;
+    display: block;
     margin: 20px 0;
 
 }

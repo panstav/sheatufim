@@ -485,7 +485,7 @@ var db_functions = {
     },
 
     getAllSubjects:function (callback) {
-        db_functions.loggedInAjax({
+        $.ajax({
             url:'/api/subjects',
             type:"GET",
             async:true,

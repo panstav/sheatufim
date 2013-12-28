@@ -3,83 +3,29 @@
 <head>
     <title>זירות שיח</title>
     <% include partials/head.ejs %>
-    <% include partials/forum_head.ejs %>
-
 </head>
-<body>
+<body class="forum logged">
     <!-- Header -->
     <header>
-        <% include partials/forum_menu.ejs %>
+        <% include partials/menu.ejs %>
     </header>
     <!-- Content -->
     <section class="content">
         <div class="container">
             <!-- Breadcrumbs -->
-            <div id="breadcrumbs"><a href="#">זירות שיח</a> > <a href="#"><%=subject.name%></a> > <a href="#">פורום</a></div>
+            <div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/subject/<%=subject._id%>"><%=subject.name%></a> > <a href="#">פורום</a></div>
             <div class="row">
                 <!-- Sidebar -->
-                <aside id="sidebar" class="left">
-                    <!-- Basket -->
-                    <div class="aside-info sidebox">
-                        <div class="row">
-                            <i class="icon icon-small-pad-left icon-basket right"></i>
-                            <h2 class="aside-info-title right">סל מידע</h2>
-                        </div>
-                        <div class="spacer"></div>
-                        <ul class="list">
-                            <li class="row info-item-container info-item-1">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                 <div class="info-item-img left"><img src="/img/info_img1.png" alt="תמונה 1" title="תמונה 1"/></div>
-                            </li>
-                            <li class="row info-item-container info-item-2">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                 <div class="info-item-img left"><img src="/img/info_img2.png" alt="תמונה 2" title="תמונה 2"/></div>
-                            </li>
-                            <li class="row info-item-container info-item-3">
-                                 <div class="info-item right">
-                                     <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                                     <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                                 </div>
-                                    <div class="info-item-img left"><img src="/img/info_img3.png" alt="תמונה 3" title="תמונה 3"/></div>
-                            </li>
-                        </ul>
-                        <div class="aside-more-info">
-                            <div class="spacer-plus"><a href="#"><i class="icon icon-plus"></i></a></div>
-                            <div class="aside-show-more">הצג את כל הרשומות</div>
-                        </div>
-                    </div>
-                    <!-- Useful Links -->
-                    <div class="aside-links sidebox">
-                        <div class="row">
-                            <i class="icon icon-medium-pad-left icon-link right"></i>        
-                            <h2 class="aside-links-title right">לינקים שימושיים</h2>
-                        </div>
-                        <div class="spacer"></div>
-                        <ul class="list">
-                            <li class="row link-container link-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row link-container link-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row link-container link-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row link-container link-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                        </ul>
-                    </div>  
-                </aside>
+                <% include partials/sidebar.ejs %>
                 <!-- Post -->
-                <div class="right post-container">
+                <div class="right content-container">
                     <!-- Post Header -->
                     <div class="row post-header">
                         <div class="right sidebox post-image">
-                            <img src="/img/post-image.png" alt="תמונה" title="תמונה"/>
+                            <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px;" alt="תמונה" title="תמונה"/>
                         </div>
                         <div class="left post-headerbox">
-                            <h1 class="post-title">חברה אזרחית והלאה בשתי שורות ארוכות</h1>
+                            <h1 class="post-title"><%=subject.name%></h1>
                             <div class="row">
                                 <a href="/discussions/subject/<%=subject._id%>">
                                     <div class="right link-home">
@@ -116,19 +62,35 @@
                         <!-- Pagination -->
                         <div class="pagination-container row">
                             <div class="right pagination-title right">הודעות</div>
-                            <div class="right pagination-stats right">עמוד <span class="pagination-current">5</span> מתוך <span class="pagination-total">8</span></div>
+                            <div class="right pagination-stats right">עמוד <span class="pagination-current"><%=page%></span> מתוך <span class="pagination-total"><%=Math.ceil(count / 10)%></span></div>
                             <div class="right pagination-pages left">
                                 <ul class="inline-list">
-                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
-                                    <li><a href="#">8 </a></li>
-                                    <li><a href="#">7 </a></li>
-                                    <li><a href="#">6 </a></li>
-                                    <li class="pagination-current-page"><a href="#">5</a></li>
-                                    <li><a href="#">4 </a></li>
-                                    <li><a href="#">3 </a></li>
-                                    <li><a href="#">2 </a></li>
-                                    <li><a href="#">1 </a></li>
-                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                    <li class="arrow">
+                                        <% if(next > Math.ceil(count / 10)) { %>
+                                        <a href="?page=<%=next%>" class="disabled">
+                                        <% } else { %>
+                                        <a href="?page=<%=next%>">
+                                        <% } %>
+                                            <i class="icon icon-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
+                                        <% if(page == p) { %>
+                                        <li class="pagination-current-page">
+                                        <% } else { %>
+                                        <li>
+                                        <% } %>
+                                            <a href="?page=<%=p%>"><%=p%></a>
+                                        </li>
+                                    <% } %>
+                                    <li class="arrow">
+                                    <% if(prev < 1) { %>
+                                    <a href="?page=<%=prev%>" class="disabled">
+                                    <% } else { %>
+                                    <a href="?page=<%=prev%>">
+                                    <% } %>
+                                        <i class="icon icon-arrow-left"></i>
+                                    </a>
                                 </ul>
                             </div>
                         </div>
@@ -144,16 +106,32 @@
                         <div class="pagination-container row">
                             <div class="right pagination-pages left">
                                 <ul class="inline-list">
-                                    <li><a href="#"><i class="icon icon-arrow-right"></i></a></li>
-                                    <li><a href="#">8 </a></li>
-                                    <li><a href="#">7 </a></li>
-                                    <li><a href="#">6 </a></li>
-                                    <li class="pagination-current-page"><a href="#">5</a></li>
-                                    <li><a href="#">4 </a></li>
-                                    <li><a href="#">3 </a></li>
-                                    <li><a href="#">2 </a></li>
-                                    <li><a href="#">1 </a></li>
-                                    <li><a href="#"><i class="icon icon-arrow-left"></i></a></li>
+                                    <li class="arrow">
+                                        <% if(next > Math.ceil(count / 10)) { %>
+                                        <a href="?page=<%=next%>" class="disabled">
+                                        <% } else { %>
+                                        <a href="?page=<%=next%>">
+                                        <% } %>
+                                            <i class="icon icon-arrow-right"></i>
+                                        </a>
+                                    </li>
+                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
+                                        <% if(page == p) { %>
+                                        <li class="pagination-current-page">
+                                        <% } else { %>
+                                        <li>
+                                        <% } %>
+                                            <a href="?page=<%=p%>"><%=p%></a>
+                                        </li>
+                                    <% } %>
+                                    <li class="arrow">
+                                    <% if(prev < 1) { %>
+                                    <a href="?page=<%=prev%>" class="disabled">
+                                    <% } else { %>
+                                    <a href="?page=<%=prev%>">
+                                    <% } %>
+                                        <i class="icon icon-arrow-left"></i>
+                                    </a>
                                 </ul>
                             </div>
                         </div>
@@ -164,43 +142,7 @@
     </section>
     <!-- Footer -->
     <footer>
-        <div class="back-to-top hand" onclick="scrollToTop();">
-            <div class=""><i class="icon icon-back-to-top"></i></div>
-            <div class="back-to-top-text">לראש הדף</div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div id="footer-about" class="footer-column">
-                    <p class="title">על זירות השיח</p>
-                    <div>מרכז שיתופים מהווה בית מקצועי וצומת של מידע וידע לקהילות החברה האזרחית - ארגוני מגזר שלישי, פילנתרופיה, שותפויות חברתיות והתארגנויות אזרחיות. מרכז "שיתופים" פועל לחיזוק החברה האזרחית באמצעות פיתוח הניהול החברתי, הרחבת הפילנתרופיה הפרטית וקידום השיח הבין מגזרי.</div>
-                </div>
-                <div id="footer-links" class="footer-column">
-                    <p class="title">לינקים מהירים</p>
-                    <ul>
-                        <li><a href="#">דף הבית</a></li>
-                        <li><a href="#">אודות</a></li>
-                        <li><a href="#">מאגרי מידע</a></li>
-                        <li><a href="#">אתר עורו</a></li>
-                        <li><a href="#">אתר אג'נדה</a></li>
-                        <li><a href="#">צור קשר</a></li>
-                    </ul>
-                </div>
-                <div id="footer-contact" class="footer-column">
-                    <p class="title">פרטי התקשרות</p>
-                    <div>שיתופים לקידום החברה האזרחית,</div>
-                    <div>ת.ד. 3225 בית יהושע 40591</div>
-                    <div>טלפון: 09-8301400</div>
-                    <div><a href="#">info@shitufim.com</a></div>
-                </div>
-                <div id="footer-credits" class="footer-column">
-                    <p class="title">קרדיטים ושת"פים</p>
-                    <div><img src="img/chemiko.png" alt="chemiko" title="chemiko"/></div>
-                    <div><img src="img/hercuvrok.png" alt="hercuvrok" title="hercuvrok"/></div>
-                    <div><img src="img/porter.png" alt="porter" title="porter"/></div>
-                    <div><img src="img/bebell.png" alt="bebell" title="bebell"/></div>
-                </div>
-            </div>
-        </div>
+        <% include partials/footer.ejs %>
     </footer>
     <script type="text/javascript">
         var current_section=1;
@@ -224,14 +166,14 @@
                     if(post_groups[data._id] && post_groups[data._id].length > 0) {
                         var child_posts = post_groups[data._id];
                          $.each(child_posts, function(i, child_post){
-                               var index = child_post.creation_date.indexOf('T');
-                               var date = child_post.creation_date.substring(0, index);
+
                                var new_level = level + 1;
-                               child_post.time = child_post.creation_date.substring(index + 1, index + 6);
-                               child_post.date = date.replace(/-/g, ".");
+                               child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
+                               child_post.date = new Date(child_post.creation_date).format('HH:MM');
                                child_post.level = level + 1;
                                child_post.reply_level = level + 2;
-                               child_post.text_short = data.text.substring(0, 140) + '...';
+                               if(child_post.text.length > 140)
+                                   child_post.text_short = child_post.text.substring(0, 140) + '...';
                                child_post.last = level == 2 ? true : false;
                                child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
                                render_post('child', child_post, new_level);
@@ -241,14 +183,13 @@
             };
             var init = function() {
                 $.each(posts, function(i, post){
-                     var index = post.creation_date.indexOf('T');
-                     var date = post.creation_date.substring(0, index);
 
-                     post.time = post.creation_date.substring(index + 1, index + 6);
-                     post.date = date.replace(/-/g, ".");
+                     post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                     post.date = new Date(post.creation_date).format('HH:MM');
                      post.level = 0;
                      post.reply_level = 1;
-                     post.text_short = post.text.substring(0, 140) + '...';
+                     if(post.text.length > 140)
+                         post.text_short = post.text.substring(0, 140) + '...';
                      post.hidden = true;
                      post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                      render_post('main', post, 0);
@@ -272,13 +213,12 @@
                         subject_id: subject
                     }
                     db_functions.createForumPost(data, function(data){
-                         var index = data.creation_date.indexOf('T');
-                         var date = data.creation_date.substring(0, index);
-                         data.time = data.creation_date.substring(index + 1, index + 6);
-                         data.date = date.replace(/-/g, ".");
+                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                         data.date = new Date(data.creation_date).format('HH:MM');
                          data.level = 0;
                          data.reply_level = 1;
-                         data.text_short = data.text.substring(0, 140) + '...';
+                         if(data.text.length > 140)
+                              data.text_short = data.text.substring(0, 140) + '...';
                          data.replies = 0;
                          dust.render('forum_post', data, function(err, out){
                             if(!err)
@@ -306,13 +246,12 @@
                         subject_id: subject,
                     }
                     db_functions.createForumPost(data, function(data){
-                         var index = data.creation_date.indexOf('T');
-                         var date = data.creation_date.substring(0, index);
-                         data.time = data.creation_date.substring(index + 1, index + 6);
-                         data.date = date.replace(/-/g, ".");
+                         data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                         data.date = new Date(data.creation_date).format('HH:MM');
                          data.level = parent_level + 1;
                          data.reply_level = parent_level + 2;
-                         data.text_short = data.text.substring(0, 140) + '...';
+                         if(data.text.length > 140)
+                              data.text_short = data.text.substring(0, 140) + '...';
                          data.last = parent_level == 2 ? true : false;
                          data.replies = 0;
                          dust.render('forum_post', data, function(err, out){

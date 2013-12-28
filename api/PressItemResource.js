@@ -15,6 +15,7 @@ var PressItemResource = module.exports = jest.MongooseResource.extend({
     init:function(){
         this._super(models.PressItem);
         this.allowed_methods = ['get'];
+        this.filtering = {subject_id: null, discussion_id: null};
         this.default_query = function (query) {
             return query.sort({'date': 'descending'});
         };
@@ -28,7 +29,7 @@ var PressItemResource = module.exports = jest.MongooseResource.extend({
                 callback(err);
             }
             else {
-                var discussion_id           =req.query.discussion_id;
+                var discussion_id = req.query.discussion_id;
                 if(discussion_id){
                     models.Discussion.findById(discussion_id, function ( err, obj){
                         var discussion_press_items=obj.press_items ;

@@ -21,7 +21,7 @@ var InformationItemResource = module.exports = common.BaseModelResource.extend(
         this.allowed_methods = ['get', 'post', 'put'];
 //        this.authentication = new common.SessionAuthentication();
         this.filtering = {
-            tags:null, subject_id:null, title:null, text_field:null, text_field_preview:null, users:null, is_hot_info_item:null, discussions:null};
+            tags:null, subjects:null, subject_id:null, title:null, text_field:null, text_field_preview:null, users:null, is_hot_info_item:null, discussions:null};
         this.default_query = function (query) {
             return query.where('is_visible', true).where('status','approved').sort({'creation_date':'descending'}).populate('subject_id');
         },
@@ -84,6 +84,13 @@ var InformationItemResource = module.exports = common.BaseModelResource.extend(
            }else{
               callback(err, object)
            }
+        });
+    },
+
+    get_objects:function (req, filters, sorts, limit, offset, callback) {
+        var self = this;
+        this._super(req, filters, sorts, limit, offset, function (err, results) {
+            callback(err, results);
         });
 
     },

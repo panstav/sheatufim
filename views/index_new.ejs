@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="he-IL">
+<head>
+    <title>זירות שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<% if( user_logged ) { %>
+      <body class="zirot logged">
+<% } else { %>
+    <body class="zirot not-logged">
+<% } %>
+<body class="zirot logged">
+    <!-- Header -->
+    <header>
+         <% include partials/menu.ejs %>
+    </header>
+    <!-- Content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="welcome">
+                    <div class="welcome-pre-title">ברוכים באים</div>
+                    <div class="welcome-title">לזירות השיח</div>
+                    <div class="welcome-tagline">נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי במר מודוף. אודיפו בלאסטיק מונופץ קליר, בנפת נפקט למסון וענוף להאמית קרהשק סכעיט דז מא, מנכם למטכין נשואי מנורך גולר מונפרר סוברט לורם שבצק יהול.</div>
+                </div>
+            </div>
+            <div class="row zirot-container">
+                <!-- Enter a zira -->
+                <% if( user_logged ) { %>
+                      <% include partials/subjects_logged_in.ejs %>
+                <% } else { %>
+                    <% include partials/subjects_not_logged_in.ejs %>
+                <% } %>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <% include partials/footer.ejs %>
+    </footer>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            db_functions.getAllSubjects(function(err, subjects){
+                if(err) return;
+                $.each(subjects.objects, function(i, subject){
+                    dust.render('subject', subject, function(err, html){
+                        if(err) return;
+                        $('.zirot-container .zirot-section-content').append(html);
+                    });
+                });
+            });
+
+            $('#login_form_btn').on('click', function(e){
+                e.preventDefault();
+                db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function(err, result){
+                    if(err){
+                       return;
+                    }
+                    else{
+                        window.location.href = "/";
+                    }
+                });
+            });
+        });
+     </script>
+</body>
+</html>
