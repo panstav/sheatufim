@@ -4,6 +4,11 @@
     <title>זירות שיח</title>
     <% include partials/head.ejs %>
 </head>
+<% if( user_logged ) { %>
+      <body class="zirot logged">
+<% } else { %>
+    <body class="zirot not-logged">
+<% } %>
 <body class="zirot logged">
     <!-- Header -->
     <header>
@@ -21,31 +26,11 @@
             </div>
             <div class="row zirot-container">
                 <!-- Enter a zira -->
-                <div class="zirot-library-container right">
-                    <div class="row zirot-section-content zirot-library-step-box">
-                        <div>
-
-                        </div>
-                    </div>
-                </div>
-                <!-- Latest News -->
-                <aside id="sidebar" class="zirot-sidebar right">
-                    <div class="zirot-messages-container sidebox">
-                        <div class="row">
-                            <i class="icon icon-medium-pad-left icon-message right"></i>
-                            <h2 class="zirot-messages-container-title right">עדכונים אחרונים</h2>
-                        </div>
-                        <div class="spacer"></div>
-                        <ul class="list">
-                            <li class="row zirot-message message-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row zirot-message message-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row zirot-message message-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row zirot-message message-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                            <li class="row zirot-message message-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-                            <li class="row zirot-message message-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-                        </ul>
-                    </div>
-                </aside>
+                <% if( user_logged ) { %>
+                      <% include partials/subjects_logged_in.ejs %>
+                <% } else { %>
+                    <% include partials/subjects_not_logged_in.ejs %>
+                <% } %>
             </div>
         </div>
     </section>
@@ -62,6 +47,18 @@
                         if(err) return;
                         $('.zirot-container .zirot-section-content').append(html);
                     });
+                });
+            });
+
+            $('#login_form_btn').on('click', function(e){
+                e.preventDefault();
+                db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function(err, result){
+                    if(err){
+                       return;
+                    }
+                    else{
+                        window.location.href = "/";
+                    }
                 });
             });
         });
