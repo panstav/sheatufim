@@ -34,9 +34,14 @@ li.arrow a.disabled i.icon-arrow-left:hover {
 }
 div.info-item-img img{
     width: 70px;
+    height: 70px;
 }
  ul.list li.info-item-container a:hover div,
 ul.list li.link-container a:hover {
     color: #3bafda;
+}
+
+.post-header .post-image img {
+    position: static;
 }
 

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>זירות שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<% if( user_logged ) { %>
+      <body class="home logged">
+<% } else { %>
+    <body class="home not-logged">
+<% } %>
+    <!-- Header -->
+    <header>
+        <% include partials/menu.ejs %>
+    </header>
+    <!-- Content -->
+    <section class="content content-logged">
+        <div class="container">
+            <!-- Breadcrumbs -->
+            <div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/discussions/subject/<%=subject._id%>"></a><%=subject.name%></div>
+            <div class="row">
+                <!-- Sidebar -->
+                <% if(user_logged){ %>
+                     <% include partials/sidebar.ejs %>
+                <% } else { %>
+                      <% include partials/login_sidebar.ejs %>
+                <% } %>
+                <!-- Post -->
+                <div class="right content-container">
+                    <!-- Post Header -->
+                    <div class="row post-header">
+                        <div class="right sidebox post-image">
+                            <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="<%=subject.name%>" title="<%=subject.name%>"/>
+                        </div>
+                        <div class="left post-headerbox">
+                            <h1 class="post-title">חברה אזרחית והלאה בשתי שורות ארוכות</h1>
+                            <div class="row">
+                                <a href="/">
+                                    <div class="right link-home">
+                                        <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף הבית</div>
+                                    </div>
+                                </a>
+                                <% if(user_logged) { %>
+                                <a href="<%=url%>/forum">
+                                    <div class="left link-to-forum">לפורום</div>
+                                </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row post-body">
+                        <p>לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית קוואזי במר מודוף. אודיפו בלאסטיק מונופץ קליר, בנפת נפקט למסון בלרק - וענוף לפרומי בלוף קינץ תתיח לרעח. לת צשחמי צש בליא, מנסוטו צמלח לביקו ננבי, צמוקו בלוקריה שיצמה ברורק.
+סחטיר בלובק. תצטנפל בלינדו למרקל אס לכימפו, דול, צוט ומעיוט - לפתיעם ברשג - ולתיעם גדדיש. קוויז דומור ליאמום בלינך רוגצה. לפמעט מוסן מנת. גולר מונפרר סוברט לורם שבצק יהול, לכנוץ בעריר גק ליץ, ושבעגט ליבם סולגק. בראיט ולחת צורק מונחף, בגורמי מגמש. תרבנך וסתעד לכנו סתשם השמה - לתכי מורגם בורק? לתיג ישבעס.</p>
+                        <p>קולורס מונפרד אדנדום סילקוף, מרגשי ומרגשח. עמחליף להאמית קרהשק סכעיט דז מא, מנכם למטכין נשואי מנורך. קונסקטורר אדיפיסינג אלית. סת אלמנקום ניסי נון ניבאה. דס איאקוליס וולופטה דיאם. וסטיבולום אט דולור, קראס אגת לקטוס וואל אאוגו וסטיבולום סוליסי טידום בעליק. קונדימנטום קורוס בליקרה, נונסטי קלובר בריקנה סטום, לפריקך תצטריק לרטי. </p>
+                    </div>
+                    <div class="spacer-large"></div>
+                    <div class="last-documents">
+                        <div class="row last-documents-title">
+                            <i class="icon icon-small-pad-left icon-documents right"></i>
+                            <h2 class="documents-title right">מסמכים בעבודה</h2>
+                        </div>
+                        <div class="post-messages-container documents-container">
+                            <ul>
+                                <!-- document-1 -->
+                                <li class="row-table document-1">
+                                    <div class="document primary-document">
+                                        <i class="icon icon-document-item-tip"></i>
+                                        <div class="document-text right">
+                                            <div class="row document-text-header">
+                                                <div class="document-name right">שם מסמך יכול להיות ממש ממש ארוך ועדיין להיכנס כאן</div>
+                                                <div class="document-bar row">
+                                                    <div class="document-datetime right">תאריך:</div>
+                                                    <div class="document-datetime-value right">08.12.13</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-participants right">משתתפים:</div>
+                                                    <div class="document-participants-value right">10</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-produced right">נוצר ע"י: </div>
+                                                    <div class="document-produced-value right">פרננדו אלפחורס </div>
+                                                </div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="row">
+                                                <div class="document-content right">תיאור ראשוני של המסמך. צש בליא, מנסוטו צמלח לביקו ננבי, צמוקו בלוקריה שיצמה ברורק. לורם איפסום דולור סיט אמט, הועניב היושבב שערש... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="document-work-time right">
+                                            <i class="icon icon-box-top-left-tip"></i>
+                                            <div class="row">
+                                                <div class=document-work-time-title>זמן עבודה</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="document-work-time-days left">
+                                                    <div class="document-work-time-value document-work-time-days">99</div>
+                                                    <div class="document-work-time-tag">ימים</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-hours left">
+                                                    <div class="document-work-time-value document-work-time-hours">23</div>
+                                                    <div class="document-work-time-tag">שעות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-minutes left">
+                                                    <div class="document-work-time-value document-work-time-minutes">59</div>
+                                                    <div class="document-work-time-tag">דקות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-seconds left">
+                                                    <div class="document-work-time-value document-work-time-seconds">59</div>
+                                                    <div class="document-work-time-tag">שניות</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- document-2 -->
+                                <li class="row-table document-2">
+                                    <div class="document primary-document">
+                                        <i class="icon icon-document-item-tip"></i>
+                                        <div class="document-text right">
+                                            <div class="row document-text-header">
+                                                <div class="document-name right">שם מסמך יכול להיות ממש ממש ארוך ועדיין להיכנס כאן</div>
+                                                <div class="document-bar row">
+                                                    <div class="document-datetime right">תאריך:</div>
+                                                    <div class="document-datetime-value right">08.12.13</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-participants right">משתתפים:</div>
+                                                    <div class="document-participants-value right">10</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-produced right">נוצר ע"י: </div>
+                                                    <div class="document-produced-value right">פרננדו אלפחורס </div>
+                                                </div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="row">
+                                                <div class="document-content right">תיאור ראשוני של המסמך. צש בליא, מנסוטו צמלח לביקו ננבי, צמוקו בלוקריה שיצמה ברורק. לורם איפסום דולור סיט אמט, הועניב היושבב שערש... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="document-work-time right">
+                                            <i class="icon icon-box-top-left-tip"></i>
+                                            <div class="row">
+                                                <div class=document-work-time-title>זמן עבודה</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="document-work-time-days left">
+                                                    <div class="document-work-time-value document-work-time-days">99</div>
+                                                    <div class="document-work-time-tag">ימים</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-hours left">
+                                                    <div class="document-work-time-value document-work-time-hours">23</div>
+                                                    <div class="document-work-time-tag">שעות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-minutes left">
+                                                    <div class="document-work-time-value document-work-time-minutes">59</div>
+                                                    <div class="document-work-time-tag">דקות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-seconds left">
+                                                    <div class="document-work-time-value document-work-time-seconds">59</div>
+                                                    <div class="document-work-time-tag">שניות</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- document-3 -->
+                                <li class="row-table document-3">
+                                    <div class="document primary-document">
+                                        <i class="icon icon-document-item-tip"></i>
+                                        <div class="document-text right">
+                                            <div class="row document-text-header">
+                                                <div class="document-name right">שם מסמך יכול להיות ממש ממש ארוך ועדיין להיכנס כאן</div>
+                                                <div class="document-bar row">
+                                                    <div class="document-datetime right">תאריך:</div>
+                                                    <div class="document-datetime-value right">08.12.13</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-participants right">משתתפים:</div>
+                                                    <div class="document-participants-value right">10</div>
+                                                    <div class="document-pipeline right">|</div>
+                                                    <div class="document-produced right">נוצר ע"י: </div>
+                                                    <div class="document-produced-value right">פרננדו אלפחורס </div>
+                                                </div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="row">
+                                                <div class="document-content right">תיאור ראשוני של המסמך. צש בליא, מנסוטו צמלח לביקו ננבי, צמוקו בלוקריה שיצמה ברורק. לורם איפסום דולור סיט אמט, הועניב היושבב שערש... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                        </div>
+                                        <div class="document-work-time right">
+                                            <i class="icon icon-box-top-left-tip"></i>
+                                            <div class="row">
+                                                <div class=document-work-time-title>זמן עבודה</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="document-work-time-days left">
+                                                    <div class="document-work-time-value document-work-time-days">99</div>
+                                                    <div class="document-work-time-tag">ימים</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-hours left">
+                                                    <div class="document-work-time-value document-work-time-hours">23</div>
+                                                    <div class="document-work-time-tag">שעות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-minutes left">
+                                                    <div class="document-work-time-value document-work-time-minutes">59</div>
+                                                    <div class="document-work-time-tag">דקות</div>
+                                                </div>
+                                                <div class="semicolon-spacer left">:</div>
+                                                <div class="document-work-time-seconds left">
+                                                    <div class="document-work-time-value document-work-time-seconds">59</div>
+                                                    <div class="document-work-time-tag">שניות</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="last-messages">
+                        <div class="row last-messages-title">
+                            <i class="icon icon-small-pad-left icon-recent-messages right"></i>
+                            <h2 class="recent-messages-title right">הודעות אחרונות מהפורום</h2>
+                        </div>
+                        <div class="post-messages-container">
+                            <ul>
+                                <!-- Message-1 -->
+                                <li class="row-table message-1">
+                                    <div class="message primary-message">
+                                        <div class="message-image"><img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                                        <div class="message-text">
+                                            <div class="row message-text-header">
+                                                <div class="message-author right">אלברט אלמוזלינו</div>
+                                                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="message-bar row">
+                                                <div class="message-datetime right">08.12.13 | 10:04</div>
+                                                <div class="message-replies right">3 תגובות</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Message-2 -->
+                                <li class="row-table message-1">
+                                    <div class="message primary-message">
+                                        <div class="message-image"><img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                                        <div class="message-text">
+                                            <div class="row message-text-header">
+                                                <div class="message-author right">אלברט אלמוזלינו</div>
+                                                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="message-bar row">
+                                                <div class="message-datetime right">08.12.13 | 10:04</div>
+                                                <div class="message-replies right">3 תגובות</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- Message-3 -->
+                                <li class="row-table message-1">
+                                    <div class="message primary-message">
+                                        <div class="message-image"><img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                                        <div class="message-text">
+                                            <div class="row message-text-header">
+                                                <div class="message-author right">אלברט אלמוזלינו</div>
+                                                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                                            </div>
+                                            <div class="spacer"></div>
+                                            <div class="message-bar row">
+                                                <div class="message-datetime right">08.12.13 | 10:04</div>
+                                                <div class="message-replies right">3 תגובות</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Zira Activity -->
+                <div class="activity-box">
+                    <div class="row">
+                        <i class="icon icon-medium-pad-left icon-clock right"></i>
+                        <h2 class="activity-box-title right">פעילות בזירה</h2>
+                    </div>
+                    <div class="row sidebox activity-module">
+                        <img src="/img/activity.png" class="placeholder" alt="Acitvity Module"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <% include partials/footer.ejs %>
+    </footer>
+    <script type="text/javascript">
+       $(document).ready(function () {
+
+           $('#login_form_btn').on('click', function(e){
+               e.preventDefault();
+               db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function(err, result){
+                   if(err){
+                      return;
+                   }
+                   else{
+                       window.location.href = window.location.href;
+                   }
+               });
+           });
+       });
+    </script>
+</body>
+</html>

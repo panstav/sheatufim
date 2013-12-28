@@ -58,13 +58,13 @@ module.exports = function(req,res) {
             user_logged: req.isAuthenticated(),
             url:req.url,
             posts: main_posts || [],
-            post_groups: post_groups,
+            post_groups: post_groups || [],
             count: count,
             page: page,
             next: Number(page) + 1,
             prev: Number(page) - 1,
-            information_items: information_items,
-            links: links
+            information_items: information_items || [],
+            links: links || []
         });
     });
 

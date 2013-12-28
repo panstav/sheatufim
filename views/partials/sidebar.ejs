@@ -1,0 +1,41 @@
+<aside id="sidebar" class="left">
+    <!-- Basket -->
+    <div class="aside-info sidebox">
+        <div class="row">
+            <i class="icon icon-small-pad-left icon-basket right"></i>
+            <h2 class="aside-info-title right">סל מידע</h2>
+        </div>
+        <div class="spacer"></div>
+        <ul class="list">
+            <% for(var i = 0; i < information_items.length; i++) { %>
+                <li class="row info-item-container info-item-<%=information_items[i]._id%>">
+                     <div class="info-item right"><a href="#">
+                         <div class="info-item-title"><%=information_items[i].title%></div>
+                         <div class="info-item-text"><%=information_items[i].text_field_preview.replace(/(<([^>]+)>)/ig,"")%></div>
+                         </a>
+                     </div>
+                     <div class="info-item-img left"><img src="<%=information_items[i].image_field_preview.url%>" alt="תמונה 1" title="תמונה 1"/></div>
+                </li>
+            <% } %>
+        </ul>
+        <div class="aside-more-info">
+            <div class="spacer-plus"><a href="#"><i class="icon icon-plus"></i></a></div>
+            <div class="aside-show-more">הצג את כל הרשומות</div>
+        </div>
+    </div>
+    <!-- Useful Links -->
+    <div class="aside-links sidebox">
+        <div class="row">
+            <i class="icon icon-medium-pad-left icon-link right"></i>
+            <h2 class="aside-links-title right">לינקים שימושיים</h2>
+        </div>
+        <div class="spacer"></div>
+        <ul class="list">
+            <% for(var i = 0; i < links.length; i++) { %>
+                <li class="row link-container link-1">
+                    <a href="<%=links[i].link%>"><%=links[i].title%></a>
+                </li>
+            <% } %>
+        </ul>
+    </div>
+</aside>
