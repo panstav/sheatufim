@@ -10,24 +10,74 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
         this._super(models.VoteSuggestion);
         this.allowed_methods = ['post'];
         this.fields = {
-            votes_for:null,
             votes_against:null,
-            voter_balance:null
+            voter_balance:null,
+            suggestion_id: null,
         };
+        this.update_fieilds = {
+            suggestion_id: null,
+            balance: null,
+        }
     },
 
     //returns suggestion_
     create_obj: function(req,fields,callback)
     {
         var user = req.user;
+
         var suggestion_id = fields.suggestion_id;
+        var self = this;
+        var agrees;
+        var not_agrees;
+
+        fields.user_id = user.id;
+
 
         async.waterfall([
-            function(cbk){
 
+            function(cbk){
+                models.VoteSuggestion.findOne({suggestion_id: suggestion_id, user_id: user.id}, function(err, vote_obj){
+                    cbk(err, vote_obj);
+                })
             },
 
-        ])
+
+            function(vote, cbk){
+                // if no vote create new one
+                // if exist insert the new vote
+                if (!vote){
+                    self._super(req,fields,cbk);
+                }else {
+                    vote.balance = fields.balance;
+
+                    vote.save(function(err, saved_vote){
+                        cbk(saved_vote);
+                    })
+                }
+            },
+
+            function(vote, cbk){
+                models.VoteSuggestion.find({suggestion_id: suggestion_id}, function(err, votes){
+                    cbk(err, votes);
+                })
+            },
+
+            function(votes, cbk){
+                agrees = _.countBy(votes, function(vote) { vote.balance == 1 });
+                not_agrees = _.countBy(votes, function(vote) { vote.balance == -1 });
+
+                models.Suggestion.update({suggestion_id: suggestion_id}, {$set: {agrees: agrees, not_agrees: not_agrees}},function(err, suggestion){
+                    cbk(err);
+                })
+            }
+        ], function(err){
+
+            callback(err, {
+                    agrees:agrees,
+                    not_agrees:not_agrees,
+                }
+            )
+    })
 
 
         models.VoteSuggestion.findOne({user_id: user.id, suggestion_id: suggestion_id}, function (err, vote_object) {
