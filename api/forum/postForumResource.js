@@ -11,7 +11,6 @@ var Authorization = common.BaseAuthorization.extend({
      * limits discussion query to published discussions that have a subjectId that the user is allowed to view
      */
     limit_object_list: function (req, query, callback) {
-
         var subjectIds = req.user.subjects ? req.user.subjects.map(function(subject) { return subject + '';}) : [];
         query.where('subject_id').in(subjectIds);
         callback(null, query);

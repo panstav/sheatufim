@@ -1,5 +1,6 @@
 var models = require('../../models'),
     async = require('async'),
+    common = require('../account/common'),
     InformationItemResource = require('../../api/InformationItemResource.js'),
     PressItemResource = require('../../api/PressItemResource.js'),
     PostForumResource = require('../../api/forum/postForumResource.js');
@@ -14,6 +15,9 @@ module.exports = function(req,res) {
     var page = req.query.page || 1,
         limit = 10,
         offset = (page - 1) * limit;
+
+    // quick getaway
+    if (!req.user) return res.redirect(common.DEFAULT_LOGIN_REDIRECT);
 
     //get all the needed data for forum page
     async.parallel([
