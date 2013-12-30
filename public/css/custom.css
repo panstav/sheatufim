@@ -4,8 +4,24 @@ body {
  .circle {
     width: 80px;
 }
-.message.primary-message {
+ span.show_all_text {
+     color: #3bafda;
+ }
+span.show_all_text:hover {
+    text-decoration: underline;
+}
+.forum .message.primary-message {
     min-width: 725px;
+}
+.latest_posts .message.primary-message {
+    min-width: 705px;
+}
+.latest_posts a {
+    color: black;
+}
+.latest_posts a.forum_link {
+    color: black;
+    text-decoration: none;
 }
 .message.message-pad-1 {
     min-width: 685px;
