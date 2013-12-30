@@ -1,18 +1,15 @@
 <!DOCTYPE html>
-
 <html>
 <head>
+    <title>זירות שיח</title>
     <% include partials/head.ejs %>
 </head>
 <body>
-<% include partials/body_top.ejs %>
 <div id="wrap">
-    <div id="header">
+    <!-- Header -->
+    <header>
         <% include partials/menu.ejs %>
-        <% include partials/user_box.ejs %>
-        <% include partials/failures.ejs %>
-        <% include partials/tag_search.ejs %>
-    </div>
+    </header>
 
     <!--<div id="content" class="cf" style="background-image: url('/images/about.png'); background-position: center -30px; height: 1300px; padding-bottom:0px;">-->
         <div id="content" class="cf">
@@ -35,7 +32,9 @@
 </div>
 
 
-<% include partials/footer.ejs %>
+<footer>
+    <% include partials/footer.ejs %>
+</footer>
 
 
 <script type="text/javascript">

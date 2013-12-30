@@ -24,10 +24,10 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
     init:function () {
         this._super(models.PostForum);
         this.allowed_methods = ['get', 'post', 'delete'];
-        this.filtering = {subject_id: null};
+        this.filtering = {subject_id: null, parent_id: null};
         this.authorization = new Authorization();
         this.default_query = function (query) {
-            return query.sort({creation_date:'ascending'});
+            return query.sort({creation_date:'descending'});
         };
         this.fields = {
             creator_id : null,
@@ -41,7 +41,10 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             is_my_comment: null,
             parent_id: null,
             user_occupation: null,
-            responses: null
+            responses: null,
+            post_groups: null,
+            count: null,
+            page_posts: null
         };
         this.default_limit = 50;
     },
@@ -75,8 +78,6 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 return !post.parent_id;
             });
 
-            _.chain(new_posts).sortBy('creation_date').reverse();
-
             //group sub_posts by their parents
             var post_groups = _.groupBy(new_posts, function(post){
                 return post.parent_id;
@@ -84,13 +85,20 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
 
 
             //paginate
-            var page_posts = _.first(_.rest(main_posts, offset),limit);
+            var page_posts = main_posts;
+            if(offset)
+                page_posts = _.rest(page_posts, offset);
+            if(limit)
+                page_posts = _.first(page_posts,limit);
+
+
 
             var result = {
                 post_groups: post_groups,
                 count: main_posts.length,
                 page_posts: page_posts
             };
+
             callback(err, result);
         });
     },

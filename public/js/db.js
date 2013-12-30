@@ -698,6 +698,19 @@ var db_functions = {
             error: function () { callback('error'); }
         });
     },
+
+    getLastForumPosts: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/forum_posts/',
+            type: 'GET',
+            data: data,
+            async: true,
+            success: function (data) {
+                callback(null, data);
+            },
+            error: function () { callback('error'); }
+        });
+    },
     
     removeSuggestion: function(suggestion_id, callback){
         db_functions.loggedInAjax({

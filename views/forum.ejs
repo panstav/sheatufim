@@ -40,7 +40,7 @@
                     </div>
                     <!-- Post Body -->
                     <div class="post-body">
-                        <div class="post-new-message">
+                        <div class="post-new-message forum">
                             <div class="post-new-message-head row">
                                 <div class="post-new-message-title right">הוסף הודעה חדשה</div>
                                 <div class="left"><i class="icon icon-box-top-left-tip"></i> </div>
@@ -97,7 +97,7 @@
 
 
                         <!-- Messages -->
-                        <div class="post-messages-container">
+                        <div class="post-messages-container forum">
                             <ul class="main_container">
 
                             </ul>
@@ -152,16 +152,15 @@
             var user = <%- JSON.stringify(user) %>;
             var posts = <%- JSON.stringify(posts) %>;
             var post_groups = <%- JSON.stringify(post_groups) %>;
-            var discussion_image = {};
 
             //render a main post and responses if the post has any recursively
             var render_post = function(type, data, level){
                 dust.render('forum_post', data, function(err, out){
                 if(!err)
                     if(type == 'main')
-                        $('.post-messages-container ul.main_container').prepend(out);
+                        $('.post-messages-container ul.main_container').append(out);
                     else
-                        $('ul.replies-' + data.parent_id).append(out);
+                        $('ul.replies-' + data.parent_id).prepend(out);
                     //check if the post has any responses
                     if(post_groups[data._id] && post_groups[data._id].length > 0) {
                         var child_posts = post_groups[data._id];
