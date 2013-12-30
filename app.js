@@ -24,7 +24,7 @@ var account = require('./routes/account');
 var fb_bot_middleware = require('./routes/fb_bot/middleware');
 
 // ########### Static parameters ###########
-var IS_ADMIN = /admin|staging/.test(process.env['NODE_ENV'] || '');
+var IS_ADMIN = true;
 
 var IS_PROCESS_CRON = (process.argv[2] === 'cron');
 var IS_PROCESS_WEB = !IS_PROCESS_CRON;
@@ -100,26 +100,6 @@ process.on('uncaughtException', function(err) {
     console.error(err.stack);
 });
 
-var proxy = require('./proxy');
-app.use(function (req, res, next) {
-    if(req.headers['host'].indexOf('test.uru.org.il') > -1){
-        proxy(req,res);
-        return;
-    }
-    var d = domain.create();
-    d.add(req);
-    d.add(res);
-    d.on('error', function (err) {
-        console.error("#### domain exception ####\n%s\n#### end ####", err.stack || err);
-        try {
-            res.send(500, err.stack || err);
-        } catch (e) {
-            res.end();
-        }
-    });
-    d.enter();
-    next();
-});
 // ######### error handling #########
 
 // ######### general middleware #########
@@ -219,8 +199,15 @@ app.locals({
 
 // ######### environment specific settings #########
 app.configure('development', function(){
-    require('./admin')(app);
     app.set('send_mails', true);
+});
+
+app.configure('production',function(){
+    app.use(function (req, res, next) {
+        if(req.headers['host'] == 'sheatufim-roundtable.org.il')
+            return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
+        next();
+    });
 });
 
 if (IS_ADMIN) {
@@ -235,7 +222,7 @@ if (IS_PROCESS_WEB) {
     require('./api/common');
 }
 
-if (app.settings.send_mails) {
+if (app.get('send_mails')) {
     require('./lib/mail').load(app);
 }
 
@@ -279,3 +266,8 @@ require('https').createServer({key: privateKey, cert: certificate},app).listen(4
 	console.log('Listening on 443');
 });
 
+// Redirect http to https
+// require('http').createServer(function(req,res){
+//    var url = req.url;
+//    res.redirect('https://' + req.headers['host'] + req.url);
+//}).listen(app.get('port'));
