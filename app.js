@@ -279,3 +279,8 @@ require('https').createServer({key: privateKey, cert: certificate},app).listen(4
 	console.log('Listening on 443');
 });
 
+// Redirect http to https
+// require('http').createServer(function(req,res){
+//    var url = req.url;
+//    res.redirect(url.replace('http://','https://'));
+//}).listen(app.get('port'));
