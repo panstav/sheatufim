@@ -204,8 +204,8 @@ app.configure('development', function(){
 
 app.configure('production',function(){
     app.use(function (req, res, next) {
-        if(req.headers['host'].indexOf('www.') == -1)
-            return res.redirect('http://www.' + req.headers['host'] + req.url);
+        if(req.headers['host'] == 'sheatufim-roundtable.org.il')
+            return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
         next();
     });
 });
