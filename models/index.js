@@ -8,7 +8,6 @@ var mongoose = require("mongoose"),
 
 
 var Schemas = exports.Schemas = {
-
     //this is for share your information cart
     information_group:{
         information_items:[
@@ -49,15 +48,6 @@ var Schemas = exports.Schemas = {
         gui_order:{type:Number, 'default':9999999, editable:false},
         is_hidden:{type:Boolean, 'default':true}
     }, {strict:true})),
-
-//    //cycle opinion_shapers
-//    OpinionShaper: new Schema({
-//        user_id:{type:ObjectId, ref:'User', required:true},
-//        cycle_id: {type: ObjectId, ref: 'Cycle', required:true},
-//        text: String
-//    }, {strict: true}),
-
-
 
     Vote:{
         user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
@@ -207,7 +197,13 @@ var Schemas = exports.Schemas = {
         popularity:{type:Number, 'default':0, select:false}
     },
 
-    GamificationTokens: {
+    /*General: {
+        welcome_pre_title:{type:String, required:true},
+        welcome_title:{type:String, required:true},
+        text: {type:String, required:true}
+    },*/
+
+    /*GamificationTokens: {
         create_discussion:{type:Number, 'default':3},
         create_action:{type:Number, 'default':0},
         post_on_discussion:{type:Number, 'default':0},
@@ -236,7 +232,7 @@ var Schemas = exports.Schemas = {
         discussion_high_graded_by_min_of_X_people:{type:Number, 'default':1000000},
         spend_tokens_for_X_days_in_a_row:{type:Number, 'default':1000000}
     },
-
+*/
     ThresholdCalcVariables:{
         MIN_THRESH:{type:Number, 'default':2},
         MAX_THRESH:{type:Number, 'default':500},
@@ -245,7 +241,7 @@ var Schemas = exports.Schemas = {
         SCALE_PARAM:{type:Number, 'default':1.6}
     },
 
-    AboutUruText:utils.revertibleModel(new Schema({
+    About:utils.revertibleModel(new Schema({
         title:{type:String, required:true},
         text_field:{type:Schema.Types.Html, required:true},
         is_hidden:{type:Boolean, 'default':true},
@@ -370,7 +366,7 @@ var Models = module.exports = {
     FBRequest:mongoose.model('FBRequest', require('./fb_request')),
     ResourceObligation:mongoose.model('ResourceObligation', new Schema(Schemas.ResourceObligation, {strict:true})),
     Notification:mongoose.model('Notification', new Schema(Schemas.Notification, {strict:true})),
-    AboutUruText:mongoose.model('AboutUruText', Schemas.AboutUruText),
+    About:mongoose.model('About', Schemas.About),
     AboutUruItem:mongoose.model('AboutUruItem', Schemas.AboutUruItem),
     Team:mongoose.model('Team', Schemas.Team),
     Founder:mongoose.model('Founder', Schemas.Founder),
@@ -382,7 +378,8 @@ var Models = module.exports = {
     ImageUpload:mongoose.model('ImageUpload', require('./image_upload')),
 
     FooterLink:mongoose.model('FooterLink', require('./footer_link')),
-    GamificationTokens:utils.config_model('GamificationTokens', Schemas.GamificationTokens),
+/*    GamificationTokens:utils.config_model('GamificationTokens', Schemas.GamificationTokens),*/
+    General:mongoose.model('General', require('./general')),
 
     DailyDiscussion:mongoose.model('DailyDiscussion', new Schema(Schemas.DailyDiscussion, {strict:true})),
 
@@ -402,6 +399,7 @@ var Models = module.exports = {
     }
 };
 
-Models.GamificationTokens.get = function() {};
+/*Models.GamificationTokens.get = function() {};*/
+Models.General.get = function() {};
 
 mongoose.connection.collections.notifications.ensureIndex({ entity_id:1, user_id:1, type:1 }, { unique:true, dropDups:true }, console.log);

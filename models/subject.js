@@ -9,10 +9,12 @@ var Subject  = module.exports = new Schema({
     description: {type:Schema.Types.Text},
     text_field_preview:{type:Schema.Types.Text},
     image_field:Schema.Types.File,
-        tags:[String],
-        gui_order: {type:Number,'default':9999999, editable:false},
+    cover_image_field:Schema.Types.File,
+    tags:[String],
+    gui_order: {type:Number,'default':9999999, editable:false},
     is_hot_object: {type:Boolean,'default':false},
-    is_uru:{type:Boolean,'default':false}
+    is_uru:{type:Boolean,'default':false},
+    hidden_subject: {type:Boolean,'default':false}
 
 }, {strict: true});
 
