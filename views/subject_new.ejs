@@ -121,6 +121,24 @@
                var text = $(e.target).closest('.message-content').data('text');
                $(e.target).closest('.message-content').html(text);
            });
+           function createDiscussionsQuery(){
+//               var sortby=  $('#sorting_select').find(':selected').data('sortby');
+//               var query='order_by='+sortby;
+
+               var query = '';
+
+               query =query+'&subject_id='+subject;
+
+               query = query+'&is_private='+false;
+               //     query = query+'&is_private__ne='+true;
+               return query;
+           }
+
+           function loadDiscussionsListToPage(){
+               var query = createDiscussionsQuery();
+               listCommon.reloadList('discussions_list','discussions','discussion_list_item_new',query);
+           }
+           loadDiscussionsListToPage();
 
        });
     </script>

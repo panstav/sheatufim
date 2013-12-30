@@ -1,0 +1,53 @@
+<li class="row-table document-{_id}" data-id="{_id}">
+    <a href="/discussions/{_id}">
+        <div class="document primary-document">
+        <i class="icon icon-document-item-tip"></i>
+        <div class="document-text right">
+            <div class="row document-text-header">
+                <div class="document-name right">{title}</div>
+                <div class="document-bar row">
+                    <div class="document-datetime right">תאריך:</div>
+                    <div class="document-datetime-value right">{creation_date|time}</div>
+                    <div class="document-pipeline right">|</div>
+                    <div class="document-participants right">משתתפים:</div>
+                    <div class="document-participants-value right">{participants_count}</div>
+                    <div class="document-pipeline right">|</div>
+                    <div class="document-produced right">נוצר ע"י: </div>
+                    <div class="document-produced-value right">{creator_id.name}</div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="row">
+                <div class="document-content right">{text_field_preview|s}</div>
+            </div>
+        </div>
+        <div class="document-work-time right">
+            <i class="icon icon-box-top-left-tip"></i>
+            <div class="row">
+                <div class="document-work-time-title">זמן עבודה</div>
+            </div>
+            <div class="row">
+                <div class="document-work-time-days left">
+                    <div class="document-work-time-value document-work-time-days">99</div>
+                    <div class="document-work-time-tag">ימים</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-hours left">
+                    <div class="document-work-time-value document-work-time-hours">23</div>
+                    <div class="document-work-time-tag">שעות</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-minutes left">
+                    <div class="document-work-time-value document-work-time-minutes">59</div>
+                    <div class="document-work-time-tag">דקות</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-seconds left">
+                    <div class="document-work-time-value document-work-time-seconds">59</div>
+                    <div class="document-work-time-tag">שניות</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </a>
+</li>
