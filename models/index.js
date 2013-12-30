@@ -8,7 +8,6 @@ var mongoose = require("mongoose"),
 
 
 var Schemas = exports.Schemas = {
-
     //this is for share your information cart
     information_group:{
         information_items:[
@@ -49,15 +48,6 @@ var Schemas = exports.Schemas = {
         gui_order:{type:Number, 'default':9999999, editable:false},
         is_hidden:{type:Boolean, 'default':true}
     }, {strict:true})),
-
-//    //cycle opinion_shapers
-//    OpinionShaper: new Schema({
-//        user_id:{type:ObjectId, ref:'User', required:true},
-//        cycle_id: {type: ObjectId, ref: 'Cycle', required:true},
-//        text: String
-//    }, {strict: true}),
-
-
 
     Vote:{
         user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
@@ -207,7 +197,13 @@ var Schemas = exports.Schemas = {
         popularity:{type:Number, 'default':0, select:false}
     },
 
-    GamificationTokens: {
+    /*General: {
+        welcome_pre_title:{type:String, required:true},
+        welcome_title:{type:String, required:true},
+        text: {type:String, required:true}
+    },*/
+
+    /*GamificationTokens: {
         create_discussion:{type:Number, 'default':3},
         create_action:{type:Number, 'default':0},
         post_on_discussion:{type:Number, 'default':0},
@@ -236,7 +232,7 @@ var Schemas = exports.Schemas = {
         discussion_high_graded_by_min_of_X_people:{type:Number, 'default':1000000},
         spend_tokens_for_X_days_in_a_row:{type:Number, 'default':1000000}
     },
-
+*/
     ThresholdCalcVariables:{
         MIN_THRESH:{type:Number, 'default':2},
         MAX_THRESH:{type:Number, 'default':500},
@@ -382,7 +378,8 @@ var Models = module.exports = {
     ImageUpload:mongoose.model('ImageUpload', require('./image_upload')),
 
     FooterLink:mongoose.model('FooterLink', require('./footer_link')),
-    GamificationTokens:utils.config_model('GamificationTokens', Schemas.GamificationTokens),
+/*    GamificationTokens:utils.config_model('GamificationTokens', Schemas.GamificationTokens),*/
+    General:mongoose.model('General', require('./general')),
 
     DailyDiscussion:mongoose.model('DailyDiscussion', new Schema(Schemas.DailyDiscussion, {strict:true})),
 
@@ -402,6 +399,7 @@ var Models = module.exports = {
     }
 };
 
-Models.GamificationTokens.get = function() {};
+/*Models.GamificationTokens.get = function() {};*/
+Models.General.get = function() {};
 
 mongoose.connection.collections.notifications.ensureIndex({ entity_id:1, user_id:1, type:1 }, { unique:true, dropDups:true }, console.log);

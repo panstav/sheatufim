@@ -33,7 +33,7 @@ config.SMTPPassword = process.env.SMTP_PASSWORD || 'uruuru11';
 
 
 
-config.DB_URL = process.env['MONGOLAB_URI'] || 'mongodb://localhost/sheatufim';
+config.DB_URL = process.env['MONGOLAB_URI'] || 'mongodb://localhost/idemos';
 config.ROOT_PATH = process.env.ROOT_PATH || 'http://dev.empeeric.com';
 
 

@@ -160,6 +160,10 @@ app.locals({
         });
         return ret;
     },
+    general_stuff: function(){
+        var general_shit = mongoose.model('General').getGeneral();
+        return general_shit.text;
+    },
     cleanHtml: function (html) { return (html || '').replace(/<[^>]*?>/g, '').replace(/\[[^\]]*?]/g, '');},
     fb_description: config.fb_general_params.fb_description,
     fb_title: config.fb_general_params.fb_title,
@@ -240,10 +244,10 @@ if (IS_PROCESS_WEB) {
         },
 
         function (cbk) {
-            mongoose.model('GamificationTokens').findOne(cbk);
+            mongoose.model('General').load(cbk);
         }
-    ], function (err, gamification) {
-        app.set('gamification_tokens', gamification);
+    ], function (err, general) {
+//        app.set('general', general);
         console.log('listening on port ',app.get('port'));
         var server = app.listen(app.get('port'), function (err) {
             if (err) {

@@ -109,7 +109,7 @@ module.exports = function(app)
     rest_api.register_resource('user_invited_friends', new UserInviteFriendsResource());
 
     rest_api.register_resource('about_uru_texts', new AboutUruTextResource());
-    rest_api.register_resource('about_uru_items', new AboutUruItemResource());
+        rest_api.register_resource('about_uru_items', new AboutUruItemResource());
     rest_api.register_resource('team', new TeamResource());
     rest_api.register_resource('founders', new FounderResource());
     rest_api.register_resource('user_helps_action', new BringResourceResource());

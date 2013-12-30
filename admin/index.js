@@ -60,6 +60,15 @@ module.exports = function (app) {
         });
     };
 
+   /* admin.registerSingleRowModel(Models.GamificationTokens, 'GamificationTokens', {
+            form:GamificationForm}
+    );*/
+    admin.registerSingleRowModel( Models.General, "General", {
+        list:['title'],
+        order_by:['gui_order'],
+        sortable:'gui_order',
+    });
+
     admin.registerMongooseModel("Subject", Models.Subject, null, {
         list:['name'],
         order_by:['gui_order'],
