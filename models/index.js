@@ -245,7 +245,7 @@ var Schemas = exports.Schemas = {
         SCALE_PARAM:{type:Number, 'default':1.6}
     },
 
-    AboutUruText:utils.revertibleModel(new Schema({
+    About:utils.revertibleModel(new Schema({
         title:{type:String, required:true},
         text_field:{type:Schema.Types.Html, required:true},
         is_hidden:{type:Boolean, 'default':true},
@@ -370,7 +370,7 @@ var Models = module.exports = {
     FBRequest:mongoose.model('FBRequest', require('./fb_request')),
     ResourceObligation:mongoose.model('ResourceObligation', new Schema(Schemas.ResourceObligation, {strict:true})),
     Notification:mongoose.model('Notification', new Schema(Schemas.Notification, {strict:true})),
-    AboutUruText:mongoose.model('AboutUruText', Schemas.AboutUruText),
+    About:mongoose.model('About', Schemas.About),
     AboutUruItem:mongoose.model('AboutUruItem', Schemas.AboutUruItem),
     Team:mongoose.model('Team', Schemas.Team),
     Founder:mongoose.model('Founder', Schemas.Founder),

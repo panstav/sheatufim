@@ -67,14 +67,6 @@ module.exports = function (app) {
         search:['name', 'description', 'text_field_preview']
     });
 
-    admin.registerMongooseModel('Headline', Models.Headline, null, {
-        list:['title'],
-        search:['title', 'text_field'],
-        actions:[
-      //      previewAction(Models.Headline)
-        ]
-    });
-
     admin.registerMongooseModel("User", Models.User, null, {
         form:UserForm,
         list:['first_name', 'last_name','email'],
@@ -182,94 +174,17 @@ module.exports = function (app) {
         hideFromMain:true
     });
 
-   /* admin.registerMongooseModel("Cycle", Models.Cycle, null, {
-        list:['title'],
-        cloneable:true,
-        form:CycleForm,
-        search:['title', 'text_item_preview'],
-        subCollections:[
-            {model:'InformationItem', field:'cycles', label:'Information Items'},
-            {model:'Action', field:'cycle_id.cycle', label:'Actions'}
-        ],
-        actions:[
-         //   previewAction(Models.Cycle)
-        ]
-        // filters: ['created_by', 'is_hidden', 'is_hot_object']
-    });
-*/
-   /* admin.registerMongooseModel('Update', Models.Update, null, {
-        list:['title'],
-        form:IdkunimForm,
-        search:['title', 'text_field_preview']
-    });
-*/
-    /*admin.registerMongooseModel('Action', Models.Action, null, {
-        form:ActionForm,
-        list:['title'],
-        actions:[
-            {
-                value:'approve',
-                label:'Approve',
-                func:function (user, ids, callback) {
-                    async.forEach(ids, function (id, cbk) {
-                        ActionResource.approveAction(id, cbk);
-                    }, callback);
-                }
-            },
-            {
-                value:'un approve',
-                label:'Un - Approve',
-                func:function (user, ids, callback) {
-                    async.forEach(ids, function (id, cbk) {
-                        unApproveAction(id, cbk);
-                    }, callback);
-                }
-            }
-        ],
-        search:['title', 'text_field_preview']
-    });*/
-
-    /*admin.registerMongooseModel('ActionResource', Models.ActionResource, null, {
-        list:['name', 'category'],
-        search:['name']
-    });
-*/
-    /*admin.registerMongooseModel('PostAction', Models.PostAction, null, {
-        list:['text', 'username', 'discussion_id.title'],
-        list_populate:['discussion_id'],
-        order_by:['-creation_date'],
-        search:['text', 'first_name', 'last_name']
-
-        //filters: ['discussion_id', 'creator_id']
-    });
-*/
-
-
-    admin.registerMongooseModel("DiscussionHistory", Models.DiscussionHistory, null, {
-        list:['discussion_id', 'date'],
-        cloneable:true,
-        filters:['discussion_id']
-    });
-
-    admin.registerMongooseModel('Category', Models.Category, null, {
+   /* admin.registerMongooseModel('Category', Models.Category, null, {
         list:['name']
     });
-
-    admin.registerMongooseModel('AboutUruText', Models.AboutUruText, null, {
+   */
+    admin.registerMongooseModel('About', Models.About, null, {
         list:['title'],
         actions:[
-            //previewAction(Models.AboutUruText)
         ]
     });
 
-    admin.registerMongooseModel('AboutUruItem', Models.AboutUruItem, null, {
-        list:['text_field'],
-        actions:[
-           // previewAction(Models.AboutUruItem)
-        ]
-    });
-
-    admin.registerMongooseModel('Team', Models.Team, null, {
+    /*admin.registerMongooseModel('Team', Models.Team, null, {
         list:['name'],
         cloneable:true,
         actions:[
@@ -303,7 +218,7 @@ module.exports = function (app) {
 
     admin.registerMongooseModel('ImageUpload', Models.ImageUpload, null, {
         list:['image.url']
-    });
+    });*/
 
     admin.registerAdminUserModel();
 };

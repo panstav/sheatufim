@@ -12,7 +12,7 @@ models = require('../models'),
 var AboutUruTextResource = module.exports = common.BaseModelResource.extend(
     {
         init:function () {
-            this._super(models.AboutUruText);
+            this._super(models.About);
             this.allowed_methods = ['get'];
 
         }
