@@ -80,12 +80,12 @@
             query = query+'&is_private='+false;
        //     query = query+'&is_private__ne='+true;
             return query;
-        }
+        };
 
         function loadDiscussionsListToPage(){
             var query = createDiscussionsQuery();
             listCommon.reloadList('discussions_list','discussions','discussion_list_item',query);
-        }
+        };
 
         $('#discussions_list').on('click','.join_button',function(e){
 

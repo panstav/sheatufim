@@ -1,5 +1,9 @@
 
-window.console || (window.console = { log: function(str) { }, error: function(str) { }})
+window.console || (window.console = { log: function(str) { }, error: function(str) { }});
+
+dust.filters['date'] = function(a){
+    return new Date(a).format('dd.mm.yy');
+};
 
 dust.filters['time'] = function(a){
    // console.log(a);
@@ -12,6 +16,13 @@ dust.filters['time'] = function(a){
     var time = hours + ":" + minutes;
 
     return date + " " + time;
+};
+
+dust.filters['truncate'] = function(a){
+    return a.substring(0, 140) + '...';
+};
+dust.filters['truncate_short'] = function(a){
+    return a.substring(0, 45) + '...';
 };
 
 dust.filters['time_only'] = function(a){
@@ -28,9 +39,9 @@ dust.filters['round'] = function(num){
     return Math.round(num);
 };
 
-dust.filters['date'] = function(a){
-    return $.datepicker.formatDate('dd.mm.yy', new Date(Date.parse(a)));
-};
+//dust.filters['date'] = function(a){
+//    return $.datepicker.formatDate('dd.mm.yy', new Date(Date.parse(a)));
+//};
 
 dust.filters['date_short'] = function(a){
     return $.datepicker.formatDate('d.m', new Date(Date.parse(a)));

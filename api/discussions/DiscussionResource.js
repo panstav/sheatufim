@@ -19,7 +19,7 @@ var Authorization = common.BaseAuthorization.extend({
         var subjectIds = req.user.subjects ? req.user.subjects.map(function(subject) { return subject + '';}) : [];
         query.where('subject_id').in(subjectIds);
         if (req.method == "GET") {
-                query.where('is_published', true);
+                query.where('is_published', true).populate('creator_id');
                 return callback(null, query);
         }
         callback(null, query);

@@ -19,7 +19,9 @@ var listCommon = (function(){
                         {
                             return encodeURIComponent(elm.get_link());
                         }
+
                     });
+
                     dust.renderArray(template_name,data.objects,null,function(err,out)
                     {
                         jqueryContainer.append(out);

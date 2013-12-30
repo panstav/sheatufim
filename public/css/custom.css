@@ -13,6 +13,13 @@ span.show_all_text:hover {
 .forum .message.primary-message {
     min-width: 725px;
 }
+.forum .message.primary-message .message-text{
+    min-width: 595px;
+}
+
+.latest_posts .message.primary-message .message-text{
+    min-width: 598px;
+}
 .latest_posts .message.primary-message {
     min-width: 705px;
 }
@@ -26,14 +33,23 @@ span.show_all_text:hover {
 .message.message-pad-1 {
     min-width: 685px;
 }
+.message.message-pad-1 .message-text{
+    min-width: 575px;
+}
 
  .message.message-pad-2 {
      min-width: 665px;
  }
+.message.message-pad-2 .message-text{
+    min-width: 555px;
+}
 
  .message.message-pad-3 {
      min-width: 645px;
  }
+.message.message-pad-3 .message-text{
+    min-width: 535px;
+}
 
  li.arrow a.disabled i:hover,
  li.arrow a.disabled:hover{
@@ -59,5 +75,8 @@ ul.list li.link-container a:hover {
 
 .post-header .post-image img {
     position: static;
+}
+#discussions_list a {
+    color: black;
 }
 

@@ -33,7 +33,7 @@
                             <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="<%=subject.name%>" title="<%=subject.name%>"/>
                         </div>
                         <div class="left post-headerbox">
-                            <h1 class="post-title">חברה אזרחית והלאה בשתי שורות ארוכות</h1>
+                            <h1 class="post-title"><%=subject.name%></h1>
                             <div class="row">
                                 <a href="/">
                                     <div class="right link-home">
@@ -122,15 +122,14 @@
                $(e.target).closest('.message-content').html(text);
            });
            function createDiscussionsQuery(){
-//               var sortby=  $('#sorting_select').find(':selected').data('sortby');
-//               var query='order_by='+sortby;
+//             var sortby=  $('#sorting_select').find(':selected').data('sortby');
+//             var query='order_by='+sortby;
 
                var query = '';
 
-               query =query+'&subject_id='+subject;
-
-               query = query+'&is_private='+false;
-               //     query = query+'&is_private__ne='+true;
+               query = query+'&subject_id='+subject;
+//             query = query+'&is_private='+false;
+//             query = query+'&is_private__ne='+true;
                return query;
            }
 
