@@ -175,7 +175,7 @@ app.locals({
 
 app.locals({
     writeHead: function(name) {
-        var isDev = app.settings.env == 'development' || app.settings.env == 'staging';
+        var isDev = true/*app.settings.env == 'development' || app.settings.env == 'staging'*/;
         function headFromSrc(src, type) {
             switch (type) {
                 case 'js':
