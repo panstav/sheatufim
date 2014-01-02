@@ -23,7 +23,7 @@ var RegexValidator = function (regex) {
 var User = module.exports = new Schema({
 
     //this is for validation
-    is_activated: {type: Boolean, 'default': false},
+    is_activated: {type: Boolean, 'default': true},
     is_suspended: {type: Boolean, 'default': false},
     identity_provider:{type:String, "enum":['facebook', 'register'], 'default': 'register'},
     facebook_id: {type: String, editable:false},

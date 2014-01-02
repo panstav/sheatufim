@@ -27,6 +27,7 @@ General.statics.getGeneral = function() {
 };
 
 General.pre('save',function(next) {
-    mongoose.model('General').load();
+    link = this;
+    /*mongoose.model('General').load();*/
     next();
 });
