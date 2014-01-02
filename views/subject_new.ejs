@@ -76,7 +76,7 @@
        $(document).ready(function () {
            var subject = '<%= subject._id %>';
            var is_logged = <%= user_logged %>;
-           var user = <%- JSON.stringify(user) %>;
+           var user = <%- JSON.stringify(user || "") %>;
 
            var data = {
                subject_id: subject,

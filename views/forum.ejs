@@ -149,7 +149,7 @@
         $(document).ready(function () {
             var subject = '<%= subject._id %>';
             var is_logged = <%= user_logged %>;
-            var user = <%- JSON.stringify(user) %>;
+            var user = <%- JSON.stringify(user || '') %>;
             var posts = <%- JSON.stringify(posts) %>;
             var post_groups = <%- JSON.stringify(post_groups) %>;
 
