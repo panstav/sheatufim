@@ -64,37 +64,9 @@
                             <div class="right pagination-title right">הודעות</div>
                             <div class="right pagination-stats right">עמוד <span class="pagination-current"><%=page%></span> מתוך <span class="pagination-total"><%=Math.ceil(count / 10)%></span></div>
                             <div class="right pagination-pages left">
-                                <ul class="inline-list">
-                                    <li class="arrow">
-                                        <% if(next > Math.ceil(count / 10)) { %>
-                                        <a href="?page=<%=next%>" class="disabled">
-                                        <% } else { %>
-                                        <a href="?page=<%=next%>">
-                                        <% } %>
-                                            <i class="icon icon-arrow-right"></i>
-                                        </a>
-                                    </li>
-                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
-                                        <% if(page == p) { %>
-                                        <li class="pagination-current-page">
-                                        <% } else { %>
-                                        <li>
-                                        <% } %>
-                                            <a href="?page=<%=p%>"><%=p%></a>
-                                        </li>
-                                    <% } %>
-                                    <li class="arrow">
-                                    <% if(prev < 1) { %>
-                                    <a href="?page=<%=prev%>" class="disabled">
-                                    <% } else { %>
-                                    <a href="?page=<%=prev%>">
-                                    <% } %>
-                                        <i class="icon icon-arrow-left"></i>
-                                    </a>
-                                </ul>
+                                <% include partials/pagination.ejs %>
                             </div>
                         </div>
-
 
                         <!-- Messages -->
                         <div class="post-messages-container forum">
@@ -105,34 +77,7 @@
                         <!-- Pagination -->
                         <div class="pagination-container row">
                             <div class="right pagination-pages left">
-                                <ul class="inline-list">
-                                    <li class="arrow">
-                                        <% if(next > Math.ceil(count / 10)) { %>
-                                        <a href="?page=<%=next%>" class="disabled">
-                                        <% } else { %>
-                                        <a href="?page=<%=next%>">
-                                        <% } %>
-                                            <i class="icon icon-arrow-right"></i>
-                                        </a>
-                                    </li>
-                                    <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
-                                        <% if(page == p) { %>
-                                        <li class="pagination-current-page">
-                                        <% } else { %>
-                                        <li>
-                                        <% } %>
-                                            <a href="?page=<%=p%>"><%=p%></a>
-                                        </li>
-                                    <% } %>
-                                    <li class="arrow">
-                                    <% if(prev < 1) { %>
-                                    <a href="?page=<%=prev%>" class="disabled">
-                                    <% } else { %>
-                                    <a href="?page=<%=prev%>">
-                                    <% } %>
-                                        <i class="icon icon-arrow-left"></i>
-                                    </a>
-                                </ul>
+                                <% include partials/pagination.ejs %>
                             </div>
                         </div>
                     </div>
@@ -182,7 +127,6 @@
             };
             var init = function() {
                 $.each(posts, function(i, post){
-
                      post.time = new Date(post.creation_date).format('dd.mm.yyyy');
                      post.date = new Date(post.creation_date).format('HH:MM');
                      post.level = 0;
@@ -192,7 +136,6 @@
                      post.hidden = true;
                      post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                      render_post('main', post, 0);
-
                 });
             };
 
@@ -200,17 +143,15 @@
 
             //create new post and render it on post button click
             $('.create_post').on('click', function(){
-                console.log('here');
                 var text = $('.new_post .post-new-message-body-text textarea').val();
                 if(!text) {
                     //show error message?
                 } else if(is_logged) {
-                    console.log(user);
                     var data = {
                         text: text,
                         creator_id: user._id,
                         subject_id: subject
-                    }
+                    };
                     db_functions.createForumPost(data, function(data){
                          data.time = new Date(data.creation_date).format('dd.mm.yyyy');
                          data.date = new Date(data.creation_date).format('HH:MM');
@@ -230,20 +171,28 @@
 
             //create and render post response
             $('.main_container').on('click', '.create_secondary_post', function(e){
-                var $parent_post = $(e.target).closest('li')
-                var parent_id = $parent_post.data('id');
+                var $parent_post = $(e.target).closest('li');
                 var parent_level = $parent_post.data('level');
-                var text = $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val();
+                var orig_parent_id = '';
+
+                // check if this is a message on level 4, so that the comment will actually be added to its parent
+                if(parent_level == 3) {
+                    orig_parent_id = $parent_post.data('id');
+                    $parent_post = $(e.target).closest('li').closest('ul').closest('li');
+                    parent_level = $parent_post.data('level');
+                }
+                var parent_id = $parent_post.data('id');
+
+                var text = $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val();
                 if(!text) {
                     //show error message?
                 } else if(is_logged) {
-                    console.log(user);
                     var data = {
                         parent_id: parent_id,
                         text: text,
                         creator_id: user._id,
-                        subject_id: subject,
-                    }
+                        subject_id: subject
+                    };
                     db_functions.createForumPost(data, function(data){
                          data.time = new Date(data.creation_date).format('dd.mm.yyyy');
                          data.date = new Date(data.creation_date).format('HH:MM');
@@ -256,8 +205,8 @@
                          dust.render('forum_post', data, function(err, out){
                             if(!err){
                                 $('ul.replies-' + parent_id).append(out);
-                                $('.reply-to-message-' + parent_id + ' .post-new-message-body-text textarea').val("");
-                                $('.reply-to-message-' + parent_id + ' .icon-close').click();
+                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val("");
+                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .icon-close').click();
 
                                 var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
                                 if($primary_message.hasClass('message-closed')) {

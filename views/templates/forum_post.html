@@ -3,80 +3,85 @@
         <div class="message message-pad-{level}">
             <i class="icon icon-box-top-right-gray-tip"></i>
     {:else}
-    {?closed}
-        <div class="message primary-message">
-            <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
+        {?closed}
+            <div class="message primary-message">
+                <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
 
-    {:else}
-        <div class="message primary-message message-closed">
-            <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
-    {/closed}
+        {:else}
+            <div class="message primary-message message-closed">
+                <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
+        {/closed}
     {/parent_id}
-                <div class="message-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">{user.first_name} {user.last_name}{?username}{username}{/username}</div>
-                        <div class="message-author-role right">{user.occupation}{?user_occupation}{user_occupation}{/user_occupation}</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right" data-text="{text}">
-                            {?text_short}
-                                {text_short}<span class="show_all_text">קרא עוד</span>
-                            {:else}
-                                {text}
-                            {/text_short}
-                        </div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">{date} | {time}</div>
-                        {?last}
-                        {:else}
-                        <div class="message-replies right" data-replies="{replies}">{replies} תגובות
-                        </div>
-                        {?closed}
-                        {:else}
-                        <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
-                            <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
-                        </div>
-                        {/closed}
-                        {/last}
-                        <div class="message-attachment left"></div>
-                    </div>
-                </div>
-            {?parent_id}
+        <div class="message-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
+        <div class="message-text">
+            <div class="row message-text-header">
+                <div class="message-author right">{user.first_name} {user.last_name}{?username}{username}{/username}</div>
+                <div class="message-author-role right">{user.occupation}{?user_occupation}{user_occupation}{/user_occupation}</div>
+            </div>
+            <div class="row">
+                <div class="message-content right" data-text="{text}">
+                    {?text_short}
+                        {text_short}<span class="show_all_text">קרא עוד</span>
+                    {:else}
+                        {text}
+                    {/text_short}
                 </div>
             </div>
-            {:else}
-                {?closed}                    </a>
-
-                    </div>
-                {:else}
-                    </div>
+            <div class="spacer"></div>
+            <div class="message-bar row">
+                <div class="message-datetime right">{date} | {time}</div>
+                {?last}
+                <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
+                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
                 </div>
-                {/closed}
-            {/parent_id}
-        {?last}
-    {:else}
-    <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-message-{_id} message-pad-{reply_level}">
-            <i class="icon icon-box-top-right-blue-tip"></i>
-            <i class="icon icon-close hand" onclick="closeReply('message-{_id}');"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                <div class="post-new-message-body-actions">
-                    <div class="row">
-                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+                {:else}
+                {^parent_id}
+                <a href="javascript:;" onclick="toggleMessage('message-{_id}');">
+                {/parent_id}
+                <div class="message-replies right" data-replies="{replies}">{replies} תגובות</div>
+                {^parent_id}
+                </a>
+                {/parent_id}
+                    {^closed}
+                    <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
+                        <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
                     </div>
-                    <div class="row">
-                        <button class="btn btn-medium btn-green create_secondary_post">פרסם</button>
+                    {/closed}
+                {/last}
+                <div class="message-attachment left"></div>
+            </div>
+        </div>
+        {?parent_id}
+            </div>
+        </div>
+        {:else}
+            {?closed}
+                </a>
+            </div>
+            {:else}
+                </div>
+            </div>
+            {/closed}
+        {/parent_id}
+        <div class="reply-to-message row hide">
+            <div class="post-new-reply reply-to-message-{_id} message-pad-{reply_level}">
+                <i class="icon icon-box-top-right-blue-tip"></i>
+                <i class="icon icon-close hand" onclick="closeReply('message-{_id}');"></i>
+                <div class="post-new-message-body">
+                    <div class="post-new-message-body-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
+                    <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
+                    <div class="post-new-message-body-actions">
+                        <div class="row">
+                            <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+                        </div>
+                        <div class="row">
+                            <button class="btn btn-medium btn-green create_secondary_post">פרסם</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <ul class="replies-{_id} {?hidden}hide{/hidden}"></ul>
+    {^last}
+        <ul class="replies-{_id} {?hidden}hide{/hidden}"></ul>
     {/last}
-
 </li>

@@ -1,0 +1,31 @@
+<%if(Math.ceil(count / 10) != 1) {%>
+    <ul class="inline-list">
+        <li class="arrow">
+            <% if(next > Math.ceil(count / 10)) { %>
+            <a href="?page=<%=next%>" class="disabled">
+                <% } else { %>
+                <a href="?page=<%=next%>">
+                    <% } %>
+                    <i class="icon icon-arrow-right"></i>
+                </a>
+        </li>
+        <% for(var i = count, p = Math.ceil(count / 10); i > 0; i -= 10, p--) { %>
+        <% if(page == p) { %>
+        <li class="pagination-current-page">
+            <% } else { %>
+        <li>
+            <% } %>
+            <a href="?page=<%=p%>"><%=p%></a>
+        </li>
+        <% } %>
+        <li class="arrow">
+            <% if(prev < 1) { %>
+                <a href="?page=<%=prev%>" class="disabled">
+            <% } else { %>
+                <a href="?page=<%=prev%>">
+            <% } %>
+                <i class="icon icon-arrow-left"></i>
+            </a>
+        </li>
+    </ul>
+<%}%>

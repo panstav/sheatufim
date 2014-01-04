@@ -34,13 +34,11 @@ module.exports = function(req,res) {
 
         function(cbk){
             information_item_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 3, 0, function(err, information_items){
-                console.log(information_items);
                 cbk(err, information_items);
             });
         },
         function(cbk){
             links_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 6, 0, function(err, link_items){
-                console.log(link_items);
                 cbk(err, link_items);
             });
         }
