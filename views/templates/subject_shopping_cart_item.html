@@ -1,0 +1,8 @@
+{?attachment}
+    <li class="row basket-item-container basket-item-{_index}">
+        <i class="icon icon-basket-item-tip"></i>
+        <div class="basket-item right">{title}</div>
+        <a href="{attachment.url}" download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}"><div class="basket-item-download left">
+            <i class="icon icon-small-pad-left icon-download right"></i>הורדה</div></a>
+    </li>
+{/attachment}

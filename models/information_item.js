@@ -19,6 +19,7 @@ var InformationItem = module.exports = utils.revertibleModel(new Schema({
     text_field_preview:{type:Schema.Types.Html},
     image_field: {type:Schema.Types.File,required:true},
     image_field_preview: {type:Schema.Types.File},
+    attachment:{type:Schema.Types.File},
     tags:{type:[String], index:true},
     users:{type:[ObjectId], ref:'User',query:common.FIND_USER_QUERY,editable:false},
     discussions:[{type:ObjectId,  limit: 1000, ref:'Discussion', index:true}],

@@ -54,7 +54,8 @@ var InformationItemResource = module.exports = common.BaseModelResource.extend(
             actions: null,
             tags: null,
             like_counter: null,
-            view_counter: null
+            view_counter: null,
+            attachment:null
         };
     },
 

@@ -11,6 +11,7 @@ var listCommon = (function(){
                     jqueryContainer.empty();
                     $.each(data.objects,function(index,elm)
                     {
+                        elm._index = index;
                         elm.get_link = function()
                         {
                             return '/' + original_type + '/' + elm._id;

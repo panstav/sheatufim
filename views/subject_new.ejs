@@ -151,6 +151,23 @@
 
         loadDiscussionsListToPage();
 
+        $('#subjectShoppingCartPopup').click(function(){
+            dust.render('subject_shopping_cart',{
+                id:subject,
+                name:"<%=subject.name%>"
+            },function(err,out){
+                $.colorbox({
+                    html:out,
+                    width:'70%',
+                    height:'70%',
+                    onComplete:function(){
+                        listCommon.reloadList('shoppingCartItemList','information_items','subject_shopping_cart_item',
+                                {subject:subject});
+                    }
+                });
+
+            })
+        });
     });
 
 

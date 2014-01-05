@@ -42,7 +42,6 @@ var auth_middleware = auth({
 
 
 // Run some compilations
-require('./tools/compile_templates');
 require('./tools/compile_dust_templates');
 
 
