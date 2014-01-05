@@ -266,14 +266,10 @@ $(function(){
     }
 
 
-    $('#election_menu').live('click', function(){
-        window.location.replace('www.uru.org.il/elections');
-    })
-
-    $('.link_to_resource').live('click', function(){
+    $('body').on('click','.link_to_resource', function(){
         var link = $(this).data('link');
         window.location.replace(link);
-    })
+    });
 
     $('#register_form').submit(function() {
         // get all the inputs into an array.
@@ -298,44 +294,27 @@ $(function(){
         return false;
     });
 
-    $("#fb_connect").live('click', function(){
-        facebookLogin(function(err, result){
-            if(!err){
-                if(result.is_new) {
-                    if(window.location.href.indexOf('?') > -1)
-                        window.location.href = window.location.href + '&is_new=facebook';
-                    else
-                        window.location.href = window.location.href + '?is_new=facebook';
-                }
-                else
-                    window.location.href = window.location.href;
-            }else{
-                console.error(err);
-                $("#login_head").text("קרתה תקלה");
-            }
-        });
-    });
 
-
-    var host = window.location.protocol + '//' + window.location.host;
 
     $('input, textarea').placeholder();
 
-    $('#failureForm').live('submit', function(e){
-        e.preventDefault();
-        var feedbackTb=this.feedbackTb;
-        if(feedbackTb.value.replace(/\s/g,"") == ""){
-            return;
-        }
-        db_functions.addKilkul(this.feedbackTb.value ,function(error,data){
-            if(error){
-                console.log(error);
-            }else{
-                feedbackTb.value='';
+    function failureForm(form){
+        form.submit(function(e){
+            e.preventDefault();
+            var feedbackTb=this.feedbackTb;
+            if(feedbackTb.value.replace(/\s/g,"") == ""){
+                return;
             }
-        });
+            db_functions.addKilkul(this.feedbackTb.value ,function(error,data){
+                if(error){
+                    console.log(error);
+                }else{
+                    feedbackTb.value='';
+                }
+            });
 
-    });
+        });
+    }
 
     db_functions.getAndRenderFooterTags();
 

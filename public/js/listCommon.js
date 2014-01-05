@@ -1,7 +1,7 @@
 
 var listCommon = (function(){
     return {
-            reloadList: function (uiContainerId,original_type ,template_name,query ){
+            reloadList: function (uiContainerId,original_type ,template_name,query,cbk ){
                 var jqueryContainer  = $('#'+uiContainerId)  ;
                 if(!query){
                   query={};
@@ -28,6 +28,8 @@ var listCommon = (function(){
                         jqueryContainer.css('height','');
                        // $('#mainList img').autoscale();
                     });
+                    if(cbk)
+                        cbk();
                 });
             }
         }

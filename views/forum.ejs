@@ -47,16 +47,26 @@
                             </div>
                             <div class="new_post post-new-message-body row">
                                 <div class="post-new-message-body-image"><img src="<%=avatar%>" class="circle" alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/></div>
-                                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
+                                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                                    <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>
+                                        &nbsp;<a class="post-new-message-attachment-path">
+                                            הסר
+                                        </a></div>
+
+                                </div>
                                 <div class="post-new-message-body-actions">
                                     <div class="row">
-                                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+                                        <button class="btn btn-medium btn-gray post-new-message-upload-button">
+                                            הוסף קובץ
+                                        </button>
+                                        <input type="file" class="post-new-message-upload" style="display:none;" />
                                     </div>
                                     <div class="row">
                                         <button class="btn btn-medium btn-green create_post">פרסם</button>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="spacer-large"></div>
                         <!-- Pagination -->
@@ -160,18 +170,56 @@
                          if(data.text.length > 140)
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.replies = 0;
-                         dust.render('forum_post', data, function(err, out){
-                            if(!err)
-                                 $('.post-messages-container ul.main_container').prepend(out);
-                                 $('.new_post .post-new-message-body-text textarea').val("");
-                         });
+                        var file = $('.new_post .post-new-message-upload')[0].files[0];
+                        if(!file)
+                            return afterPost();
+
+                        popupProvider.showLoading({message:'מעלה קובץ...'});
+
+                        uploadAttachment(data._id,file,afterPost);
+
+                        function afterPost(error,attachment){
+                            if(error)
+                                return console.error(error);
+                            if(attachment){
+                                data.attachment = attachment;
+                                $.colorbox.close();
+                            }
+                            dust.render('forum_post', data, function(err, out){
+                                if(!err)
+                                     $('.post-messages-container ul.main_container').prepend(out);
+                                     $('.new_post .post-new-message-body-text textarea').val("");
+                             });
+                            $('.new_post .post-new-message-upload').val('');
+                            $('.new_post .post-new-message-attachment').hide();
+                        }
                     });
                 }
             });
 
+            $('.container').on('change','.post-new-message-upload',function(e){
+                var file = this.files[0];
+                if(file){
+                    var $parent = $(this).parents('.post-new-message-body');
+                    $parent.find('.post-new-message-attachment label').text(file.name);
+                    $parent.find('.post-new-message-attachment').show();
+                }
+            });
+            $('.container').on('click','.post-new-message-attachment a',function(){
+                var $parent = $(this).parents('.post-new-message-body');
+                $parent.find('.post-new-message-upload').val('');
+                $parent.find('.post-new-message-attachment').hide();
+            });
+            $('.container').on('click','.post-new-message-upload-button',function(){
+                $(this).siblings('.post-new-message-upload').click();
+            });
+
+
+
             //create and render post response
             $('.main_container').on('click', '.create_secondary_post', function(e){
                 var $parent_post = $(e.target).closest('li');
+                var $original_parent = $parent_post;
                 var parent_level = $parent_post.data('level');
                 var orig_parent_id = '';
 
@@ -194,6 +242,7 @@
                         subject_id: subject
                     };
                     db_functions.createForumPost(data, function(data){
+
                          data.time = new Date(data.creation_date).format('dd.mm.yyyy');
                          data.date = new Date(data.creation_date).format('HH:MM');
                          data.level = parent_level + 1;
@@ -202,22 +251,42 @@
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.last = parent_level == 2 ? true : false;
                          data.replies = 0;
-                         dust.render('forum_post', data, function(err, out){
-                            if(!err){
-                                $('ul.replies-' + parent_id).append(out);
-                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val("");
-                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .icon-close').click();
+                        var file = $original_parent.find('.post-new-message-upload')[0].files[0];
+                        if(!file)
+                            return afterPost();
 
-                                var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
-                                if($primary_message.hasClass('message-closed')) {
-                                     $primary_message.find('.icon-expand').click();
-                                }
-                                var $replies = $('.message-' + parent_id + '.message-text .message-replies');
-                                var reply_count = $replies.data('replies') + 1;
-                                $replies.html(reply_count + ' תגובות');
-                                $replies.data('replies', reply_count);
+                        popupProvider.showLoading({message:'מעלה קובץ...'});
+
+                        uploadAttachment(data._id,file,afterPost);
+
+
+
+                        function afterPost(err,attachment){
+                            if(err)
+                                return console.error(err);
+                            if(attachment){
+                                data.attachment = attachment;
+                                $original_parent.find('.post-new-message-upload').val('');
+                                $original_parent.find('.post-new-message-attachment').hide();
+                                $.colorbox.close();
                             }
-                         });
+                             dust.render('forum_post', data, function(err, out){
+                                if(!err){
+                                    $('ul.replies-' + parent_id).append(out);
+                                    $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val("");
+                                    $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .icon-close').click();
+
+                                    var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
+                                    if($primary_message.hasClass('message-closed')) {
+                                         $primary_message.find('.icon-expand').click();
+                                    }
+                                    var $replies = $('.message-' + parent_id + '.message-text .message-replies');
+                                    var reply_count = $replies.data('replies') + 1;
+                                    $replies.html(reply_count + ' תגובות');
+                                    $replies.data('replies', reply_count);
+                                }
+                             });
+                        }
                     });
                 }
             });
@@ -226,6 +295,29 @@
                 var text = $(e.target).closest('.message-content').data('text');
                 $(e.target).closest('.message-content').html(text);
             });
+
+            function uploadAttachment( id, file,cbk){
+                var client = new XMLHttpRequest();
+
+                /* Create a FormData instance */
+                var formData = new FormData();
+                /* Add the file */
+                formData.append("upload", file);
+                client.open("put", "/api/forum_post_attachments/" + id, true);
+                //client.setRequestHeader("Content-Type", "multipart/form-data");
+                client.send(formData);  /* Send to server */
+
+                /* Check the response status */
+                client.onreadystatechange = function()
+                {
+                    if (client.readyState == 4){
+                        if(client.status < 200 || client.status >= 300)
+                            return cbk(client.status);
+                        var attachment = JSON.parse(client.responseText);
+                        cbk(null,attachment);
+                    }
+                }
+            }
         });
      </script>
 </body>

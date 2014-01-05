@@ -224,22 +224,30 @@ var popupProvider={
                         });
                     });
 
-                    $("#fb_ajax_conncect").live('click', function(){
-                            facebookLogin(function(err, result){
-                                if(!err){
-                                    $(document).one('cbox_closed', function(){
-                                        callback(err, result);
-                                    });
-                                    $.colorbox.close();
-                                }else{
-                                    callback(err, result);
-                                  //  $("#login_title").text(err);
-                                }
-                            })
-                    })
+
                 },
                 onClosed:function (e) {
                     popupConfig.onClosed(e);
+                }
+            });
+        });
+    },
+    showLoading:function(popupConfig){
+
+        var defaults = {
+            message:'טוען...'
+        };
+        popupConfig = $.extend(defaults,popupConfig);
+        dust.render('popup_loading', popupConfig, function(err,out) {
+            if (err) {
+                return;
+            }
+
+            $.colorbox({ html:out,
+                onComplete:function (e) {
+
+                },
+                onClosed:function (e) {
                 }
             });
         });

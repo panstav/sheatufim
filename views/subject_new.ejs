@@ -5,141 +5,155 @@
     <% include partials/head.ejs %>
 </head>
 <% if( user_logged ) { %>
-      <body class="home logged">
+<body class="home logged">
 <% } else { %>
-    <body class="home not-logged">
+<body class="home not-logged">
 <% } %>
-    <!-- Header -->
-    <header>
-        <% include partials/menu.ejs %>
-    </header>
-    <!-- Content -->
-    <section class="content content-logged">
-        <div class="container">
-            <!-- Breadcrumbs -->
-            <div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/discussions/subject/<%=subject._id%>"></a><%=subject.name%></div>
-            <div class="row">
-                <!-- Sidebar -->
-                <% if(user_logged){ %>
-                     <% include partials/sidebar.ejs %>
-                <% } else { %>
-                      <% include partials/login_sidebar.ejs %>
-                <% } %>
-                <!-- Post -->
-                <div class="right content-container">
-                    <!-- Post Header -->
-                    <div class="row post-header">
-                        <div class="right sidebox post-image">
-                            <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="<%=subject.name%>" title="<%=subject.name%>"/>
-                        </div>
-                        <div class="left post-headerbox">
-                            <h1 class="post-title"><%=subject.name%></h1>
-                            <div class="row">
-                                <a href="/">
-                                    <div class="right link-home">
-                                        <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף הבית</div>
+<!-- Header -->
+<header>
+    <% include partials/menu.ejs %>
+</header>
+<!-- Content -->
+<section class="content content-logged">
+    <div class="container">
+        <!-- Breadcrumbs -->
+        <div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/discussions/subject/<%=subject._id%>"></a><%=subject.name%>
+        </div>
+        <div class="row">
+            <!-- Sidebar -->
+            <% if(user_logged){ %>
+            <% include partials/sidebar.ejs %>
+            <% } else { %>
+            <% include partials/login_sidebar.ejs %>
+            <% } %>
+            <!-- Post -->
+            <div class="right content-container">
+                <!-- Post Header -->
+                <div class="row post-header">
+                    <div class="right sidebox post-image">
+                        <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px; position: static;"
+                             class="align-me" alt="<%=subject.name%>" title="<%=subject.name%>"/>
+                    </div>
+                    <div class="left post-headerbox">
+                        <h1 class="post-title"><%=subject.name%></h1>
+
+                        <div class="row">
+                            <a href="/">
+                                <div class="right link-home">
+                                    <div class="link-home-title"><i
+                                            class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף
+                                        הבית
                                     </div>
-                                </a>
-                                <% if(user_logged) { %>
-                                <a href="<%=url%>/forum">
-                                    <div class="left link-to-forum">לפורום</div>
-                                </a>
-                                <% } %>
-                            </div>
+                                </div>
+                            </a>
+                            <% if(user_logged) { %>
+                            <a href="<%=url%>/forum">
+                                <div class="left link-to-forum">לפורום</div>
+                            </a>
+                            <% } %>
                         </div>
                     </div>
-                    <div class="row post-body">
-                         <p><%=subject.description%></p>
-                     </div>
-                    <% if(user_logged) { %>
-                          <% include partials/descussions_and_posts.ejs%>
-                    <% } %>
                 </div>
-                <!-- Zira Activity -->
-                <div class="activity-box">
-                    <div class="row">
-                        <i class="icon icon-medium-pad-left icon-clock right"></i>
-                        <h2 class="activity-box-title right">פעילות בזירה</h2>
-                    </div>
-                    <div class="row sidebox activity-module">
-                        <img src="/img/activity.png" class="placeholder" alt="Acitvity Module"/>
-                    </div>
+                <div class="row post-body">
+                    <p><%=subject.description%></p>
+                </div>
+                <% if(user_logged) { %>
+                <% include partials/descussions_and_posts.ejs%>
+                <% } %>
+            </div>
+            <!-- Zira Activity -->
+            <div class="activity-box">
+                <div class="row">
+                    <i class="icon icon-medium-pad-left icon-clock right"></i>
+
+                    <h2 class="activity-box-title right">פעילות בזירה</h2>
+                </div>
+                <div class="row sidebox activity-module">
+                    <img src="/img/activity.png" class="placeholder" alt="Acitvity Module"/>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Footer -->
-    <footer>
-        <% include partials/footer.ejs %>
-    </footer>
-    <script type="text/javascript">
-       $(document).ready(function () {
-           var subject = '<%= subject._id %>';
-           var is_logged = <%= user_logged %>;
-           var user = <%- JSON.stringify(user || "") %>;
+    </div>
+</section>
+<!-- Footer -->
+<footer>
+    <% include partials/footer.ejs %>
+</footer>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var subject = '<%= subject._id %>';
+        var is_logged =
+        <%= user_logged %>;
+        var user =
+        <%- JSON.stringify(user || "") %>;
 
-           var data = {
-               subject_id: subject,
-               limit: 3,
-               sorts: {'creation_date': -1},
-               offset: 0
-           };
-            db_functions.getLastForumPosts(data, function(err, data){
-                if(err) return;
-                var posts = data.page_posts;
-                $.each(posts, function(i, post){
-                    post.time = new Date(post.creation_date).format('dd.mm.yyyy');
-                    post.date = new Date(post.creation_date).format('HH:MM');
-                    post.level = 0;
-                    post.reply_level = 1;
-                    post.closed = true;
-                    if(post.text.length > 140)
-                        post.text_short = post.text.substring(0, 140) + '...';
-                    post.hidden = true;
-                    post.replies = data.post_groups[post._id] && data.post_groups[post._id].length > 0 ? data.post_groups[post._id].length : 0;
-                    dust.render('forum_post', post, function(err, out){
-                        if(err) return;
-                        $('.latest_posts ul').append(out);
-                    })
+        var data = {
+            subject_id: subject,
+            limit: 3,
+            sorts: {'creation_date': -1},
+            offset: 0
+        };
+        db_functions.getLastForumPosts(data, function (err, data) {
+            if (err) return;
+            var posts = data.page_posts;
+            $.each(posts, function (i, post) {
+                post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                post.date = new Date(post.creation_date).format('HH:MM');
+                post.level = 0;
+                post.reply_level = 1;
+                post.closed = true;
+                if (post.text.length > 140)
+                    post.text_short = post.text.substring(0, 140) + '...';
+                post.hidden = true;
+                post.replies = data.post_groups[post._id] && data.post_groups[post._id].length > 0 ? data.post_groups[post._id].length : 0;
+                dust.render('forum_post', post, function (err, out) {
+                    if (err) return;
+                    $('.latest_posts ul').append(out);
                 })
-            });
+            })
+        });
 
-           $('#login_form_btn').on('click', function(e){
-               e.preventDefault();
-               db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function(err, result){
-                   if(err){
-                      return;
-                   }
-                   else{
-                       window.location.href = window.location.href;
-                   }
-               });
-           });
-           $('.latest_posts').on('click', '.show_all_text', function(e){
-               e.preventDefault();
-               e.stopPropagation();
-               var text = $(e.target).closest('.message-content').data('text');
-               $(e.target).closest('.message-content').html(text);
-           });
-           function createDiscussionsQuery(){
+        $('#login_form_btn').on('click', function (e) {
+            e.preventDefault();
+            db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function (err, result) {
+                if (err) {
+                    return;
+                }
+                else {
+                    window.location.href = window.location.href;
+                }
+            });
+        });
+        $('.latest_posts').on('click', '.show_all_text', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var text = $(e.target).closest('.message-content').data('text');
+            $(e.target).closest('.message-content').html(text);
+        });
+        function createDiscussionsQuery() {
 //             var sortby=  $('#sorting_select').find(':selected').data('sortby');
 //             var query='order_by='+sortby;
 
-               var query = '';
+            var query = '';
 
-               query = query+'&subject_id='+subject;
+            query = query + '&subject_id=' + subject;
 //             query = query+'&is_private='+false;
 //             query = query+'&is_private__ne='+true;
-               return query;
-           }
+            return query;
+        }
 
-           function loadDiscussionsListToPage(){
-               var query = createDiscussionsQuery();
-               listCommon.reloadList('discussions_list','discussions','discussion_list_item_new',query);
-           }
-           loadDiscussionsListToPage();
+        function loadDiscussionsListToPage() {
+            var query = createDiscussionsQuery();
+            listCommon.reloadList('discussions_list', 'discussions', 'discussion_list_item_new', query,function(){
+                $('.deadline-counter').countdown();
+            });
+        }
 
-       });
-    </script>
+        loadDiscussionsListToPage();
+
+    });
+
+
+</script>
 </body>
 </html>

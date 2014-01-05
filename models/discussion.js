@@ -4,6 +4,7 @@ var mongoose = require("mongoose"),
     ObjectId = Schema.ObjectId,
 
     common = require('./common'),
+    formage = require('formage-admin').forms,
     utils = require('./../utils');
 
 
@@ -81,6 +82,7 @@ var Discussion = new Schema({
     has_rewarded_creator_for_high_grading_of_min_graders: {type: String, 'default': false}, editable:false},
     is_hidden:{type:Boolean,'default':false} ,
     is_private:{type:Boolean,'default':true},
+    deadline:{type:Date,widget:formage.widgets.DateTimeWidget},
     _preview:{type:Schema.Types.Mixed,link:'/discussions/{_id}',editable:false}
 }, {strict: true});
 

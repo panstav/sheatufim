@@ -9,26 +9,26 @@ $(document).ready(function () {
     var selected_tab = null;
     var current_section = typeof(window.current_section) == 'undefined' || window.current_section == null ? -1 : window.current_section;
 
-    $('.search-input').live("submit",function () {
-        if (current_section >= 0) {
-            search_term = $(this).find(".search_term").val();
-            displaySearchResults();
-
-            return false;
-        }
-        else
-            return true;
-    });
-
-    $('.tag-search').live("click",function () {
-        if (current_section >= 0) {
-            search_term = $(this).text();
-            displaySearchResults();
-            return false;
-        }
-        else
-            return true;
-    });
+//    $('.search-input').live("submit",function () {
+//        if (current_section >= 0) {
+//            search_term = $(this).find(".search_term").val();
+//            displaySearchResults();
+//
+//            return false;
+//        }
+//        else
+//            return true;
+//    });
+//
+//    $('.tag-search').live("click",function () {
+//        if (current_section >= 0) {
+//            search_term = $(this).text();
+//            displaySearchResults();
+//            return false;
+//        }
+//        else
+//            return true;
+//    });
 
     function displaySearchResults() {
 
@@ -157,19 +157,19 @@ $(document).ready(function () {
 
 
 
-    $(".tab-slide-information_items .slides-one .one").live('click', function () {
+    $("body").on('click',".tab-slide-information_items .slides-one .one", function () {
         window.location.replace("/information_items/" + $(this).attr("item_id"));
     });
-    $(".tab-slide-discussions .slides-one .one").live('click', function () {
+    $("body").on('click',".tab-slide-discussions .slides-one .one", function () {
         window.location.replace("/discussions/" + $(this).attr("item_id"));
     });
-    $(".tab-slide-actions .slides-one .one").live('click', function () {
+    $("body").on("click",".tab-slide-actions .slides-one .one",function () {
         window.location.replace("/actions/" + $(this).attr("item_id"));
     });
-    $(".tab-slide-blogs .slides-one .one").live('click', function () {
+    $("body").on("click",".tab-slide-blogs .slides-one .one", function () {
         window.location.replace("/blogs" + $(this).attr("item_id"));
     });
-    $(".tab-slide-cycles .slides-one .one").live('click', function () {
+    $("body").on("click",".tab-slide-cycles .slides-one .one", function () {
         window.location.replace("/cycles/" + $(this).attr("item_id"));
     });
 

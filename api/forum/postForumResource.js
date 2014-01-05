@@ -44,7 +44,8 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             responses: null,
             post_groups: null,
             count: null,
-            page_posts: null
+            page_posts: null,
+            attachment:null
         };
         this.default_limit = 50;
     },

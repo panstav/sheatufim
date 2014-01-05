@@ -17,11 +17,11 @@ config.fb_general_params = {
 }
 
 // amazon s3 credentials
-config.s3_creds = {
-    key: 'AKIAJM4EPWE637IGDTQA',
-    secret: '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',
-    bucket: 'uru'
-};
+//config.s3_creds = {
+//    key: 'AKIAJM4EPWE637IGDTQA',
+//    secret: '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',
+//    bucket: 'uru'
+//};
 
 config.sendgrid_user = 'app2952775@heroku.com';
 config.sendgrid_key = 'a0oui08x';
@@ -61,10 +61,10 @@ config.headConfigs = {
         name:'includes',
         src:[
 
-            '/js/jquerypp/jquery-1.8.2.min.js',
+            '/js/jquerypp/jquery-1.10.2.js',
             '/js/jquerypp/jquery-ui-1.9.1.custom.min.js',
             '/js/lib/dust-full-0.3.0.js',
-            '/js/InfoBox.js',
+           // '/js/InfoBox.js',
             '/js/lib/fileuploader.js',
             '/js/imgscale.jquery.min.js',
             '/js/jquerypp/jqtouch.min.js',
@@ -105,7 +105,9 @@ config.headConfigs = {
 
             '/js/jquerypp/jquery.movingboxes.js',
             '/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js',
-            '/js/timeline.js'
+            '/js/timeline.js',
+            '/js/countdown.js',
+            '/js/custom/script.js'
 
             /*'/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js'*/
         ]

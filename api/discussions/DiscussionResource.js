@@ -70,7 +70,8 @@ var DiscussionResource = module.exports = common.BaseModelResource.extend({
             grade_obj:{
                 grade_id:null,
                 value:null
-            }
+            },
+            deadline:null
         };
         this.update_fields = {
             title:null,
