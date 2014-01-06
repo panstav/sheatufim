@@ -14,7 +14,7 @@
                          <div class="info-item-text"><%=information_items[i].text_field_preview.replace(/(<([^>]+)>)/ig,"").substring(0, 60) + '...'%></div>
                          </a>
                      </div>
-                     <div class="info-item-img left"><img src="<%=information_items[i].image_field_preview.url%>" alt="תמונה 1" title="תמונה 1"/></div>
+                     <div class="info-item-img left"><img src="<%=information_items[i].image_field.url%>" alt="תמונה 1" title="תמונה 1"/></div>
                 </li>
             <% } %>
         </ul>
