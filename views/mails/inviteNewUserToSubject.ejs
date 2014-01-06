@@ -33,18 +33,17 @@
                     <%= temp_password %>
                 </p>
                 <p>
-                    אפשר להחליף אותה ולבחור סיסמא אישית
-                    <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">
-                        כאן
-                    </a>
+                    לכניסה לזירת השיח יש ללחוץ
+                    <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">כאן</a>
+                    ולהזין סיסמה להתחברות לאתר.
                 </p>
-                <p>
+                <p><!--
                     לכניסה לזירת השיח יש ללחוץ
                     <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">
                         כאן
                     </a>
                     ולהזין סיסמה להתחברות לאתר.
-                </p>
+                </p>-->
             </td>
         </tr>
         </tbody>

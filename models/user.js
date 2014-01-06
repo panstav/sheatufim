@@ -144,7 +144,7 @@ User.pre('save',function(next){
 
             var firstSubjectUrl = '/discussions/subject/' + subjects[0].id;
 
-            if(self.isNew || !self.is_activated){
+            if(is_new || !self.is_activated){
                 // if the user is new, need to send activation mail
 
                 require('../routes/account/activation').sendActivationMail(self,firstSubjectUrl,'inviteNewUserToSubject',{subjects:subjects},function(err){
