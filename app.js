@@ -64,7 +64,7 @@ if (!mongoose.connection.host) {
 app.settings['x-powered-by'] = 'Empeeric';
 app.set('views', __dirname + '/views');
 app.set('public_folder', __dirname + '/public');
-app.set('port', process.env.PORT || 80);
+app.set('port', process.env.PORT || 8080);
 app.set('facebook_app_id', config.fb_auth_params.appId);
 app.set('facebook_secret', config.fb_auth_params.appSecret);
 app.set('facebook_app_name', config.fb_auth_params.appName);
