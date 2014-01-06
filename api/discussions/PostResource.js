@@ -161,7 +161,7 @@ var PostResource = module.exports = common.BaseModelResource.extend({
                 itr_cbk()
             }
 
-        }
+        };
 
         console.log('debugging waterfall');
 

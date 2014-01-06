@@ -180,7 +180,8 @@ var Schemas = exports.Schemas = {
             "user_joined_action_you_created",
             "user_brings_resource_to_action_you_created",
             "post_added_to_action_you_joined",
-            "post_added_to_action_you_created"
+            "post_added_to_action_you_created",
+            "comment_on_subject_you_are_part_of"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },

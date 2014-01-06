@@ -4,7 +4,8 @@ var resources = require('jest'),
     models = require('../../models'),
     common = require('../common.js'),
     async = require('async'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    notifications = require('../notifications.js');
 
 var Authorization = common.BaseAuthorization.extend({
     /**
@@ -105,15 +106,50 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
     },
 
     create_obj: function(req, fields, callback) {
-        var self = this;
-        var user = req.session.user;
+        var self = this,
+            base = this._super,
+            user = req.session.user,
+            user_id = req.session.user._id;
 
         fields.creator_id = req.session.user.id;
 
-        self._super(req, fields, function(err, post){
-            post.avatar = req.user.avatar_url();
-            post.user = req.user;
-            callback(err, post);
+        async.waterfall([
+            function(cbk) {
+                base.call(self, req, fields, function(err, post){
+                    post.avatar = req.user.avatar_url();
+                    post.user = req.user;
+                    cbk(err, post);
+                });
+            },
+            function(post, cbk){
+                var subject_id = post.subject_id;
+                models
+                    .User
+                    .find()
+                    .where('subjects', subject_id)
+                    .exec(function(err, users){
+                        cbk(err, post, users);
+                    });
+            }
+        ], function(err, post, users){
+            if(err){}
+            var post = post,
+                subject_id = post.subject_id.toString(),
+                users = users;
+
+            if(users) {
+                async.each(users, function(user, c){
+                    if(user._id.toString() == user_id.toString()){
+                        c(null, 0);
+                    } else {
+                        notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
+                            c(err, results);
+                        });
+                    }
+                }, function(err, results){
+                    callback(err, post);
+                });
+            }
         });
     },
 

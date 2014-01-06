@@ -95,7 +95,7 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
     });
 
 
-var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_hash, info_items_hash, actions_hash, cycles_hash, updates_hash, resources_hash, user_id) {
+var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_hash, info_items_hash, actions_hash, cycles_hash, updates_hash, resources_hash, subjects_hash, user_id) {
     return function (notification, itr_cbk) {
         {
             var user_obj = notification.notificators.length ?
@@ -108,6 +108,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
             var action = actions_hash[notification.entity_id + ''] || actions_hash[notification.notificators[0].sub_entity_id + ''];
             var cycle = cycles_hash[notification.entity_id + ''] || cycles_hash[notification.notificators[0].sub_entity_id + ''];
             var update = updates_hash[notification.entity_id + ''];
+            var subject = subjects_hash[notification.entity_id + ''] || subjects_hash[notification.notificators[0].sub_entity_id + ''];
             var resource = resources_hash[notification.notificators[0].sub_entity_id + ''];
             var going_users;
             if(action){
@@ -777,7 +778,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                             else
                                 against_users.push(notificator.notificator_id);
                         }
-                    })
+                    });
 
 
                     if(num_of_users_that_vote_my_post){
@@ -835,7 +836,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                             else
                                 against_users.push(notificator.notificator_id);
                         }
-                    })
+                    });
 
                     if(num_of_users_that_vote_my_post){
                         if(notification && discussion){
@@ -863,6 +864,27 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                                         " " +
                                     "משתמשים"
                         }
+                    }
+                    itr_cbk();
+                    break;
+                case "comment_on_subject_you_are_part_of":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = "נוספו "
+                            + num_of_joined +  " תגובות חדשות לזירת השיח "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = " הוסיף תגובה חדשה לזירת השיח ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                        }
+                    }
+                    notification.part_three = " שבהשתתפותך ";
+
+                    if(subject){
+                        notification.link_two = "/discussions/subject/" + subject._id;
+                        notification.part_two = subject.name;
+                        notification.main_link = notification.url;
+
                     }
                     itr_cbk();
                     break;
@@ -897,6 +919,7 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "change_suggestion_on_discussion_you_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
+        "comment_on_subject_you_are_part_of"
     ];
 
     var action_post_notification_types = [
@@ -988,7 +1011,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "a_dicussion_created_with_info_item_that_you_like",
         "a_dicussion_created_with_info_item_that_you_created",
         "proxy_created_new_discussion",
-        "proxy_graded_discussion",
+        "proxy_graded_discussion"
+
        /* "comment_on_discussion_you_are_part_of",
         "comment_on_discussion_you_created"*/
     ];
@@ -1032,6 +1056,24 @@ var populateNotifications = module.exports.populateNotifications = function(resu
 
     discussion_ids = _.union(discussion_ids, discussion_ids_as_sub_entity);
     discussion_ids = _.chain(discussion_ids).map(function(id) { return id + ''; })
+        .compact()
+        .uniq()
+        .value();
+
+    var subject_notification_types_as_sub_entity = [
+        "comment_on_subject_you_are_part_of"
+    ];
+
+    var subject_ids_as_sub_entity = _.chain(results.objects)
+        .map(function (notification) {
+            return  _.indexOf(subject_notification_types_as_sub_entity, notification.type) > -1
+                ? notification.notificators[0].sub_entity_id : null;
+        })
+        .compact()
+        .uniq()
+        .value();
+
+    subject_ids_as_sub_entity = _.chain(subject_ids_as_sub_entity)
         .compact()
         .uniq()
         .value();
@@ -1261,9 +1303,27 @@ var populateNotifications = module.exports.populateNotifications = function(resu
                     })
             }else
                 cbk(null,{});
+        },
+        function(cbk){
+            if(subject_ids_as_sub_entity.length){
+                models.Subject.find()
+                    .where('_id').in(subject_ids_as_sub_entity)
+                    .select({'_id': 1, 'name': 1})
+                    .exec(function(err, subjects){
+                        if(!err){
+                            var subjects_hash = {};
+
+                            _.each(subjects, function(subject){
+                                subjects_hash[subject._id] = subject;
+                            });
+                        }
+                        cbk(err, subjects_hash);
+                    })
+            }else
+                cbk(null,{});
         }
     ], function(err, args){
-        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], user_id), function (err, obj) {
+        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7], args[8], args[9], user_id), function (err, obj) {
             callback(err, results);
         })
     })
