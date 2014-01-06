@@ -64,7 +64,7 @@ if (!mongoose.connection.host) {
 app.settings['x-powered-by'] = 'Empeeric';
 app.set('views', __dirname + '/views');
 app.set('public_folder', __dirname + '/public');
-app.set('port', process.env.PORT || 8080);
+app.set('port', process.env.PORT || 80);
 app.set('facebook_app_id', config.fb_auth_params.appId);
 app.set('facebook_secret', config.fb_auth_params.appSecret);
 app.set('facebook_app_name', config.fb_auth_params.appName);
@@ -143,7 +143,7 @@ app.use(function (req, res, next) {
         avatar: (req.session && req.session.avatar_url) || "/images/default_user_img.gif",
         url: req.url,
         meta: {},
-        is_dev: true /*app.settings.env == 'development' || app.settings.env == 'staging'*/
+        is_dev: app.settings.env == 'development' || app.settings.env == 'staging'
     });
     next();
 });
