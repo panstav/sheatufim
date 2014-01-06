@@ -1,3 +1,4 @@
+<!--
 <div style="direction:rtl">
     <div align="center"><font face="arial"><br><br></font></div>
     <table width="600" border="0" align="center" cellpadding="0" cellspacing="0" dir="rtl">
@@ -36,7 +37,7 @@
 
                 <p class="MsoNormal" dir="RTL"
                    style="color:rgb(80,0,80);text-align:right;direction:rtl;font-size:13px;font-family:arial,sans-serif">
-                    <span lang="HE" style="font-family:Arial,sans-serif">צוות עורו</span></p><br>
+                    <span lang="HE" style="font-family:Arial,sans-serif">צוות זירות השיח</span></p><br>
 
                 <p></p>
 
@@ -66,3 +67,54 @@
 <a href="<%= settings.root_path %>/account/reset_password?validation=<%= user.validation_code %>&id=<%= user.id %>">
     לחץ כאן כדי להיכנס לאתר
 </a>
+-->
+
+
+
+
+<!--body -->
+<div style="direction:rtl" xmlns="http://www.w3.org/1999/html">
+    <div align="center"><font face="arial"><br><br></font></div>
+    <table border="0" align="center" cellpadding="0" cellspacing="0" dir="rtl" lang="HE" style="olor:rgb(34,34,34);font-family:arial,sans-serif;direction:rtl;" dir="RTL">
+        <tbody>
+        <tr>
+            <td>
+                <p><br></p>
+
+                <p></p>
+
+                <p class="MsoNormal">
+                </p>
+
+                <p class="MsoNormal">
+                    <span>
+                        שלום
+                        <%= user %>
+                 </span></p>
+
+                <p class="MsoNormal" dir="RTL"
+                   style="color:rgb(80,0,80);text-align:right;direction:rtl;font-size:13px;font-family:arial,sans-serif">
+                    <span lang="HE" style="font-family:Arial,sans-serif" >ליצירת סיסמא חדשה לאתר זירות השיח, אנא
+                        <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>">לחץ כאן</a>.</span><span
+                        lang="HE"><u></u><u></u></span></p>
+
+                <p class="MsoNormal" dir="RTL" style="color:rgb(80,0,80);text-align:right;direction:rtl;font-size:13px">
+                    <span style="font-family:Arial,sans-serif">&nbsp;</span></p>
+
+                <p class="MsoNormal" dir="RTL"
+                   style="color:rgb(80,0,80);text-align:right;direction:rtl;font-size:13px;font-family:arial,sans-serif">
+                    <span lang="HE" style="font-family:Arial,sans-serif">תודה,</span><span
+                        lang="HE"><u></u><u></u></span></p>
+
+                <p class="MsoNormal" dir="RTL"
+                   style="color:rgb(80,0,80);text-align:right;direction:rtl;font-size:13px;font-family:arial,sans-serif">
+                    <span lang="HE" style="font-family:Arial,sans-serif">צוות זירות השיח</span></p><br>
+
+                <p></p>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+</div>
