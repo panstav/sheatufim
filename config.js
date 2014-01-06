@@ -25,8 +25,8 @@ config.fb_general_params = {
 
 config.sendgrid_user = 'app2952775@heroku.com';
 config.sendgrid_key = 'a0oui08x';
-config.systemEmail = 'admin@uru.org.il';
-config.systemEmailName = 'URU';
+config.systemEmail = 'info@sheatufom.org.il';
+config.systemEmailName = 'SHEATUFIM';
 
 config.SMTPUsername = process.env.SMTP_USERNAME || 'saar@uru.org.il';
 config.SMTPPassword = process.env.SMTP_PASSWORD || 'uruuru11';
