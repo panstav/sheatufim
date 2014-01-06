@@ -113,9 +113,11 @@
             })
         });
 
-        $('#login_form_btn').on('click', function (e) {
+        $('.login_form_btn').on('click', function (e) {
             e.preventDefault();
-            db_functions.login($('#inputUsername').val(), $('#inputPassword').val(), function (err, result) {
+            var username = $(e.target).closest('form').find('#inputUsername').val(),
+                password = $(e.target).closest('form').find('#inputPassword').val();
+            db_functions.login(username, password, function (err, result) {
                 if (err) {
                     return;
                 }
