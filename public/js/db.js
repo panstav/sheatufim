@@ -12,63 +12,64 @@ var db_functions = {
             console.error(arguments[2]);
         };
         options.error = function (xhr, ajaxOptions, thrownError) {
-            if (xhr.responseText == 'not authenticated') {
-                connectPopup(function (err, data) {
-                    if (err)
-                        onError(xhr, ajaxOptions, thrownError);
-                    else {
-                        user = date;
-                        var success = options.success;
-                        options.success = function () {
-                            success.apply(this, arguments);
-
-                            if(window.location.href.indexOf('actions/create/')==-1 && window.location.href.indexOf('discussions/new/')==-1)
-                            {
-                                if(typeof window.vars === "undefined"  || typeof window.vars.afterLogin === "undefined") {
-                                    window.location.href = window.location.href;
-                                }
-                                else
-                                {
-                                    window.vars.afterLogin  ();
-                                }
-
-                            }
-                        };
-                        options.error = function () {
-                            onError.apply(this, arguments);
-                            if(typeof window.vars === "undefined"  || typeof window.vars.afterLogin === "undefined") {
-                                window.location.href = window.location.href;
-                            }
-                            else
-                            {
-                                window.vars.afterLogin ();
-                            }
-                        };
-
-                        //TODO - for now no need for this popup
-                        if(data.hasOwnProperty("actions_done_by_user") && options.hasOwnProperty("user_info")){
-                            if(data.actions_done_by_user[options.user_info.action_name] || options.user_info.price <= 0) {
-                                $.ajax(options);
-                            } else {
-                                var config = {
-                                    tokens_needed: options.user_info.price,
-                                    tokens_owned: data.tokens,
-                                    callback: function(clicked){
-                                        if(clicked == 'ok'){
-                                            $.ajax(options);
-                                        }else{
-                                            options.success.call(this, "canceled");
-                                        }
-                                    }
-                                };
-                                //popupProvider.showExplanationPopup(config);
-                            }
-                        }
-                    }
-
-                    $.ajax(options);
-                });
-            } else if (xhr.responseText == 'not_activated') {
+//            if (xhr.responseText == 'not authenticated') {
+//                connectPopup(function (err, data) {
+//                    if (err)
+//                        onError(xhr, ajaxOptions, thrownError);
+//                    else {
+//                        user = date;
+//                        var success = options.success;
+//                        options.success = function () {
+//                            success.apply(this, arguments);
+//
+//                            if(window.location.href.indexOf('actions/create/')==-1 && window.location.href.indexOf('discussions/new/')==-1)
+//                            {
+//                                if(typeof window.vars === "undefined"  || typeof window.vars.afterLogin === "undefined") {
+//                                    window.location.href = window.location.href;
+//                                }
+//                                else
+//                                {
+//                                    window.vars.afterLogin  ();
+//                                }
+//
+//                            }
+//                        };
+//                        options.error = function () {
+//                            onError.apply(this, arguments);
+//                            if(typeof window.vars === "undefined"  || typeof window.vars.afterLogin === "undefined") {
+//                                window.location.href = window.location.href;
+//                            }
+//                            else
+//                            {
+//                                window.vars.afterLogin ();
+//                            }
+//                        };
+//
+//                        //TODO - for now no need for this popup
+//                        if(data.hasOwnProperty("actions_done_by_user") && options.hasOwnProperty("user_info")){
+//                            if(data.actions_done_by_user[options.user_info.action_name] || options.user_info.price <= 0) {
+//                                $.ajax(options);
+//                            } else {
+//                                var config = {
+//                                    tokens_needed: options.user_info.price,
+//                                    tokens_owned: data.tokens,
+//                                    callback: function(clicked){
+//                                        if(clicked == 'ok'){
+//                                            $.ajax(options);
+//                                        }else{
+//                                            options.success.call(this, "canceled");
+//                                        }
+//                                    }
+//                                };
+//                                //popupProvider.showExplanationPopup(config);
+//                            }
+//                        }
+//                    }
+//
+//                    $.ajax(options);
+//                });
+//            } else
+            if (xhr.responseText == 'not_activated') {
                 var message = 'ההרשמה לאתר לא הושלמה, על מנת להמשיך לחץ על הלינק שנשלח לתיבת הדואר שלך.' +
                     '<br />' +
                     'לשליחה חוזרת לחץ ' +

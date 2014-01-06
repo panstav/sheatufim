@@ -23,9 +23,9 @@
             <!-- Sidebar -->
             <% if(user_logged){ %>
             <% include partials/sidebar.ejs %>
-            <% } else { %>
-            <% include partials/login_sidebar.ejs %>
             <% } %>
+
+
             <!-- Post -->
             <div class="right content-container">
                 <!-- Post Header -->
@@ -82,8 +82,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var subject = '<%= subject._id %>';
-        var is_logged =
-        <%= user_logged %>;
+        var is_logged = <%= user_logged %>;
         var user =
         <%- JSON.stringify(user || "") %>;
 
@@ -93,6 +92,7 @@
             sorts: {'creation_date': -1},
             offset: 0
         };
+
         db_functions.getLastForumPosts(data, function (err, data) {
             if (err) return;
             var posts = data.page_posts;
