@@ -143,11 +143,12 @@ User.pre('save',function(next){
             if(!subjects.length) return;
 
             var firstSubjectUrl = '/discussions/subject/' + subjects[0].id;
+            var redirect_to = require('../routes/account/common').DEFAULT_LOGIN_REDIRECT;
 
             if(is_new || !self.is_activated){
                 // if the user is new, need to send activation mail
 
-                require('../routes/account/activation').sendActivationMail(self,firstSubjectUrl,'inviteNewUserToSubject',{subjects:subjects},function(err){
+                require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects},function(err){
                     if(err)
                         console.error('Error sending mail to user ' + self,err);
                 });

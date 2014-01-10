@@ -88,6 +88,7 @@ var DiscussionResource = module.exports = common.BaseModelResource.extend({
         if (object) {
 
             object.is_follower = false;
+            object.participants_count = object.users ? object.users.length : 0;
 
             if (user) {
                 if (_.find(user.discussions, function (user_discussion) {

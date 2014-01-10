@@ -151,7 +151,7 @@ var error_message = error_message || '';
                                     <li><a class="video" href="#video"><span></span>וידאו</a></li>
                                     <li><a class="link" href="#link"><span></span>קישור</a></li>
                                 </ul>
-                                <div id="image" class="tab">
+                                <!--<div id="image" class="tab">
                                     <%
                                     var image_upload = {
                                     background_color: '#f5f5f5',
@@ -161,8 +161,8 @@ var error_message = error_message || '';
                                     };
                                     %>
                                     <% include partials/image_upload.ejs %>
-                                </div>
-                                <div id="video" class="tab">
+                                </div>-->
+                                <!--<div id="video" class="tab">
                                     <%
                                     image_upload = {
                                     default_image: '/images/add-image.png',
@@ -172,7 +172,7 @@ var error_message = error_message || '';
                                     %>
                                     <% include partials/image_upload.ejs %>
                                     <input type="url" value="" placeholder="http://www.youtube.com/watch?v=......."/>
-                                </div>
+                                </div>-->
                                 <div id="link" class="tab">
                                     <input type="url" value="" placeholder="http://www.uru.org.il/"/>
                                 </div>
@@ -618,7 +618,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#cancelWriteCommentBT").live("click", function () {
+    $('body').on('click',"#cancelWriteCommentBT", function () {
         $('#write-comment').hide();
     });
 
@@ -726,7 +726,7 @@ $(document).ready(function () {
 
     var attachment;
 
-    var uploader = new qq.FileUploader({
+    /*var uploader = new qq.FileUploader({
         element: document.getElementById('uploadAttachment'),
         action: '/api/image_upload',
         debug: false,
@@ -751,7 +751,7 @@ $(document).ready(function () {
                 '</li>'
 
     });
-
+*/
     $("#submit_post").on('click', function (e) {
 
         activateMailNotifications();
@@ -1299,7 +1299,7 @@ $(document).ready(function () {
         $(this).parents('.suggestion_wrapper').find('.comment').hide();
     });
 
-    $(".comments_counter a").live("click", function () {
+    $('body').on('click', ".comments_counter a", function () {
         $(this).parents('.post_or_suggestion').find('.post_or_suggestion_comments_holder').toggle();
         image_autoscale('.auto-scale img');
     });
@@ -1898,7 +1898,7 @@ $(document).ready(function () {
     var depress_event = false;
 
 
-    $(".suggestion_bottom_segment input").live("click", function (e) {
+    $('body').on('click', ".suggestion_bottom_segment input", function (e) {
         activateMailNotifications();
         if (!my_id) {
             //open popup window
@@ -1947,7 +1947,7 @@ $(document).ready(function () {
         });
     });
 
-    $('.back_to_doc').live('click', function (event) {
+    $('body').on('click', '.back_to_doc', function (event) {
         showFullText();
         scrollTo("#full");
 //        scrollTo("#short");
@@ -2007,13 +2007,13 @@ $(document).ready(function () {
             })
         }
     });
-    $(".person .actions_box_container ,.person .img-box ,.person .name").live("mouseover", function () {
+    $("body").on("mouseover", ".person .actions_box_container ,.person .img-box ,.person .name", function () {
         $(this).parent().find(".name").css("background-image", "none")
         $(this).parent().find(".actions_box_container").slideDown()
 
     });
 
-    $(".person").live("mouseleave", function () {
+    $("body").on("mouseleave", ".person", function () {
         $(this).find(".actions_box_container").slideUp(function () {
             $(this).parent().find(".name").css("background-image", "url(/images/sep_photo.png)")
         })
@@ -2064,7 +2064,7 @@ $(document).ready(function () {
 //
 //        });
 //    });
-    $("#press_sidebar_holder .item").live("click", function () {
+    $('body').on('cilck', "#press_sidebar_holder .item", function () {
         window.open($(this).data('source'));
     });
 
@@ -2095,13 +2095,13 @@ $(document).ready(function () {
         $("#full").height(h);
     }
 
-    $(".awards").live("hover", function () {
+    $('body').on('hover', ".awards", function () {
         var name = $(this).parents(".person").data("name");
         var num_of_proxies = $(this).text();
         var text = "מנדטים: " + name + " מייצג " + num_of_proxies + " חברי עורו ";
         initTooltipWithMessage($(this), text);
     });
-    $(".friends").live("hover", function () {
+    $('body').on('hover', ".friends", function () {
         initTooltipWithMessage($(this), 'מוניטין');
     });
     $('#content_wrapper_comments ').on('click', '.special_comment', function (e) {
@@ -2276,7 +2276,7 @@ $(document).ready(function () {
         })
     };
 
-    $('.add_fast_comment').live('click', function (e) {
+    $('body').on('click', '.add_fast_comment', function (e) {
         var post_or_suggestion = $(this).parents('.post_or_suggestion');
 
         // show comments
