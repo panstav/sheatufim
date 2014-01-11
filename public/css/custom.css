@@ -165,7 +165,7 @@ ul.list li.link-container a:hover {
 }
 
 #footer-credits img {
-    width: 180px;
+    width: 150px;
 }
 .tab-content {
     display: none;
@@ -176,4 +176,6 @@ ul.list li.link-container a:hover {
 .tab-badge {
     width: 31px;
 }
-
+#logo a {
+    text-decoration: none;
+}
