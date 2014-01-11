@@ -38,7 +38,7 @@ module.exports = function(req,res) {
             });
         },
         function(cbk){
-            links_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 6, 0, function(err, link_items){
+            links_resource.get_objects(req, {subjects: subject_id}, {date: -1}, 6, 0, function(err, link_items){
                 cbk(err, link_items);
             });
         }

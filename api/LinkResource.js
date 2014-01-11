@@ -19,20 +19,21 @@ var LinkResource = module.exports = jest.MongooseResource.extend({
         /*this.default_query = function (query) {
             return query.sort({'date': 'descending'});
         };*/
-    }
+    },
 
-    /*get_objects:function (req, filters, sorts, limit, offset, callback) {
+    get_objects:function (req, filters, sorts, limit, offset, callback) {
 
         this._super(req, filters, sorts, limit, offset, function (err, results) {
 
-            if(err) {
+            callback (err, results);
+           /* if(err) {
                 callback(err);
             }
             else {
                 var discussion_id = req.query.discussion_id;
                 if(discussion_id){
                     models.Discussion.findById(discussion_id, function ( err, obj){
-                        var discussion_ press_items=obj.press_items ;
+                        var discussion_press_items=obj.press_items ;
                         var discussion_press_items_ids= _.map(discussion_press_items, function(press_item){ return press_item.press_item_id+"";});
                         var final_results=JSON.parse(JSON.stringify(results));
                         final_results.objects=[];
@@ -50,7 +51,7 @@ var LinkResource = module.exports = jest.MongooseResource.extend({
                     callback(err, results);
                 }
 
-            }
+            }*/
         });
-    }*/
+    }
 });
