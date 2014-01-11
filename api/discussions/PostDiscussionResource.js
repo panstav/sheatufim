@@ -22,12 +22,12 @@ var Authorization = common.BaseAuthorization.extend({
     }
 });
 
-var PostForumResource = module.exports = common.BaseModelResource.extend({
+var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
-        this._super(models.PostForum);
+        this._super(models.PostDiscussion);
         this.allowed_methods = ['get', 'post', 'delete'];
-        this.filtering = {subject_id: null, parent_id: null};
-        this.authorization = new Authorization();
+        this.filtering = {discussion_id:null, parent_id: null};
+        this.authorization = new discussionCommon.DiscussionAuthorization();
         this.default_query = function (query) {
             return query.sort({creation_date:'descending'});
         };
@@ -39,7 +39,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             text:null,
             creation_date: null,
             _id:null,
-            subject_id:null,
+            discussion_id:null,
             is_my_comment: null,
             parent_id: null,
             user_occupation: null,
@@ -94,8 +94,6 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             if(limit)
                 page_posts = _.first(page_posts,limit);
 
-
-
             var result = {
                 post_groups: post_groups,
                 count: main_posts.length,
@@ -122,11 +120,11 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 });
             },
             function(post, cbk){
-                var subject_id = post.subject_id;
+                var discussion_id = post.discussion_id;
                 models
                     .User
                     .find()
-                    .where('subjects', subject_id)
+                    .where('discussions.discussion_id', discussion_id)
                     .exec(function(err, users){
                         cbk(err, post, users);
                     });
@@ -134,7 +132,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
         ], function(err, post, users){
             if(err){}
             var post = post,
-                subject_id = post.subject_id.toString(),
+                discussion_id = post.discussion_id.toString(),
                 users = users;
 
             if(users) {
@@ -142,9 +140,11 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                     if(user._id.toString() == user_id.toString()){
                         c(null, 0);
                     } else {
-                        notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
-                            c(err, results);
-                        });
+                        //TODO notifications
+                        c(err, 0);
+//                        notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
+//                            c(err, results);
+//                        });
                     }
                 }, function(err, results){
                     callback(err, post);

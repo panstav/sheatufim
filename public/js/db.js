@@ -702,7 +702,7 @@ var db_functions = {
 
     createDiscussionPost: function (data, callback) {
         db_functions.loggedInAjax({
-            url: '/api/posts/',
+            url: '/api/post_discussion/',
             type: 'POST',
             data: data,
             async: true,
@@ -713,7 +713,7 @@ var db_functions = {
 
     getDiscussionPosts: function (data, callback) {
         db_functions.loggedInAjax({
-            url: '/api/posts/',
+            url: '/api/post_discussion/',
             type: 'GET',
             data: data,
             async: true,

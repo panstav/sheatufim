@@ -13,6 +13,7 @@ var mongoose_resource = require('jest'),
     SubjectResource = require('./SubjectResource'),
     DiscussionResource = require('./discussions/DiscussionResource.js'),
     PostResource = require('./discussions/PostResource.js'),
+    PostDiscussionResource = require('./discussions/postDiscussionResource.js'),
     PostOnSuggestionResource = require('./discussions/post_on_suggestion_resource.js'),
     PostOnCommentResource = require('./discussions/post_on_comment_resource.js'),
     SpecialPostsResource = require('./discussions/special_posts_resource.js'),
@@ -78,6 +79,7 @@ module.exports = function(app)
     rest_api.register_resource('subjects', new SubjectResource());
     rest_api.register_resource('discussions', new DiscussionResource());
     rest_api.register_resource('posts', new PostResource());
+    rest_api.register_resource('post_discussion', new PostDiscussionResource());
     rest_api.register_resource('post_attachments',new PostForumAttachmentResource());
     rest_api.register_resource('special_posts', new SpecialPostsResource());
     rest_api.register_resource('suggestion_posts', new PostOnSuggestionResource());
