@@ -8,24 +8,10 @@ var resources = require('jest'),
     _ = require('underscore'),
     notifications = require('../notifications.js');
 
-var Authorization = common.BaseAuthorization.extend({
-    /**
-     * limits discussion query to published discussions that have a subjectId that the user is allowed to view
-     */
-    limit_object_list: function (req, query, callback) {
-        var subjectIds = req.user.subjects ? req.user.subjects.map(function(subject) { return subject + '';}) : [];
-        query.where('subject_id').in(subjectIds);
-        callback(null, query);
-    },
-    limit_object:function (req, query, callback) {
-        return this.limit_object_list(req, query, callback);
-    }
-});
-
 var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
         this._super(models.PostDiscussion);
-        this.allowed_methods = ['get', 'post', 'delete'];
+        this.allowed_methods = ['get', 'post', 'put', 'delete'];
         this.filtering = {discussion_id:null, parent_id: null};
         this.authorization = new discussionCommon.DiscussionAuthorization();
         this.default_query = function (query) {

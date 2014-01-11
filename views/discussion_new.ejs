@@ -864,7 +864,7 @@ $(document).ready(function () {
         var formData = new FormData();
         /* Add the file */
         formData.append("upload", file);
-        client.open("put", "/api/post_attachments/" + id, true);
+        client.open("put", "/api/post_discussion_attachments/" + id + "?discussion_id=" + discussion._id, true);
         //client.setRequestHeader("Content-Type", "multipart/form-data");
         client.send(formData);  /* Send to server */
 

@@ -15,28 +15,17 @@ var resources = require('jest'),
     _ = require('underscore'),
     multiparty = require('multiparty');
 
-var Authorization = common.BaseAuthorization.extend({
-    limit_object_list: function(req,query,cbk){
-
-        query.where('creator_id',req.user.id);
-        cbk(null,query);
-    },
-    limit_object:function(req,query,cbk){
-        return this.limit_object_list(req,query,cbk);
-    }
-});
-
 /**
  *
  * Resource for uploading attachment files to post or discussion
  *
  */
-var PostAttachmentResource = module.exports = common.BaseModelResource.extend({
+var PostDiscussionAttachmentResource = module.exports = common.BaseModelResource.extend({
     init:function () {
 
-        this._super(models.PostForum);
+        this._super(models.PostDiscussion);
         this.allowed_methods = ['put'];
-        this.authorization = new Authorization();
+        this.authorization = new discussionCommon.DiscussionAuthorization();
 
         this.fields = {
             url:null,

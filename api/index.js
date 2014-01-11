@@ -19,7 +19,8 @@ var mongoose_resource = require('jest'),
     SpecialPostsResource = require('./discussions/special_posts_resource.js'),
     DiscussionHistoryResource = require('./discussions/DiscussionHistoryResource.js'),
     PostForumResource = require('./forum/postForumResource.js'),
-    PostForumAttachmentResource = require('./discussions/PostAttachmentResource.js'),
+    PostAttachmentResource = require('./discussions/PostAttachmentResource.js'),
+    PostDiscussionAttachmentResource = require('./discussions/PostDiscussionAttachmentResource.js'),
 //    PostsActionResource = require('./actions/PostActionResource.js'),
     VoteResource = require('./discussions/VoteResource.js'),
     VoteActionPostResource = require('./actions/VoteActionPostResource'),
@@ -69,7 +70,7 @@ module.exports = function(app)
     rest_api.register_resource('users',new UserResource());
     rest_api.register_resource('information_items',new InformationItemResource());
     rest_api.register_resource('forum_posts',new PostForumResource());
-    rest_api.register_resource('forum_post_attachments',new PostForumAttachmentResource());
+    rest_api.register_resource('forum_post_attachments',new PostAttachmentResource());
     rest_api.register_resource('headlines',new HeadlineResource());
     rest_api.register_resource('updates',new UpdateResource());
     rest_api.register_resource('shopping_cart',new ShoppingCartResource());
@@ -80,7 +81,7 @@ module.exports = function(app)
     rest_api.register_resource('discussions', new DiscussionResource());
     rest_api.register_resource('posts', new PostResource());
     rest_api.register_resource('post_discussion', new PostDiscussionResource());
-    rest_api.register_resource('post_attachments',new PostForumAttachmentResource());
+    rest_api.register_resource('post_discussion_attachments',new PostDiscussionAttachmentResource());
     rest_api.register_resource('special_posts', new SpecialPostsResource());
     rest_api.register_resource('suggestion_posts', new PostOnSuggestionResource());
     rest_api.register_resource('posts_on_comment', new PostOnCommentResource());
