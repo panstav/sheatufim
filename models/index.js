@@ -305,18 +305,17 @@ var Schemas = exports.Schemas = {
         }
     } ,
 
-    PressItem:{
+    Link:{
         title:  {type:String, required:true},
-        abstract:  {type:String},
-        image_field: { type:Schema.Types.File},
+        abstract:  {type:String, editable:false},
+        image_field: { type:Schema.Types.File, editable:false},
         link :  {type:String, required:true} ,
-        date:  {type:Date, required:true},
-        source:{type:String, "enum":["דה מרקר", "כלכליסט","גלובס", "ynet", "הארץ", "nrg", "walla", "mako",  "אחר"], required:true}    ,
-        alternative_source:{type:String},
+        date:  {type:Date, editable:false},
+        source:{type:String, "enum":["דה מרקר", "כלכליסט","גלובס", "ynet", "הארץ", "nrg", "walla", "mako",  "אחר"], editable:false},
+//        alternative_source:{type:String},
         subjects:[{type:ObjectId, ref:'Subject'}],
-
         discussions:[{type: ObjectId, limit: 1000, ref:'Discussion', index:true}],
-        cycles:     [{type: ObjectId, limit: 1000, ref:'Cycle', index:true}]
+//        cycles:     [{type: ObjectId, limit: 1000, ref:'Cycle', index:true}]
     }
 };
 
@@ -373,7 +372,7 @@ var Models = module.exports = {
     Founder:mongoose.model('Founder', Schemas.Founder),
     Test:mongoose.model('Test', new Schema(Schemas.Test, {strict:true})),
     Qa:mongoose.model('Qa', Schemas.Qa),
-    PressItem:mongoose.model('PressItem', new Schema(Schemas.PressItem)),
+    Link:mongoose.model('Link', new Schema(Schemas.Link)),
     ThresholdCalcVariables:utils.config_model('ThresholdCalcVariables', Schemas.ThresholdCalcVariables),
 
     ImageUpload:mongoose.model('ImageUpload', require('./image_upload')),

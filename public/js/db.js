@@ -1839,7 +1839,7 @@ var db_functions = {
 
     getLinksOfSubject: function (data, callback) {
         db_functions.loggedInAjax({
-            url:'/api/press_item',
+            url:'/api/link',
             data: data,
             type:"GET",
             async:true,
@@ -1917,7 +1917,7 @@ var db_functions = {
     } ,
     getPressItemsByDiscussion: function(discussion_id, callback) {
         db_functions.loggedInAjax({
-            url:'/api/press_item',
+            url:'/api/link',
             type:"GET",
             async:true,
             data:{"discussion_id":discussion_id, "limit":0},

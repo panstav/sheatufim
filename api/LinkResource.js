@@ -11,17 +11,17 @@ jest = require('jest'),
     common = require('./common'),
     async = require('async');
 
-var PressItemResource = module.exports = jest.MongooseResource.extend({
+var LinkResource = module.exports = jest.MongooseResource.extend({
     init:function(){
-        this._super(models.PressItem);
+        this._super(models.Link);
         this.allowed_methods = ['get'];
         this.filtering = {subject_id: null, discussion_id: null};
-        this.default_query = function (query) {
+        /*this.default_query = function (query) {
             return query.sort({'date': 'descending'});
-        };
-    }    ,
+        };*/
+    }
 
-    get_objects:function (req, filters, sorts, limit, offset, callback) {
+    /*get_objects:function (req, filters, sorts, limit, offset, callback) {
 
         this._super(req, filters, sorts, limit, offset, function (err, results) {
 
@@ -32,7 +32,7 @@ var PressItemResource = module.exports = jest.MongooseResource.extend({
                 var discussion_id = req.query.discussion_id;
                 if(discussion_id){
                     models.Discussion.findById(discussion_id, function ( err, obj){
-                        var discussion_press_items=obj.press_items ;
+                        var discussion_ press_items=obj.press_items ;
                         var discussion_press_items_ids= _.map(discussion_press_items, function(press_item){ return press_item.press_item_id+"";});
                         var final_results=JSON.parse(JSON.stringify(results));
                         final_results.objects=[];
@@ -52,5 +52,5 @@ var PressItemResource = module.exports = jest.MongooseResource.extend({
 
             }
         });
-    }
+    }*/
 });

@@ -22,7 +22,7 @@ var get_and_render = {
             offset: 0
         };
 
-        db_functions.getInfoItemsOfSubject(links_data, function(err, res){
+        db_functions.getLinksOfSubject(links_data, function(err, res){
             if(err) return;
             dust.renderArray('link_sidebar', res.objects, function(err, html){
                 if(err) return;

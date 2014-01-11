@@ -59,7 +59,7 @@ var mongoose_resource = require('jest'),
     OGActionResource = require('./og_action_resource'),
     UserInviteFriendsResource=      require('./UserInviteFriendsResource'),
     UserMailNotificationConfig = require('./user_mail_notification_config_resource');
-    PressItemResource = require('./PressItemResource'),
+    LinkResource = require('./LinkResource'),
     SendMailResource =  require('./send_mail_resource'),
 
 module.exports = function(app)
@@ -130,6 +130,6 @@ module.exports = function(app)
     rest_api.register('avatar',new AvatarResource());
     rest_api.register('reset_notification',new ResetNotificationResource());
     rest_api.register_resource('counter', new CounterResource());
-    rest_api.register_resource('press_item', new PressItemResource());
+    rest_api.register_resource('link', new LinkResource());
     rest_api.register_resource('send_mail', new SendMailResource());
 };

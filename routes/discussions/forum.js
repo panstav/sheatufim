@@ -2,14 +2,14 @@ var models = require('../../models'),
     async = require('async'),
     common = require('../account/common'),
     InformationItemResource = require('../../api/InformationItemResource.js'),
-    PressItemResource = require('../../api/PressItemResource.js'),
+    LinkResource = require('../../api/LinkResource.js'),
     PostForumResource = require('../../api/forum/postForumResource.js');
 
 
 module.exports = function(req,res) {
     var post_resource = new PostForumResource();
     var information_item_resource = new InformationItemResource();
-    var links_resource = new PressItemResource();
+    var links_resource = new LinkResource();
 
     var subject_id = req.params[0];
     var page = req.query.page || 1,
