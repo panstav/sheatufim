@@ -348,6 +348,7 @@ var Models = module.exports = {
     PostOnComment:require('./post_on_comment'),
     PostAction:require('./post_action'),
     PostForum: require('./post_forum'),
+    PostDiscussion: require('./post_discussion'),
     Suggestion:require('./suggestion'),
     ActionSuggestion:require('./action_suggestion'),
     PostOrSuggestion:mongoose.model('PostOrSuggestion',require('./post_or_suggestion').Schema, 'posts'),

@@ -100,7 +100,6 @@
         };
 
         db_functions.getLastForumPosts(data, function (err, data) {
-            debugger;
             if (err) return;
             var posts = data.page_posts;
             $.each(posts, function (i, post) {

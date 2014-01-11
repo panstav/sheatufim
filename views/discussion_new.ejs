@@ -651,7 +651,6 @@ $(document).ready(function () {
         var tab_id = $tab.find('a').attr('href');
         $('.document-review-tabs li.tab.tab-selected').removeClass('tab-selected');
         $tab.addClass('tab-selected');
-        debugger;
         $('.tab-content.active').removeClass('active');
         $(tab_id).addClass('active');
     });
@@ -842,7 +841,7 @@ $(document).ready(function () {
                             if($primary_message.hasClass('message-closed')) {
                                 $primary_message.find('.icon-expand').click();
                             }
-                            var $replies = $('.message-' + parent_id + '.message-text .message-replies');
+                            var $replies = $('.message-' + parent_id + ' .message-text .message-replies').first();
                             var reply_count = $replies.data('replies') + 1;
                             $replies.html(reply_count + ' תגובות');
                             $replies.data('replies', reply_count);
