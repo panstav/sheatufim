@@ -62,18 +62,18 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
         this._super(req, filters, sorts, 0, 0, function (err, results) {
             var new_posts = [];
 
-            //set avatar and user info for each posts
-            _.each(results.objects, function(post){
-                var new_post = post.toObject();
-                new_post.avatar = post.creator_id.avatar_url();
-                new_post.username = post.creator_id.toString();
-                new_post.creator_id = post.creator_id.id;
-                new_post.user_occupation = post.creator_id.occupation;
-
-                //set is_my_comment flag
-                new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
-                new_posts.push(new_post);
-            });
+//            //set avatar and user info for each posts
+//            _.each(results.objects, function(post){
+//                var new_post = post.toObject();
+//                new_post.avatar = post.creator_id.avatar_url();
+//                new_post.username = post.creator_id.toString();
+//                new_post.creator_id = post.creator_id.id;
+//                new_post.user_occupation = post.creator_id.occupation;
+//
+//                //set is_my_comment flag
+//                new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
+//                new_posts.push(new_post);
+//            });
 
             //the posts with no parents are main posts
             var main_posts = _.filter(new_posts, function(post){

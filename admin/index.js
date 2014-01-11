@@ -175,12 +175,12 @@ module.exports = function (app) {
         search:['text', 'first_name', 'last_name']
     });
 
-    admin.registerMongooseModel('PressItem', mongoose.model('PressItem'), null, {
+    admin.registerMongooseModel('Link', Models.Link, null, {
         list:['title'],
         order_by:['gui_order'],
         sortable:'gui_order',
         search:['title', 'link'],
-        hideFromMain:true
+        /*hideFromMain:true*/
     });
 
    /* admin.registerMongooseModel('Category', Models.Category, null, {
