@@ -2,14 +2,14 @@ var models = require('../../models'),
     async = require('async'),
     common = require('../account/common'),
     InformationItemResource = require('../../api/InformationItemResource.js'),
-    PressItemResource = require('../../api/PressItemResource.js'),
+    LinkResource = require('../../api/LinkResource.js'),
     PostForumResource = require('../../api/forum/postForumResource.js');
 
 
 module.exports = function(req,res) {
     var post_resource = new PostForumResource();
     var information_item_resource = new InformationItemResource();
-    var links_resource = new PressItemResource();
+    var links_resource = new LinkResource();
 
     var subject_id = req.params[0];
     var page = req.query.page || 1,
@@ -38,7 +38,7 @@ module.exports = function(req,res) {
             });
         },
         function(cbk){
-            links_resource.get_objects(req, {subjects: subject_id}, {creation_date: -1}, 6, 0, function(err, link_items){
+            links_resource.get_objects(req, {subjects: subject_id}, {date: -1}, 6, 0, function(err, link_items){
                 cbk(err, link_items);
             });
         }
@@ -50,7 +50,7 @@ module.exports = function(req,res) {
             information_items = results[2].objects,
             links = results[3].objects;
         if (!subject.isUserAllowed(req.user))
-            return res.redirect('/discussions');
+            return res.redirect('/');
 
         res.render('forum.ejs', {
             subject: subject,
@@ -69,5 +69,4 @@ module.exports = function(req,res) {
             links: links || []
         });
     });
-
 };
