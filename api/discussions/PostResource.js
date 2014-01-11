@@ -22,15 +22,17 @@ var PostResource = module.exports = common.BaseModelResource.extend({
 
         this._super(models.Post);
         this.allowed_methods = ['get', 'post', 'put', 'delete'];
-        this.filtering = {discussion_id:null};
+        this.filtering = {discussion_id:null, parent_id: null};
         this.authorization = new discussionCommon.DiscussionAuthorization();
         this.default_query = function (query) {
-            return query.sort({creation_date:'ascending'});
+            return query.sort({creation_date:'descending'});
         };
         this.fields = {
             creator_id : common.user_public_fields,
             voter_balance: null,
             mandates_curr_user_gave_creator: null,
+            avatar: null,
+            user: null,
             text:null,
             popularity:null,
             tokens:null,
@@ -45,6 +47,12 @@ var PostResource = module.exports = common.BaseModelResource.extend({
             is_user_follower: null,
             is_editable: null,
             is_my_comment: null,
+            parent_id: null,
+            user_occupation: null,
+            responses: null,
+            post_groups: null,
+            count: null,
+            page_posts: null,
             attachment:null
         };
         this.update_fields = {text: null, discussion_id: null, ref_to_post_id: null, attachment:null};
@@ -59,7 +67,8 @@ var PostResource = module.exports = common.BaseModelResource.extend({
     },
 
     get_objects: function (req, filters, sorts, limit, offset, callback) {
-        this._super(req, filters, sorts, limit, offset, function(err, results){
+        var self = this;
+        self._super(req, filters, sorts, limit, offset, function(err, results){
            var user_id;
             if(req.user){
                 user_id = req.user._id + "";
@@ -120,17 +129,65 @@ var PostResource = module.exports = common.BaseModelResource.extend({
                             });
                         }
                     ], function(err, results){
-                        callback(err, results);
+                        if(err) {
+                            callback(err);
+                        } else {
+                            self.sort_posts(req, limit, offset, results, function(rst){
+                                callback(err, rst);
+                            });
+                        }
                     })
             }else{
-                _.each(results.objects, function(post){ post.is_user_follower = false; })
-                callback(err, results);
+                _.each(results.objects, function(post){ post.is_user_follower = false; });
+                self.sort_posts(req, limit, offset, results, function(rst){
+                    callback(err, rst);
+                });
             }
         });
     },
 
-    create_obj:function (req, fields, callback) {
+    sort_posts: function(req, limit, offset, results, callback){
+        var new_posts = [];
+        //set avatar and user info for each posts
+        _.each(results.objects, function(post){
+            var new_post = post.toObject();
+            new_post.avatar = post.creator_id.avatar_url();
+            new_post.username = post.creator_id.toString();
+            new_post.creator_id = post.creator_id.id;
+            new_post.user_occupation = post.creator_id.occupation;
 
+            //set is_my_comment flag
+            new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
+            new_posts.push(new_post);
+        });
+
+        //the posts with no parents are main posts
+        var main_posts = _.filter(new_posts, function(post){
+            return !post.parent_id;
+        });
+
+        //group sub_posts by their parents
+        var post_groups = _.groupBy(new_posts, function(post){
+            return post.parent_id;
+        });
+
+
+        //paginate
+        var page_posts = main_posts;
+        if(offset)
+            page_posts = _.rest(page_posts, offset);
+        if(limit)
+            page_posts = _.first(page_posts,limit);
+
+        var result = {
+            post_groups: post_groups || [],
+            count: main_posts.length,
+            page_posts: page_posts
+        };
+        callback(result);
+    },
+
+    create_obj:function (req, fields, callback) {
         var user_id = req.user._id + "";
         var self = this;
         var post_object = new self.model();
@@ -184,6 +241,7 @@ var PostResource = module.exports = common.BaseModelResource.extend({
             {
                 console.log('debugging waterfall 1');
                 fields.creator_id = user_id;
+                fields.parent_id = req.body.parent_id ? req.body.parent_id : null;
                 fields.first_name = user.first_name;
                 fields.last_name = user.last_name;
                 fields.avatar = user.avatar;
@@ -314,11 +372,13 @@ var PostResource = module.exports = common.BaseModelResource.extend({
         ],function(err)
         {
             var rsp = {};
-            _.each(['text','popularity','creation_date','votes_for','votes_against', '_id', 'ref_to_post_id'],function(field)
+            _.each(['text','popularity','creation_date','parent_id', 'votes_for','votes_against', '_id', 'ref_to_post_id', 'avatar'],function(field)
             {
                 rsp[field] = post_object[field];
             });
+            rsp.avatar = req.user.avatar_url();
             rsp.creator_id = req.user;
+            rsp.user = req.user;
             rsp.is_my_comment = true;
             callback(err, rsp);
         });

@@ -700,6 +700,28 @@ var db_functions = {
         });
     },
 
+    createDiscussionPost: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/posts/',
+            type: 'POST',
+            data: data,
+            async: true,
+            success: function (data) { callback(data); },
+            error: function () { callback('error'); }
+        });
+    },
+
+    getDiscussionPosts: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/posts/',
+            type: 'GET',
+            data: data,
+            async: true,
+            success: function (data) { callback(null, data); },
+            error: function () { callback('error'); }
+        });
+    },
+
     getLastForumPosts: function (data, callback) {
         db_functions.loggedInAjax({
             url: '/api/forum_posts/',
@@ -1792,6 +1814,36 @@ var db_functions = {
             async:true,
             success:function (data) {
                 console.log(data);
+                callback(null, data)
+            },
+            error:function (err) {
+                callback(err, null);
+            }
+        });
+    },
+
+    getInfoItemsOfSubject: function (data, callback) {
+        db_functions.loggedInAjax({
+            url:'/api/information_items',
+            data: data,
+            type:"GET",
+            async:true,
+            success:function (data) {
+                callback(null, data)
+            },
+            error:function (err) {
+                callback(err, null);
+            }
+        });
+    },
+
+    getLinksOfSubject: function (data, callback) {
+        db_functions.loggedInAjax({
+            url:'/api/press_item',
+            data: data,
+            type:"GET",
+            async:true,
+            success:function (data) {
                 callback(null, data)
             },
             error:function (err) {

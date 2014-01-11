@@ -8,6 +8,7 @@ var mongoose = require("mongoose"),
 var Post = {
     discussion_id:{type:Schema.ObjectId, ref:'Discussion', query:common.FIND_USER_QUERY,index:true, required:true, onDelete:'delete'},
     text:{type:Schema.Types.Html},
+    parent_id: {type:Schema.ObjectId, ref:'PostForum', index:true},
     votes_for: {type: Number, 'default': 0},
     votes_against: {type: Number, 'default': 0},
     is_comment_on_vision:{type:Boolean, 'default':false},

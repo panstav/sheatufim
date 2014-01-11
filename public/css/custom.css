@@ -10,10 +10,10 @@ body {
 span.show_all_text:hover {
     text-decoration: underline;
 }
-.forum .message.primary-message {
+.message.primary-message {
     min-width: 725px;
 }
-.forum .message.primary-message .message-text{
+.message.primary-message .message-text{
     min-width: 595px;
 }
 
@@ -47,6 +47,7 @@ span.show_all_text:hover {
  .message.message-pad-3 {
      min-width: 645px;
  }
+
 .message.message-pad-3 .message-text{
     min-width: 535px;
 }
@@ -68,7 +69,8 @@ div.info-item-img img{
     width: 70px;
     height: 70px;
 }
- ul.list li.info-item-container a:hover div,
+
+ul.list li.info-item-container a:hover div,
 ul.list li.link-container a:hover {
     color: #3bafda;
 }
@@ -153,5 +155,18 @@ ul.list li.link-container a:hover {
 }
 .forgot-password .login-form button {
     width: 100px;
+}
+
+#footer-credits img {
+    width: 180px;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+.tab-badge {
+    width: 31px;
 }
 

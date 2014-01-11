@@ -100,7 +100,6 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 count: main_posts.length,
                 page_posts: page_posts
             };
-
             callback(err, result);
         });
     },

@@ -8,6 +8,7 @@
 
 var resources = require('jest'),
     models = require('../models'),
+    async = require('async'),
     common = require('./common');
 
 var SubjectResource = module.exports = common.BaseModelResource.extend({
@@ -20,8 +21,8 @@ var SubjectResource = module.exports = common.BaseModelResource.extend({
         this.default_query = function(query){
             return query.sort({'is_uru':-1,gui_order:1});
         };
-        this.fields = ['name','tooltip','description','text_field_preview','image_field',
-            'tags','is_hot_object','is_uru','isAllowed','_id'];
+        this.fields = ['name','tooltip','description','text_field_preview','image_field', 'cover_image_field',
+            'timeline_url','tags','is_hot_object','is_uru','isAllowed','_id'];
     },
     get_objects:function(req,filters,sorts,limit,offset,callback) {
         this._super(req,filters,sorts,limit,offset,function(err,rsp) {
@@ -34,6 +35,13 @@ var SubjectResource = module.exports = common.BaseModelResource.extend({
                 });
             }
             callback(err,rsp);
+        });
+    },
+
+    get_object:function (req, id, callback) {
+        models.Subject.findById(id).exec(function(err, result){
+            result.isAllowed = result.isUserAllowed(req.user);
+            callback(err, result);
         });
     }
 });

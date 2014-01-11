@@ -51,8 +51,6 @@ var PressItemResource = module.exports = jest.MongooseResource.extend({
                 }
 
             }
-
-
         });
     }
 });

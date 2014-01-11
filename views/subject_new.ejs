@@ -15,24 +15,23 @@
 </header>
 <!-- Content -->
 <section class="content content-logged"
-         style="background-image: url('<%=subject.image_field.url%>'); background-repeat: no-repeat; margin-bottom: 20px;">
+         style="background-image: url('<%=subject.image_field.url%>'); background-size: 100% 230px; background-repeat: no-repeat; margin-bottom: 20px;">
     <div class="container" >
         <!-- Breadcrumbs -->
         <div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/discussions/subject/<%=subject._id%>"></a><%=subject.name%>
         </div>
         <div class="row">
             <!-- Sidebar -->
-            <% if(user_logged){ %>
+            <% if(user_logged && subject.isAllowed){ %>
             <% include partials/sidebar.ejs %>
             <% } %>
-
 
             <!-- Post -->
             <div class="right content-container">
                 <!-- Post Header -->
                 <div class="row post-header">
                     <div class="right sidebox post-image">
-                        <img src="<%=subject.cover_image_field.url%>" style="width: 224px; height: 224px; position: static;"
+                        <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px; position: static;"
                              class="align-me" alt="<%=subject.name%>" title="<%=subject.name%>"/>
                     </div>
                     <div class="left post-headerbox">
@@ -47,7 +46,7 @@
                                     </div>
                                 </div>
                             </a>
-                            <% if(user_logged) { %>
+                            <% if(user_logged && subject.isAllowed) { %>
                             <a href="<%=url%>/forum">
                                 <div class="left link-to-forum">לפורום</div>
                             </a>
@@ -58,7 +57,7 @@
                 <div class="row post-body">
                     <p><%=subject.description%></p>
                 </div>
-                <% if(user_logged) { %>
+                <% if(user_logged && subject.isAllowed) { %>
                 <% include partials/descussions_and_posts.ejs%>
                 <% } %>
             </div>
@@ -70,7 +69,7 @@
                     <h2 class="activity-box-title right">פעילות בזירה</h2>
                 </div>
                 <div class="row sidebox activity-module">
-                    <iframe src='http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=0At1pEZHeQ0icdDlUbXlrTUFCXzM2eVV3R3k3Sk1ySEE&font=Bevan-PotanoSans&maptype=TERRAIN&lang=en&height=500' width='100%' height='500' frameborder='0'></iframe>            </div>
+                    <iframe src='http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=<%=subject.timeline_url.substring(subject.timeline_url.indexOf('=') + 1, subject.timeline_url.indexOf('SEE'))%>SEE&font=Bevan-PotanoSans&maptype=TERRAIN&lang=en&height=500' width='100%' height='500' frameborder='0'></iframe>            </div>
         </div>
     </div>
 </section>
@@ -80,19 +79,25 @@
 </footer>
 <script type="text/javascript">
     $(document).ready(function () {
-        var subject = '<%= subject._id %>';
+        var subject_id = '<%= subject._id %>';
+        var is_allowed = '<%= subject.isAllowed %>';
         var is_logged = <%= user_logged %>;
-        var user =
-        <%- JSON.stringify(user || "") %>;
+        var user = <%- JSON.stringify(user || "") %>;
+
+        if(is_logged && is_allowed){
+            get_and_render.info_items(subject_id);
+            get_and_render.links(subject_id);
+        }
 
         var data = {
-            subject_id: subject,
+            subject_id: subject_id,
             limit: 3,
             sorts: {'creation_date': -1},
             offset: 0
         };
 
         db_functions.getLastForumPosts(data, function (err, data) {
+            debugger;
             if (err) return;
             var posts = data.page_posts;
             $.each(posts, function (i, post) {
@@ -137,7 +142,7 @@
 
             var query = '';
 
-            query = query + '&subject_id=' + subject;
+            query = query + '&subject_id=' + subject_id;
 //             query = query+'&is_private='+false;
 //             query = query+'&is_private__ne='+true;
             return query;
@@ -154,7 +159,7 @@
 
         $('#subjectShoppingCartPopup').click(function(){
             dust.render('subject_shopping_cart',{
-                id:subject,
+                id:subject_id,
                 name:"<%=subject.name%>"
             },function(err,out){
                 $.colorbox({
@@ -163,7 +168,7 @@
                     height:'70%',
                     onComplete:function(){
                         listCommon.reloadList('shoppingCartItemList','information_items','subject_shopping_cart_item',
-                                {subject:subject});
+                                {subject:subject_id});
                     }
                 });
 

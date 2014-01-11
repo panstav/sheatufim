@@ -78,6 +78,7 @@ module.exports = function(app)
     rest_api.register_resource('subjects', new SubjectResource());
     rest_api.register_resource('discussions', new DiscussionResource());
     rest_api.register_resource('posts', new PostResource());
+    rest_api.register_resource('post_attachments',new PostForumAttachmentResource());
     rest_api.register_resource('special_posts', new SpecialPostsResource());
     rest_api.register_resource('suggestion_posts', new PostOnSuggestionResource());
     rest_api.register_resource('posts_on_comment', new PostOnCommentResource());

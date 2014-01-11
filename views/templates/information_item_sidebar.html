@@ -1,0 +1,13 @@
+<li class="row info-item-container info-item-{_id}">
+    <div class="info-item right">
+        <a href="#">
+            <div class="info-item-title">{title}</div>
+            <div class="info-item-text">
+                {text_field_preview|s|strip_tags|truncate_medium}
+            </div>
+        </a>
+    </div>
+    <div class="info-item-img left">
+        <img src="{image_field.url}" alt="תמונה 1" title="{title}"/>
+    </div>
+</li>

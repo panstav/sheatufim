@@ -116,7 +116,7 @@ Discussion.methods.isUserAllowed = function(user){
     if(!user || !user.subjects)
         return false;
     var subjectIds = user.subjects.map(function(subject) { return subject + '';});
-    var discussionSubjectId = this.subject_id + '';
+    var discussionSubjectId = this.subject_id._id ? this.subject_id._id + "" : this.subject_id + "";
         return subjectIds.indexOf(discussionSubjectId) != -1;
 }
 

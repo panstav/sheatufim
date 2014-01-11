@@ -107,7 +107,8 @@ config.headConfigs = {
             '/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js',
             '/js/timeline.js',
             '/js/countdown.js',
-            '/js/custom/script.js'
+            '/js/custom/script.js',
+            '/js/custom/links_and_info_items.js'
 
             /*'/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js'*/
         ]

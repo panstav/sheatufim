@@ -3,8 +3,8 @@
 * by this website's owner. All other parties are explicitly restricted from using the Licensed
 * Webfonts(s). To obtain a valid license visit: http://alefalefalef.co.il/atlas/
 * 
-* Webfont Name: אטלס
-* Foundry: Alef Alef Alef (c) 2013 אאא
+* Webfont Name: ××˜×œ×¡
+* Foundry: Alef Alef Alef (c) 2013 ×××
 * License: http://alefalefalef.co.il/webfonts/
 * Licensed pageviews limit: 10,000/month
 */
@@ -549,6 +549,12 @@ img {
 
 /* Buttons */
 
+.btn-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+
 .btn-group button:first-child {
     -webkit-border-top-left-radius: 0px;
     -moz-border-top-left-radius: 0px;
@@ -574,7 +580,7 @@ img {
 }
 
 .btn-group button{
-    margin-left: -3px;
+    margin-left: 1px;
 }
 
 .btn {
@@ -749,7 +755,7 @@ ul.inline-list li {
     cursor: pointer;
 }
 
-/* זירות שיח */
+/* ×–×™×¨×•×ª ×©×™×— */
 
 .spacer {
     height: 1px;
@@ -876,6 +882,7 @@ ul.inline-list li {
 .paper-actions-bubble button {
     font-size: 14px;
     font-weight: 500;
+    float: right;
 }
 
 .paper-actions-bubble button i.icon {
@@ -2465,6 +2472,10 @@ div.document-review-tabs ul {
     line-height: 31px;
 }
 
+.tab-badge span {
+    margin-left: -2px;
+}
+
 .tab {
     background-color: #3bafda;
     width: 245px;
@@ -2493,23 +2504,15 @@ div.document-review-tabs ul {
     color: #3bafda;
     font-size: 23px;
     letter-spacing: -1px;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .tab:not(.tab-selected):hover {
-    background-color: #96d9f4;
+    background-color: #2890b7;
 }
 
 .tab:not(.tab-selected):active {
-
-}
-
-.tab:hover {
-    background-color: #cfedf9;
-}
-
-.tab:active {
-
+    background-color: #96d9f4;
 }
 
 .tab-selected {
@@ -2528,9 +2531,10 @@ div.document-review-tabs ul {
     background-color: #3a3c3e;
     color: #ffffff;
     font-size: 23px;
-    letter-spacing: -1px;
     font-weight: 700;
 }
+
+
 
 .tab-content {
     background-color: #e5f4fa;
@@ -2669,6 +2673,7 @@ body.document-review .message-datetime {
 .review-options-like {
     width: 100px;
     height: 35px;
+
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -2692,45 +2697,39 @@ body.document-review .message-datetime {
 }
 
 .review-options-like:not(.review-options-like-selected):hover {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #17c41d;
-    -webkit-box-shadow: inset 0 -3px rgba(0,159,26,.75);
+    background-color: #1bd045;
+    -webkit-box-shadow: inset 0 -3px rgba(1,159,26,.75);
     -moz-box-shadow: inset 0 -3px rgba(0,159,26,.75);
     box-shadow: inset 0 -3px rgba(0,159,26,.75);
     border: solid 1px #008e17;
-    background-image: -webkit-linear-gradient(bottom, #13a918, #17c41d);
-    background-image: -moz-linear-gradient(bottom, #13a918, #17c41d);
-    background-image: -o-linear-gradient(bottom, #13a918, #17c41d);
-    background-image: linear-gradient(to top, #13a918, #17c41d);
+    background-image: -webkit-linear-gradient(bottom, #16ba3d, #1bd045);
+    background-image: -moz-linear-gradient(bottom, #16ba3d, #1bd045);
+    background-image: -o-linear-gradient(bottom, #16ba3d, #1bd045);
+    background-image: linear-gradient(to top, #16ba3d, #1bd045);
 }
 
 .review-options-like:not(.review-options-like-selected):active {
+    background-color: #0cb628;
+    border: solid 1px #008e17;
+    background-image: -webkit-linear-gradient(bottom, #08781a, #0cb628);
+    background-image: -moz-linear-gradient(bottom, #08781a, #0cb628);
+    background-image: -o-linear-gradient(bottom, #08781a, #0cb628);
+    background-image: linear-gradient(to top, #08781a, #0cb628);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+.review-options-like-selected {
     width: 100px;
     height: 35px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #0cb628;
-    -webkit-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
-    -moz-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
-    box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
-    border: solid 1px #00a90b;
-    background-image: -webkit-linear-gradient(top, #0f8216, #2aca35 77%);
-    background-image: -moz-linear-gradient(top, #0f8216, #2aca35 77%);
-    background-image: -o-linear-gradient(top, #0f8216, #2aca35 77%);
-    background-image: linear-gradient(to bottom, #0f8216, #2aca35 77%);
-}
-
-.review-options-like-selected {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #0cb628;
-    -webkit-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
-    -moz-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
-    box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
+    -webkit-box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
+    -moz-box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
+    box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(19,143,28,.3);
     border: solid 1px #00a90b;
     background-image: -webkit-linear-gradient(top, #0f8216, #2aca35 77%);
     background-image: -moz-linear-gradient(top, #0f8216, #2aca35 77%);
@@ -2746,6 +2745,7 @@ body.document-review .message-datetime {
 .review-options-dislike {
     width: 100px;
     height: 35px;
+
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -2769,44 +2769,40 @@ body.document-review .message-datetime {
 }
 
 .review-options-dislike:not(.review-options-dislike-selected):hover {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    background-color: #e55b10;
+    background-color: #e66b28;
     -webkit-box-shadow: inset 0 -3px #8b1f02;
     -moz-box-shadow: inset 0 -3px #8b1f02;
     box-shadow: inset 0 -3px #8b1f02;
     border: solid 1px #a8430c;
-    background-image: -webkit-linear-gradient(bottom, #c8500e, #e55b10);
-    background-image: -moz-linear-gradient(bottom, #c8500e, #e55b10);
-    background-image: -o-linear-gradient(bottom, #c8500e, #e55b10);
-    background-image: linear-gradient(to top, #c8500e, #e55b10);
+    background-image: -webkit-linear-gradient(bottom, #c05c25, #e66b28);
+    background-image: -moz-linear-gradient(bottom, #c05c25, #e66b28);
+    background-image: -o-linear-gradient(bottom, #c05c25, #e66b28);
+    background-image: linear-gradient(to top, #c05c25, #e66b28);
 }
 
 .review-options-dislike:not(.review-options-dislike-selected):active {
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
     background-color: #e75c10;
-    -webkit-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    -moz-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    border: solid 1px #00a90b;
-    background-image: -webkit-linear-gradient(top, #b8330f, #e75c10 77%);
-    background-image: -moz-linear-gradient(top, #b8330f, #e75c10 77%);
-    background-image: -o-linear-gradient(top, #b8330f, #e75c10 77%);
-    background-image: linear-gradient(to bottom, #b8330f, #e75c10 77%);
+    border: solid 1px #a8430c;
+    background-image: -webkit-linear-gradient(bottom, #9e3f0b, #e75c10);
+    background-image: -moz-linear-gradient(bottom, #9e3f0b, #e75c10);
+    background-image: -o-linear-gradient(bottom, #9e3f0b, #e75c10);
+    background-image: linear-gradient(to top, #9e3f0b, #e75c10);
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
 }
 
 .review-options-dislike-selected {
+    width: 100px;
+    height: 35px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     background-color: #e75c10;
-    -webkit-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    -moz-box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    box-shadow: inset -1px -2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
-    border: solid 1px #00a90b;
+    -webkit-box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
+    -moz-box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
+    box-shadow: inset 0 2px 4px rgba(34,30,31,.5), inset 0 0 13px rgba(184,51,15,.3);
+    border: solid 1px #a8430c;
     background-image: -webkit-linear-gradient(top, #b8330f, #e75c10 77%);
     background-image: -moz-linear-gradient(top, #b8330f, #e75c10 77%);
     background-image: -o-linear-gradient(top, #b8330f, #e75c10 77%);
@@ -3130,4 +3126,3 @@ body.document-review .document-text .document-text-header {
 .tab ul li {
     height: 121px;
 }
-

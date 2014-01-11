@@ -15,6 +15,10 @@ module.exports = function (req, res) {
                     '_id': 1,
                     'first_name': 1,
                     'last_name': 1})
+                .populate('subject_id', {
+                    '_id': 1,
+                    'name': 1
+                })
                 .exec(cbk);
         },
 
@@ -28,10 +32,10 @@ module.exports = function (req, res) {
 
             var discussion = results[0];
             if (!discussion)
-                return res.redirect('/discussions');
+                return res.redirect('/discussions/subject/' + discussion.subject_id._id.toString());
 
             if (!discussion.isUserAllowed(req.user))
-                return res.redirect('/discussions');
+                return res.redirect('/discussions/subject/' + discussion.subject_id._id.toString());
             // populate 'is follower' , 'grade object' ...
             resource.get_discussion(discussion, user, function (err, discussion) {
 
@@ -39,7 +43,7 @@ module.exports = function (req, res) {
                     return res.render('500.ejs', {error: err});
                 res.setHeader("Expires", "0");
 
-                var ejs = 'discussion.ejs';
+                var ejs = 'discussion_by_id_new.ejs';
 
                 res.render(ejs, {
                     title: "דיון",
@@ -50,6 +54,7 @@ module.exports = function (req, res) {
                     fb_description: discussion.text_field_preview,
                     fb_title: discussion.title,
                     fb_image: discussion.image_field && discussion.image_field.url,
+                    avatar:req.session.avatar_url,
                     user: user,
                     meta: {
                         type: req.app.get('facebook_app_name') + ':discussion',

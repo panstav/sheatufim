@@ -21,8 +21,17 @@ dust.filters['time'] = function(a){
 dust.filters['truncate'] = function(a){
     return a.substring(0, 140) + '...';
 };
+
+dust.filters['truncate_medium'] = function(a){
+    return a.substring(0, 60) + '...';
+};
+
 dust.filters['truncate_short'] = function(a){
     return a.substring(0, 45) + '...';
+};
+
+dust.filters['strip_tags'] = function(a){
+    return a.replace( /<.*?>/g, '' );
 };
 
 dust.filters['time_only'] = function(a){

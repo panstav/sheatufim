@@ -10,6 +10,7 @@ var Subject  = module.exports = new Schema({
     text_field_preview:{type:Schema.Types.Text},
     image_field:Schema.Types.File,
     cover_image_field:Schema.Types.File,
+    timeline_url: String,
     tags:[String],
     gui_order: {type:Number,'default':9999999, editable:false},
     is_hot_object: {type:Boolean,'default':false},
