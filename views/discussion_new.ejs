@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="he-IL">
+<html>
 <head>
     <title>זירות שיח</title>
     <% include partials/head.ejs %>
@@ -7,111 +7,33 @@
 <body class="document-review logged">
 <!-- Header -->
 <header>
-    <div class="container">
-        <div class="row">
-            <!-- Logo -->
-            <div id="logo" class="col4"><img src="img/logo.png" alt="זירות שיח מבית שיתופים" title="זירות שיח מבית שיתופים"/></div>
-            <!-- Navigation -->
-            <nav id="header-nav" class="col6">
-                <ul class="menu inline-list">
-                    <li><a href="#">אודות</a></li>
-                    <li><a href="#">מאגרי מידע</a></li>
-                    <li><a href="#">צור קשר</a></li>
-                    <!--li id="header-nav-login"><button class="btn btn-large btn-green"><i class="icon icon-small-pad-left icon-size2 icon-login"></i>התחברות</button></li-->
-                    <li id="header-nav-logged-in">
-                        <div  class="row">
-                            <div class="right">
-                                <img src="img/comment-img2.png" class="logged-in-user-img circle" alt="שמואל"/>
-                            </div>
-                            <div class="right logged-in-user-details">
-                                <div class="logged-in-user-welcome">שלום,</div>
-                                <div class="logged-in-user-name">שמואל</div>
-                                <div class="logged-in-user-logout"><a href="#">יציאה</a></div>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </div>
+    <% include partials/menu.ejs %>
 </header>
 <!-- Content -->
 <section class="content">
 <div class="container">
 <!-- Breadcrumbs -->
-<div id="breadcrumbs"><a href="#">זירות שיח</a> > <a href="#">חברה אזרחית והלאה</a> > <a href="#">פורום</a></div>
+<div id="breadcrumbs"><a href="/">זירות שיח</a> > <a href="/discussions/subject/<%=discussion.subject_id._id%>"><%=discussion.subject_id.name%></a> > <%=discussion.title%>
+</div>
 <div class="row">
 <!-- Sidebar -->
-<aside id="sidebar" class="left">
-    <!-- Basket -->
-    <div class="aside-info sidebox">
-        <div class="row">
-            <i class="icon icon-small-pad-left icon-basket right"></i>
-            <h2 class="aside-info-title right">סל מידע</h2>
-        </div>
-        <div class="spacer"></div>
-        <ul class="list">
-            <li class="row info-item-container info-item-1">
-                <div class="info-item right">
-                    <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                    <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                </div>
-                <div class="info-item-img left"><img src="img/info_img1.png" alt="תמונה 1" title="תמונה 1"/></div>
-            </li>
-            <li class="row info-item-container info-item-2">
-                <div class="info-item right">
-                    <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                    <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                </div>
-                <div class="info-item-img left"><img src="img/info_img2.png" alt="תמונה 2" title="תמונה 2"/></div>
-            </li>
-            <li class="row info-item-container info-item-3">
-                <div class="info-item right">
-                    <div class="info-item-title">כאן תהיה כותרת בשתי שורות</div>
-                    <div class="info-item-text">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</div>
-                </div>
-                <div class="info-item-img left"><img src="img/info_img3.png" alt="תמונה 3" title="תמונה 3"/></div>
-            </li>
-        </ul>
-        <div class="aside-more-info">
-            <div class="spacer-plus"><a href="dialog.html" class="dialog-basket"><i class="icon icon-plus"></i></a></div>
-            <div class="aside-show-more">הצג את כל הרשומות</div>
-        </div>
-    </div>
-    <!-- Useful Links -->
-    <div class="aside-links sidebox">
-        <div class="row">
-            <i class="icon icon-medium-pad-left icon-link right"></i>
-            <h2 class="aside-links-title right">לינקים שימושיים</h2>
-        </div>
-        <div class="spacer"></div>
-        <ul class="list">
-            <li class="row link-container link-1">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-            <li class="row link-container link-2">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-            <li class="row link-container link-3">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-            <li class="row link-container link-4">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-            <li class="row link-container link-5">או נבחרים סוציולוגיה שכל, את נפלו לעריכת זאת, ב חפש ליום...</li>
-            <li class="row link-container link-6">מלא גם טיפול פיסיקה. להפוך שדרות רקטות תנך אם, את תיבת וכמקובל...</li>
-        </ul>
-    </div>
-</aside>
+<% if(user_logged){ %>
+<% include partials/sidebar.ejs %>
+<% } %>
 <!-- Post -->
 <div class="right content-container">
 <!-- Post Header -->
 <div class="row post-header">
     <div class="right sidebox post-image">
-        <img src="img/wendys.png" class="align-me" alt="תמונה" title="תמונה"/>
+        <img src="<%=discussion.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="תמונה" title="תמונה"/>
     </div>
     <div class="left post-headerbox">
-        <h1 class="post-title"><%=discussion.subject_name%></h1>
+        <h1 class="post-title"><%=discussion.subject_id.name%></h1>
         <div class="row">
-            <a href="/">
+            <a href="/discussions/subject/<%=discussion.subject_id._id%>">
                 <div class="right link-home">
                     <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף הבית</div>
                 </div>
-            </a>
-            <a href="#">
-                <div class="left link-to-forum">לפורום</div>
             </a>
         </div>
     </div>
@@ -124,15 +46,13 @@
             <div class="document-name right"><%=discussion.title%></div>
             <div class="document-bar row">
                 <div class="document-datetime right">תאריך:</div>
-                <div class="document-datetime-value right">01.02.03<!--<%=discussion.creation_date%>--></div>
+                <div class="document-datetime-value right"><%=new Date(discussion.creation_date).format('dd.mm.yyyy')%></div>
                 <div class="document-pipeline right">|</div>
                 <div class="document-participants right">משתתפים:</div>
                 <div class="document-participants-value right"><%=discussion.participants_count%></div>
                 <div class="document-pipeline right">|</div>
-                <% if(discussion.creator_id){ %>
-                    <div class="document-produced right">נוצר ע"י: </div>
-                    <div class="document-produced-value right"><%=discussion.creator_id.first_name+ " " +discussion.creator_id.last_name %> </div>
-                <% } %>
+                <div class="document-produced right">נוצר ע"י: </div>
+                <div class="document-produced-value right"><%=discussion.creator_id.first_name%> <%=discussion.creator_id.last_name%></div>
             </div>
         </div>
     </div>
@@ -184,39 +104,20 @@
         </div>
         <a href="http://masta.co.il"><div class="link-to-doc-bubble paper-mark-3 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div></a>
     </div>
-                            <pre>חוקרים גילו קוד סודי משני המוסתר בתוך ה-DNA ומורה לתאים כיצד גנים מסוימים יבואו לידי ביטוי בתאים. התגלית המדהימה הזו צפויה לאפשר למדענים להבין טוב יותר כיצד לאבחן ולטפל במחלות, זאת על פי מחקר חדש.
-
-מאז פוצח הקוד הגנטי לפני יותר מ-40 שנים, מדענים האמינו כי ה-DNA מכיל ארק את המידע התורשתי הדרוש לבנייתם של כל החלבונים בתא. עם זאת, הגילוי האחרון של חוקים בראשות ג'ון סטמאוינופולוס מאוניברסיטת וושינגטון מרמז כי גנומים (השם הניתן לרוב לכלל המידע התורשתי באורגניזם המקודד ב־DNA) מכילים שתי שפות נפרדות.
-
-"כעת אנחנו יודעים שההנחה הבסיסית אודות קריאת הגנום האנושי פספסה מחצית מהתמונה", מסר סטמאוינופולוס על פי ההודעה לעיתונות. החוקרים גילו כי שפה נוספת מורה לתאים כיצד לשלוט בגנים, על פי ממצאים שפורסמו בכתב העת Science ביום שישי. המחקר של המדענים נערך במסגרת פרויקט האנציקלופדיה של רכיבי ה-DNA, הידוע בשם ENCODE.
-
-המדפסות התלת-ממדיות הופכות בשנים האחרונות <span class="paper-mark-selected">לחלק בלתי נפרד מחיינו</span> - ולמרות שלאדם הממוצע עדיין אין מדפסת כזאת אצלו בבית, די ברור שהטכנולוגיה הזו כאן כדי להישאר, והיא צפויה לחולל שינוי ממשי בתרבות ובתעשייה בשנים הקרובות.
-
-<span class="paper-mark">והנה, לקראת 2014 המגיעה אלינו לטובה, אנחנו למדים שהמדפסות התלת-ממדיות צפויות</span> לכבוש יעד נוסף בקרוב: אם לא יקרו תקלות מיוחדות, במהלך השנה הקרובה תודפס לראשונה רקמת כבד חיה ומתפקדת במדפסת תלת-ממד.
-
-חברת Organovo, מפתחת מדפסות בילוגיות, מתכוונת להדפיס רקמת כבד מתפקדת באמצעות המדפסת הביולוגית שלה, שמסוגלת להדפיס שכבות של תאים חיים. בעוד הדפסת תאים חיים בלבד אינה מספיקה בשביל ליצור איברים מתפקדים או רקמות חיות (התאים ימותו מהר מאוד אם לא יהיו מחוברים למקור אנרגיה), ב-Organovo מצליחים כבר לשלב בהן רשתות וסקולריות זעירות, שמאפשרות לתאים להשאר חיים במשך כ-40 ימים.
-
-במהלך 2014, צפויה החברה להדפיס רקמת כבד מתפקדת - בשלב זה, לא למען שימוש ישיר על חולים, אך כן לשימושן של חברות התרופות, שיוכלו לבצע ניסויים על הרקמות המלאכותיות ובכך לקצר תקופות בדיקה של תרופות חדשות.
-
-ומה צפוי בעתיד? בשלב זה אנשי Organovo מעדיפים לא להתפאר ולהבטיח לנו עתיד ורוד בו יוכלו להשתיל בגוף האנושי איברים ורקמות שיודפסו במדפסות ביולוגיות כאלה. מדובר בתהליך ארוך, שעלול לקחת עוד עשרות שנים של פיתוח ובדיקות לפני שיקבל את כל האישורים הדרושים - וזה עוד לפי שהתחלנו לדבר על העלויות.
-
-במקביל להדפסת איברים - תעשיית המדפסות התלת-ממדיות הבילוגיות גם שוקדת על הכנת בשר שיהיה ניתן להדפיס בבית, כדי לייצר אוכל שלא יהיה כרוך בהרג בעלי חיים.
-
-לא רק זאת, שירותי הענן העכשוויים כוללים יישומים "מצילי חיים" של ממש, כדוגמת אפליקציית מציאת האייפון, המאתרת את מיקומו הנוכחי של המכשיר, מגבה את המידע שעליו ואף שולחת הודעות והתרעות לגונבים. ברחבי העולם מסתובבים חובבי טכנולוגיה רבים החייבים לטכנולוגיית הענן לא מעט – החל ממאות שעות עבודה מאומצת על קבצים ששוחזרו ובין אם פיסות חיים של ממש על תמונות וסרטים סנטימנטליים. להלן סיפורים על אנשים שהענן הציל את חייהם, או לפחות, הצליח לשחזר הרבה רגעים משמעותיים מתוכם.
-
-בפוסט שעלה לאחרונה באתר האישי של הבלוגר הג'מייקני דוויין סמית' מתואר תרחיש האימים של כל סטודנט באשר הוא. בעת לימודיו בקולג' המקומי, היה על סמית' להגיש עבודת גמר בקורס "פיתוח מערכות". מספר ימים לפני מועד ההגשה, וכשעבודת הגמר כמעט ומוכנה לגמרי, החליט הבלוגר לגבות את כל קבציו בחשבון שירות גיבוי לענן.</pre>
+    <pre><%=discussion.text_field%></pre>
     <button class="btn btn-large btn-green btn-read-more" onclick="togglePaper();">להמשך קריאה ועריכה</button>
     <i class="icon icon-close hand hide" onclick="togglePaper();"></i>
 </div>
 <div class="spacer-large"></div>
+
 <!-- Tabs Container -->
 <div class="document-review-tabs-container">
 <!-- Tabs -->
 <div class="document-review-tabs">
     <ul class="row list inline-list">
         <!-- Tab-1 -->
-        <li id="tab-1" class="tab right">
-            <a href="document-changes.html">
+        <li class="tab right tab-selected">
+            <a href="#tab-1">
                 <div class="row">
                     <div class="tab-title right">הצעות לשינוי</div>
                     <div class="tab-badge left circle"><span>8</span></div>
@@ -224,8 +125,8 @@
             </a>
         </li>
         <!-- Tab-2 -->
-        <li id="tab-2" class="tab right">
-            <a href="document-accepted.html">
+        <li class="tab right">
+            <a href="#tab-2">
                 <div class="row">
                     <div class="tab-title right">הצעות שהתקבלו</div>
                     <div class="tab-badge left circle"><span>10</span></div>
@@ -233,8 +134,8 @@
             </a>
         </li>
         <!-- Tab-3 -->
-        <li id="tab-3" class="tab tab-selected right">
-            <a href="document-comments.html">
+        <li class="tab right">
+            <a href="#tab-3">
                 <div class="row">
                     <div class="tab-title right">תגובות</div>
                     <div class="tab-badge left circle"><span>12</span></div>
@@ -244,14 +145,14 @@
     </ul>
 </div>
 <!-- Tab Content -->
-<div class="post-messages-container tab-content">
+<div id="tab-1" class="post-messages-container tab-content active">
 <ul class="reviews">
 <!-- review-1 -->
-<!--<li class="row-table review-1">
+<li class="row-table review-1">
     <div class="message primary-message message-closed">
         <div class="message-image review-aside">
             <i class="icon icon-bulb"></i>
-            <img src="img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
+            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
         </div>
         <div class="message-text">
             <div class="row message-text-header">
@@ -298,7 +199,7 @@
         <div class="post-new-reply reply-to-review-1 message-pad-0">
             <i class="icon icon-box-top-right-blue-tip"></i>
             <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="post-new-message-body-image"><img src="/img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
                 <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
                 <div class="post-new-message-body-actions">
                     <div class="row">
@@ -312,11 +213,11 @@
         </div>
     </div>
     <ul class="hide">
-        &lt;!&ndash; Message-1-1 &ndash;&gt;
+        <!-- Message-1-1 -->
         <li class="row review-1-1">
             <div class="message message-pad-0">
                 <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
                 <div class="message-text">
                     <div class="row message-text-header">
                         <div class="message-author right">פרננדו אלפחורס</div>
@@ -334,58 +235,60 @@
             </div>
         </li>
     </ul>
-</li>-->
-<div class="tab-content">
-<div class="post-new-message">
-<div class="post-new-message-head row">
-    <div class="post-new-message-title right">הוסף הודעה חדשה</div>
-</div>
-<div class="post-new-message-body row">
-    <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-    <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-    <div class="post-new-message-body-actions">
-        <div class="row">
-            <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-        </div>
-        <div class="row">
-            <button class="btn btn-medium btn-green">פרסם</button>
-        </div>
-    </div>
-</div>
-<div class="spacer-large spacer-blue"></div>
-<!-- Comments  -->
-<div class="post-messages-container">
-<ul class="comments">
-<!-- comment-1 -->
-<li class="row-table comment-1">
+</li>
+<!-- review-2 -->
+<li class="row-table review-2">
     <div class="message primary-message message-closed">
-        <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('comment-1');"></i></div>
-        <div class="message-image"><img src="img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+        <div class="message-image review-aside">
+            <i class="icon icon-bulb"></i>
+            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
+        </div>
         <div class="message-text">
             <div class="row message-text-header">
                 <div class="message-author right">אלברט אלמוזלינו</div>
                 <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-            </div>
-            <div class="row">
-                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                <div class="message-datetime left">08.12.13 | 10:04</div>
             </div>
             <div class="spacer"></div>
-            <div class="message-bar row">
-                <div class="message-datetime right">08.12.13 | 10:04</div>
-                <div class="message-replies right">3 תגובות</div>
-                <div class="message-reply hand left" onclick="replyTo('comment-1');">
-                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
+            <div class="row">
+                <div class="review-original-text">
+                    <div class="review-original-text-title">טקסט מקורי</div>
+                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
                 </div>
-                <div class="message-attachment left"></div>
+                <div class="review-change">
+                    <div class="review-change-title">הצעה לשינוי</div>
+                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
+                </div>
+                <div class="review-exsplain">
+                    <div class="review-exsplain-title">נימוק</div>
+                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="review-options row">
+                <button class="btn review-options-like review-options-like-selected right"><i class="icon icon-like"></i>בעד</button>
+                <button class="btn review-options-dislike review-options-dislike-selected right"><i class="icon icon-dislike"></i>נגד</button>
+                <div class="review-options-pro right">
+                    <div class="review-options-pro-value right">12</div>
+                    <div class="review-options-pro-text right">תומכים</div>
+                </div>
+                <div class="review-options-against right">
+                    <div class="review-options-against-value right">38</div>
+                    <div class="review-options-against-text right">מתנגדים</div>
+                </div>
+                <div class="review-options-respondes right">
+                    <div class="review-options-respondes-value right">3</div>
+                    <div class="review-options-respondes-text right">תגובות</div>
+                </div>
+                <button class="btn review-respond left" onclick="toggleComments('review-2')">תגובות</button>
             </div>
         </div>
     </div>
     <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-message-2 message-pad-1">
+        <div class="post-new-reply reply-to-review-2 message-pad-0">
             <i class="icon icon-box-top-right-blue-tip"></i>
-            <i class="icon icon-close hand" onclick="closeReply('comment-1');"></i>
             <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="post-new-message-body-image"><img src="/img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
                 <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
                 <div class="post-new-message-body-actions">
                     <div class="row">
@@ -399,236 +302,327 @@
         </div>
     </div>
     <ul class="hide">
-        <!-- comment-1-1 -->
-        <li class="row comment-1-1">
-            <div class="message message-pad-1">
+        <!-- review-2-1 -->
+        <li class="row review-2-1">
+            <div class="message message-pad-0">
                 <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
                 <div class="message-text">
                     <div class="row message-text-header">
                         <div class="message-author right">פרננדו אלפחורס</div>
                         <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
                     </div>
                     <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
                     </div>
                     <div class="spacer"></div>
                     <div class="message-bar row">
                         <div class="message-datetime right">08.12.13 | 10:04</div>
                         <div class="message-replies right"></div>
-                        <div class="message-reply hand left" onclick="replyTo('comment-1-1');">
-                            <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
-                        </div>
-                        <div class="message-attachment left"></div>
                     </div>
                 </div>
             </div>
-            <div class="reply-to-message row hide">
-                <div class="post-new-reply reply-to-comment-3 message-pad-2">
-                    <i class="icon icon-box-top-right-blue-tip"></i>
-                    <i class="icon icon-close hand" onclick="closeReply('comment-1-1');"></i>
-                    <div class="post-new-message-body">
-                        <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                        <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                        <div class="post-new-message-body-actions">
-                            <div class="row">
-                                <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-                            </div>
-                            <div class="row">
-                                <button class="btn btn-medium btn-green">פרסם</button>
-                            </div>
-                        </div>
+        </li>
+        <!-- review-2-2 -->
+        <li class="row review-2-2">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
                     </div>
                 </div>
             </div>
-            <ul>
-                <!-- comment-1-1-1 -->
-                <li class="row comment-1-1-1">
-                    <div class="message message-pad-2">
-                        <i class="icon icon-box-top-right-gray-tip"></i>
-                        <div class="message-image"><img src="img/comment-img3.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                        <div class="message-text">
-                            <div class="row message-text-header">
-                                <div class="message-author right">ג’וזפה קרלו ברדם</div>
-                                <div class="message-author-role right">יו"ר תעשיות השממה</div>
-                            </div>
-                            <div class="row">
-                                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
-                            </div>
-                            <div class="spacer"></div>
-                            <div class="message-bar row">
-                                <div class="message-datetime right">08.12.13 | 10:04</div>
-                                <div class="message-replies right"></div>
-                                <div class="message-reply hand left" onclick="replyTo('comment-1-1-1');">
-                                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
-                                </div>
-                                <div class="message-attachment left"></div>
-                            </div>
-                        </div>
+        </li>
+        <!-- review-2-3 -->
+        <li class="row review-2-3">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
                     </div>
-                    <div class="reply-to-message row hide">
-                        <div class="post-new-reply reply-to-message-3 message-pad-3">
-                            <i class="icon icon-box-top-right-blue-tip"></i>
-                            <i class="icon icon-close hand" onclick="closeReply('comment-1-1-1');"></i>
-                            <div class="post-new-message-body">
-                                <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                                <div class="post-new-message-body-actions">
-                                    <div class="row">
-                                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-                                    </div>
-                                    <div class="row">
-                                        <button class="btn btn-medium btn-green">פרסם</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
                     </div>
-                    <ul>
-                        <!-- comment-1-1-1-1 -->
-                        <li class="row comment-1-1-1-1">
-                            <div class="message message-pad-3">
-                                <i class="icon icon-box-top-right-gray-tip"></i>
-                                <div class="message-image"><img src="img/comment-img4.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                                <div class="message-text">
-                                    <div class="row message-text-header">
-                                        <div class="message-author right">גרטרוד קופרבורשטיין</div>
-                                        <div class="message-author-role right">מנכ”ל כוכב תשתיות בע”מ</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
-                                    </div>
-                                    <div class="spacer"></div>
-                                    <div class="message-bar row">
-                                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                                        <div class="message-replies right"></div>
-                                        <div class="message-reply hand left" onclick="replyTo('comment-1-1-1-1');">
-                                            <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
-                                        </div>
-                                        <a href="#">
-                                            <div class="message-attachment left">
-                                                <i class="icon icon-xsmall-pad-left icon-paperclip right"></i>
-                                                <div class="right">קובץ מצורף</div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="reply-to-message row hide">
-                                <div class="post-new-reply reply-to-message-3 message-pad-4">
-                                    <i class="icon icon-box-top-right-blue-tip"></i>
-                                    <i class="icon icon-close hand" onclick="closeReply('comment-1-1-1-1');"></i>
-                                    <div class="post-new-message-body">
-                                        <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                                        <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                                        <div class="post-new-message-body-actions">
-                                            <div class="row">
-                                                <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-                                            </div>
-                                            <div class="row">
-                                                <button class="btn btn-medium btn-green">פרסם</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
+                    </div>
+                </div>
+            </div>
         </li>
     </ul>
 </li>
-<!-- comment-2 -->
-<li class="row-table comment-2">
+</ul>
+</div>
+<div id="tab-2" class="post-messages-container tab-content">
+<ul class="reviews">
+<!-- review-1 -->
+<li class="row-table review-1">
     <div class="message primary-message message-closed">
-        <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('comment-2');"></i></div>
-        <div class="message-image"><img src="img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+        <div class="message-image review-aside">
+            <i class="icon icon-bulb"></i>
+            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
+        </div>
         <div class="message-text">
             <div class="row message-text-header">
                 <div class="message-author right">אלברט אלמוזלינו</div>
                 <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-            </div>
-            <div class="row">
-                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                <div class="message-datetime left">08.12.13 | 10:04</div>
             </div>
             <div class="spacer"></div>
-            <div class="message-bar row">
-                <div class="message-datetime right">08.12.13 | 10:04</div>
-                <div class="message-replies right">3 תגובות</div>
-                <div class="message-reply hand left" onclick="replyTo('comment-2');">
-                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
+            <div class="row">
+                <div class="review-original-text">
+                    <div class="review-original-text-title">טקסט מקורי</div>
+                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
                 </div>
-                <div class="message-attachment left"></div>
+                <div class="review-change">
+                    <div class="review-change-title">הצעה לשינוי</div>
+                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
+                </div>
+                <div class="review-exsplain">
+                    <div class="review-exsplain-title">נימוק</div>
+                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="review-options row">
+                <div class="suggestion-accepted right">ההצעה התקבלה בתאריך 27.04.13</div>
+                <button class="btn review-respond left" onclick="toggleComments('review-1')">תגובות</button>
+                <div class="review-options-respondes left">
+                    <div class="review-options-respondes-value right">3</div>
+                    <div class="review-options-respondes-text right">תגובות</div>
+                </div>
+
             </div>
         </div>
     </div>
-    <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-message-2 message-pad-1">
-            <i class="icon icon-box-top-right-blue-tip"></i>
-            <i class="icon icon-close hand" onclick="closeReply('comment-2');"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                <div class="post-new-message-body-actions">
-                    <div class="row">
-                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+    <ul class="hide">
+        <!-- Message-1-1 -->
+        <li class="row review-1-1">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
                     </div>
                     <div class="row">
-                        <button class="btn btn-medium btn-green">פרסם</button>
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </li>
+        <!-- Message-1-2 -->
+        <li class="row review-1-2">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- Message-1-3 -->
+        <li class="row review-1-3">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </li>
-<!-- comment-3 -->
-<li class="row-table comment-3">
+<!-- review-2 -->
+<li class="row-table review-2">
     <div class="message primary-message message-closed">
-        <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('comment-3');"></i></div>
-        <div class="message-image"><img src="img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/></div>
+        <div class="message-image review-aside">
+            <i class="icon icon-bulb"></i>
+            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
+        </div>
         <div class="message-text">
             <div class="row message-text-header">
                 <div class="message-author right">אלברט אלמוזלינו</div>
                 <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-            </div>
-            <div class="row">
-                <div class="message-content right">הצעת החוק, המבוססת על המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום... <a href="#">קרא עוד</a></div>
+                <div class="message-datetime left">08.12.13 | 10:04</div>
             </div>
             <div class="spacer"></div>
-            <div class="message-bar row">
-                <div class="message-datetime right">08.12.13 | 10:04</div>
-                <div class="message-replies right">3 תגובות</div>
-                <div class="message-reply hand left" onclick="replyTo('comment-3');">
-                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
+            <div class="row">
+                <div class="review-original-text">
+                    <div class="review-original-text-title">טקסט מקורי</div>
+                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
                 </div>
-                <div class="message-attachment left"></div>
+                <div class="review-change">
+                    <div class="review-change-title">הצעה לשינוי</div>
+                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
+                </div>
+                <div class="review-exsplain">
+                    <div class="review-exsplain-title">נימוק</div>
+                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="review-options row">
+                <div class="suggestion-accepted right">ההצעה התקבלה בתאריך 27.04.13</div>
+                <button class="btn review-respond left" onclick="toggleComments('review-2')">תגובות</button>
+                <div class="review-options-respondes left">
+                    <div class="review-options-respondes-value right">3</div>
+                    <div class="review-options-respondes-text right">תגובות</div>
+                </div>
+
             </div>
         </div>
     </div>
-    <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-message-2 message-pad-1">
-            <i class="icon icon-box-top-right-blue-tip"></i>
-            <i class="icon icon-close hand" onclick="closeReply('comment-3');"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                <div class="post-new-message-body-actions">
-                    <div class="row">
-                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
+    <ul class="hide">
+        <!-- Message-2-1 -->
+        <li class="row review-2-1">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
                     </div>
                     <div class="row">
-                        <button class="btn btn-medium btn-green">פרסם</button>
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </li>
+        <!-- Message-2-2 -->
+        <li class="row review-2-2">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <!-- Message-2-3 -->
+        <li class="row review-2-3">
+            <div class="message message-pad-0">
+                <i class="icon icon-box-top-right-gray-tip"></i>
+                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">פרננדו אלפחורס</div>
+                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">08.12.13 | 10:04</div>
+                        <div class="message-replies right"></div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
 </li>
 </ul>
 </div>
+
+<div id="tab-3" class="tab-content">
+    <div class="post-new-message">
+        <div class="post-new-message-head row">
+            <div class="post-new-message-title right">הוסף הודעה חדשה</div>
+        </div>
+        <div class="new_post post-new-message-body row">
+            <div class="post-new-message-body-image"><img src="<%=avatar%>" class="circle" alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/></div>
+            <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>
+                    &nbsp;<a class="post-new-message-attachment-path">
+                        הסר
+                    </a></div>
+
+            </div>
+            <div class="post-new-message-body-actions">
+                <div class="row">
+                    <button class="btn btn-medium btn-gray post-new-message-upload-button">
+                        הוסף קובץ
+                    </button>
+                    <input type="file" class="post-new-message-upload" style="display:none;" />
+                </div>
+                <div class="row">
+                    <button class="btn btn-medium btn-green create_post">פרסם</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="spacer-large spacer-blue"></div>
+    <!-- Messages -->
+    <div class="post-messages-container discussion">
+        <ul class="main_container">
+
+        </ul>
+    </div>
+
 </div>
-</div>
+
 </div>
 </div>
 </div>
@@ -637,43 +631,257 @@
 </section>
 <!-- Footer -->
 <footer>
-    <div class="back-to-top hand" onclick="scrollToTop();">
-        <div class=""><i class="icon icon-back-to-top"></i></div>
-        <div class="back-to-top-text">לראש הדף</div>
-    </div>
-    <div class="container">
-        <div class="row">
-            <div id="footer-about" class="footer-column">
-                <p class="title">על זירות השיח</p>
-                <div>מרכז שיתופים מהווה בית מקצועי וצומת של מידע וידע לקהילות החברה האזרחית - ארגוני מגזר שלישי, פילנתרופיה, שותפויות חברתיות והתארגנויות אזרחיות. מרכז "שיתופים" פועל לחיזוק החברה האזרחית באמצעות פיתוח הניהול החברתי, הרחבת הפילנתרופיה הפרטית וקידום השיח הבין מגזרי.</div>
-            </div>
-            <div id="footer-links" class="footer-column">
-                <p class="title">לינקים מהירים</p>
-                <ul>
-                    <li><a href="#">דף הבית</a></li>
-                    <li><a href="#">אודות</a></li>
-                    <li><a href="#">מאגרי מידע</a></li>
-                    <li><a href="#">אתר עורו</a></li>
-                    <li><a href="#">אתר אג'נדה</a></li>
-                    <li><a href="#">צור קשר</a></li>
-                </ul>
-            </div>
-            <div id="footer-contact" class="footer-column">
-                <p class="title">פרטי התקשרות</p>
-                <div>שיתופים לקידום החברה האזרחית,</div>
-                <div>ת.ד. 3225 בית יהושע 40591</div>
-                <div>טלפון: 09-8301400</div>
-                <div><a href="#">info@shitufim.com</a></div>
-            </div>
-            <div id="footer-credits" class="footer-column">
-                <p class="title">קרדיטים ושת"פים</p>
-                <div><img src="img/chemiko.png" alt="chemiko" title="chemiko"/></div>
-                <div><img src="img/hercuvrok.png" alt="hercuvrok" title="hercuvrok"/></div>
-                <div><img src="img/porter.png" alt="porter" title="porter"/></div>
-                <div><img src="img/bebell.png" alt="bebell" title="bebell"/></div>
-            </div>
-        </div>
-    </div>
+    <% include partials/footer.ejs %>
 </footer>
+<script type="text/javascript">
+$(document).ready(function () {
+    var is_logged = <%= user_logged %>;
+    var discussion = <%- JSON.stringify(discussion || "") %>;
+    var user = <%- JSON.stringify(user || "") %>;
+    var page_posts, post_groups, count;
+
+    if(is_logged){
+        get_and_render.info_items(discussion.subject_id._id);
+        get_and_render.links(discussion.subject_id._id);
+    }
+
+    $('body').on('click', '.document-review-tabs li.tab', function(e){
+        e.preventDefault();
+        var $tab = $(e.target).closest('li').length > 0 ? $(e.target).closest('li') : $(e.target);
+        var tab_id = $tab.find('a').attr('href');
+        $('.document-review-tabs li.tab.tab-selected').removeClass('tab-selected');
+        $tab.addClass('tab-selected');
+        debugger;
+        $('.tab-content.active').removeClass('active');
+        $(tab_id).addClass('active');
+    });
+
+
+    //render a main post and responses if the post has any recursively
+    var render_post = function(type, data, level){
+        dust.render('forum_post', data, function(err, out){
+            if(!err)
+                if(type == 'main')
+                    $('.post-messages-container ul.main_container').append(out);
+                else
+                    $('ul.replies-' + data.parent_id).prepend(out);
+            //check if the post has any responses
+            if(post_groups[data._id] && post_groups[data._id].length > 0) {
+                var child_posts = post_groups[data._id];
+                $.each(child_posts, function(i, child_post){
+
+                    var new_level = level + 1;
+                    child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
+                    child_post.date = new Date(child_post.creation_date).format('HH:MM');
+                    child_post.level = level + 1;
+                    child_post.reply_level = level + 2;
+                    if(child_post.text.length > 140)
+                        child_post.text_short = child_post.text.substring(0, 140) + '...';
+                    child_post.last = level == 2 ? true : false;
+                    child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
+                    render_post('child', child_post, new_level);
+                });
+            }
+        });
+    };
+    var init = function() {
+        var data = {
+            discussion_id: discussion._id,
+            limit: 0,
+            sorts: {'creation_date': -1},
+            offset: 0
+        };
+        db_functions.getDiscussionPosts(data, function(err, data){
+            page_posts = data.page_posts;
+            post_groups = data.post_groups;
+            count = data.count;
+
+            $.each(page_posts, function(i, post){
+                post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                post.date = new Date(post.creation_date).format('HH:MM');
+                post.level = 0;
+                post.reply_level = 1;
+                if(post.text.length > 140)
+                    post.text_short = post.text.substring(0, 140) + '...';
+                post.hidden = true;
+                post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
+                render_post('main', post, 0);
+            });
+        });
+
+    };
+
+    init();
+
+    //create new post and render it on post button click
+    $('.create_post').on('click', function(){
+        var text = $('.new_post .post-new-message-body-text textarea').val();
+        if(!text) {
+            //show error message?
+        } else if(is_logged) {
+            var data = {
+                text: text,
+                creator_id: user._id,
+                discussion_id: discussion._id
+            };
+            db_functions.createDiscussionPost(data, function(data){
+                data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                data.date = new Date(data.creation_date).format('HH:MM');
+                data.level = 0;
+                data.reply_level = 1;
+                if(data.text.length > 140)
+                    data.text_short = data.text.substring(0, 140) + '...';
+                data.replies = 0;
+                var file = $('.new_post .post-new-message-upload')[0].files[0];
+                if(!file)
+                    return afterPost();
+
+                popupProvider.showLoading({message:'מעלה קובץ...'});
+
+                uploadAttachment(data._id,file,afterPost);
+
+                function afterPost(error,attachment){
+                    if(error)
+                        return console.error(error);
+                    if(attachment){
+                        data.attachment = attachment;
+                        $.colorbox.close();
+                    }
+                    dust.render('forum_post', data, function(err, out){
+                        if(!err)
+                            $('.post-messages-container ul.main_container').prepend(out);
+                        $('.new_post .post-new-message-body-text textarea').val("");
+                    });
+                    $('.new_post .post-new-message-upload').val('');
+                    $('.new_post .post-new-message-attachment').hide();
+                }
+            });
+        }
+    });
+
+    $('.container').on('change','.post-new-message-upload',function(e){
+        var file = this.files[0];
+        if(file){
+            var $parent = $(this).parents('.post-new-message-body');
+            $parent.find('.post-new-message-attachment label').text(file.name);
+            $parent.find('.post-new-message-attachment').show();
+        }
+    });
+    $('.container').on('click','.post-new-message-attachment a',function(){
+        var $parent = $(this).parents('.post-new-message-body');
+        $parent.find('.post-new-message-upload').val('');
+        $parent.find('.post-new-message-attachment').hide();
+    });
+    $('.container').on('click','.post-new-message-upload-button',function(){
+        $(this).siblings('.post-new-message-upload').click();
+    });
+
+
+
+    //create and render post response
+    $('.main_container').on('click', '.create_secondary_post', function(e){
+        var $parent_post = $(e.target).closest('li');
+        var $original_parent = $parent_post;
+        var parent_level = $parent_post.data('level');
+        var orig_parent_id = '';
+
+        // check if this is a message on level 4, so that the comment will actually be added to its parent
+        if(parent_level == 3) {
+            orig_parent_id = $parent_post.data('id');
+            $parent_post = $(e.target).closest('li').closest('ul').closest('li');
+            parent_level = $parent_post.data('level');
+        }
+        var parent_id = $parent_post.data('id');
+
+        var text = $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val();
+        if(!text) {
+            //show error message?
+        } else if(is_logged) {
+            var data = {
+                parent_id: parent_id,
+                text: text,
+                creator_id: user._id,
+                discussion_id: discussion._id
+            };
+            db_functions.createDiscussionPost(data, function(data){
+
+                data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                data.date = new Date(data.creation_date).format('HH:MM');
+                data.level = parent_level + 1;
+                data.reply_level = parent_level + 2;
+                if(data.text.length > 140)
+                    data.text_short = data.text.substring(0, 140) + '...';
+                data.last = parent_level == 2 ? true : false;
+                data.replies = 0;
+                var file = $original_parent.find('.post-new-message-upload')[0].files[0];
+                if(!file)
+                    return afterPost();
+
+                popupProvider.showLoading({message:'מעלה קובץ...'});
+
+                uploadAttachment(data._id,file,afterPost);
+
+
+
+                function afterPost(err,attachment){
+                    if(err)
+                        return console.error(err);
+                    if(attachment){
+                        data.attachment = attachment;
+                        $original_parent.find('.post-new-message-upload').val('');
+                        $original_parent.find('.post-new-message-attachment').hide();
+                        $.colorbox.close();
+                    }
+                    dust.render('forum_post', data, function(err, out){
+                        if(!err){
+                            $('ul.replies-' + parent_id).append(out);
+                            $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val("");
+                            $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .icon-close').click();
+
+                            var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
+                            if($primary_message.hasClass('message-closed')) {
+                                $primary_message.find('.icon-expand').click();
+                            }
+                            var $replies = $('.message-' + parent_id + '.message-text .message-replies');
+                            var reply_count = $replies.data('replies') + 1;
+                            $replies.html(reply_count + ' תגובות');
+                            $replies.data('replies', reply_count);
+                        }
+                    });
+                }
+            });
+        }
+    });
+
+    $('.main_container').on('click', '.show_all_text', function(e){
+        var text = $(e.target).closest('.message-content').data('text');
+        $(e.target).closest('.message-content').html(text);
+    });
+
+    function uploadAttachment( id, file,cbk){
+        var client = new XMLHttpRequest();
+
+        /* Create a FormData instance */
+        var formData = new FormData();
+        /* Add the file */
+        formData.append("upload", file);
+        client.open("put", "/api/post_attachments/" + id, true);
+        //client.setRequestHeader("Content-Type", "multipart/form-data");
+        client.send(formData);  /* Send to server */
+
+        /* Check the response status */
+        client.onreadystatechange = function()
+        {
+            if (client.readyState == 4){
+                if(client.status < 200 || client.status >= 300)
+                    return cbk(client.status);
+                var attachment = JSON.parse(client.responseText);
+                cbk(null,attachment);
+            }
+        }
+    }
+
+});
+</script>
 </body>
 </html>

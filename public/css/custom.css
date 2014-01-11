@@ -52,6 +52,13 @@ span.show_all_text:hover {
     min-width: 535px;
 }
 
+body.document-review .message-datetime {
+    font-size: 15px;
+    font-weight: 400;
+    color: #929292;
+    margin-left: 20px !important;
+}
+
  li.arrow a.disabled i:hover,
  li.arrow a.disabled:hover{
      pointer-events: none;
