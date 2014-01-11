@@ -55,7 +55,7 @@
                 if(data.objects){
                     dust.renderArray("notification", data.objects, function(err, html){
                         if(err) return;
-                        $('.notifications.list').html(html);
+                        $('.notifications.list').append(html);
                     });
                 }
             });

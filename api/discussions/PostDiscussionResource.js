@@ -114,28 +114,63 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                     .exec(function(err, users){
                         cbk(err, post, users);
                     });
+            },
+            function(post, users, cbk){
+                //find parent post user if exists
+                if(post.parent_id) {
+                    models
+                        .PostDiscussion
+                        .findById(post.parent_id, function(err, parent_post){
+                            cbk(err, post, users, parent_post);
+                        });
+                } else {
+                    cbk(null, post, users, null);
+                }
+
             }
-        ], function(err, post, users){
+        ], function(err, post, users, parent_post){
             if(err){}
             var post = post,
                 discussion_id = post.discussion_id.toString(),
-                users = users;
+                users = users,
+                parent_post = parent_post;
 
-            if(users) {
-                async.each(users, function(user, c){
-                    if(user._id.toString() == user_id.toString()){
-                        c(null, 0);
+            async.parallel([
+                function(clbk){
+                    if(users) {
+                        //send notification to all user that are part of the subject
+                        async.each(users, function(user, c){
+                            if(user._id.toString() == user_id.toString()){
+                                c(null, 0);
+                            } else {
+
+                                notifications.create_user_notification("comment_on_discussion_you_are_part_of", post._id, user._id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id + '#' + post._id, function(err, results){
+                                    c(err, results);
+                                });
+                            }
+                        }, function(err, results){
+                            clbk(err);
+                        });
                     } else {
-                        //TODO notifications
-                        c(err, 0);
-//                        notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
-//                            c(err, results);
-//                        });
+                        clbk(null);
                     }
-                }, function(err, results){
-                    callback(err, post);
-                });
-            }
+                },
+                function(clbk){
+                    if (parent_post && parent_post.creator_id.toString() != user_id.toString()) {
+                        //send notification to the parent post user if it exists
+                        notifications.create_user_notification("comment_on_your_discussion_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id + '#' + parent_post._id.toString(), function(err, results){
+                            clbk(err, post);
+                        });
+                    } else {
+                        clbk(null, post);
+                    }
+                }
+            ], function(err, results){
+                var post_to_send = results[1];
+                post_to_send.avatar = req.user.avatar_url();
+                post_to_send.user = req.user;
+                callback(err, post_to_send);
+            });
         });
     },
 

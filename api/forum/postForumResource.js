@@ -116,7 +116,6 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
         async.waterfall([
             function(cbk) {
                 base.call(self, req, fields, function(err, post){
-                    post.avatar = req.user.avatar_url();
                     post.user = req.user;
                     cbk(err, post);
                 });
@@ -130,26 +129,63 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                     .exec(function(err, users){
                         cbk(err, post, users);
                     });
+            },
+            function(post, users, cbk){
+                //find parent post user if exists
+                if(post.parent_id) {
+                    models
+                        .PostForum
+                        .findById(post.parent_id, function(err, parent_post){
+                            cbk(err, post, users, parent_post);
+                        });
+                } else {
+                    cbk(null, post, users, null);
+                }
+
             }
-        ], function(err, post, users){
+        ], function(err, post, users, parent_post){
             if(err){}
             var post = post,
                 subject_id = post.subject_id.toString(),
-                users = users;
+                users = users,
+                parent_post = parent_post;
 
-            if(users) {
-                async.each(users, function(user, c){
-                    if(user._id.toString() == user_id.toString()){
-                        c(null, 0);
-                    } else {
-                        notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
-                            c(err, results);
+            async.parallel([
+                function(clbk){
+                    if(users) {
+                        //send notification to all user that are part of the subject
+                        async.each(users, function(user, c){
+                            if(user._id.toString() == user_id.toString()){
+                                c(null, 0);
+                            } else {
+
+                                notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum#' + post._id, function(err, results){
+                                    c(err, results);
+                                });
+                            }
+                        }, function(err, results){
+                            clbk(err);
                         });
+                    } else {
+                        clbk(null);
                     }
-                }, function(err, results){
-                    callback(err, post);
-                });
-            }
+                },
+                function(clbk){
+                    if (parent_post && parent_post.creator_id.toString() != user_id.toString()) {
+                        //send notification to the parent post user if it exists
+                        notifications.create_user_notification("comment_on_your_forum_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), subject_id.toString(), '/discussions/subject/' + subject_id + '/forum#' + parent_post._id.toString(), function(err, results){
+                            clbk(err, post);
+                        });
+                    } else {
+                        clbk(null, post);
+                    }
+                }
+            ], function(err, results){
+                var post_to_send = results[1];
+                post_to_send.avatar = req.user.avatar_url();
+                post_to_send.user = req.user;
+                callback(err, post_to_send);
+            });
         });
     },
 

@@ -10,8 +10,12 @@
         {/user}
 
         <span class="part_one">{part_one} </span>
-        "{part_two}"
+            {?part_two}
+            "{part_two}"
+            {/part_two}
+            {?part_three}
         <span class="part_three">{part_three}</span>
+            {/part_three}
 
         {?part_four}
         <a class="inline_link" href="{link_four}">{part_four}</a>

@@ -136,34 +136,6 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
 //                        || info_items_hash[notification.notificators[0].sub_entity_id].image_field;
 //                    itr_cbk();
 //                    break;
-                case "comment_on_discussion_you_are_part_of":
-                    var num_of_comments = notification.notificators.length;
-                    if(discussion){
-                        notification.main_link = "/discussions/" + discussion._id + "" + "#post_" +  post_id;
-                        notification.pic = discussion.image_field_preview || discussion.image_field;
-                        notification.part_two = discussion.title;
-                        notification.link_two = "/discussions/" + discussion._id;
-
-                        //for fb share
-                        notification.img_src = notification.pic;
-                        notification.title = discussion.title;
-                        notification.mail_settings_link = "/mail_settings/discussion/" + discussion.id + '?force_login=1';
-                        notification.text_preview = discussion.text_field_preview;
-                    }
-
-                    if (num_of_comments > 1) {
-"חדשות בדיון שהשתתפת בו - "                        ;
-                        notification.user = num_of_comments + " תגובות ";
-                        notification.part_one = "חדשות בדיון שהשתתפת בו - ";
-                    } else {
-                        if(user_obj){
-                            notification.user = user_obj.first_name + " " + user_obj.last_name;
-                            notification.user_link = "/myuru/" + user_obj._id + '';
-                        }
-                        notification.part_one = " הגיב על דיון שהשתתפת בו - ";
-                    }
-                    itr_cbk();
-                    break;
 
                 case "change_suggestion_on_discussion_you_are_part_of":
                     var num_of_comments = notification.notificators.length;
@@ -874,7 +846,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                             + num_of_joined +  " תגובות חדשות לזירת השיח "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הוסיף תגובה חדשה לזירת השיח ";
+                            notification.part_one = " הוסיף/ה תגובה חדשה לזירת השיח ";
                             notification.user = user_obj.first_name + " " + user_obj.last_name;
                         }
                     }
@@ -883,9 +855,81 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                     if(subject){
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
-                        notification.main_link = notification.url;
-
                     }
+                    notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+                case "comment_on_discussion_you_are_part_of":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = "נוספו "
+                            + num_of_joined +  " תגובות חדשות למסמך "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = " הוסיף/ה תגובה חדשה למסמך ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                        }
+                    }
+                    notification.part_three = " שבהשתתפותך ";
+
+                    if(discussion){
+                        notification.link_two = "/discussions/" + discussion._id;
+                        notification.part_two = discussion.title;
+                    }
+                    notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+                case "comment_on_your_post":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = "נוספו " + 
+                            num_of_joined +
+                            " תגובות חדשות על הודעה שכתבת בפורום זירת השיח "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום זירת השיח ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                        }
+                    }
+
+                    notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+                case "comment_on_your_forum_post":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = "נוספו "
+                            num_of_joined +
+                            " תגובות חדשות על הודעה שכתבת בפורום זירת השיח "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום זירת השיח ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                        }
+                    }
+                    if(subject){
+                        notification.link_two = "/discussions/subject/" + subject._id;
+                        notification.part_two = subject.name;
+                    }
+                    notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+                case "comment_on_your_discussion_post":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = num_of_joined +
+                            "  משתמשים הגיבו על הודעה שכתבת במסמך "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = " הגיב/ה להודעה שכתבת במסמך ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                        }
+                    }
+                    if(discussion){
+                        notification.link_two = "/discussions/" + discussion._id;
+                        notification.part_two = discussion.title;
+                    }
+                    notification.main_link = notification.url;
                     itr_cbk();
                     break;
                 default:
@@ -919,7 +963,10 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "change_suggestion_on_discussion_you_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
-        "comment_on_subject_you_are_part_of"
+        "comment_on_subject_you_are_part_of",
+        "comment_on_your_forum_post",
+        "comment_on_your_discussion_post"
+
     ];
 
     var action_post_notification_types = [
@@ -1037,7 +1084,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "change_suggestion_on_discussion_you_are_part_of",
         "change_suggestion_on_discussion_you_created",
         "approved_change_suggestion_you_created",
-        "approved_change_suggestion_on_discussion_you_are_part_of"
+        "approved_change_suggestion_on_discussion_you_are_part_of",
+        "comment_on_your_discussion_post"
     ];
 
     var discussion_ids_as_sub_entity = _.chain(results.objects)
@@ -1061,7 +1109,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         .value();
 
     var subject_notification_types_as_sub_entity = [
-        "comment_on_subject_you_are_part_of"
+        "comment_on_subject_you_are_part_of",
+        "comment_on_your_forum_post"
     ];
 
     var subject_ids_as_sub_entity = _.chain(results.objects)

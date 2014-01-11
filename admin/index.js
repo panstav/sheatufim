@@ -175,6 +175,19 @@ module.exports = function (app) {
         search:['text', 'first_name', 'last_name']
     });
 
+    admin.registerMongooseModel('PostDiscussion', Models.PostDiscussion, null, {
+        list:['text', 'discussion_id.title'],
+        list_populate:['discussion_id'],
+        order_by:['-creation_date'],
+        search:['text', 'first_name', 'last_name']
+    });
+    admin.registerMongooseModel('Notification', Models.Notification, null, {
+        list:['text', 'discussion_id.title'],
+        list_populate:['discussion_id'],
+        order_by:['-creation_date'],
+        search:['text', 'first_name', 'last_name']
+    });
+
     admin.registerMongooseModel('Link', Models.Link, null, {
         list:['title'],
         order_by:['gui_order'],

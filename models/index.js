@@ -181,7 +181,9 @@ var Schemas = exports.Schemas = {
             "user_brings_resource_to_action_you_created",
             "post_added_to_action_you_joined",
             "post_added_to_action_you_created",
-            "comment_on_subject_you_are_part_of"
+            "comment_on_subject_you_are_part_of",
+            "comment_on_your_forum_post",
+            "comment_on_your_discussion_post"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },
@@ -314,7 +316,7 @@ var Schemas = exports.Schemas = {
         source:{type:String, "enum":["דה מרקר", "כלכליסט","גלובס", "ynet", "הארץ", "nrg", "walla", "mako",  "אחר"], editable:false},
 //        alternative_source:{type:String},
         subjects:[{type:ObjectId, ref:'Subject'}],
-        discussions:[{type: ObjectId, limit: 1000, ref:'Discussion', index:true}],
+        discussions:[{type: ObjectId, limit: 1000, ref:'Discussion', index:true}]
 //        cycles:     [{type: ObjectId, limit: 1000, ref:'Cycle', index:true}]
     }
 };
