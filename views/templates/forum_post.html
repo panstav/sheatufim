@@ -12,7 +12,7 @@
                 <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
         {/closed}
     {/parent_id}
-        <div class="message-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
+        <div class="message-image"><div class="circle circle-wrapper auto-scale"><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
         <div class="message-text">
             <div class="row message-text-header">
                 <div class="message-author right">{user.first_name} {user.last_name}{?username}{username}{/username}</div>
@@ -68,7 +68,7 @@
                 <i class="icon icon-box-top-right-blue-tip"></i>
                 <i class="icon icon-close hand" onclick="closeReply('message-{_id}');"></i>
                 <div class="post-new-message-body">
-                    <div class="post-new-message-body-image"><img src="{avatar}" class="circle" alt="תמונה" title="תמונה"/></div>
+                    <div class="post-new-message-body-image"><div class="circle circle-wrapper auto-scale" ><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
                     <div class="post-new-message-body-text">
                         <textarea placeholder="הכנס את הטקסט שלך..."></textarea>
                         <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>

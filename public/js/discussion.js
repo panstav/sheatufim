@@ -19,6 +19,8 @@ function initDiscussionEditing(discussion,target){
             e.preventDefault();
         })
         .on('mouseup', function (e) {
+            if(!mouseDown)
+                return;
             e.stopPropagation();
             mouseUp = e;
             var err = false;
@@ -240,13 +242,11 @@ function initDiscussionEditing(discussion,target){
                     $this.removeClass('disable');
 
                     if (data != 'canceled') {
-                        if (!user.actions_done_by_user.suggestion_on_object) {
-                            user.actions_done_by_user.suggestion_on_object = true;
-                        }
                         $('#write-comment').hide();
                         /*
                          $("textarea#discussion_suggest").val('');
                          $("#user_tokens").text(data.updated_user_tokens);*/
+
                         render_suggestion(data, true);
                         $(".deals-box").show();
                         $('#suggestion_number').text(Number($('#suggestion_number').text()) + 1);
@@ -274,11 +274,55 @@ function initDiscussionEditing(discussion,target){
             }
             text = text.replace(/\r\n/g, '\r\n<br>');
             text = text.replace(/\n/g, '\n<br>');
-            html = html.substring(0, suggestion.parts[0].start) + html.substring(suggestion.parts[0].start).replace(text, '<span data-id="' + suggestion.id + '" class="marker_1">' + text + '</span>');
+            html = html.substring(0, suggestion.parts[0].start) + html.substring(suggestion.parts[0].start).replace(text, '<span data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</span>');
             $('#discussion_content').html(html);
 
         })
     }
+
+    $("#discussion_content").on("click", ".marker_1", function () {
+        if (!mouseDown) {
+            $('#suggestionTab').click();
+            var id = $(this).data('id');
+            $('html, body').animate({
+                scrollTop: $("li.suggestion-item[data-id=" + id + "]").offset().top
+            }, 500);
+        }
+    });
+    $("#old_suggestion_popup").click(function(){
+        $('#suggestionTab').click();
+        var id = $(this).data('suggestion');
+        $('html, body').animate({
+            scrollTop: $("li.suggestion-item[data-id=" + id + "]").offset().top
+        }, 500);
+    });
+
+    var fadeTO;
+    $("#discussion_content").on('mouseenter','.marker_1',function(e){
+        var position = $(this).offset();
+        var offset = $('#discussion_edit_container').offset();
+        left = Math.ceil((e.clientX + e.clientX) / 2 - 97);
+
+        if(fadeTO)
+            clearTimeout(fadeTO);
+        fadeTO = null;
+        $(this).unbind('mouseleave').one('mouseleave',function(){
+            fadeTO = setTimeout(function(){
+                $("#old_suggestion_popup").hide().data('suggestion','');
+            },500);
+        });
+
+        var suggestionId = $(this).data('id');
+        var $popup = $("#old_suggestion_popup");
+        if($popup.data('suggestion') == suggestionId)
+            return;
+
+        $popup
+            .css({ top: position.top - offset.top - 50, left: left - offset.left, opacity: 0 })
+            .show()
+            .animate({ opacity: 1 }, 100, 'linear').data('suggestion',suggestionId);
+
+    });
 
     function updateVisionAndSuggestionText(data) {
         // update vision
@@ -421,6 +465,9 @@ function initDiscussionEditing(discussion,target){
     db_functions.getApprovedSuggestionsByDiscussion(discussion._id, 0, 0, function (err, data) {
 
         approved_suggestions_list = data.objects || {};
+        $.each(approved_suggestions_list,function(i,suggestion){
+            render_suggestion(suggestion,false,true);
+        });
         // set vision version details
         //$('.draft_no span').text(data.objects.length + 1);
 
@@ -440,7 +487,7 @@ function initDiscussionEditing(discussion,target){
 
 
 //render change suggestion
-    function render_suggestion(suggestion, use_animation) {
+    function render_suggestion(suggestion, use_animation, is_approved) {
         // get original text and alternative text
         if (suggestion.parts && suggestion.parts.length) {
             suggestion.original_part = function () {
@@ -456,16 +503,17 @@ function initDiscussionEditing(discussion,target){
             suggestion.alternative_part = function () {
                 return suggestion.parts[0].text;
             };
-
+            suggestion.is_approved = !!is_approved;
+            suggestion.avatar = avatar;
             dust.render('discussion_suggestion_new', suggestion, function (err, out) {
-                $('#suggestions_wrapper').append(out);
-                image_autoscale($('#suggestions_wrapper .auto-scale img'));
+                $(is_approved ? '#approved_suggestions_wrapper' : '#suggestions_wrapper').append(out);
+                image_autoscale($((is_approved ? '#approved_suggestions_wrapper' : '#suggestions_wrapper')  +' .auto-scale img'));
 
-                if (use_animation == true) {
-                    var bgc = $('.suggestion_holder').last().css('background-color');
-                    $('.suggestion_holder ').last().css('background-color', 'pink');
-                    $('.suggestion_holder ').last().animate({backgroundColor: bgc}, 3000);
-                }
+//                if (use_animation == true) {
+//                    var bgc = $('.suggestion_holder').last().css('background-color');
+//                    $('.suggestion_holder ').last().css('background-color', 'pink');
+//                    $('.suggestion_holder ').last().animate({backgroundColor: bgc}, 3000);
+//                }
                 // check if got here after not logged user tryed to grade suggestion
                 var action = getURLParameter('action');
                 if (action !== "null") {
@@ -480,5 +528,82 @@ function initDiscussionEditing(discussion,target){
         }
         return null;
     };
+
+    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click','.toggleComments',function(){
+        var $li = $(this).parents('.suggestion-item');
+        var suggestionId = $li.data('id');
+        var message = $li.find('.primary-message');
+
+        if (message.hasClass('message-closed')) {
+            message.removeClass('message-closed');
+            message.addClass('message-open');
+
+            $li.find('>ul,>.reply-to-message').removeClass("hide");
+
+            // Transform the button to a close button
+            $li.find(' button.review-respond').html('<i class="icon icon-small-pad-left icon-close-comments"></i>סגור');
+            var suggestion = $.grep(suggestions_list,function(suggestion){
+                return suggestion.id == suggestionId;
+            })[0];
+            if(!suggestion)
+                return;
+            if(suggestion.comments)
+                dust.renderArray('discussion_suggestion_comment_new',suggestion.comments,null,function(err,out){
+                    $li.find('ul').html(out);
+                });
+            else {
+                db_functions.getCommentsBySuggestion(suggestion.id, function (err, data) {
+                    suggestion.comments = data.objects;
+                    dust.renderArray('discussion_suggestion_comment_new',suggestion.comments,null,function(err,out){
+                        $li.find('ul').html(out);
+                    });
+                });
+            }
+        }
+        else if (message.hasClass('message-open')) {
+            message.removeClass('message-open');
+            message.addClass('message-closed');
+
+            $li.find('>ul,>.reply-to-message').addClass("hide");
+
+            // Transform the button to a replies button
+            $li.find(' button.review-respond').html('תגובות');
+        }
+    });
+
+    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.add_suggestion_comment', function (e) {
+        activateMailNotifications();
+        var $parent = $(this).parents('.reply-to-message');
+        var $suggestion = $parent.parents('.suggestion-item');
+        var $commentList = $parent.siblings('ul');
+        var post_or_suggestion_id = $suggestion.data('id');
+        var suggestion = $.grep(suggestions_list,function(suggestion){
+            return suggestion.id == post_or_suggestion_id;
+        })[0];
+        if(!suggestion)
+            return;
+        var text = $parent.find('textarea').val();
+
+        if (text.trim() == '') return false;
+
+
+        var add_comment = $(this).parent('.add_comment');
+
+        db_functions.addCommentToSuggestion(post_or_suggestion_id, discussion._id, text, function (err, comment) {
+            $parent.find('textarea').val('');
+            dust.render('discussion_suggestion_comment_new',comment,function(err,out){
+                $commentList.prepend(out);
+            });
+            var $counter = $suggestion.find('.comment_counter');
+            $counter.text(Number($counter.text()) + 1);
+
+        });
+    });
+
+}
+
+function toggleComments(ui) {
+
+
 
 }

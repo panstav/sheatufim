@@ -44,35 +44,7 @@ function closeReply(m) {
     $(queryMessage).addClass("hide");
 }
 
-function toggleComments(m) {
 
-    queryMessage = "." + m + " .primary-message";
-    message = $(queryMessage);
-
-    if (message.hasClass('message-closed')) {
-        message.removeClass('message-closed');
-        message.addClass('message-open');
-
-        queryInnerMessages = "." + m + " > ul, ." + m + " > .reply-to-message";
-        $(queryInnerMessages).removeClass("hide");
-
-        // Transform the button to a close button
-        queryButton =  "." + m + " button.review-respond";
-        $(queryButton).html('<i class="icon icon-small-pad-left icon-close-comments"></i>סגור');
-    }
-    else if ($(queryMessage).hasClass('message-open')) {
-        message.removeClass('message-open');
-        message.addClass('message-closed');
-
-        queryInnerMessages = "." + m + " > ul, ." + m + " > .reply-to-message";
-        $(queryInnerMessages).addClass("hide");
-
-        // Transform the button to a replies button
-        queryButton =  "." + m + " button.review-respond";
-        $(queryButton).html('תגובות');
-
-    }
-}
 
 function togglePaper() {
 
