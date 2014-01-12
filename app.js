@@ -1,5 +1,7 @@
 'use strict';
 
+console.log(process.env);
+
 require('./lib/memory');
 
 var express = require('express');
@@ -19,12 +21,14 @@ var app = module.exports = express();
 app.set('show_only_published', process.env.SHOW_ONLY_PUBLISHED == '1');
 utils.setShowOnlyPublished(app.settings.show_only_published);
 
+console.log('Show only published',app.get('show_only_published'));
+
 var logout_handler = require("connect-auth/lib/events").redirectOnLogout("/");
 var account = require('./routes/account');
 var fb_bot_middleware = require('./routes/fb_bot/middleware');
 
 // ########### Static parameters ###########
-var IS_ADMIN = true;
+var IS_ADMIN = false;
 
 var IS_PROCESS_CRON = (process.argv[2] === 'cron');
 var IS_PROCESS_WEB = !IS_PROCESS_CRON;
@@ -203,10 +207,19 @@ app.locals({
 // ######### locals #########
 
 // ######### environment specific settings #########
+
 app.configure('development', function(){
     app.set('send_mails', true);
+    IS_ADMIN = true;
 });
 
+app.configure('staging',function(){
+    IS_ADMIN = true;
+});
+
+app.configure('staging',function(){
+    IS_ADMIN = true;
+});
 app.configure('production',function(){
     app.use(function (req, res, next) {
         if(req.headers['host'] == 'sheatufim-roundtable.org.il')
