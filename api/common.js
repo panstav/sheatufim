@@ -178,7 +178,7 @@ var uploadHandler = exports.uploadHandler = function(req,callback) {
 			return decodeURIComponent(filename).replace(regex, '-');
 		},
 		filename_to_path = function (filename) {
-			return path.join(__dirname,'..','public','cdn', filename);
+			return path.join(__dirname,'..','..','public','cdn', filename);
 		},
 		create_file = function (filename, callback) {
 

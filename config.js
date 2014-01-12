@@ -16,6 +16,8 @@ config.fb_general_params = {
     fb_image: 'http://site.e-dologic.co.il/philip_morris/Xls_script/uru_mailing/logo.jpg'
 }
 
+config.upload_dir = require('path').join(__dirname,'..','public','cdn');
+
 // amazon s3 credentials
 //config.s3_creds = {
 //    key: 'AKIAJM4EPWE637IGDTQA',
