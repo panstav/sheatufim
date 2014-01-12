@@ -1047,6 +1047,22 @@ var db_functions = {
         });
     },
 
+    voteSuggestion:function (suggestion_id, balance, callback) {
+        db_functions.loggedInAjax({
+            url:'/api/votes_on_suggestion/',
+            type:"POST",
+            async:true,
+            data:{"post_action_id":post_id, "method":method},
+            user_info: user_info,
+            success:function (data) {
+                callback(null, data);
+            },
+            error:function (err) {
+                callback(err, null);
+            }
+        });
+    },
+
     addSuggestionGrade:function (suggestion_id, discussion_id, grade, grade_id, user_info, callback) {
         var url;
         var type;

@@ -77,13 +77,13 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
                     not_agrees:not_agrees,
                 }
             )
-    })
+        });
 
-
-        models.VoteSuggestion.findOne({user_id: user.id, suggestion_id: suggestion_id}, function (err, vote_object) {
+       /* models.VoteSuggestion.findOne({user_id: user.id, suggestion_id: suggestion_id}, function (err, vote_object) {
             if (err) return
                 callback(err, null);
         });
+        */
     }
 });
 
