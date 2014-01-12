@@ -113,6 +113,8 @@ function togglePaper() {
 
     }
 
+    $('#discussion_content_textarea').hide();
+    $('#discussion_content').show();
 }
 
 function scrollToTop() {
