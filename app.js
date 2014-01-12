@@ -87,6 +87,7 @@ app.set('send_mails', true);
 app.set('view engine', 'jade');
 app.set('view options', { layout: false });
 formage_admin.forms.setAmazonCredentials(config.s3_creds);
+formage_admin.forms.setUploadDirectory(config.upload_dir);
 
 var models = require('./models');
 models.setDefaultPublish(app.settings.show_only_published);
@@ -104,7 +105,8 @@ process.on('uncaughtException', function(err) {
 // ######### general middleware #########
 formage_admin.serve_static(app, express);
 app.use(express.compress());
-app.use(express.static(app.settings.public_folder));
+app.use(express.static(app.get('public_folder')));
+app.use(express.static(require('path').join(__dirname,'..','public')));
 app.use(express.errorHandler());
 app.use(express.urlencoded());
 app.use(express.json());
