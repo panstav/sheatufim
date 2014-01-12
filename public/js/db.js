@@ -934,7 +934,7 @@ var db_functions = {
         });
     },
 
-    voteForSuggestion:function (suggestionId, method, user_info, callback) {
+    /*voteForSuggestion:function (suggestionId, method, user_info, callback) {
         db_functions.loggedInAjax({
             url:'/api/votes_on_suggestion/',
             type:"POST",
@@ -951,7 +951,7 @@ var db_functions = {
             }
         });
 
-    },
+    },*/
 
     addPostToDiscussion:function (discussion_id, post_content, refParentPostId, user_info,attachment, callback) {
         db_functions.loggedInAjax({
@@ -1047,7 +1047,7 @@ var db_functions = {
         });
     },
 
-    voteSuggestion:function (suggestion_id, balance, callback) {
+    voteSuggestion:function (suggestion_id, user_info, balance, callback) {
         db_functions.loggedInAjax({
             url:'/api/votes_on_suggestion/',
             type:"POST",
