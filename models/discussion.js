@@ -23,7 +23,7 @@ var Discussion = new Schema({
     //system_message: {type:Schema.Types.Html},
     creation_date:{type:Date, 'default':Date.now},
     last_updated:{type:Date, 'default':Date.now},
-    creator_id:{type:ObjectId, ref:'User', query:common.FIND_USER_QUERY},
+    creator_id:{type:ObjectId, ref:'User', query:common.FIND_USER_QUERY, required:true},
     first_name:{type:String,editable:false},
     last_name:{type:String,editable:false},
     text_field_preview: {type:Schema.Types.Text},//2-3 lines of the vision_text

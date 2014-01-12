@@ -3,6 +3,7 @@
 <head>
     <title>מעגלי שיח</title>
     <% include partials/head.ejs %>
+    <script src='/js/discussion.js'></script>
 </head>
 <body class="document-review logged">
 <!-- Header -->
@@ -90,25 +91,67 @@
     <div class="paper-edit-text">בחר בעזרת הסמן קטעי טקסט שברצונך לשנות. לחץ על קטעים מסומנים כדי לראות הצעות שהעלו אחרים.</div>
     <div class="paper-edit-title"><i class="icon icon-small-pad-left icon-edit"></i>מצב עריכה</div>
 </div>
-<div class="paper paper-closed">
+<div class="paper paper-closed" id="discussion_edit_container">
     <div class="paper-marks">
-        <a href="http://masta.co.il"><div class="link-to-doc-bubble paper-mark-1 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div></a>
-        <div class="paper-actions-bubble paper-mark-2 hide">
+        <div id="old_suggestion_popup" style="display:none;" class="popup-window link-to-doc-bubble paper-mark-1 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div>
+        <div class="paper-actions-bubble paper-mark-2 hide popup-window" style="display: none;" id="new_suggestion_popup">
             מה ברצונך לעשות עם טקסט זה ?
             <div class="btn-group">
-                <button class="btn btn-medium btn-blue btn-change"><i class="icon icon-small-pad-left icon-arrows"></i>לשנות</button>
-                <button class="btn btn-medium btn-green btn-add"><i class="icon icon-small-pad-left icon-paper-plus"></i>להוסיף</button>
-                <button class="btn btn-medium btn-red btn-delete"><i class="icon icon-small-pad-left icon-trash"></i>למחוק</button>
+                <button class="btn btn-medium btn-blue btn-change pop_suggest_bt"><i class="icon icon-small-pad-left icon-arrows"></i>לשנות</button>
+                <button class="btn btn-medium btn-green btn-add pop_suggest_bt add"><i class="icon icon-small-pad-left icon-paper-plus"></i>להוסיף</button>
+                <button class="btn btn-medium btn-red btn-delete pop_suggest_bt delete"><i class="icon icon-small-pad-left icon-trash"></i>למחוק</button>
             </div>
             <i class="icon icon-bubble-bottom-tip"></i>
         </div>
-        <a href="http://masta.co.il"><div class="link-to-doc-bubble paper-mark-3 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div></a>
     </div>
-    <pre><%=discussion.text_field%></pre>
+    <pre id="discussion_content"><%=discussion.text_field%></pre>
+    <textarea id="discussion_content_textarea" style="display:none;"><%=discussion.text_field%></textarea>
     <button class="btn btn-large btn-green btn-read-more" onclick="togglePaper();">להמשך קריאה ועריכה</button>
     <i class="icon icon-close hand hide" onclick="togglePaper();"></i>
 </div>
 <div class="spacer-large"></div>
+
+
+<div id='write-comment' class="write-comment" style="display: none;">
+    <h3>
+        הצעה לשינוי
+    </h3>
+
+    <div class="text-box cf">
+        <div class="left">
+            <p id='discussion_content_txt'><strong></strong>
+
+            </p>
+            <label>
+                ההצעה לשינוי שלי:
+            </label>
+            <textarea id='discussion_suggest' class="five-col" cols="0" rows="0"></textarea>
+            <label>
+                טיעונים, הצדקות ונימוקים:
+            </label>
+            <textarea id="discussion_explanation" class="two-col" cols="0" rows="0"></textarea>
+        </div>
+        <div class="user-right">
+            <div class="img-box" style="overflow: hidden;">
+                <div style="width:70px; height:70px;" class='auto-scale'>
+                    <% if(user_logged) { %>
+                    <img id="reload-img" src="<%=avatar%>" alt="אני" style="width:70px; height:70px"/>
+                    <% } %>
+                </div>
+                <span></span>
+            </div>
+            <h4>אני</h4>
+
+            <div class="date"><%=(new Date()).format('dd.mm.yy') %></div>
+        </div>
+    </div>
+    <a class="grey-btn" id="cancelWriteCommentBT" href="javascript:void(0);"><span>
+מתחרט
+            </span></a>
+    <a id="send_suggestion" class="green-btn" href="javascript:void(0);">
+        הצע
+    </a>
+</div>
 
 <!-- Tabs Container -->
 <div class="document-review-tabs-container">
@@ -120,7 +163,7 @@
             <a href="#tab-1">
                 <div class="row">
                     <div class="tab-title right">הצעות לשינוי</div>
-                    <div class="tab-badge left circle"><span>8</span></div>
+                    <div class="tab-badge left circle"><span id="suggestion_number"></span></div>
                 </div>
             </a>
         </li>
@@ -129,7 +172,7 @@
             <a href="#tab-2">
                 <div class="row">
                     <div class="tab-title right">הצעות שהתקבלו</div>
-                    <div class="tab-badge left circle"><span>10</span></div>
+                    <div class="tab-badge left circle"><span id="approved_suggestion_number"></span></div>
                 </div>
             </a>
         </li>
@@ -146,227 +189,7 @@
 </div>
 <!-- Tab Content -->
 <div id="tab-1" class="post-messages-container tab-content active">
-<ul class="reviews">
-<!-- review-1 -->
-<li class="row-table review-1">
-    <div class="message primary-message message-closed">
-        <div class="message-image review-aside">
-            <i class="icon icon-bulb"></i>
-            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
-        </div>
-        <div class="message-text">
-            <div class="row message-text-header">
-                <div class="message-author right">אלברט אלמוזלינו</div>
-                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-                <div class="message-datetime left">08.12.13 | 10:04</div>
-            </div>
-            <div class="spacer"></div>
-            <div class="row">
-                <div class="review-original-text">
-                    <div class="review-original-text-title">טקסט מקורי</div>
-                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
-                </div>
-                <div class="review-change">
-                    <div class="review-change-title">הצעה לשינוי</div>
-                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
-                </div>
-                <div class="review-exsplain">
-                    <div class="review-exsplain-title">נימוק</div>
-                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
-                </div>
-            </div>
-            <div class="spacer"></div>
-            <div class="review-options row">
-                <button class="review-options-like btn right "><i class="icon icon-like"></i>בעד</button>
-                <button class="review-options-dislike btn right"><i class="icon icon-dislike"></i>נגד</button>
-                <div class="review-options-pro right">
-                    <div class="review-options-pro-value right">12</div>
-                    <div class="review-options-pro-text right">תומכים</div>
-                </div>
-                <div class="review-options-against right">
-                    <div class="review-options-against-value right">38</div>
-                    <div class="review-options-against-text right">מתנגדים</div>
-                </div>
-                <div class="review-options-respondes right">
-                    <div class="review-options-respondes-value right">3</div>
-                    <div class="review-options-respondes-text right">תגובות</div>
-                </div>
-                <button class="btn review-respond left" onclick="toggleComments('review-1')">תגובות</button>
-            </div>
-        </div>
-    </div>
-    <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-review-1 message-pad-0">
-            <i class="icon icon-box-top-right-blue-tip"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="/img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                <div class="post-new-message-body-actions">
-                    <div class="row">
-                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-                    </div>
-                    <div class="row">
-                        <button class="btn btn-medium btn-green">פרסם</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <ul class="hide">
-        <!-- Message-1-1 -->
-        <li class="row review-1-1">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</li>
-<!-- review-2 -->
-<li class="row-table review-2">
-    <div class="message primary-message message-closed">
-        <div class="message-image review-aside">
-            <i class="icon icon-bulb"></i>
-            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
-        </div>
-        <div class="message-text">
-            <div class="row message-text-header">
-                <div class="message-author right">אלברט אלמוזלינו</div>
-                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-                <div class="message-datetime left">08.12.13 | 10:04</div>
-            </div>
-            <div class="spacer"></div>
-            <div class="row">
-                <div class="review-original-text">
-                    <div class="review-original-text-title">טקסט מקורי</div>
-                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
-                </div>
-                <div class="review-change">
-                    <div class="review-change-title">הצעה לשינוי</div>
-                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
-                </div>
-                <div class="review-exsplain">
-                    <div class="review-exsplain-title">נימוק</div>
-                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
-                </div>
-            </div>
-            <div class="spacer"></div>
-            <div class="review-options row">
-                <button class="btn review-options-like review-options-like-selected right"><i class="icon icon-like"></i>בעד</button>
-                <button class="btn review-options-dislike review-options-dislike-selected right"><i class="icon icon-dislike"></i>נגד</button>
-                <div class="review-options-pro right">
-                    <div class="review-options-pro-value right">12</div>
-                    <div class="review-options-pro-text right">תומכים</div>
-                </div>
-                <div class="review-options-against right">
-                    <div class="review-options-against-value right">38</div>
-                    <div class="review-options-against-text right">מתנגדים</div>
-                </div>
-                <div class="review-options-respondes right">
-                    <div class="review-options-respondes-value right">3</div>
-                    <div class="review-options-respondes-text right">תגובות</div>
-                </div>
-                <button class="btn review-respond left" onclick="toggleComments('review-2')">תגובות</button>
-            </div>
-        </div>
-    </div>
-    <div class="reply-to-message row hide">
-        <div class="post-new-reply reply-to-review-2 message-pad-0">
-            <i class="icon icon-box-top-right-blue-tip"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="/img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
-                <div class="post-new-message-body-actions">
-                    <div class="row">
-                        <button class="btn btn-medium btn-gray">הוסף קובץ</button>
-                    </div>
-                    <div class="row">
-                        <button class="btn btn-medium btn-green">פרסם</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <ul class="hide">
-        <!-- review-2-1 -->
-        <li class="row review-2-1">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- review-2-2 -->
-        <li class="row review-2-2">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- review-2-3 -->
-        <li class="row review-2-3">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</li>
+<ul class="reviews" id="suggestions_wrapper">
 </ul>
 </div>
 <div id="tab-2" class="post-messages-container tab-content">
@@ -880,6 +703,11 @@ $(document).ready(function () {
         }
     }
 
+
+
+
+
+    initDiscussionEditing(discussion,'#discussion_content,#discussion_content_textarea');
 });
 </script>
 </body>
