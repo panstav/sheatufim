@@ -28,6 +28,7 @@ var account = require('./routes/account');
 var fb_bot_middleware = require('./routes/fb_bot/middleware');
 
 // ########### Static parameters ###########
+var IS_ADMIN = false;
 
 var IS_PROCESS_CRON = (process.argv[2] === 'cron');
 var IS_PROCESS_WEB = !IS_PROCESS_CRON;
@@ -206,10 +207,13 @@ app.locals({
 // ######### locals #########
 
 // ######### environment specific settings #########
-var IS_ADMIN = false;
 
 app.configure('development', function(){
     app.set('send_mails', true);
+    IS_ADMIN = true;
+});
+
+app.configure('staging',function(){
     IS_ADMIN = true;
 });
 
