@@ -76,11 +76,26 @@
             var minutes = seconds / 60;
             var hours = minutes / 60;
             var days = hours / 24;
-            var secondsLeft = Math.floor(seconds) - Math.floor(minutes) * 60
-            data.$seconds.text(secondsLeft < 10 ? '0' + secondsLeft : secondsLeft);
-            data.$minutes.text(Math.floor(minutes) - Math.floor(hours) * 60);
-            data.$hours.text(Math.floor(hours) - Math.floor(days)*24);
-            data.$days.text(Math.floor(days));
+            var secondsLeft = Math.floor(seconds) - Math.floor(minutes) * 60;
+            if(data._seconds != secondsLeft) {
+                data.$seconds.text(secondsLeft < 10 ? '0' + secondsLeft : secondsLeft);
+                data._seconds = secondsLeft;
+            }
+            var minutesLeft = Math.floor(minutes) - Math.floor(hours) * 60;
+            if(minutesLeft != data._minutes) {
+                data.$minutes.text(minutesLeft);
+                data._minutes = minutesLeft;
+            }
+            var hoursLeft = Math.floor(hours) - Math.floor(days)*24;
+            if(data._hours != hoursLeft) {
+                data.$hours.text(hoursLeft);
+                data._hours = hoursLeft;
+            }
+            var daysLeft = Math.floor(days);
+            if(data._days != daysLeft) {
+                data.$days.text(daysLeft);
+                data._days = daysLeft;
+            }
         }
 
         function destroy(){
