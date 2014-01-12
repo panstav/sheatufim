@@ -1,8 +1,10 @@
-<li class="row-table review-{index}">
+<li class="row-table review-{index} suggestion-item" data-id="{id}">
     <div class="message primary-message message-closed">
-        <div class="message-image review-aside auto-scale">
+        <div class="message-image review-aside">
             <i class="icon icon-bulb"></i>
-            <img src="{?creator_id}{creator_id.avatar_url}{:else}/images/default_user_img.gif{/creator_id}" class="circle" alt="תמונה" title="תמונה"/>
+            <div class="circle-wrapper circle auto-scale">
+            <img src="{?creator_id}{creator_id.avatar_url}{:else}/images/default_user_img.gif{/creator_id}" alt="תמונה" title="תמונה"/>
+            </div>
         </div>
         <div class="message-text">
             <div class="row message-text-header">
@@ -27,6 +29,11 @@
             </div>
             <div class="spacer"></div>
             <div class="review-options row">
+				{?is_approved}
+				<div class="suggestion-accepted right">{?approve_date}
+                    ההצעה התקבלה בתאריך
+                    {approve_date|time}{/approve_date}</div>
+				{:else}
                 <button class="review-options-like btn right "><i class="icon icon-like"></i>בעד</button>
                 <button class="review-options-dislike btn right"><i class="icon icon-dislike"></i>נגד</button>
                 <div class="review-options-pro right">
@@ -37,52 +44,37 @@
                     <div class="review-options-against-value right">{not_agrees|round}</div>
                     <div class="review-options-against-text right">מתנגדים</div>
                 </div>
+				{/is_approved}
                 <div class="review-options-respondes right">
-                    <div class="review-options-respondes-value right">3</div>
+                    <div class="review-options-respondes-value right comment_counter">{comments_count}</div>
                     <div class="review-options-respondes-text right">תגובות</div>
                 </div>
-                <button class="btn review-respond left" onclick="toggleComments('review-1')">תגובות</button>
+                <button class="btn review-respond left toggleComments">תגובות</button>
             </div>
         </div>
     </div>
     <div class="reply-to-message row hide">
         <div class="post-new-reply reply-to-review-1 message-pad-0">
             <i class="icon icon-box-top-right-blue-tip"></i>
-            <div class="post-new-message-body">
-                <div class="post-new-message-body-image"><img src="/img/comment-img5.png" class="circle" alt="תמונה" title="תמונה"/></div>
+            <div class="post-new-message-body" >
+                <div class="post-new-message-body-image">
+
+                    <div class="circle circle-wrapper auto-scale" >
+                        <img src="{avatar}" alt="תמונה" title="תמונה"/>
+                    </div>
+                </div>
                 <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
                 <div class="post-new-message-body-actions">
                     <div class="row">
                         <button class="btn btn-medium btn-gray">הוסף קובץ</button>
                     </div>
                     <div class="row">
-                        <button class="btn btn-medium btn-green">פרסם</button>
+                        <button class="btn btn-medium btn-green add_suggestion_comment">פרסם</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <ul class="hide">
-        <!-- Message-1-1 -->
-        <li class="row review-1-1">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
     </ul>
 </li>

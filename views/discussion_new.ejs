@@ -160,7 +160,7 @@
     <ul class="row list inline-list">
         <!-- Tab-1 -->
         <li class="tab right tab-selected">
-            <a href="#tab-1">
+            <a href="#tab-1" id="suggestionTab">
                 <div class="row">
                     <div class="tab-title right">הצעות לשינוי</div>
                     <div class="tab-badge left circle"><span id="suggestion_number"></span></div>
@@ -193,219 +193,7 @@
 </ul>
 </div>
 <div id="tab-2" class="post-messages-container tab-content">
-<ul class="reviews">
-<!-- review-1 -->
-<li class="row-table review-1">
-    <div class="message primary-message message-closed">
-        <div class="message-image review-aside">
-            <i class="icon icon-bulb"></i>
-            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
-        </div>
-        <div class="message-text">
-            <div class="row message-text-header">
-                <div class="message-author right">אלברט אלמוזלינו</div>
-                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-                <div class="message-datetime left">08.12.13 | 10:04</div>
-            </div>
-            <div class="spacer"></div>
-            <div class="row">
-                <div class="review-original-text">
-                    <div class="review-original-text-title">טקסט מקורי</div>
-                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
-                </div>
-                <div class="review-change">
-                    <div class="review-change-title">הצעה לשינוי</div>
-                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
-                </div>
-                <div class="review-exsplain">
-                    <div class="review-exsplain-title">נימוק</div>
-                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
-                </div>
-            </div>
-            <div class="spacer"></div>
-            <div class="review-options row">
-                <div class="suggestion-accepted right">ההצעה התקבלה בתאריך 27.04.13</div>
-                <button class="btn review-respond left" onclick="toggleComments('review-1')">תגובות</button>
-                <div class="review-options-respondes left">
-                    <div class="review-options-respondes-value right">3</div>
-                    <div class="review-options-respondes-text right">תגובות</div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <ul class="hide">
-        <!-- Message-1-1 -->
-        <li class="row review-1-1">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- Message-1-2 -->
-        <li class="row review-1-2">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- Message-1-3 -->
-        <li class="row review-1-3">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</li>
-<!-- review-2 -->
-<li class="row-table review-2">
-    <div class="message primary-message message-closed">
-        <div class="message-image review-aside">
-            <i class="icon icon-bulb"></i>
-            <img src="/img/comment-img1.png" class="circle" alt="תמונה" title="תמונה"/>
-        </div>
-        <div class="message-text">
-            <div class="row message-text-header">
-                <div class="message-author right">אלברט אלמוזלינו</div>
-                <div class="message-author-role right">מנכ"ל כוכב תשתיות בע"מ</div>
-                <div class="message-datetime left">08.12.13 | 10:04</div>
-            </div>
-            <div class="spacer"></div>
-            <div class="row">
-                <div class="review-original-text">
-                    <div class="review-original-text-title">טקסט מקורי</div>
-                    <div class="review-original-text-text">לפי דעתי צריך לבטל את האגרה המיותרת הזאת כמה שיותר מהר לטובת כל הציבור! נמאס כבר שרוכבים על הגב  שלנו עם כל מיני מיסים ואגרות מטומטמות. הציבור הזה גמר להיות פראייר. </div>
-                </div>
-                <div class="review-change">
-                    <div class="review-change-title">הצעה לשינוי</div>
-                    <div class="review-change-text">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום לדבר כזה באמת לקרות.</div>
-                </div>
-                <div class="review-exsplain">
-                    <div class="review-exsplain-title">נימוק</div>
-                    <div class="review-exsplain-text">עובדים שעבו להתגורר במתחמי החינוך הבלתי פורמלי. ם המכשירים שייכים לעמותות אך בכל זאת האזרחים נדרשים לשלם את האגרה.</div>
-                </div>
-            </div>
-            <div class="spacer"></div>
-            <div class="review-options row">
-                <div class="suggestion-accepted right">ההצעה התקבלה בתאריך 27.04.13</div>
-                <button class="btn review-respond left" onclick="toggleComments('review-2')">תגובות</button>
-                <div class="review-options-respondes left">
-                    <div class="review-options-respondes-value right">3</div>
-                    <div class="review-options-respondes-text right">תגובות</div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <ul class="hide">
-        <!-- Message-2-1 -->
-        <li class="row review-2-1">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- Message-2-2 -->
-        <li class="row review-2-2">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-        <!-- Message-2-3 -->
-        <li class="row review-2-3">
-            <div class="message message-pad-0">
-                <i class="icon icon-box-top-right-gray-tip"></i>
-                <div class="message-image"><img src="/img/comment-img2.png" class="circle" alt="תמונה" title="תמונה"/></div>
-                <div class="message-text">
-                    <div class="row message-text-header">
-                        <div class="message-author right">פרננדו אלפחורס</div>
-                        <div class="message-author-role right">יועץ ראשי לאחשוורוש</div>
-                    </div>
-                    <div class="row">
-                        <div class="message-content right">המלצות הצוות לבחינת התחרותיות והמחירים בשוק  הפחתת מכסים, צרכנות ותחרותיות. הצוות העריך, כי אין פתרון בודד שיגרום...</div>
-                    </div>
-                    <div class="spacer"></div>
-                    <div class="message-bar row">
-                        <div class="message-datetime right">08.12.13 | 10:04</div>
-                        <div class="message-replies right"></div>
-                    </div>
-                </div>
-            </div>
-        </li>
-    </ul>
-</li>
+<ul class="reviews" id="approved_suggestions_wrapper">
 </ul>
 </div>
 
@@ -415,7 +203,11 @@
             <div class="post-new-message-title right">הוסף הודעה חדשה</div>
         </div>
         <div class="new_post post-new-message-body row">
-            <div class="post-new-message-body-image"><img src="<%=avatar%>" class="circle" alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/></div>
+            <div class="post-new-message-body-image">
+                <div class="circle circle-wrapper auto-scale">
+                    <img src="<%=avatar%>"  alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/>
+                </div>
+            </div>
             <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea>
                 <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>
                     &nbsp;<a class="post-new-message-attachment-path">
@@ -457,10 +249,12 @@
     <% include partials/footer.ejs %>
 </footer>
 <script type="text/javascript">
+var avatar = "<%=avatar%>";
 $(document).ready(function () {
     var is_logged = <%= user_logged %>;
     var discussion = <%- JSON.stringify(discussion || "") %>;
-    var user = <%- JSON.stringify(user || "") %>;
+
+
     var page_posts, post_groups, count;
 
     if(is_logged){
