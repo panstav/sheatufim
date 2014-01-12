@@ -61,7 +61,9 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
 
             cancel: null,
             text_field: null,
-            discussion_vision_text_history: null
+            discussion_vision_text_history: null,
+            comments_count:null
+
         };
     },
 
