@@ -1,5 +1,7 @@
 'use strict';
 
+console.log(process.env);
+
 require('./lib/memory');
 
 var express = require('express');
@@ -18,6 +20,8 @@ formage_admin.forms.loadTypes(mongoose);
 var app = module.exports = express();
 app.set('show_only_published', process.env.SHOW_ONLY_PUBLISHED == '1');
 utils.setShowOnlyPublished(app.settings.show_only_published);
+
+console.log('Show only published',app.get('show_only_published'));
 
 var logout_handler = require("connect-auth/lib/events").redirectOnLogout("/");
 var account = require('./routes/account');
