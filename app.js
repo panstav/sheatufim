@@ -213,6 +213,7 @@ app.configure('production',function(){
             return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
         next();
     });
+    app.set('listenHttps',true);
 });
 
 if (IS_ADMIN) {
@@ -267,9 +268,11 @@ var fs = require('fs');
 var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
 var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();
 
-require('https').createServer({key: privateKey, cert: certificate},app).listen(443,function(){
-	console.log('Listening on 443');
-});
+if(app.get('listenHttps')){
+    require('https').createServer({key: privateKey, cert: certificate},app).listen(443,function(){
+        console.log('Listening on 443');
+    });
+}
 
 // Redirect http to https
 // require('http').createServer(function(req,res){
