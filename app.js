@@ -91,7 +91,9 @@ app.set('send_mails', true);
 app.set('view engine', 'jade');
 app.set('view options', { layout: false });
 formage_admin.forms.setAmazonCredentials(config.s3_creds);
-formage_admin.forms.setUploadDirectory(config.upload_dir);
+if(app.settings.env == 'staging' || app.settings.env == 'production'){
+    formage_admin.forms.setUploadDirectory(config.upload_dir);
+}
 
 var models = require('./models');
 models.setDefaultPublish(app.settings.show_only_published);
@@ -149,7 +151,7 @@ app.use(function (req, res, next) {
         avatar: (req.session && req.session.avatar_url) || "/images/default_user_img.gif",
         url: req.url,
         meta: {},
-        is_dev: true/*app.settings.env == 'development' || app.settings.env == 'staging'*/
+        is_dev: app.settings.env == 'development' || app.settings.env == 'staging'
     });
     next();
 });
