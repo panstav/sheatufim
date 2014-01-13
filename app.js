@@ -87,6 +87,8 @@ app.set('url2png_api_key', process.env.url2png_api_key || 'P503113E58ED4A');
 app.set('url2png_api_secret', process.env.url2png_api_key || 'SF1BFA95A57BE4');
 //
 
+app.set('is_developement', app.settings.env == 'development');
+
 app.set('send_mails', true);
 app.set('view engine', 'jade');
 app.set('view options', { layout: false });

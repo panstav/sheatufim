@@ -12,7 +12,7 @@
 </header>
 <!-- Content -->
 <section class="content" style="background-image: url('<%=discussion.subject_id.cover_image_field && discussion.subject_id.cover_image_field.url%>'); background-size: 100% 230px; background-repeat: no-repeat; margin-bottom: 20px;">
->
+
 <div class="container">
 <!-- Breadcrumbs -->
 <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="/discussions/subject/<%=discussion.subject_id._id%>"><%=discussion.subject_id.name%></a> > <%=discussion.title%>
@@ -349,7 +349,7 @@ $(document).ready(function () {
                 if(data.text.length > 140)
                     data.text_short = data.text.substring(0, 140) + '...';
                 data.replies = 0;
-                var file = $('.new_post .post-new-message-upload')[0].files[0];
+                var file = $('#tab-3 .post-new-message-upload')[0].files[0];
                 if(!file)
                     return afterPost();
 
@@ -376,7 +376,7 @@ $(document).ready(function () {
         }
     });
 
-    $('.container').on('change','.post-new-message-upload',function(e){
+    $('.container').on('change','#tab-3 .post-new-message-upload',function(e){
         var file = this.files[0];
         if(file){
             var $parent = $(this).parents('.post-new-message-body');
@@ -438,8 +438,6 @@ $(document).ready(function () {
 
                 uploadAttachment(data._id,file,afterPost);
 
-
-
                 function afterPost(err,attachment){
                     if(err)
                         return console.error(err);
@@ -497,12 +495,31 @@ $(document).ready(function () {
             }
         }
     }
-
-
-
-
-
     initDiscussionEditing(discussion,'#discussion_content,#discussion_content_textarea');
+
+    $('#tab-1').on('click', '.review-options-dislike', function(e){
+        var suggestion_id = $(e.target).closest('li.suggestion-item').data('id'),
+            vote = -1;
+            vote_on_suggestion(suggestion_id, vote);
+
+    });
+    $('#tab-1').on('click', '.review-options-like', function(e){
+        var suggestion_id = $(e.target).closest('li.suggestion-item').data('id'),
+            vote = 1;
+        vote_on_suggestion(suggestion_id, vote);
+    });
+
+    function vote_on_suggestion(suggestion_id, vote) {
+        db_functions.voteSuggestion(suggestion_id, vote, function(err, data){
+            if(err) return;
+            else if(data) {
+                var $suggestion = $('li.suggestion-item[data-id=' + data.suggestion_id + ']');
+                $suggestion.find('.review-options-pro-value').html(data.agrees);
+                $suggestion.find('.review-options-against-value').html(data.not_agrees);
+            }
+        })
+    }
+
 });
 </script>
 </body>

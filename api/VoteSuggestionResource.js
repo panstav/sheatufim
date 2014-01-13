@@ -10,25 +10,27 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
         this._super(models.VoteSuggestion);
         this.allowed_methods = ['post'];
         this.fields = {
-            votes_against:null,
-            voter_balance:null,
-            suggestion_id: null,
+            agrees:null,
+            not_agrees:null,
+            suggestion_id: null
         };
         this.update_fieilds = {
             suggestion_id: null,
-            balance: null,
+            balance: null
         }
     },
 
     //returns suggestion_
     create_obj: function(req,fields,callback)
     {
-        var user = req.user;
 
-        var suggestion_id = fields.suggestion_id;
         var self = this;
-        var agrees;
-        var not_agrees;
+        var base = self._super;
+
+        var user = req.user;
+        var suggestion_id = fields.suggestion_id;
+
+        var vote_counts;
 
         fields.user_id = user.id;
 
@@ -46,12 +48,12 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
                 // if no vote create new one
                 // if exist insert the new vote
                 if (!vote){
-                    self._super(req,fields,cbk);
+                    base.call(self, req, fields, cbk);
                 }else {
                     vote.balance = fields.balance;
 
                     vote.save(function(err, saved_vote){
-                        cbk(saved_vote);
+                        cbk(err, saved_vote);
                     })
                 }
             },
@@ -63,18 +65,20 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
             },
 
             function(votes, cbk){
-                agrees = _.countBy(votes, function(vote) { vote.balance == 1 });
-                not_agrees = _.countBy(votes, function(vote) { vote.balance == -1 });
+                vote_counts = _.countBy(votes, function(vote) { return vote.balance == 1 ? 'agrees' : 'not_agrees' });
+                if(!vote_counts.agrees) vote_counts.agrees = 0;
+                if(!vote_counts.not_agrees) vote_counts.not_agrees = 0;
 
-                models.Suggestion.update({suggestion_id: suggestion_id}, {$set: {agrees: agrees, not_agrees: not_agrees}},function(err, suggestion){
+                models.Suggestion.update({_id: suggestion_id}, {$set: {agrees: vote_counts.agrees, not_agrees: vote_counts.not_agrees}},function(err, suggestion){
                     cbk(err);
                 })
             }
         ], function(err){
 
             callback(err, {
-                    agrees:agrees,
-                    not_agrees:not_agrees,
+                    agrees: vote_counts.agrees,
+                    not_agrees:vote_counts.not_agrees,
+                    suggestion_id: suggestion_id
                 }
             )
         });

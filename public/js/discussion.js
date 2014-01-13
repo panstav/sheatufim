@@ -588,17 +588,65 @@ function initDiscussionEditing(discussion,target){
 
 
         var add_comment = $(this).parent('.add_comment');
-
         db_functions.addCommentToSuggestion(post_or_suggestion_id, discussion._id, text, function (err, comment) {
             $parent.find('textarea').val('');
-            dust.render('discussion_suggestion_comment_new',comment,function(err,out){
-                $commentList.prepend(out);
-            });
-            var $counter = $suggestion.find('.comment_counter');
-            $counter.text(Number($counter.text()) + 1);
+            var file = $('#tab-1 .post-new-message-upload')[0].files[0];
 
+            if(!file)
+                return afterPost();
+
+            popupProvider.showLoading({message:'מעלה קובץ...'});
+
+            uploadAttachment(comment._id,file,afterPost);
+
+            function afterPost(error,attachment){
+                if(error)
+                    return console.error(error);
+                if(attachment){
+                    comment.attachment = attachment;
+                    $.colorbox.close();
+                }
+                dust.render('discussion_suggestion_comment_new',comment,function(err,out){
+                    $commentList.prepend(out);
+                });
+                $('.new_post .post-new-message-upload').val('');
+                $('.new_post .post-new-message-attachment').hide();
+            }
         });
+
     });
+
+    $('.container').on('change','.post-new-message-upload',function(e){
+        var file = this.files[0];
+        if(file){
+            var $parent = $(this).parents('.post-new-message-body');
+            $parent.find('.post-new-message-attachment label').text(file.name);
+            $parent.find('.post-new-message-attachment').show();
+        }
+    });
+
+    function uploadAttachment( id, file,cbk){
+        var client = new XMLHttpRequest();
+
+        /* Create a FormData instance */
+        var formData = new FormData();
+        /* Add the file */
+        formData.append("upload", file);
+        client.open("put", "/api/post_suggestion_attachments/" + id + "?discussion_id=" + discussion._id, true);
+        //client.setRequestHeader("Content-Type", "multipart/form-data");
+        client.send(formData);  /* Send to server */
+
+        /* Check the response status */
+        client.onreadystatechange = function()
+        {
+            if (client.readyState == 4){
+                if(client.status < 200 || client.status >= 300)
+                    return cbk(client.status);
+                var attachment = JSON.parse(client.responseText);
+                cbk(null,attachment);
+            }
+        }
+    }
 
 }
 
