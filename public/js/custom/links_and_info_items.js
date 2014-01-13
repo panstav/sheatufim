@@ -10,7 +10,7 @@ var get_and_render = {
             if(err) return;
             dust.renderArray('information_item_sidebar', res.objects, function(err, html){
                 if(err) return;
-                $('.list.information_items').html(html);
+                $('.list.information_items').append(html);
             })
         });
     },
@@ -26,7 +26,7 @@ var get_and_render = {
             if(err) return;
             dust.renderArray('link_sidebar', res.objects, function(err, html){
                 if(err) return;
-                $('.list.links').html(html);
+                $('.list.links').append(html);
             })
         });
     }
