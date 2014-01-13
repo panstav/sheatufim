@@ -24,7 +24,8 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
             _id:null,
             discussion_id:null,
             suggestion_id: null,
-            is_my_comment: null
+            is_my_comment: null,
+            attachment:null
         };
         this.default_limit = 50;
     },

@@ -170,23 +170,26 @@ exports.getThresholdCalcVariables = function(type)
  * function(err, {url:'uploaded file url',path:'uploaded file path on server'})
  */
 var uploadHandler = exports.uploadHandler = function(req,callback) {
-
-	var sanitize_filename = function(filename) {
+	var sanitize_filename = function(filename, is_dev) {
 			// This regex matches any character that's not alphanumeric, '_', '-' or '.', thus sanitizing the filename.
 			// Hebrew characters are not allowed because they would wreak havoc with the url in any case.
 			var regex = /[^-\w_\.]/g;
 			return decodeURIComponent(filename).replace(regex, '-');
 		},
-		filename_to_path = function (filename) {
-			return path.join(__dirname,'..','..','public','cdn', filename);
-		},
-		create_file = function (filename, callback) {
+		filename_to_path = function (filename, is_dev) {
+            if(is_dev)
+			    return path.join(__dirname,'..','public','cdn', filename);
+            else
+                return path.join(__dirname,'..', '..','public','cdn', filename);
+
+        },
+		create_file = function (filename, is_dev, callback) {
 
 			// This function attempts to create 0_filename, 1_filename, etc., until it finds a file that doesn't exist.
 			// Then it creates that and returns by calling callback(null, name, path, stream);
 			var attempt = function (index) {
 				var name = index + '_' + filename;
-				var path = filename_to_path(name);
+				var path = filename_to_path(name, is_dev);
 				fs.exists(path, function (exists) {
 					if (exists) {
 						attempt(index + 1);
@@ -198,8 +201,9 @@ var uploadHandler = exports.uploadHandler = function(req,callback) {
 			};
 			attempt(0);
 		},
-		writeToFile = function (fName, stream, callback){
-			create_file(sanitize_filename(fName), function (err, filename, fullPath, os) {
+		writeToFile = function (is_dev, fName, stream, callback){
+
+			create_file(sanitize_filename(fName), is_dev, function (err, filename, fullPath, os) {
 				if (err) return callback(err);
 
                 // listen to stream data events
@@ -232,8 +236,9 @@ var uploadHandler = exports.uploadHandler = function(req,callback) {
         return callback({code:404,message:'bad file upload'});
 
     var stream = req.queueStream || req;
+    var is_dev = req.app.get('is_developement');
 
-    writeToFile(fName, stream,callback);
+    writeToFile(is_dev, fName, stream,callback);
 };
 
 

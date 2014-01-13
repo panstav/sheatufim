@@ -15,12 +15,14 @@ var mongoose_resource = require('jest'),
     PostResource = require('./discussions/PostResource.js'),
     PostDiscussionResource = require('./discussions/PostDiscussionResource.js'),
     PostOnSuggestionResource = require('./discussions/post_on_suggestion_resource.js'),
+    PostSuggestionAttachmentResource = require('./discussions/PostSuggestionAttachmentResource.js'),
     PostOnCommentResource = require('./discussions/post_on_comment_resource.js'),
     SpecialPostsResource = require('./discussions/special_posts_resource.js'),
     DiscussionHistoryResource = require('./discussions/DiscussionHistoryResource.js'),
     PostForumResource = require('./forum/postForumResource.js'),
     PostAttachmentResource = require('./discussions/PostAttachmentResource.js'),
     PostDiscussionAttachmentResource = require('./discussions/PostDiscussionAttachmentResource.js'),
+    VoteSuggestionResource = require('./VoteSuggestionResource.js'),
 //    PostsActionResource = require('./actions/PostActionResource.js'),
     VoteResource = require('./discussions/VoteResource.js'),
     VoteActionPostResource = require('./actions/VoteActionPostResource'),
@@ -82,6 +84,8 @@ module.exports = function(app)
     rest_api.register_resource('posts', new PostResource());
     rest_api.register_resource('post_discussion', new PostDiscussionResource());
     rest_api.register_resource('post_discussion_attachments',new PostDiscussionAttachmentResource());
+    rest_api.register_resource('post_suggestion_attachments',new PostSuggestionAttachmentResource());
+    rest_api.register_resource('votes_on_suggestion',new VoteSuggestionResource());
     rest_api.register_resource('special_posts', new SpecialPostsResource());
     rest_api.register_resource('suggestion_posts', new PostOnSuggestionResource());
     rest_api.register_resource('posts_on_comment', new PostOnCommentResource());

@@ -14,6 +14,8 @@
             <div class="message-bar row">
                 <div class="message-datetime right">{creation_date|time}</div>
                 <div class="message-replies right"></div>
+                <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
+
             </div>
         </div>
     </div>

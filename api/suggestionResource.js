@@ -167,6 +167,26 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                             async.forEach(results.objects, iterator, function (err, objs) {
                                 cbk(err, results);
                             });
+                        },
+                        function(results, cbk){
+                            async.forEach(results.objects, function(obj, c){
+                                models.PostSuggestion.count({suggestion_id: obj._id}, function(err, count){
+                                    obj.comments_count = count;
+                                    c(err, obj);
+                                });
+                            }, function (err, result) {
+                                cbk(err, results);
+                            });
+                        },
+                        function(results, cbk){
+                            async.forEach(results.objects, function(obj, c){
+                                models.PostSuggestion.count({suggestion_id: obj._id}, function(err, count){
+                                    obj.comments_count = count;
+                                    c(err, obj);
+                                });
+                            }, function (err, result) {
+                                cbk(err, results);
+                            });
                         }
                     ], function (err, results) {
                         results.objects=results.objects.sort(likelihood) ;
