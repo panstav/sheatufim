@@ -17,7 +17,9 @@ module.exports = function (req, res) {
                     'last_name': 1})
                 .populate('subject_id', {
                     '_id': 1,
-                    'name': 1
+                    'name': 1,
+                    'cover_image_field': 1,
+                    'image_field' : 1
                 })
                 .exec(cbk);
         },

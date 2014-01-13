@@ -11,7 +11,8 @@
     <% include partials/menu.ejs %>
 </header>
 <!-- Content -->
-<section class="content">
+<section class="content" style="background-image: url('<%=discussion.subject_id.cover_image_field && discussion.subject_id.cover_image_field.url%>'); background-size: 100% 230px; background-repeat: no-repeat; margin-bottom: 20px;">
+>
 <div class="container">
 <!-- Breadcrumbs -->
 <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="/discussions/subject/<%=discussion.subject_id._id%>"><%=discussion.subject_id.name%></a> > <%=discussion.title%>
@@ -26,7 +27,7 @@
 <!-- Post Header -->
 <div class="row post-header">
     <div class="right sidebox post-image">
-        <img src="<%=discussion.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="תמונה" title="תמונה"/>
+        <img src="<%=discussion.subject_id.image_field.url%>" style="width: 224px; height: 224px; position: static;" class="align-me" alt="<%=discussion.subject_id.name%>" title="<%=discussion.subject_id.name%>"/>
     </div>
     <div class="left post-headerbox">
         <h1 class="post-title"><%=discussion.subject_id.name%></h1>
