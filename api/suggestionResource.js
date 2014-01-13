@@ -462,7 +462,7 @@ module.exports.approveSuggestion = function (id, callback) {
     var discussion_id;
     var suggestion_grade;
 
-    //update discussion grade
+   /* //update discussion grade
     var iterator = function (sugg_grade, itr_cbk) {
         async.parallel([
 
@@ -479,7 +479,7 @@ module.exports.approveSuggestion = function (id, callback) {
             itr_cbk(err, args);
         })
     };
-
+*/
     var noti_itr = function(user_id, itr_cbk){
         if (suggestion_creator != user_id + "") {
             notifications.create_user_notification("approved_change_suggestion_on_discussion_you_are_part_of",
@@ -678,7 +678,7 @@ module.exports.approveSuggestion = function (id, callback) {
                             par_cbk(err, obj);
                         });
                 },
-                //for each suggestion grade - copy it to discussion grade
+               /* //for each suggestion grade - copy it to discussion grade
                 function (par_cbk) {
 
                     async.waterfall([
@@ -695,7 +695,7 @@ module.exports.approveSuggestion = function (id, callback) {
                         par_cbk(err, args);
                     });
                 },
-
+*/
                 // set notifications for discussion's participants
                 function (cbk2) {
 
@@ -719,8 +719,8 @@ module.exports.approveSuggestion = function (id, callback) {
                         }
                     })
                 }
-            ], function (err, args) {
-                cbk(err, 8);
+            ], function (err) {
+                cbk(err);
             })
         }
     ], function (err, arg) {
