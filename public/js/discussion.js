@@ -100,30 +100,27 @@ function initDiscussionEditing(discussion,target){
 
 
         $('#discussion_content_txt').text('"' + range_txt + '"');
-        $('#write-comment').show();
+        dust.render('request-change-dialog',{
+            orig_text: range_txt,
+            delete: $(this).hasClass('delete'),
+            add: $(this).hasClass('add')
+        },function(err,out){
+            $.colorbox({
+                html:out,
+                width:'70%',
+                height:'90%',
+                onComplete:function(){
+                    $(".popup-window").hide();
+                    $('.request-change-dialog textarea#discussion_suggest').focus();
+                    if($('#discussion_suggest').attr('disabled')){
+                        $('.request-change-dialog #discussion_explanation').focus();
+                        $('.request-change-dialog textarea#discussion_suggest').val(" ");
+                    }
+                }
+            });
 
-        $('#reload-img').attr('src', $('#reload-img').attr('src'));
-        $(".popup-window").hide();
 
-        $('#discussion_suggest').val('');
-        $('#discussion_suggest').attr('disabled', false);
-        $('textarea#discussion_suggest').focus();
-
-        $('#discussion_explanation').val('');
-        if ($(this).hasClass('delete')) {
-            $('#discussion_suggest').val(' ');
-            $('#discussion_suggest').attr('disabled', 'disabled');
-            $('#discussion_explanation').focus();
-        } else {
-            if ($(this).hasClass('add')) {
-                $('#discussion_suggest').val(range_txt + ' ');
-            }
-        }
-
-        $('html, body').animate({
-            scrollTop: $("#write-comment").offset().top
-        }, 500);
-
+        });
     });
 
     function discoverRange(text) {
@@ -158,10 +155,9 @@ function initDiscussionEditing(discussion,target){
 
 
 
-    $("#cancelWriteCommentBT").click(function () {
-        $('#write-comment').hide();
+    $('body').on('click', "#cancelWriteCommentBT", function () {
+        $.colorbox.close();
     });
-
 
     $('body').mouseup(function (e) {
         var target = $(e.target);
@@ -178,7 +174,7 @@ function initDiscussionEditing(discussion,target){
     });
 
 
-    $('#send_suggestion').click(function () {
+    $('body').on('click', "#send_suggestion", function () {
         var $this = $(this);
 
         if ($this.data('executing')) {
@@ -188,7 +184,7 @@ function initDiscussionEditing(discussion,target){
         $this.data('executing', true);
         $this.addClass('disable');
 
-        var part = {start: range.start, end: range.end, text: $("textarea#discussion_suggest").val()};
+        var part = {start: range.start, end: range.end, text: $(".request-change-dialog textarea#discussion_suggest").val()};
 
         // todo i have replaced vision with original, see that it works
         //arrange spaces
@@ -241,8 +237,9 @@ function initDiscussionEditing(discussion,target){
                     $this.data('executing', false);
                     $this.removeClass('disable');
 
+
                     if (data != 'canceled') {
-                        $('#write-comment').hide();
+                        $.colorbox.close();
                         /*
                          $("textarea#discussion_suggest").val('');
                          $("#user_tokens").text(data.updated_user_tokens);*/
@@ -250,6 +247,7 @@ function initDiscussionEditing(discussion,target){
                         render_suggestion(data, true);
                         $(".deals-box").show();
                         $('#suggestion_number').text(Number($('#suggestion_number').text()) + 1);
+                        suggestions_list.push(data);
                     }
                 } else {
                     var err = err;

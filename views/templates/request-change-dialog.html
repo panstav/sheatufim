@@ -1,0 +1,42 @@
+﻿
+<div class="request-change-dialog">
+    <!-- Basket -->
+    <div class="basket">
+        <div class="row">
+            <i class="icon icon-medium-pad-left icon-bulb-grey right"></i>
+            <div class="right dialog-title">
+                <div class="row">
+                    <h2 class="basket-title right">הצעה לשינוי</h2>
+                </div>
+                <div class="row">
+                    <h3 class="basket-tagline right">עריכת מסמך</h3>
+                </div>
+            </div>
+        </div>
+        <div class="spacer-large"></div>
+        <div class="post-messages-container tab-content">
+            <div class="message primary-message">
+                <div class="message-text">
+                    <div class="row">
+                        <div class="review-original-text">
+                            <div class="review-original-text-title">טקסט מקורי</div>
+                            <div class="review-original-text-text" {?add}data-type="add"{/add}>{orig_text}</div>
+                        </div>
+                        <div class="review-change">
+                            <div class="review-change-title">הצעה לשינוי</div>
+                            <div class="review-change-text"><textarea id="discussion_suggest" placeholder="הזנת טקסט..." {?delete}disabled{/delete}>{?delete} {/delete}{?add}{orig_text} {/add}</textarea></div>
+                        </div>
+                        <div class="review-exsplain">
+                            <div class="review-exsplain-title">נימוק</div>
+                            <div class="review-exsplain-text"><textarea id="discussion_explanation" placeholder="הזנת טקסט..."></textarea></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row request-change-dialog-operations">
+                <button id="cancelWriteCommentBT" class="btn btn-medium btn-gray right">ביטול</button>
+                <button id="send_suggestion" class="btn btn-medium btn-green left">פרסם</button>
+            </div>
+        </div>
+    </div>
+</div>

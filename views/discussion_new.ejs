@@ -113,46 +113,6 @@
 <div class="spacer-large"></div>
 
 
-<div id='write-comment' class="write-comment" style="display: none;">
-    <h3>
-        הצעה לשינוי
-    </h3>
-
-    <div class="text-box cf">
-        <div class="left">
-            <p id='discussion_content_txt'><strong></strong>
-
-            </p>
-            <label>
-                ההצעה לשינוי שלי:
-            </label>
-            <textarea id='discussion_suggest' class="five-col" cols="0" rows="0"></textarea>
-            <label>
-                טיעונים, הצדקות ונימוקים:
-            </label>
-            <textarea id="discussion_explanation" class="two-col" cols="0" rows="0"></textarea>
-        </div>
-        <div class="user-right">
-            <div class="img-box" style="overflow: hidden;">
-                <div style="width:70px; height:70px;" class='auto-scale'>
-                    <% if(user_logged) { %>
-                    <img id="reload-img" src="<%=avatar%>" alt="אני" style="width:70px; height:70px"/>
-                    <% } %>
-                </div>
-                <span></span>
-            </div>
-            <h4>אני</h4>
-
-            <div class="date"><%=(new Date()).format('dd.mm.yy') %></div>
-        </div>
-    </div>
-    <a class="grey-btn" id="cancelWriteCommentBT" href="javascript:void(0);"><span>
-מתחרט
-            </span></a>
-    <a id="send_suggestion" class="green-btn" href="javascript:void(0);">
-        הצע
-    </a>
-</div>
 
 <!-- Tabs Container -->
 <div class="document-review-tabs-container">
@@ -189,16 +149,16 @@
     </ul>
 </div>
 <!-- Tab Content -->
-<div id="tab-1" class="post-messages-container tab-content active">
+<div id="tab-1" class="post-messages-container tab-content tabs active">
 <ul class="reviews" id="suggestions_wrapper">
 </ul>
 </div>
-<div id="tab-2" class="post-messages-container tab-content">
+<div id="tab-2" class="post-messages-container tab-content tabs">
 <ul class="reviews" id="approved_suggestions_wrapper">
 </ul>
 </div>
 
-<div id="tab-3" class="tab-content">
+<div id="tab-3" class="tab-content tabs">
     <div class="post-new-message">
         <div class="post-new-message-head row">
             <div class="post-new-message-title right">הוסף הודעה חדשה</div>
@@ -245,6 +205,7 @@
 </div>
 </div>
 </section>
+
 <!-- Footer -->
 <footer>
     <% include partials/footer.ejs %>

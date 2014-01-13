@@ -167,10 +167,10 @@ ul.list li.link-container a:hover {
 #footer-credits img {
     width: 85px;
 }
-.tab-content {
+.tab-content.tabs {
     display: none;
 }
-.tab-content.active {
+.tab-content.tabs.active {
     display: block;
 }
 .tab-badge {
@@ -178,4 +178,42 @@ ul.list li.link-container a:hover {
 }
 #logo a {
     text-decoration: none;
+}
+
+.request-change-dialog .message.primary-message {
+    right: 20px;
+    padding: 20px;
+    margin-left: 20px;
+}
+
+.request-change-dialog .message.primary-message textarea {
+    width: 100%;
+    height: 60px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: solid 1px #dedede;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #929292;
+    line-height: 13px;
+}
+.request-change-dialog .message.primary-message {
+    min-width: 95%;
+}
+.request-change-dialog .post-messages-container.tab-content {
+    padding-left: 0;
+}
+
+#discussion_content_textarea {
+    min-width: 100%;
+    background-color: #fbfbe9;
+    border: none;
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    line-height: 21px;
+    font-weight: 400;
+    resize: none;
 }
