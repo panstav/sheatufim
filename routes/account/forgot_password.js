@@ -98,7 +98,7 @@ var forgotPassword = function(user,callback)
             templates.renderTemplate('forgot',{user:user},cbk);
         },
         function(body,cbk) {
-            mail.sendMail(user.email,body,'יצירת סיסמא חדשה לאתר זירות השיח',cbk);
+            mail.sendMail(user.email,body,'יצירת סיסמא חדשה לאתר מעגלי השיח',cbk);
         }
     ],function(err, obj){
         callback(err, obj);

@@ -2,6 +2,11 @@
 <script src="/plugins/ckeditor/ckeditor.js"></script>
 <script src="/plugins/ckeditor/adapters/jquery.js"></script>
 
+<script>
+    var user = {_id:"<%= user && user.id %>"};
+    /*$.webshims.polyfill();*/
+    var gamification_price = "<%- JSON.stringify(get('gamification_tokens')) || 0%>";
+</script>
 
 
 <!-- ClickTale Bottom part -->

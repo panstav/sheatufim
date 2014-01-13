@@ -15,7 +15,7 @@ var LinkResource = module.exports = jest.MongooseResource.extend({
     init:function(){
         this._super(models.Link);
         this.allowed_methods = ['get'];
-        this.filtering = {subject_id: null, discussion_id: null};
+        this.filtering = {subjects: null, discussions: null};
         /*this.default_query = function (query) {
             return query.sort({'date': 'descending'});
         };*/
