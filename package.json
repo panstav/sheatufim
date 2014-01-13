@@ -15,12 +15,12 @@
     "request": "2.x.x",
     "logging": "2.x.x",
     "xml": "0.0.x",
-    "formage-admin": "git://github.com/IshaiJaffe/formage-admin.git",
     "facebook-signed-request": "0.0.x",
     "knox": "0.0.11",
     "http-proxy": "",
     "nodemailer": "~0.5.5",
-      "multiparty":""
+    "multiparty": "",
+    "formage-admin": "git://github.com/IshaiJaffe/formage-admin.git"
   },
   "devDependencies": {},
   "engines": {
