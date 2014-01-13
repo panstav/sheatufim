@@ -3,7 +3,7 @@
 <script src="/plugins/ckeditor/adapters/jquery.js"></script>
 
 <script>
-    var user = {_id:"<%= user.id %>"};
+    var user = {_id:"<%= user && user.id %>"};
     /*$.webshims.polyfill();*/
     var gamification_price = "<%- JSON.stringify(get('gamification_tokens')) || 0%>";
 </script>
