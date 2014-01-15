@@ -70,7 +70,7 @@
                 </div>
                 <% if(subject.timeline_url) { %>
                     <div class="row sidebox activity-module">
-                        <iframe src='http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=<%=subject.timeline_url.substring(subject.timeline_url.indexOf('=') + 1, subject.timeline_url.indexOf('SEE'))%>SEE&font=Bevan-PotanoSans&maptype=TERRAIN&lang=en&height=500' width='100%' height='500' frameborder='0'></iframe>
+                        <iframe src='http://cdn.knightlab.com/libs/timeline/latest/embed/index.html?source=<%=subject.timeline_url.substring(subject.timeline_url.indexOf('=') + 1, subject.timeline_url.indexOf('&'))%>&font=Bevan-PotanoSans&maptype=TERRAIN&lang=en&height=500' width='100%' height='500' frameborder='0'></iframe>
                     </div>
                 <% } %>
             </div>
