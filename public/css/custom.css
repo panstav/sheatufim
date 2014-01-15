@@ -217,3 +217,11 @@ ul.list li.link-container a:hover {
     font-weight: 400;
     resize: none;
 }
+
+.shitufim-logo {
+    width: 180px;
+}
+.popup.popup-small {
+    padding: 30px 30px 20px 30px;
+    text-align: center;
+}

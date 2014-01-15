@@ -142,7 +142,7 @@
             <a href="#tab-3">
                 <div class="row">
                     <div class="tab-title right">תגובות</div>
-                    <div class="tab-badge left circle"><span>12</span></div>
+                    <div class="tab-badge left circle"><span id="comments_number"></span></div>
                 </div>
             </a>
         </li>
@@ -272,6 +272,7 @@ $(document).ready(function () {
             page_posts = data.page_posts;
             post_groups = data.post_groups;
             count = data.count;
+            $('#comments_number').html(count);
 
             $.each(page_posts, function(i, post){
                 post.time = new Date(post.creation_date).format('dd.mm.yyyy');
@@ -331,6 +332,7 @@ $(document).ready(function () {
                     });
                     $('.new_post .post-new-message-upload').val('');
                     $('.new_post .post-new-message-attachment').hide();
+                    $('#comments_number').html(Number($('#comments_number').html()) + 1);
                 }
             });
         }
