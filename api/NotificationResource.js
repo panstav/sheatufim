@@ -843,10 +843,10 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                     var num_of_joined = notification.notificators.length;
                     if(num_of_joined > 1){
                         notification.part_one = "נוספו "
-                            + num_of_joined +  " תגובות חדשות לזירת השיח "
+                            + num_of_joined +  " תגובות חדשות למעגל השיח "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הוסיף/ה תגובה חדשה לזירת השיח ";
+                            notification.part_one = " הוסיף/ה תגובה חדשה למעגל השיח ";
                             notification.user = user_obj.first_name + " " + user_obj.last_name;
                         }
                     }
@@ -884,10 +884,10 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                     if(num_of_joined > 1){
                         notification.part_one = "נוספו " + 
                             num_of_joined +
-                            " תגובות חדשות על הודעה שכתבת בפורום זירת השיח "
+                            " תגובות חדשות על הודעה שכתבת בפורום מעגל השיח "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום זירת השיח ";
+                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום מעגל השיח ";
                             notification.user = user_obj.first_name + " " + user_obj.last_name;
                         }
                     }
@@ -900,10 +900,10 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                     if(num_of_joined > 1){
                         notification.part_one = "נוספו "
                             num_of_joined +
-                            " תגובות חדשות על הודעה שכתבת בפורום זירת השיח "
+                            " תגובות חדשות על הודעה שכתבת בפורום מעגל השיח "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום זירת השיח ";
+                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום מעגל השיח ";
                             notification.user = user_obj.first_name + " " + user_obj.last_name;
                         }
                     }

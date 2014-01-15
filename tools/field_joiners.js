@@ -60,7 +60,7 @@ var announceToUser = function(user,callback)
             templates.renderTemplate('field_joiners',{user:user, temp_password:temp_password},cbk);
         },
         function(body,cbk) {
-            mail.sendMail(user.email,body,'הזמנה להשתתף בזירת שיח באתר שיתופים',cbk);
+            mail.sendMail(user.email,body,'הזמנה להשתתף במעגל שיח באתר שיתופים',cbk);
         }
     ],callback);
 };

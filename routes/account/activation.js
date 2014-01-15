@@ -135,7 +135,7 @@ var sendActivationMail = module.exports.sendActivationMail = function(user,next,
             templates.renderTemplate(template,_.extend({user:user, temp_password:temp_password,next:next},context||{}),cbk);
         },
         function(body,cbk) {
-            mail.sendMail(user.email, body, 'הזמנה להשתתף בזירת שיח באתר שיתופים', cbk);
+            mail.sendMail(user.email, body, 'הזמנה להשתתף במעגל שיח באתר שיתופים', cbk);
         }
     ],function(err) {
         callback(err,temp_password);

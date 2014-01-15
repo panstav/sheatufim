@@ -841,6 +841,7 @@ ul.inline-list li {
     letter-spacing: -0.5px;
     margin-bottom: 9px;
     margin-right: 15px;
+    display: none;
 }
 
 .paper-actions-bubble {

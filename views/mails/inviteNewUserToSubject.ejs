@@ -1,4 +1,4 @@
-הזמנה להשתתף בזירת שיח באתר שיתופים
+הזמנה להשתתף במעגל שיח באתר שיתופים
 <!--body -->
 <div style="direction:rtl" xmlns="http://www.w3.org/1999/html">
     <div align="center"><font face="arial"><br><br></font></div>
@@ -24,7 +24,7 @@
                 </p>
 
                 <p class="MsoNormal">
-                    הוזמנת להשתתף בדיון וירטואלי בזירת השיח
+                    הוזמנת להשתתף בדיון וירטואלי במעגל השיח
                     <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
                     באתר שיתופים.
                 </p>
@@ -33,12 +33,12 @@
                     <%= temp_password %>
                 </p>
                 <p>
-                    לכניסה לזירת השיח יש ללחוץ
+                    לכניסה למעגל השיח יש ללחוץ
                     <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">כאן</a>
                     ולהזין סיסמה להתחברות לאתר.
                 </p>
                 <p><!--
-                    לכניסה לזירת השיח יש ללחוץ
+                    לכניסה למעגל השיח יש ללחוץ
                     <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">
                         כאן
                     </a>
