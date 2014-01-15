@@ -16,6 +16,7 @@ var popupProvider={
         okButtonText:'סגור'
         ,message:''
         ,callback: $.noop
+        ,removeCloseButton: false
         ,onOkCilcked:function(e){
             e.preventDefault();
             $.colorbox.close();
@@ -25,15 +26,28 @@ var popupProvider={
         popupConfig = $.extend(defaults,popupConfig);
 
         dust.render('ok_popup',popupConfig,function(err,out){
-            if(!err){
+            if(!err && popupConfig.removeCloseButton){
                  $.colorbox({ html:out,
+                     onLoad  : function() {
+                        $('#cboxClose').remove();
+                     },
                      onComplete:function(e){
                        $('.ok-button').click(popupConfig.onOkCilcked);
                      },
-                     onClosed:function(){
+                     onClosed: function(){
                          popupConfig.callback();
                      }
                  });
+            }else if (!err){
+                $.colorbox({ html:out,
+
+                    onComplete:function(e){
+                        $('.ok-button').click(popupConfig.onOkCilcked);
+                    },
+                    onClosed: function(){
+                        popupConfig.callback();
+                    }
+                });
             }
         });
     },

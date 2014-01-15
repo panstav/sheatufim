@@ -46,6 +46,7 @@ function initDiscussionEditing(discussion,target){
                 if (flag === false || (range.start == 0 && range.end == 0)) {
                     var popupConfig = {};
                     popupConfig.message = "קרתה תקלה, נסה שנית";
+                    popupConfig.removeCloseButton = true;
                     popupConfig.onOkCilcked = function (e) {
                         e.preventDefault();
                         clicked = 'ok';
@@ -58,7 +59,8 @@ function initDiscussionEditing(discussion,target){
                         //    }
                         $.colorbox.close();
                     },
-                        popupProvider.showOkPopup(popupConfig);
+
+                    popupProvider.showOkPopup(popupConfig);
                     return false;
                 }
             }

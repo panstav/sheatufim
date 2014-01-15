@@ -234,7 +234,6 @@ $(document).ready(function () {
         $(tab_id).addClass('active');
     });
 
-
     //render a main post and responses if the post has any recursively
     var render_post = function(type, data, level){
         dust.render('forum_post', data, function(err, out){
@@ -480,7 +479,6 @@ $(document).ready(function () {
             }
         })
     }
-
 });
 </script>
 </body>
