@@ -1,4 +1,4 @@
-<li class="row-table review-{index} suggestion-item" data-id="{id}">
+<li class="row-table review-{index} suggestion-item {?is_approved}approved{/is_approved}" data-id="{id}">
     <div class="message primary-message message-closed">
         <div class="message-image review-aside">
             <i class="icon icon-bulb"></i>
@@ -32,7 +32,7 @@
 				{?is_approved}
 				<div class="suggestion-accepted right">{?approve_date}
                     ההצעה התקבלה בתאריך
-                    {approve_date|time}{/approve_date}</div>
+                    &nbsp{approve_date|time}{/approve_date}</div>
 				{:else}
                 <button class="review-options-like btn right "><i class="icon icon-like"></i>בעד</button>
                 <button class="review-options-dislike btn right"><i class="icon icon-dislike"></i>נגד</button>
