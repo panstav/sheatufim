@@ -53,6 +53,8 @@
             </div>
         </div>
     </div>
+    {?is_approved}
+    {:else}
     <div class="reply-to-message row hide">
         <div class="post-new-reply reply-to-review-1 message-pad-0">
             <i class="icon icon-box-top-right-blue-tip"></i>
@@ -78,6 +80,7 @@
             </div>
         </div>
     </div>
+    {/is_approved}
     <ul class="hide">
     </ul>
 </li>
