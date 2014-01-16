@@ -110,7 +110,7 @@ function initDiscussionEditing(discussion,target){
             $.colorbox({
                 html:out,
                 width:'70%',
-                height:'90%',
+                height:'80%',
                 onComplete:function(){
                     $(".popup-window").hide();
                     $('.request-change-dialog textarea#discussion_suggest').focus();

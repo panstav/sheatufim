@@ -1697,6 +1697,7 @@ footer p.title {
 
 .basket {
     padding: 30px;
+    padding-top: 0;
 }
 
 .dialog-title {
