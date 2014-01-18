@@ -35,9 +35,8 @@
         </div>
     </section>
     <!-- Footer -->
-    <footer>
-        <% include partials/footer.ejs %>
-    </footer>
+    <% include partials/footer.ejs %>
+
     <script type="text/javascript">
         $(document).ready(function () {
             var user = <%- JSON.stringify(user || "") %>;

@@ -225,3 +225,21 @@ ul.list li.link-container a:hover {
     padding: 30px 30px 20px 30px;
     text-align: center;
 }
+.basket {
+    padding-bottom: 0;
+}
+
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: #868d8c;
+    font-size: 15px;
+    font-weight: 400;
+}
+.back-to-top div {
+    text-align: center;
+}
+.back-to-top div {
+    text-align: center;
+}

@@ -36,6 +36,11 @@
                 <div class="right link-home">
                     <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף הבית</div>
                 </div>
+                <% if(user_logged) { %>
+                <a href="/discussions/subject/<%=discussion.subject_id._id%>/forum">
+                    <div class="left link-to-forum">לפורום</div>
+                </a>
+                <% } %>
             </a>
         </div>
     </div>
@@ -234,9 +239,8 @@
 </section>
 
 <!-- Footer -->
-<footer>
-    <% include partials/footer.ejs %>
-</footer>
+<% include partials/footer.ejs %>
+
 <script type="text/javascript">
 var avatar = "<%=avatar%>";
 $(document).ready(function () {

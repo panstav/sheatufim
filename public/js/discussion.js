@@ -109,8 +109,8 @@ function initDiscussionEditing(discussion,target){
         },function(err,out){
             $.colorbox({
                 html:out,
-                width:'70%',
-                height:'80%',
+                width:'890px',
+                height:'580px',
                 onComplete:function(){
                     $(".popup-window").hide();
                     $('.request-change-dialog textarea#discussion_suggest').focus();
@@ -247,6 +247,7 @@ function initDiscussionEditing(discussion,target){
                          $("#user_tokens").text(data.updated_user_tokens);*/
 
                         render_suggestion(data, true);
+                        scrollTo('#' + data.id);
                         $(".deals-box").show();
                         $('#suggestion_number').text(Number($('#suggestion_number').text()) + 1);
                         suggestions_list.push(data);
