@@ -34,8 +34,8 @@
                     ההצעה התקבלה בתאריך
                     &nbsp{approve_date|time}{/approve_date}</div>
 				{:else}
-                <button class="review-options-like btn right "><i class="icon icon-like"></i>בעד</button>
-                <button class="review-options-dislike btn right"><i class="icon icon-dislike"></i>נגד</button>
+                <button class="review-options-vote review-options-like {?has_voted}{?vote_balance}selected{/vote_balance}{/has_voted} btn right "><i class="icon icon-like"></i>בעד</button>
+                <button class="review-options-vote review-options-dislike {?has_voted}{^vote_balance} selected {/vote_balance}{/has_voted} btn right"><i class="icon icon-dislike"></i>נגד</button>
                 <div class="review-options-pro right">
                     <div class="review-options-pro-value right">{agrees|round}</div>
                     <div class="review-options-pro-text right">תומכים</div>

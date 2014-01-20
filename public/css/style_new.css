@@ -2594,6 +2594,10 @@ body.document-review .review-options {
     margin-bottom: 10px;
 }
 
+body.document-review .review-options .selected:hover {
+    cursor: default;
+}
+
 body.document-review .message .message-image {
     padding-left: 17px;
 }
@@ -2708,6 +2712,7 @@ body.document-review .message-datetime {
     line-height: 35px;
 }
 
+.review-options-like:not(.review-options-like.selected):hover,
 .review-options-like:not(.review-options-like-selected):hover {
     background-color: #1bd045;
     -webkit-box-shadow: inset 0 -3px rgba(1,159,26,.75);
@@ -2720,6 +2725,7 @@ body.document-review .message-datetime {
     background-image: linear-gradient(to top, #16ba3d, #1bd045);
 }
 
+.review-options-like:not(.review-options-like.selected):active,
 .review-options-like:not(.review-options-like-selected):active {
     background-color: #0cb628;
     border: solid 1px #008e17;
@@ -2732,6 +2738,7 @@ body.document-review .message-datetime {
     box-shadow: none;
 }
 
+.review-options-like.selected,
 .review-options-like-selected {
     width: 100px;
     height: 35px;
@@ -2780,7 +2787,8 @@ body.document-review .message-datetime {
     line-height: 35px;
 }
 
-.review-options-dislike:not(.review-options-dislike-selected):hover {
+.review-options-dislike:not(.review-options-dislike-selected):hover,
+.review-options-dislike:not(.review-options-dislike.selected):hover {
     background-color: #e66b28;
     -webkit-box-shadow: inset 0 -3px #8b1f02;
     -moz-box-shadow: inset 0 -3px #8b1f02;
@@ -2792,7 +2800,8 @@ body.document-review .message-datetime {
     background-image: linear-gradient(to top, #c05c25, #e66b28);
 }
 
-.review-options-dislike:not(.review-options-dislike-selected):active {
+.review-options-dislike:not(.review-options-dislike-selected):active,
+.review-options-dislike:not(.review-options-dislike.selected):active {
     background-color: #e75c10;
     border: solid 1px #a8430c;
     background-image: -webkit-linear-gradient(bottom, #9e3f0b, #e75c10);
@@ -2804,7 +2813,8 @@ body.document-review .message-datetime {
     box-shadow: none;
 }
 
-.review-options-dislike-selected {
+.review-options-dislike-selected,
+.review-options-dislike.selected{
     width: 100px;
     height: 35px;
     -webkit-border-radius: 5px;

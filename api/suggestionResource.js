@@ -44,6 +44,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
             explanation:null,
             updated_user_tokens:null,
             discussion_id:null,
+            has_voted: null,
             vote_balance: null,
             wanted_amount_of_tokens:null,
             curr_amount_of_tokens:null,
@@ -89,7 +90,8 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
             if (req.user) {
                 models.VoteSuggestion.findOne({user_id:req.user._id, suggestion_id:suggestion._id + ""}, {"_id":1, "balance":1}, function (err, vote) {
                     if (!err && vote){
-                        suggestion.vote_balance = vote.balance;
+                        suggestion.has_voted = true;
+                        suggestion.vote_balance = vote.balance == 1 ? true: false;
                     }
 
                     itr_cbk(err, suggestion);

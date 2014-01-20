@@ -512,6 +512,13 @@ $(document).ready(function () {
                 var $suggestion = $('li.suggestion-item[data-id=' + data.suggestion_id + ']');
                 $suggestion.find('.review-options-pro-value').html(data.agrees);
                 $suggestion.find('.review-options-against-value').html(data.not_agrees);
+
+                $suggestion.find('.review-options-vote').removeClass('selected');
+                if (data.balance == 1){
+                    $suggestion.find('.review-options-like').addClass('selected');
+                }else{
+                    $suggestion.find('.review-options-dislike').addClass('selected');
+                }
             }
         })
     }

@@ -2696,6 +2696,7 @@ div.document-review-tabs-container {
         line-height: 35px;
     }
 
+        .review-options-like:not(.review-options-like.selected):hover,
         .review-options-like:not(.review-options-like-selected):hover {
 	        background-color: #1bd045;
 	        -webkit-box-shadow: inset 0 -3px rgba(1,159,26,.75);
@@ -2768,6 +2769,7 @@ div.document-review-tabs-container {
         line-height: 35px;
     }
 
+        .review-options-dislike:not(.review-options-dislike.selected):hover,
         .review-options-dislike:not(.review-options-dislike-selected):hover {
 	        background-color: #e66b28;
 	        -webkit-box-shadow: inset 0 -3px #8b1f02;
@@ -2780,6 +2782,7 @@ div.document-review-tabs-container {
 	        background-image: linear-gradient(to top, #c05c25, #e66b28);
         }
 
+        .review-options-dislike:not(.review-options-dislike.selected):active,
         .review-options-dislike:not(.review-options-dislike-selected):active {
 	        background-color: #e75c10;
 	        border: solid 1px #a8430c;

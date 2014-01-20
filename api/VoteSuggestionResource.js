@@ -12,7 +12,8 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
         this.fields = {
             agrees:null,
             not_agrees:null,
-            suggestion_id: null
+            suggestion_id: null,
+            balance: null
         };
         this.update_fieilds = {
             suggestion_id: null,
@@ -31,6 +32,7 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
         var suggestion_id = fields.suggestion_id;
 
         var vote_counts;
+        var _vote;
 
         fields.user_id = user.id;
 
@@ -59,6 +61,7 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
             },
 
             function(vote, cbk){
+                _vote = vote;
                 models.VoteSuggestion.find({suggestion_id: suggestion_id}, function(err, votes){
                     cbk(err, votes);
                 })
@@ -78,7 +81,8 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
             callback(err, {
                     agrees: vote_counts.agrees,
                     not_agrees:vote_counts.not_agrees,
-                    suggestion_id: suggestion_id
+                    suggestion_id: suggestion_id,
+                    balance: _vote.balance
                 }
             )
         });
