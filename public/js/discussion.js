@@ -1,6 +1,6 @@
 function initDiscussionEditing(discussion,target){
 
-    var original = discussion.text_field;
+    var original = discussion.text_field.replace(/\r/g,'');
     var mouseDown, mouseUp, top, left;
     var range_txt;
     var range = {};
