@@ -3,6 +3,7 @@
 <head>
     <title>מעגלי שיח</title>
     <% include partials/head.ejs %>
+    <script src='/js/sidebar.js'></script>
 </head>
 <% if( user_logged ) { %>
 <body class="home logged">
@@ -161,6 +162,7 @@
 
         loadDiscussionsListToPage();
 
+//        initDiscussionEditing('#subjectShoppingCartPopup', subject_id, "<%=subject.name%>");
         $('#subjectShoppingCartPopup').click(function(){
             dust.render('subject_shopping_cart',{
                 id:subject_id,

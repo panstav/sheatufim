@@ -103,6 +103,7 @@
         var current_section=1;
         $(document).ready(function () {
             var subject = '<%= subject._id %>';
+            var subject_name = '<%= subject.name %>';
             var is_logged = <%= user_logged %>;
             var user = <%- JSON.stringify(user || '') %>;
             var posts = <%- JSON.stringify(posts) %>;
@@ -322,8 +323,28 @@
                         cbk(null,attachment);
                     }
                 }
-            }
+            };
+
+            $('#subjectShoppingCartPopup').click(function(){
+                dust.render('subject_shopping_cart',{
+                    id:discussion.subject,
+                    name:discussion.subject_name
+                },function(err,out){
+                    $.colorbox({
+                        html:out,
+                        width:'70%',
+                        height:'70%',
+                        onComplete:function(){
+                            listCommon.reloadList('shoppingCartItemList','information_items','subject_shopping_cart_item',
+                                    {subjects:subject });
+                        }
+                    });
+
+                })
+            });
+
         });
+
      </script>
 </body>
 </html>

@@ -4,6 +4,7 @@
     <title>מעגלי שיח</title>
     <% include partials/head.ejs %>
     <script src='/js/discussion.js'></script>
+    <script src='/js/sidebar.js'></script>
 </head>
 <body class="document-review logged">
 <!-- Header -->
@@ -521,7 +522,26 @@ $(document).ready(function () {
                 }
             }
         })
-    }
+    };
+
+    $('#subjectShoppingCartPopup').click(function(){
+        dust.render('subject_shopping_cart',{
+            id:discussion.subject_id._id,
+            name:discussion.subject_id.name
+        },function(err,out){
+            $.colorbox({
+                html:out,
+                width:'70%',
+                height:'70%',
+                onComplete:function(){
+                    listCommon.reloadList('shoppingCartItemList','information_items','subject_shopping_cart_item',
+                            {subjects:discussion.subject_id._id    });
+                }
+            });
+
+        })
+    });
+
 });
 </script>
 </body>
