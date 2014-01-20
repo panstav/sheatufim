@@ -822,6 +822,10 @@ ul.inline-list li {
     margin-left: -11px;
 }
 
+.paper-edit {
+    display: none;
+}
+
 .paper-edit-text {
     height: 50px;
     background-color: #f7f7f7;
@@ -832,6 +836,7 @@ ul.inline-list li {
     text-align: center;
     margin-bottom: 15px;
 }
+    }
 
 .paper-edit-title {
     color: #2d2f31;
@@ -841,7 +846,6 @@ ul.inline-list li {
     letter-spacing: -0.5px;
     margin-bottom: 9px;
     margin-right: 15px;
-    display: none;
 }
 
 .paper-actions-bubble {

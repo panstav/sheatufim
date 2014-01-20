@@ -6,6 +6,10 @@ function initDiscussionEditing(discussion,target){
     var range = {};
     var vision_text_history_count = discussion.vision_text_history.length;
 
+    queryPaper = ".paper";
+    paper = $(queryPaper);
+
+
     $(target)
         .on('mousedown', function (e) {
             mouseDown = e;
@@ -19,7 +23,7 @@ function initDiscussionEditing(discussion,target){
             e.preventDefault();
         })
         .on('mouseup', function (e) {
-            if(!mouseDown)
+            if(!mouseDown || paper.hasClass('paper-closed'))
                 return;
             e.stopPropagation();
             mouseUp = e;

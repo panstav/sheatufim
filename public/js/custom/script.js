@@ -52,7 +52,7 @@ function togglePaper() {
     paper = $(queryPaper);
 
     //toggle title
-    $('.paper-edit .paper-edit-title').toggle();
+    $('.paper-edit').toggle();
     // Grab the hidden span and anchor
     var more_text = $('body.document-review .paper pre').children('span.more_text');
 
