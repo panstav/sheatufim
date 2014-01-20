@@ -327,8 +327,8 @@
 
             $('#subjectShoppingCartPopup').click(function(){
                 dust.render('subject_shopping_cart',{
-                    id:discussion.subject,
-                    name:discussion.subject_name
+                    id:subject,
+                    name:subject_name
                 },function(err,out){
                     $.colorbox({
                         html:out,

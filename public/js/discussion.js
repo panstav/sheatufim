@@ -304,6 +304,8 @@ function initDiscussionEditing(discussion,target){
 
     var fadeTO;
     $("#discussion_content").on('mouseenter','.marker_1',function(e){
+        if ($("#discussion_content").parent().find(".icon-close").hasClass('hide')) return;
+
         var position = $(this).offset();
         var offset = $('#discussion_edit_container').offset();
         left = Math.ceil((e.clientX + e.clientX) / 2 - 97);
