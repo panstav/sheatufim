@@ -44,11 +44,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
             explanation:null,
             updated_user_tokens:null,
             discussion_id:null,
-            grade_obj:{
-                _id:null,
-                evaluation_grade:null,
-                does_support_the_suggestion:null
-            },
+            vote_balance: null,
             wanted_amount_of_tokens:null,
             curr_amount_of_tokens:null,
             is_editable: null,
@@ -87,46 +83,16 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
             suggestion.manual_counter = Math.round(suggestion.agrees) + Math.round(suggestion.not_agrees);
 
             var curr_grade_obj = {};
-//            suggestion.grade_obj = curr_grade_obj;
 
             suggestion.curr_amount_of_tokens = suggestion.agrees - suggestion.not_agrees;
 
-            /*//wanted amount of tokens is either what admin has entered to the specific suggestion, or the discussion threshold...
-            if (suggestion.admin_threshold_for_accepting_the_suggestion > 0)
-                suggestion.wanted_amount_of_tokens = suggestion.admin_threshold_for_accepting_the_suggestion;
-            else{
-                if (Number(suggestion.threshold_for_accepting_the_suggestion) === Infinity) suggestion.threshold_for_accepting_the_suggestion = null;
-                suggestion.wanted_amount_of_tokens = Number(suggestion.threshold_for_accepting_the_suggestion) || calculate_sugg_threshold(suggestion.getCharCount(), discussion_threshold);
-            }
-
-            if (Number(suggestion.wanted_amount_of_tokens) > discussion_participants_count)
-                suggestion.wanted_amount_of_tokens = discussion_participants_count - 1;
-*/
             if (req.user) {
-                models.GradeSuggestion.findOne({user_id:req.user._id, suggestion_id:suggestion._id + ""}, {"_id":1, "evaluation_grade":1, "does_support_the_suggestion":1}, function (err, grade_sugg_obj) {
-                    if (!err && grade_sugg_obj) {
-                        curr_grade_obj = {
-                            _id:grade_sugg_obj._id,
-                            evaluation_grade:grade_sugg_obj.evaluation_grade,
-                            does_support_the_suggestion:grade_sugg_obj.does_support_the_suggestion
-                        }
-                        suggestion.grade_obj = curr_grade_obj;
-                        itr_cbk(err, suggestion);
-                    } else {
-                        //check if user is the creator - if so return in grade object the
-                        if (!err) {
-                            models.Discussion.findById(discussion_id, function (err, discussion) {
-                                if (!err)
-                                    if (req.user._id + "" == discussion.creator_id + "") {
-//                                        suggestion.grade_obj = {};
-//                                        suggestion.grade_obj["evaluation_grade"] = discussion.grade;
-                                    }
-                                itr_cbk(err, suggestion);
-                            })
-                        } else {
-                            itr_cbk(err, suggestion);
-                        }
+                models.VoteSuggestion.findOne({user_id:req.user._id, suggestion_id:suggestion._id + ""}, {"_id":1, "balance":1}, function (err, vote) {
+                    if (!err && vote){
+                        suggestion.vote_balance = vote.balance;
                     }
+
+                    itr_cbk(err, suggestion);
                 });
             }
             else {
