@@ -657,7 +657,7 @@ function initDiscussionEditing(discussion,target){
 
     // toggle edit class to open/close contxt popup window or edit suggestion button
     $('#suggestions_wrapper').on('mouseenter', '.change_proposal',function (e) {
-        var edit_window = $(this).find('.edit_window');
+        var edit_window = $(this).parent().find('.edit_window');
         var window_height = edit_window.height();
         var window_padding = parseInt(edit_window.css("padding-top"));
         var window_border = parseInt(edit_window.css("border-top-width"));
