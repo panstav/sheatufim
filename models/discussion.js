@@ -67,7 +67,7 @@ var Discussion = new Schema({
     view_counter: {type:Number, 'default':0},
     followers_count:{type:Number, 'default':0, editable:false},
     is_visible:{type:Boolean, 'default':true},
-    is_published:{type:Boolean, 'default':false},
+    is_published:{type:Boolean, 'default':true},
     /* I'm changing the min validator from 2 to 0 to avoid Blocker bug
      * TODO change this to 2 again after you'll investigate */
     threshold_for_accepting_change_suggestions: {type: Number, min: 0, max: 501, 'default': 2},
