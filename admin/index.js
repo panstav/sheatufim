@@ -19,9 +19,6 @@ module.exports = function (app) {
 
     mongoose_admin.loadApi(app);
 
-    admin.ensureUserExists('Uruad', 'uruadmin!@#uruadmin');
-    admin.ensureUserExists('saar', '123qwe456');
-
     var _renderUserPanel = admin.renderUserPanel;
     admin.renderUserPanel = function (req, cbk) {
         var self = this;
