@@ -13,18 +13,26 @@
                 <div class="message-datetime left">{?creation_date}{creation_date|time}{/creation_date}</div>
             </div>
             <div class="spacer"></div>
-            <div class="row">
+            <div class=" row">
                 <div class="review-original-text">
                     <div class="review-original-text-title">טקסט מקורי</div>
                     <div class="review-original-text-text">{original_part}</div>
                 </div>
-                <div class="review-change">
+                <div class="change_proposal review-change">
                     <div class="review-change-title">הצעה לשינוי</div>
                     <div class="review-change-text">{alternative_part}</div>
                 </div>
                 <div class="review-exsplain">
                     <div class="review-exsplain-title">נימוק</div>
                     <div class="review-exsplain-text">{explanation}</div>
+                </div>
+                <div class="edit_window">
+                    <p class="title">
+                        טקסט החזון הנוכחי בשילוב ההצעה לשינוי מודגשת. לחץ כדי לחזור לחזון
+                    </p>
+                    <!--  <div class="text_top"></div>-->
+                    <p>{context_before}<span class="focus">{alternative_part}</span>{context_after}</p>
+                    <!--<div class="text_bottom"></div>-->
                 </div>
             </div>
             <div class="spacer"></div>

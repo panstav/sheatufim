@@ -3195,3 +3195,61 @@ body.request-change-dialog .message .message-text textarea {
 .request-change-dialog-operations button {
     width: 100px;
 }
+
+.change_proposal{
+    position:relative;
+}
+
+.edit_window{
+    display:none;
+    width:830px;
+    border:solid 5px #d6dbde;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    position: absolute;
+    background:#fff;
+    right: -55px;
+    -moz-box-shadow: 0px 1px 6px black;
+    -webkit-box-shadow: 0px 1px 6px black;
+    box-shadow: 0px 1px 6px black;
+    padding:10px;
+}
+
+.edit_window:hover {
+    cursor: pointer;
+}
+
+.edit_window p{
+    color:#8c8c8c;
+}
+
+.edit_window p.focus{
+    color:#50504f;
+    font-weight:bold;
+    margin: 20px 0;
+}
+
+.edit_window span.focus{
+    color:#50504f;
+    font-weight:bold;
+    margin: 20px 0;
+}
+
+.edit_window p.title {
+    margin: 2px 0px;
+    font-size: 11px;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+.suggestion-item.show_context_popup .edit_window{
+    display:block;
+}
+
+.suggestion-item.show_context_popup .edit_window p{
+    opacity:1;
+}
+
+
+

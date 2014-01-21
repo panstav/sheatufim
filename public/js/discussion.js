@@ -655,6 +655,29 @@ function initDiscussionEditing(discussion,target){
         }
     }
 
+    // toggle edit class to open/close contxt popup window or edit suggestion button
+    $('#suggestions_wrapper').on('mouseenter', '.change_proposal',function (e) {
+        var edit_window = $(this).find('.edit_window');
+        var window_height = edit_window.height();
+        var window_padding = parseInt(edit_window.css("padding-top"));
+        var window_border = parseInt(edit_window.css("border-top-width"));
+
+        $(this).parents('.suggestion-item').toggleClass('show_context_popup');
+//        $(this).parents('.suggestion_wrapper').toggleClass('show_edit_button');
+
+        //set window top
+        edit_window.css('top', 0 - window_height - (window_padding * 2 + window_border * 2));
+
+    }).on('mouseleave', '.message-text', function () {
+
+        $('.suggestion-item').removeClass('show_context_popup');
+    });
+
+    $('#suggestions_wrapper').on('click', '.edit_window', function (e) {
+        $('.btn-read-more').click();
+        scrollTo('#discussion_edit_container');
+    })
+
 }
 
 function toggleComments(ui) {
