@@ -497,19 +497,33 @@ function initDiscussionEditing(discussion,target){
     function render_suggestion(suggestion, use_animation, is_approved) {
         // get original text and alternative text
         if (suggestion.parts && suggestion.parts.length) {
-            suggestion.original_part = function () {
-                var from = suggestion.parts[0].start;
-                var end = suggestion.parts[0].end;
-                return original.substr(from, end - from);
-            };
 
-            // set text for context popup
-            suggestion.context_before = original.substring(Math.max(suggestion.parts[0].start - 400, 0), suggestion.parts[0].start, suggestion.parts[0].start);
-            suggestion.context_after = original.substring(suggestion.parts[0].end, Math.min(original.length, suggestion.parts[0].end + 400));
+            if (is_approved){
+                suggestion.original_part = suggestion.replaced_text;
+                suggestion.alternative_part = suggestion.parts[0].text;
 
-            suggestion.alternative_part = function () {
-                return suggestion.parts[0].text;
-            };
+                // set text for context popup
+                if (suggestion.context_before && suggestion.context_after && suggestion.context_before !== "undefined") {
+                    suggestion.context_before = suggestion.context_before.substring(Math.max(suggestion.context_before.length - 400, 0), suggestion.context_before.length);
+                    suggestion.context_after = suggestion.context_after.substring(0, Math.min(suggestion.context_after.length, 400));
+                }
+
+            }else{
+                suggestion.original_part = function () {
+                    var from = suggestion.parts[0].start;
+                    var end = suggestion.parts[0].end;
+                    return original.substr(from, end - from);
+                };
+
+                // set text for context popup
+                suggestion.context_before = original.substring(Math.max(suggestion.parts[0].start - 400, 0), suggestion.parts[0].start, suggestion.parts[0].start);
+                suggestion.context_after = original.substring(suggestion.parts[0].end, Math.min(original.length, suggestion.parts[0].end + 400));
+
+                suggestion.alternative_part = function () {
+                    return suggestion.parts[0].text;
+                };
+            }
+
             suggestion.is_approved = !!is_approved;
             suggestion.avatar = avatar;
             dust.render('discussion_suggestion_new', suggestion, function (err, out) {
@@ -656,7 +670,7 @@ function initDiscussionEditing(discussion,target){
     }
 
     // toggle edit class to open/close contxt popup window or edit suggestion button
-    $('#suggestions_wrapper').on('mouseenter', '.change_proposal',function (e) {
+    $('#approved_suggestions_wrapper, #suggestions_wrapper').on('mouseenter', '.change_proposal',function (e) {
         var edit_window = $(this).parent().find('.edit_window');
         var window_height = edit_window.height();
         var window_padding = parseInt(edit_window.css("padding-top"));
