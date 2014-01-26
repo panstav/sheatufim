@@ -1047,12 +1047,12 @@ var db_functions = {
         });
     },
 
-    voteSuggestion:function (suggestion_id, balance, callback) {
+    voteSuggestion:function (suggestion_id, discussion_id, balance, callback) {
         db_functions.loggedInAjax({
             url:'/api/votes_on_suggestion/',
             type:"POST",
             async:true,
-            data:{"suggestion_id":suggestion_id, "balance":balance},
+            data:{"suggestion_id":suggestion_id, "discussion_id": discussion_id, "balance":balance},
             success:function (data) {
                 callback(null, data);
             },

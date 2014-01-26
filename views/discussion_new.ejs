@@ -496,17 +496,17 @@ $(document).ready(function () {
     $('#tab-1').on('click', '.review-options-dislike', function(e){
         var suggestion_id = $(e.target).closest('li.suggestion-item').data('id'),
             vote = -1;
-            vote_on_suggestion(suggestion_id, vote);
+            vote_on_suggestion(suggestion_id, discussion._id, vote);
 
     });
     $('#tab-1').on('click', '.review-options-like', function(e){
         var suggestion_id = $(e.target).closest('li.suggestion-item').data('id'),
             vote = 1;
-        vote_on_suggestion(suggestion_id, vote);
+        vote_on_suggestion(suggestion_id, discussion._id, vote);
     });
 
-    function vote_on_suggestion(suggestion_id, vote) {
-        db_functions.voteSuggestion(suggestion_id, vote, function(err, data){
+    function vote_on_suggestion(suggestion_id, discussion_id, vote) {
+        db_functions.voteSuggestion(suggestion_id, discussion_id, vote, function(err, data){
             if(err) return;
             else if(data) {
                 var $suggestion = $('li.suggestion-item[data-id=' + data.suggestion_id + ']');

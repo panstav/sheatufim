@@ -66,7 +66,11 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
             post_suggestion.avatar = req.user.avatar_url();
             post_suggestion.username = req.user + "";
 
-            callback(err, post_suggestion);
+            //add user that discussion participant_count to discussion
+            models.Discussion.update({_id: post_suggestion.discussion_id, "users.user_id": {$ne: fields.creator_id}},
+                {$addToSet: {users: {user_id: fields.creator_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, function(err){
+                    callback(err, post_suggestion);
+                });
         });
     },
 

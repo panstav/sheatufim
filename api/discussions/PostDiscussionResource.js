@@ -164,7 +164,14 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                     } else {
                         clbk(null, post);
                     }
-                }
+                },
+
+                function(clbk)
+                {
+                    //add user that discussion participant count to discussion
+                    models.Discussion.update({_id: discussion_id, "users.user_id": {$ne: user_id}},
+                        {$addToSet: {users: {user_id: user_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, clbk);
+                },
             ], function(err, results){
                 var post_to_send = results[1];
                 post_to_send.avatar = req.user.avatar_url();

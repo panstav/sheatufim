@@ -30,6 +30,7 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
 
         var user = req.user;
         var suggestion_id = fields.suggestion_id;
+        var discussion_id = fields.discussion_id;
 
         var vote_counts;
         var _vote;
@@ -75,6 +76,12 @@ var VoteSuggestoinResource =  module.exports = common.BaseModelResource.extend({
                 models.Suggestion.update({_id: suggestion_id}, {$set: {agrees: vote_counts.agrees, not_agrees: vote_counts.not_agrees}},function(err, suggestion){
                     cbk(err);
                 })
+            },
+
+            function(cbk){
+                //add user that discussion participant count to discussion
+                models.Discussion.update({_id: discussion_id, "users.user_id": {$ne: fields.user_id}},
+                    {$addToSet: {users: {user_id: fields.user_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, cbk);
             }
         ], function(err){
 

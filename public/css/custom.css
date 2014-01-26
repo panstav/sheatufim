@@ -17,6 +17,14 @@ span.show_all_text:hover {
     min-width: 595px;
 }
 
+.message.primary-message.change-suggestion-dialog{
+    width: 805px;
+}
+
+.message.primary-message.change-suggestion-dialog .message-text{
+    padding: 0px 10px 0 10px;
+}
+
 .latest_posts .message.primary-message .message-text{
     min-width: 598px;
 }
@@ -182,7 +190,7 @@ ul.list li.link-container a:hover {
 
 .request-change-dialog .message.primary-message {
     right: 20px;
-    padding: 20px;
+    padding: 10px;
     margin-left: 20px;
 }
 

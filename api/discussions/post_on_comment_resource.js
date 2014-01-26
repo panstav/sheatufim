@@ -65,7 +65,11 @@ var PostOnCommentResource = module.exports = common.BaseModelResource.extend({
             post_on_comment.avatar = req.user.avatar_url();
             post_on_comment.username = req.user + "";
 
-            callback(err, post_on_comment);
+            //add user that discussion participant_count to discussion
+            models.Discussion.update({_id: post_on_comment.discussion_id, "users.user_id": {$ne: fields.creator_id}},
+                {$addToSet: {users: {user_id: fields.creator_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, function(err){
+                    callback(err, post_on_comment);
+                });
         });
     },
 

@@ -28,10 +28,10 @@
                     <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
                     באתר שיתופים.
                 </p>
-                <p>
+                <!--<p>
                     סיסמת הכניסה שלך למערכת היא
                     <%= temp_password %>
-                </p>
+                </p>-->
                 <p>
                     לכניסה למעגל השיח יש ללחוץ
                     <a href="<%= settings.root_path %>/account/reset_password?code=<%= user.validation_code %>&id=<%= user.id %>&next=<%= encodeURIComponent(next || '') %>">כאן</a>

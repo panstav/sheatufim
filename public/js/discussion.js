@@ -113,7 +113,7 @@ function initDiscussionEditing(discussion,target){
         },function(err,out){
             $.colorbox({
                 html:out,
-                width:'890px',
+                width:'910px',
                 height:'580px',
                 onComplete:function(){
                     $(".popup-window").hide();
