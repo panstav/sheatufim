@@ -680,7 +680,7 @@ function initDiscussionEditing(discussion,target){
 //        $(this).parents('.suggestion_wrapper').toggleClass('show_edit_button');
 
         //set window top
-        edit_window.css('top', 0 - window_height - (window_padding * 2 + window_border * 2));
+        edit_window.css('top', 10 - window_height - (window_padding * 2 + window_border * 2));
 
     }).on('mouseleave', '.message-text', function () {
 

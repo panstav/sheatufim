@@ -3251,5 +3251,7 @@ body.request-change-dialog .message .message-text textarea {
     opacity:1;
 }
 
-
+.trying{
+    position: relative;
+}
 
