@@ -21,6 +21,7 @@ module.exports ={
                    if(user.validation_code ==  validation_code){
                        user.password = common.hash_password(password);
                        user.is_activated = true;
+                       user.has_reset_password = true;
                        user.save(function(err, user){
                            if(!err){
                                req.body.password = password;

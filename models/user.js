@@ -24,6 +24,7 @@ var User = module.exports = new Schema({
 
     //this is for validation
     is_activated: {type: Boolean, 'default': true},
+    has_reset_password: {type: Boolean, 'default': false},
     is_suspended: {type: Boolean, 'default': false},
     identity_provider:{type:String, "enum":['facebook', 'register'], 'default': 'register'},
     facebook_id: {type: String, editable:false},
@@ -145,7 +146,7 @@ User.pre('save',function(next){
             var firstSubjectUrl = '/discussions/subject/' + subjects[0].id;
             var redirect_to = require('../routes/account/common').DEFAULT_LOGIN_REDIRECT;
 
-            if(is_new || !self.is_activated){
+            if(is_new || !self.has_reset_password || !self.is_activated){
                 // if the user is new, need to send activation mail
 
                 require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects},function(err){
