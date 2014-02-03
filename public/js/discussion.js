@@ -97,7 +97,7 @@ function initDiscussionEditing(discussion,target){
             }
         });
 
-    $('.pop_suggest_bt').click(function (e) {
+    $('#pop_suggest_bt, .pop_suggest_bt').click(function (e) {
         e.stopPropagation();
         e.preventDefault();
 
