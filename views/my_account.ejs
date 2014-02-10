@@ -23,15 +23,17 @@
                             <div id="upload-new-image"></div>
                             <!--<input type="file" id="upload-new-image" class="upload-new-image" style="display:none;">-->
                         </div>
-                        <div class="user-info right">
-                            <div class="user_name">
-                                <h2><%=user.first_name%> <%=user.last_name%></h2>
-                            </div>
-                            <div class="occupation">
-                                <input class="user_occupation" placeholder="הכנס כאן תיאור תפקיד" value="<%=user.occupation%>"/>
-                            </div>
+                        <div class="user_name right">
+                            <h2 class="name active"><%=user.first_name%> <%=user.last_name%></h2>
+                            <input class="name_input" type="text" placeholder="ערוך שם..." value="<%=user.first_name%> <%=user.last_name%>"></h2>
+                            <button class="edit_name btn btn-medium btn-green">ערוך</button>
                         </div>
 
+                        <div class="occupation right">
+                            <h2 class="user_occupation active right"><%=user.occupation%></h2>
+                            <textarea class="occupation_input right" placeholder="הכנס כאן תיאור תפקיד..."><%=user.occupation%></textarea>
+                            <button class=" right edit_occupation btn btn-medium btn-green">ערוך</button>
+                        </div>
                     </div>
                 </div>
                 <div class="right" id="notifications">
@@ -56,6 +58,7 @@
 
     $(document).ready(function () {
         var avatar = '<%= avatar %>';
+        var user = <%- JSON.stringify(user || '') %>;
         db_functions.getNotifications(user._id, 0, function(data){
             if(data.objects){
                 dust.renderArray("notification", data.objects, function(err, html){
@@ -64,12 +67,47 @@
                 });
             }
         });
-//        $('body').on('click','.user_image img',function(){
-//            $(this).siblings('.upload-new-image').click();
-//        });
-//        $('.upload-new-image').on('change', function(){
-//
-//        });
+
+        $('.edit_name').on('click', function(e){
+            if($('.name_input').hasClass('active') && user.first_name + " " + user.last_name != $('.name_input').val()) {
+                var full_name = $('.name_input').val(),
+                        first_name = full_name.indexOf(' ') == -1 ? full_name : full_name.substr(0, full_name.indexOf(' ')),
+                        last_name = full_name.indexOf(' ') == -1 ? "" : full_name.substr(full_name.indexOf(' '));
+                db_functions.updateUserDetails(user._id, user.occupation, first_name, last_name, function(err, data){
+                    if(!err) {
+                        $('.name').html(data.first_name + " " + data.last_name);
+                    }
+                });
+            }
+            $('.name').toggleClass('active');
+            $('.name_input').toggleClass('active');
+            if($('.edit_name').html() == 'ערוך')
+                $('.edit_name').html('שמור');
+            else {
+                $('.edit_name').html('ערוך');
+            }
+
+        });
+
+        $('.edit_occupation').on('click', function(e){
+            if($('.occupation_input').hasClass('active') && user.occupation != $('.occupation_input').val()) {
+                var occupation = $('.occupation_input').val();
+                db_functions.updateUserDetails(user._id, occupation, user.first_name, user.last_name, function(err, data){
+                    if(!err) {
+                        $('.user_occupation').html(data.occupation);
+                    }
+                });
+            }
+            $('.user_occupation').toggleClass('active');
+            $('.occupation_input').toggleClass('active');
+            if($('.edit_occupation').html() == 'ערוך') {
+                $('.edit_occupation').html('שמור');
+                $('.occupation_input').focus();
+            } else {
+                $('.edit_occupation').html('ערוך');
+            }
+        });
+
         var uploader = new qq.FileUploader({
                     element: document.getElementById('upload-new-image'),
                     action: '/api/avatar',

@@ -10,6 +10,9 @@ var UserResource = module.exports =  mongoose_resource.MongooseResource.extend({
         this.fields = _.extend(common.user_public_fields, {cycles : null}, {discussions: null}, {email: null});
         this.update_fields = {
             biography: null,
+            first_name: null,
+            last_name: null,
+            occupation: null,
             no_mail_notifications: null
         };
         this.allowed_methods = ['get','post','put','delete'];
