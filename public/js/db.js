@@ -1952,7 +1952,7 @@ var db_functions = {
             type:"POST",
             async:true,
             data:{"mail_config":mail_config},
-            success:function () {
+            success:function (data) {
                 callback(null);
             },
             error:function (err) {

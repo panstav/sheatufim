@@ -99,13 +99,12 @@
                 explanation: $('.text').val(),
                 email: $('.email').val()
             };
-            db_functions.sendMailFromUserToSystem(data, function(err, data){
+            db_functions.sendMailFromUserToSystem(data, function(bug){
                 $.colorbox.remove();
-                if(err){
+                if(bug.status < 200 && bug.status > 300){
                     popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
                 } else {
                     popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
-
                 }
             });
         });
