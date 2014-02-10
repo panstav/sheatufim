@@ -1114,11 +1114,11 @@ var db_functions = {
         });
     },
 
-    updateUserDetails:function (user_id, biography, callback) {
+    updateUserDetails:function (user_id, occupation, first_name, last_name, callback) {
         db_functions.loggedInAjax({
             url:'/api/users/' + user_id,
             type:"PUT",
-            data:JSON.stringify({biography:biography}),
+            data:JSON.stringify({occupation:occupation, first_name: first_name, last_name: last_name}),
             async:true,
             success:function (data) {
                 callback(null, data);
