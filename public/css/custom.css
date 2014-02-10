@@ -3,7 +3,12 @@ body {
 }
  .circle {
     width: 80px;
+    height: 80px;
 }
+ #header-nav-logged-in .circle {
+     width: 40px;
+     height: 40px;
+ }
  span.show_all_text {
      color: #3bafda;
  }
@@ -250,4 +255,113 @@ ul.list li.link-container a:hover {
 }
 .back-to-top div {
     text-align: center;
+}
+
+.review-respond {
+    padding: 8px 21px;
+}
+
+/* contact form */
+
+.mail {
+    padding: 30px;
+}
+.mail input[type="text"],
+.mail input[type="email"],
+.mail textarea {
+    width: 100%;
+    height: 30px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: solid 1px #dedede;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #929292;
+    line-height: 13px;
+    margin-bottom: 20px;
+}
+
+.mail textarea {
+    height: 90px;
+}
+.mail button {
+    width: 90px;
+}
+
+/* user prifile */
+
+.profile {
+    margin-top: 40px;
+}
+.profile .title {
+    font-size: 23px;
+    font-weight: 600;
+    margin-left: 20px;
+    font-family: atlas, sans-serif;
+}
+.profile-box {
+    background-color: #f7f6f0;
+    padding: 13px 18px;
+    margin-bottom: 20px;
+    height: 130px;
+}
+.profile-box .user {
+    background: white;
+    height: 100%;
+    padding: 12px;
+}
+.user_image img {
+    cursor: pointer;
+}
+.user-info {
+    margin-right: 20px;
+}
+.user_name {
+    margin-bottom: 15px;
+    margin-top: 8px;
+}
+.user_name h2 {
+    font-size: 20px;
+}
+.user_occupation {
+    width: 100%;
+    height: 25px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #fff;
+    border: solid 1px #dedede;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: 400;
+    color: #929292;
+}
+#notifications {
+    margin-top: 40px;
+    width: 100%;
+}
+#notifications .zirot-messages-container-title{
+    width: 160px;
+}
+#notifications .spacer-large {
+    margin-top: 35px;
+}
+#notifications li,
+#notifications li:first-child{
+    height: 40px;
+    background-color: #f7f7f7;
+    position: relative;
+    margin-bottom: 3px !important;
+    display: table;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 13px 15px 5px 5px !important;
+}
+.qq-upload-list {
+    display: none;
 }

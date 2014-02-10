@@ -1952,15 +1952,15 @@ var db_functions = {
             type:"POST",
             async:true,
             data:{"mail_config":mail_config},
-            success:function (data) {
-                console.log(data);
-                callback(null, data);
+            success:function () {
+                callback(null);
             },
             error:function (err) {
+                console.log(err);
                 callback(err);
             }
         });
-    },
+    }
 };
 
 

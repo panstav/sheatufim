@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>מעגלי שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<body class="forum logged">
+<!-- Header -->
+<header>
+    <% include partials/menu.ejs %>
+</header>
+<!-- Content -->
+<section class="content" style="background: white;">
+    <div class="container">
+        <div class="row">
+            <div class="post-body">
+                <div class="row profile">
+                    <h2 class="title right">פרופיל שלי</h2>
+                </div>
+                <div class="profile-box">
+                    <div class="user">
+                        <div class="user_image right">
+                            <div id="upload-new-image"></div>
+                            <!--<input type="file" id="upload-new-image" class="upload-new-image" style="display:none;">-->
+                        </div>
+                        <div class="user-info right">
+                            <div class="user_name">
+                                <h2><%=user.first_name%> <%=user.last_name%></h2>
+                            </div>
+                            <div class="occupation">
+                                <input class="user_occupation" placeholder="הכנס כאן תיאור תפקיד" value="<%=user.occupation%>"/>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="right" id="notifications">
+                    <i class="icon icon-medium-pad-left icon-message right"></i>
+                    <h2 class="zirot-messages-container-title right">עדכונים אחרונים</h2>
+                    <div class="spacer-large"></div>
+
+                    <ul class="notifications list">
+
+                    </ul>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer -->
+<% include partials/footer.ejs %>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        var avatar = '<%= avatar %>';
+        db_functions.getNotifications(user._id, 0, function(data){
+            if(data.objects){
+                dust.renderArray("notification", data.objects, function(err, html){
+                    if(err) return;
+                    $('.notifications.list').append(html);
+                });
+            }
+        });
+//        $('body').on('click','.user_image img',function(){
+//            $(this).siblings('.upload-new-image').click();
+//        });
+//        $('.upload-new-image').on('change', function(){
+//
+//        });
+        var uploader = new qq.FileUploader({
+                    element: document.getElementById('upload-new-image'),
+                    action: '/api/avatar',
+                    debug: false,
+                    template: '<div class="qq-uploader">' +
+                            '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
+
+                            '<div class="qq-upload-button"><img src="' + avatar + '" class="circle"/></button>' +
+                                '<ul class="qq-upload-list"></ul>' +
+                               '</div>',
+                    onComplete: function(id, fileName, responseJSON){
+                        debugger;
+                        $('.qq-upload-button img').attr('src', responseJSON.avatar.url);
+                        $('#header-nav-logged-in img').attr('src', responseJSON.avatar.url);
+                        //setImageUrl(responseJSON.image ? responseJSON.image.url : responseJSON.avatar.url);
+                    }
+                }
+        );
+    });
+</script>
+</body>
+</html>

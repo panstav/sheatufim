@@ -15,9 +15,11 @@
             <ul class="menu inline-list">
                 <li><a href="/about">אודות</a></li>
                 <li style="display:none"><a href="/information_items">מאגרי מידע</a></li>
-                <li style="display:none"><a href="#">צור קשר</a></li>
+                <li><a id="contact" href="javascript:;">צור קשר</a></li>
                 <% if( user_logged ) { %>
+
                     <li id="header-nav-logged-in">
+                        <a href="/user">
                         <div  class="row">
                             <div class="right">
                                 <img src="<%=avatar%>" class="logged-in-user-img circle" alt="<%=user.first_name%>"/>
@@ -28,6 +30,7 @@
                                 <div class="logged-in-user-logout"><a href="/account/logout">יציאה</a></div>
                             </div>
                         </div>
+                        </a>
                     </li>
                 <% } else { %>
                     <li id="header-nav-login">
@@ -79,6 +82,32 @@
                 'left': $(this).position().left - (($bubble.outerWidth() - $(this).outerWidth()) / 2)
             });
 
+        });
+        $('#contact').on('click', function(e){
+            e.preventDefault();
+            dust.render('contact_popup', {},function(err,out){
+                $.colorbox({
+                    html:out
+                });
+
+            });
+        });
+        $('body').on('click', '.send_mail', function(e){
+            debugger;
+            var data = {
+                subject: $('.title').val(),
+                explanation: $('.text').val(),
+                email: $('.email').val()
+            };
+            db_functions.sendMailFromUserToSystem(data, function(err, data){
+                $.colorbox.remove();
+                if(err){
+                    popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
+                } else {
+                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
+
+                }
+            });
         });
     });
 

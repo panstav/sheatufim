@@ -136,7 +136,7 @@ module.exports = function (req, res) {
             }
         }
         var proxyJson= JSON.stringify(proxyToSerializ);
-        res.render('my_uru.ejs', {
+        res.render('my_account.ejs', {
             layout: false,
             tag_name: req.query.tag_name,
             biographyReadonly: isHisuru,

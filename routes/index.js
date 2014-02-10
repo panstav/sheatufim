@@ -6,6 +6,7 @@ var _ = require('underscore'),
     Account = require('./account'),
     AppError = require('./app_error'),
     MyUru = require('./myuru');
+    User = require('./user');
 //  HisUru= require('./hisuru') ;
 
 
@@ -116,6 +117,8 @@ module.exports = function (app) {
     router.include('/forum', Forum);
 
     router.include('/myuru', MyUru);
+
+    router.include('/user', User);
 
     router.include('/og', require('../og'));
 
