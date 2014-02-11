@@ -269,20 +269,26 @@ function initDiscussionEditing(discussion,target){
 
 
     function displaySuggestionsRanges() {
+        var lines = [];
+        suggestions_list = suggestions_list.sort(function(a,b){
+            return a.parts[0].start - b.parts[0].start;
+        });
+        var lastIndex = 0;
         $.each(suggestions_list, function (index, suggestion) {
-            var html = $('#discussion_content').html();
+            //var html = $('#discussion_content').html();
             var text = original.substr(suggestion.parts[0].start, suggestion.parts[0].end - suggestion.parts[0].start);
             //  console.log(text);
-            if (suggestion.parts[0].start > original.length) {
+            if (suggestion.parts[0].start > original.length || suggestion.parts[0].start < lastIndex) {
                 console.log('range problem |' + suggestion.id);
                 return
             }
-            text = text.replace(/\r\n/g, '\r\n<br>');
-            text = text.replace(/\n/g, '\n<br>');
-            html = html.substring(0, suggestion.parts[0].start) + html.substring(suggestion.parts[0].start).replace(text, '<span data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</span>');
-            $('#discussion_content').html(html);
-
-        })
+            text = text.replace(/(\r?\n)/g, '<br>');
+            lines.push(original.substr(lastIndex,suggestion.parts[0].start - lastIndex).replace(/(\r?\n)/g, '<br>'));
+            lines.push('<span data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</span>');
+            lastIndex = suggestion.parts[0].end;
+        });
+        lines.push(original.substr(lastIndex,original.length - lastIndex).replace(/(\r?\n)/g, '<br>'));
+        $('#discussion_content').html(lines.join(''));
     }
 
     $("#discussion_content").on("click", ".marker_1", function () {
