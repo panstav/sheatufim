@@ -58,13 +58,24 @@
                 email: $('.email').val()
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
-                $.colorbox.remove();
                 if(bug.status < 200 && bug.status > 300){
-                    popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
+                    $('.contact_form').html('<h4>' +
+"                            ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית. " +
+                            '</h4>');
                 } else {
-                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
+                    $('.contact_form').html('<h4>' +
+"הודעתך נשלחה בהצלחה." +
+                            '</h4>');
                 }
             });
+//            db_functions.sendMailFromUserToSystem(data, function(bug){
+//                $.colorbox.remove();
+//                if(bug.status < 200 && bug.status > 300){
+//                    popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
+//                } else {
+//                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
+//                }
+//            });
         });
     });
 
