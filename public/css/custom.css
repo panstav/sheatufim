@@ -422,3 +422,9 @@ ul.list li.link-container a:hover {
 .tab-selected .tab-badge {
     height: 31px;
 }
+
+.about-text h4 {
+    margin-bottom: 20px;
+    margin-top: 40px;
+    font-size: 20px;
+}

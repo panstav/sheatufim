@@ -4,46 +4,38 @@
     <title>מעגלי שיח</title>
     <% include partials/head.ejs %>
 </head>
-<body>
-<div id="wrap">
+<body class="zirot">
     <!-- Header -->
     <header>
         <% include partials/menu.ejs %>
     </header>
 
-    <!--<div id="content" class="cf" style="background-image: url('/images/about.png'); background-position: center -30px; height: 1300px; padding-bottom:0px;">-->
-        <div id="content" class="cf">
-            <h2><a href="javascript:void(0);" style="text-decoration: none;">
-
-            </a></h2>
-            <div class="rightCol">
-                <div class="main-text">
-
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="welcome">
+                    <div class="welcome-pre-title">שיתופים</div>
+                    <div class="welcome-title">אודות</div>
+                    <div class="welcome-tagline"></div>
                 </div>
             </div>
-            <div class="leftCol">
-                <div class="about-left">
+            <div class="row about-text">
 
-                </div>
             </div>
         </div>
-
-    </div>
-</div>
+    </section>
 
 
-<footer>
     <% include partials/footer.ejs %>
-</footer>
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
     $(document).ready(function () {
         db_functions.getAboutUruTexts(function (data) {
                 $.each(data.objects, function (index, item) {
                     dust.render('about_text', item, function (err, out) {
-                        $('.main-text').append(out);
+                        $('.about-text').append(out);
                     });
                 });
 
