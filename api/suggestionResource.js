@@ -185,11 +185,11 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                 itr_cbk(null, 0);
             } else {
                 if (discussion_creator_id == unique_user) {
-                    notifications.create_user_notification("change_suggestion_on_discussion_you_created", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, function (err, results) {
+                    notifications.create_user_notification("change_suggestion_on_discussion_you_created", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id + '/#' + suggestion_object._id.toString(), function (err, results) {
                         itr_cbk(err, results);
                     });
                 } else {
-                    notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, function (err, results) {
+                    notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id + '/#' + suggestion_object._id.toString(), function (err, results) {
                         itr_cbk(err, results);
                     });
                 }
@@ -223,7 +223,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                         err = true;
                         sug = suggestion._id;
                     }
-                })
+                });
                 if (err){
                     var to = 'aharon@uru.org.il';
                     var subject = "הועלתה הצעה לשינוי לטקסט שכבר סומן בדיון";
@@ -245,7 +245,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
 
                     mail.sendMail(to, body, subject, function(err){
                         if(err) {console.error(err)};
-                    })
+                    });
 
                     console.error("a suggestion with this indexes already exist");
                 }

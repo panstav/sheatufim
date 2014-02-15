@@ -4,7 +4,8 @@ var resources = require('jest'),
     models = require('../../models'),
     common = require('../common.js'),
     async = require('async'),
-    _ = require('underscore');
+    _ = require('underscore'),
+    notifications = require('../notifications.js');
 
 var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend({
     init:function () {
@@ -56,22 +57,39 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
 
     create_obj: function(req, fields, callback) {
         var self = this;
-        var user = req.session.user;
+        var user = req.session.user,
+            discussion_id = req.body.discussion_id;
 
         fields.creator_id = req.session.user.id;
         fields.first_name = user.first_name;
         fields.last_name = user.last_name;
 
-        self._super(req, fields, function(err, post_suggestion){
-            post_suggestion.avatar = req.user.avatar_url();
-            post_suggestion.username = req.user + "";
+        async.parallel([
+            function(cbk) {
+                self._super(req, fields, function(err, post_suggestion){
+                    post_suggestion.avatar = req.user.avatar_url();
+                    post_suggestion.username = req.user + "";
 
-            //add user that discussion participant_count to discussion
-            models.Discussion.update({_id: post_suggestion.discussion_id, "users.user_id": {$ne: fields.creator_id}},
-                {$addToSet: {users: {user_id: fields.creator_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, function(err){
-                    callback(err, post_suggestion);
+                    //add user that discussion participant_count to discussion
+                    models.Discussion.update({_id: post_suggestion.discussion_id, "users.user_id": {$ne: fields.creator_id}},
+                        {$addToSet: {users: {user_id: fields.creator_id, join_date: Date.now(), $set:{last_updated: Date.now()}}}}, function(err){
+                            cbk(err, post_suggestion);
+                        });
                 });
+            },
+            function(cbk) {
+                models.Suggestion.findById(req.body.suggestion_id).exec(function(err, suggestion){
+                    if(err) cbk(err);
+                    notifications.create_user_notification("comment_on_change_suggestion_i_created", suggestion._id.toString(), suggestion.creator_id.toString(), user._id.toString(), discussion_id.toString(), '/discussions/' + discussion_id + '#' + suggestion._id.toString(), function(err, result){
+                        cbk(err, result);
+                    });
+                });
+            }
+        ], function(err, results){
+            var post_suggestion = results[0];
+            callback(err, post_suggestion);
         });
+
     },
 
     delete_obj: function(req,object,callback){

@@ -183,7 +183,8 @@ var Schemas = exports.Schemas = {
             "post_added_to_action_you_created",
             "comment_on_subject_you_are_part_of",
             "comment_on_your_forum_post",
-            "comment_on_your_discussion_post"
+            "comment_on_your_discussion_post",
+            "comment_on_change_suggestion_i_created"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },

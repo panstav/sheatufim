@@ -417,3 +417,8 @@ ul.list li.link-container a:hover {
 .qq-upload-list {
     display: none;
 }
+
+.tab .tab-badge,
+.tab-selected .tab-badge {
+    height: 31px;
+}

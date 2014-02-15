@@ -46,7 +46,10 @@ exports.create_user_notification = function (notification_type, entity_id, user_
         "post_added_to_action_you_created",
         "comment_on_subject_you_are_part_of",
         "comment_on_your_forum_post",
-        "comment_on_your_discussion_post"
+        "comment_on_your_discussion_post",
+        "comment_on_change_suggestion_i_created",
+        "change_suggestion_on_discussion_you_created",
+        "change_suggestion_on_discussion_you_are_part_of"
     ];
 
     if (notificatior_id && _.indexOf(single_notification_arr, notification_type) == -1) {

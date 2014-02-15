@@ -2,6 +2,8 @@ var mongoose = require("mongoose"),
     Schema = mongoose.Schema,
     common = require('./common'),
     ObjectId = Schema.ObjectId,
+    models = require('../models'),
+    async = require('async'),
     utils = require('./../utils');
 
 var tag_suggestions =  {
@@ -46,4 +48,19 @@ var InformationItem = module.exports = utils.revertibleModel(new Schema({
 
 InformationItem.methods.toString = function(){
     return this.title || '';
-}
+};
+
+//InformationItem.pre('save',function(next){
+//    var self = this;
+//    models.User.find().where('subjects', self.subject_id).exec(function(err, users){
+//        if(err) next();
+//        async.each(users, function(user, cbk){
+//            notifications.create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user, null, self.subject_id, '/', function (err, results) {
+//                cbk(err, results);
+//            });
+//        }, function(err){
+//            next();
+//        });
+//    });
+//
+//});
