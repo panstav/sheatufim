@@ -344,13 +344,16 @@ var db_functions = {
     },
 
     getAboutUruTexts:function (callback) {
-        db_functions.loggedInAjax({
+        $.ajax({
             url:'/api/about_uru_texts',
             type:"GET",
             async:true,
             success:function (data) {
                 console.log(data);
                 callback(data);
+            },
+            error: function(err) {
+                console.log(err);
             }
         });
     },

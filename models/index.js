@@ -258,7 +258,7 @@ var Schemas = exports.Schemas = {
         text_field:String,
         is_hidden:{type:Boolean, 'default':true},
         _preview:{type:Schema.Types.Mixed,link:'/about',editable:false}
-    },{strict:true})),
+    })),
 
     Team:utils.revertibleModel(new Schema({
         name:String,

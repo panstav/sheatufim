@@ -6,7 +6,7 @@
  * To change this template use File | Settings | File Templates.
  */
 var common = require('./common')
-models = require('../models'),
+    models = require('../models'),
     async = require('async');
 
 var AboutUruItemResource = module.exports = common.BaseModelResource.extend(
@@ -14,6 +14,7 @@ var AboutUruItemResource = module.exports = common.BaseModelResource.extend(
         init:function () {
             this._super(models.AboutUruItem);
             this.allowed_methods = ['get'];
+            this.authentication = new common.SessionAuthentication(true);
         }
     }
 )

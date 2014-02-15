@@ -40,15 +40,15 @@
                 });
 
         });
-
-        db_functions.getAboutUruItems(function (data) {
-
-            $.each(data.objects, function (index, item) {
-                dust.render('about_item', item, function (err, out) {
-                    $('.about-left').append(out);
-                });
-            });
-        });
+//
+//        db_functions.getAboutUruItems(function (data) {
+//
+//            $.each(data.objects, function (index, item) {
+//                dust.render('about_item', item, function (err, out) {
+//                    $('.about-left').append(out);
+//                });
+//            });
+//        });
     });
 
 </script>
