@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>מעגלי שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<body class="zirot">
+    <!-- Header -->
+    <header>
+        <% include partials/menu.ejs %>
+    </header>
+
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="welcome">
+                    <div class="welcome-pre-title">שיתופים</div>
+                    <div class="welcome-title">צור קשר</div>
+                    <div class="welcome-tagline"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="mail">
+                    <div class="row">
+                        <div class="right dialog-title">
+                            <div class="row">
+                                <h3 class="basket-tagline right">צור קשר</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="spacer-large"></div>
+                    <div class="row">
+                        <div class="contact_form">
+                            <input class="email" name="email" type="email" placeholder="מייל השולח">
+                            <input class="title" name="title" type="text" placeholder="כותרת">
+                            <div class="review-change-text">
+                                <textarea class="text" name="text" class="text" placeholder="תוכן ההודעה..."></textarea>
+                            </div>
+                            <button class="btn btn-medium btn-green send_mail">שלח</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <% include partials/footer.ejs %>
+
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+        $('body').on('click', '.send_mail', function(e){
+            var data = {
+                subject: $('.title').val(),
+                explanation: $('.text').val(),
+                email: $('.email').val()
+            };
+            db_functions.sendMailFromUserToSystem(data, function(bug){
+                $.colorbox.remove();
+                if(bug.status < 200 && bug.status > 300){
+                    popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
+                } else {
+                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
+                }
+            });
+        });
+    });
+
+</script>
+
+</body>
+</html>

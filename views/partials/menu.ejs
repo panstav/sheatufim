@@ -15,7 +15,7 @@
             <ul class="menu inline-list">
                 <li><a href="/about">אודות</a></li>
                 <li style="display:none"><a href="/information_items">מאגרי מידע</a></li>
-                <li><a id="contact" href="javascript:;">צור קשר</a></li>
+                <li><a id="contact" href="/contact">צור קשר</a></li>
                 <% if( user_logged ) { %>
 
                     <li id="header-nav-logged-in">
@@ -83,31 +83,16 @@
             });
 
         });
-        $('#contact').on('click', function(e){
-            e.preventDefault();
-            dust.render('contact_popup', {},function(err,out){
-                $.colorbox({
-                    html:out
-                });
+//        $('#contact').on('click', function(e){
+//            e.preventDefault();
+//            dust.render('contact_popup', {},function(err,out){
+//                $.colorbox({
+//                    html:out
+//                });
+//
+//            });
+//        });
 
-            });
-        });
-        $('body').on('click', '.send_mail', function(e){
-            debugger;
-            var data = {
-                subject: $('.title').val(),
-                explanation: $('.text').val(),
-                email: $('.email').val()
-            };
-            db_functions.sendMailFromUserToSystem(data, function(bug){
-                $.colorbox.remove();
-                if(bug.status < 200 && bug.status > 300){
-                    popupProvider.showOkPopup({message:'ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית.'});
-                } else {
-                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
-                }
-            });
-        });
     });
 
     var mail = "<%= (user && user.email) || '' %>";
