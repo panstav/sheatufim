@@ -17,4 +17,4 @@ var AboutUruTextResource = module.exports = common.BaseModelResource.extend(
             this.authentication = new common.SessionAuthentication(true);
         }
     }
-)
+);

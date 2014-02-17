@@ -532,6 +532,7 @@ function initDiscussionEditing(discussion,target){
 
             suggestion.is_approved = !!is_approved;
             suggestion.avatar = avatar;
+            suggestion.to_delete = suggestion.parts.length && (suggestion.parts[0].text == " ");
             dust.render('discussion_suggestion_new', suggestion, function (err, out) {
                 $(is_approved ? '#approved_suggestions_wrapper' : '#suggestions_wrapper').append(out);
                 image_autoscale($((is_approved ? '#approved_suggestions_wrapper' : '#suggestions_wrapper')  +' .auto-scale img'));
