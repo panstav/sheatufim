@@ -448,6 +448,21 @@ ul.list li.link-container a:hover {
 .paper-edit {
     display: block;
 }
+.paper.disabled {
+    pointer-events: none;
+    cursor: default;
+}
+#tab-3.hidden .post-new-message,
+.reply-to-message.hidden,
+.message-reply.hidden {
+    display: none;
+}
+#tab-3.hidden .spacer-large {
+    display: none;
+}
+#tab-3.hidden .main_container {
+    padding-top: 30px;
+}
 
 /*firefox fixes*/
 @-moz-document url-prefix() {

@@ -1,7 +1,7 @@
 function initDiscussionEditing(discussion,target){
 
     var original = discussion.text_field.replace(/\r/g,'');
-    var mouseDown, mouseUp, top, left;
+    var mouseDown, mouseUp, top, left, drag;
     var range_txt;
     var range = {};
     var vision_text_history_count = discussion.vision_text_history.length;
@@ -22,78 +22,90 @@ function initDiscussionEditing(discussion,target){
         .on('dragstart', function (e) {
             e.preventDefault();
         })
-        .on('mouseup', function (e) {
-            if(!mouseDown || paper.hasClass('paper-closed'))
-                return;
-            e.stopPropagation();
-            mouseUp = e;
-            var err = false;
-
-            left = Math.ceil((mouseDown.clientX + mouseUp.clientX) / 2 - 97);
-            top = Math.min(mouseDown.clientY, mouseUp.clientY) - $("#new_suggestion_popup").height() - 40 + $(window).scrollTop() + 35;
-
-            range_txt = window.getSelection().toString();
-
-            // if we got here after flipping the discussion content to textarea get range easily
-            if ($(this).attr('id') === "discussion_content_textarea") {
-                range = $(this).getSelection();
-                range_txt = range.text;
+        .on('mousemove', function(e){
+            if(mouseDown){
+                drag = true;
             } else {
-
-                var flag = discoverRange(range_txt);
-
-                if (range_txt.length == 0) {
-                    mouseDown = null
-                    return false;
-                }
-
-                if (flag === false || (range.start == 0 && range.end == 0)) {
-                    var popupConfig = {};
-                    popupConfig.message = "קרתה תקלה, נסה שנית";
-                    popupConfig.removeCloseButton = true;
-                    popupConfig.onOkCilcked = function (e) {
-                        e.preventDefault();
-                        clicked = 'ok';
-                        //   if (flag === false){
-                        $('#discussion_content').hide();
-                        $('#discussion_content_textarea').show();
-                        $('#discussion_content_textarea').css('height', $("#discussion_content_textarea")[0].scrollHeight);
-                        $('.read_less').click();
-                        $('.read_more').click();
-                        //    }
-                        $.colorbox.close();
-                    },
-
-                    popupProvider.showOkPopup(popupConfig);
-                    return false;
-                }
+                drag = false;
             }
-
-            if (range.length > 0 || range_txt.length > 0) {
-                if (!user._id) {
-                    popupProvider.showLoginPopup({}, function (err, result) {
-                        if (!err)
-                            window.location = window.location
-                    });
-                    return false;
-                }
-
-
-                if (navigator.appName === "Microsoft Internet Explorer") {
-                    $("#pop_suggest_bt").click();
-                } else {
-                    var offset = $('#discussion_edit_container').offset();
-                    $("#old_suggestion_popup").hide();
-                    $("#new_suggestion_popup")
-                        .css({ top: top - offset.top - 50, left: (e.pageX - 97) - offset.left, opacity: 0 })
-                        .show()
-                        .animate({ top: '-=20px', opacity: 1 }, 100, 'linear');
-                    setTimeout(function () {
-                        mouseDown = null;
-                    }, 500)
-                }
+        })
+        .on('mouseup', function (e) {
+            if(drag && paper.hasClass('passed_deadline')) {
+                popupProvider.showOkPopup({message:'עבר הזמן לעריכת המסמך'});
+                mouseDown = null;
             } else {
-                mouseDown = null
+                if(!mouseDown || paper.hasClass('paper-closed'))
+                    return;
+                e.stopPropagation();
+                mouseUp = e;
+                var err = false;
+
+                left = Math.ceil((mouseDown.clientX + mouseUp.clientX) / 2 - 97);
+                top = Math.min(mouseDown.clientY, mouseUp.clientY) - $("#new_suggestion_popup").height() - 40 + $(window).scrollTop() + 35;
+
+                range_txt = window.getSelection().toString();
+
+                // if we got here after flipping the discussion content to textarea get range easily
+                if ($(this).attr('id') === "discussion_content_textarea") {
+                    range = $(this).getSelection();
+                    range_txt = range.text;
+                } else {
+
+                    var flag = discoverRange(range_txt);
+
+                    if (range_txt.length == 0) {
+                        mouseDown = null
+                        return false;
+                    }
+
+                    if (flag === false || (range.start == 0 && range.end == 0)) {
+                        var popupConfig = {};
+                        popupConfig.message = "קרתה תקלה, נסה שנית";
+                        popupConfig.removeCloseButton = true;
+                        popupConfig.onOkCilcked = function (e) {
+                            e.preventDefault();
+                            clicked = 'ok';
+                            //   if (flag === false){
+                            $('#discussion_content').hide();
+                            $('#discussion_content_textarea').show();
+                            $('#discussion_content_textarea').css('height', $("#discussion_content_textarea")[0].scrollHeight);
+                            $('.read_less').click();
+                            $('.read_more').click();
+                            //    }
+                            $.colorbox.close();
+                        },
+
+                            popupProvider.showOkPopup(popupConfig);
+                        return false;
+                    }
+                }
+
+                if (range.length > 0 || range_txt.length > 0) {
+                    if (!user._id) {
+                        popupProvider.showLoginPopup({}, function (err, result) {
+                            if (!err)
+                                window.location = window.location
+                        });
+                        return false;
+                    }
+
+
+                    if (navigator.appName === "Microsoft Internet Explorer") {
+                        $("#pop_suggest_bt").click();
+                    } else {
+                        var offset = $('#discussion_edit_container').offset();
+                        $("#old_suggestion_popup").hide();
+                        $("#new_suggestion_popup")
+                            .css({ top: top - offset.top - 50, left: (e.pageX - 97) - offset.left, opacity: 0 })
+                            .show()
+                            .animate({ top: '-=20px', opacity: 1 }, 100, 'linear');
+                        setTimeout(function () {
+                            mouseDown = null;
+                        }, 500)
+                    }
+                } else {
+                    mouseDown = null;
+                }
             }
         });
 
@@ -265,8 +277,6 @@ function initDiscussionEditing(discussion,target){
             });
         }
     });
-
-
 
     function displaySuggestionsRanges() {
         var lines = [];
@@ -532,6 +542,8 @@ function initDiscussionEditing(discussion,target){
 
             suggestion.is_approved = !!is_approved;
             suggestion.avatar = avatar;
+            suggestion.no_post = paper.hasClass('passed_deadline');
+            //suggestion = paper.hasClass('passed_deadline');
             suggestion.to_delete = suggestion.parts.length && (suggestion.parts[0].text == " ");
             dust.render('discussion_suggestion_new', suggestion, function (err, out) {
                 $(is_approved ? '#approved_suggestions_wrapper' : '#suggestions_wrapper').append(out);

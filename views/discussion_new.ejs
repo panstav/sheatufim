@@ -246,22 +246,17 @@ var avatar = "<%=avatar%>";
 $(document).ready(function () {
     var is_logged = <%= user_logged %>;
     var discussion = <%- JSON.stringify(discussion || "") %>;
+    var passed_deadline = false;
 
 
     var page_posts, post_groups, count;
-
-    var more_text = $('body.document-review .paper pre').children('span.more_text');
-
-    more_text.show();
-    more_text.removeClass('hide');
-    $('.more_text_split').hide();
-
-    $('.paper-edit').show();
 
     if(is_logged){
         get_and_render.info_items(discussion.subject_id._id);
         get_and_render.links(discussion.subject_id._id);
     }
+
+
 
     $('body').on('click', '.document-review-tabs li.tab', function(e){
         e.preventDefault();
@@ -327,7 +322,17 @@ $(document).ready(function () {
                 post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                 render_post('main', post, 0);
             });
+            // check if we have passed teh deadline
+            if(new Date(discussion.deadline) < new Date()) {
+                passed_deadline = true;
+                $('.paper').addClass('passed_deadline');
+                $('.paper-edit-text').html('עבר הזמן לעריכת המסמך');
+                $('.paper-edit-title').hide();
+                $('#tab-3').addClass('hidden');
+                $('.message-reply').addClass('hidden');
+            }
         });
+
 
     };
 
