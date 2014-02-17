@@ -12,7 +12,7 @@ var Suggestion = {
     ],
     explanation:{type:Schema.Types.Text},
 
-    is_approved:{type:Boolean, 'default':false},
+    is_approved:{type:Boolean, 'default':false, attrs: {disabled: true}},
     approve_date:{type:Date},
     context_before:String,
     replaced_text:String,

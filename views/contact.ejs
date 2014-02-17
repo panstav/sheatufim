@@ -32,7 +32,7 @@
                     <div class="row">
                         <div class="contact_form">
                             <input class="email" name="email" type="email" placeholder="מייל השולח">
-                            <input class="title" name="title" type="text" placeholder="כותרת">
+                            <input class="mail-title" name="title" type="text" placeholder="כותרת">
                             <div class="review-change-text">
                                 <textarea class="text" name="text" class="text" placeholder="תוכן ההודעה..."></textarea>
                             </div>
@@ -54,9 +54,10 @@
         $('body').on('click', '.send_mail', function(e){
             $('.send_mail').addClass('disabled');
             var data = {
-                subject: $('.title').val(),
+                subject: $('.mail-title').val(),
                 explanation: $('.text').val(),
-                email: $('.email').val()
+                email: $('.email').val(),
+                to: 'aharon@uru.org.il'
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
                 if(bug.status < 200 && bug.status > 300){
