@@ -437,3 +437,17 @@ ul.list li.link-container a:hover {
 .review-original-text-text.delete {
     text-decoration: line-through;
 }
+
+.send_mail.disabled {
+    background: #e6e6e6;
+    border-color: #e6e6e6;
+    pointer-events: none;
+    cursor: default;
+}
+
+/*firefox fixes*/
+@-moz-document url-prefix() {
+    .name_input.active {
+        padding: 0 5px;
+    }
+}
