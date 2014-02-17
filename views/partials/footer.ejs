@@ -11,10 +11,10 @@
         <div id="footer-links" class="footer-column">
             <p class="title">קישורים</p>
             <ul>
-                <li><a href="http://www.sheatufim.org.il/"><img class="shitufim-logo" src="/img/logo-shitufim.png" alt="שיתופים" title="שיתופים"/></a></li>
+                <li><a target="_blank" href="http://www.sheatufim.org.il/"><img class="shitufim-logo" src="/img/logo-shitufim.png" alt="שיתופים" title="שיתופים"/></a></li>
 
                 <% footer_links('is_on_footer').forEach(function(menu){ %>
-                    <li><a href="<%= menu.link %>"><%= menu.name %></a></li>
+                    <li><a target="_blank" href="<%= menu.link %>"><%= menu.name %></a></li>
                 <% }) %>
             </ul>
         </div>
@@ -27,7 +27,7 @@
         </div>
         <div id="footer-credits" class="footer-column">
             <p class="title">הוקם על ידי</p>
-            <div><a href="http://www.hasdera.org.il/"><img src="/img/created_by_logos.png" alt="created_by" title="created_by"/></a></div>
+            <div><a target="_blank" href="http://www.hasdera.org.il/">עורו-השדרה-אג׳נדה</a></div>
         </div>
     </div>
 </div>

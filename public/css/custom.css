@@ -180,6 +180,9 @@ ul.list li.link-container a:hover {
 #footer-credits img {
     width: 85px;
 }
+#footer-credits a {
+    color: #3bafda;
+}
 .tab-content.tabs {
     display: none;
 }
