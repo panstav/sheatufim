@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <div class="row post-body">
-                    <p><%=subject.description%></p>
+                    <p><%-subject.description%></p>
                 </div>
                 <% if(user_logged && subject.isAllowed) { %>
                 <% include partials/descussions_and_posts.ejs%>

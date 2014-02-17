@@ -6,7 +6,7 @@ var mongoose = require("mongoose"),
 var Subject  = module.exports = new Schema({
     name:{type:String,required:true},
     tooltip:String,
-    description: {type:Schema.Types.Text},
+    description: {type:Schema.Types.Html},
     text_field_preview:{type:Schema.Types.Text},
     image_field:Schema.Types.File,
     cover_image_field:Schema.Types.File,
