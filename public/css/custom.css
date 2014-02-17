@@ -445,6 +445,10 @@ ul.list li.link-container a:hover {
     cursor: default;
 }
 
+.paper-edit {
+    display: block;
+}
+
 /*firefox fixes*/
 @-moz-document url-prefix() {
     .name_input.active {

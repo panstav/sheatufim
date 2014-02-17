@@ -124,7 +124,8 @@
     <div class="paper-edit-text">בחר בעזרת הסמן קטעי טקסט שברצונך לשנות. לחץ על קטעים מסומנים כדי לראות הצעות שהעלו אחרים.</div>
     <div class="paper-edit-title"><i class="icon icon-small-pad-left icon-edit"></i>מצב עריכה</div>
 </div>
-<div class="paper paper-closed" id="discussion_edit_container">
+
+<div class="paper paper-opened" id="discussion_edit_container">
     <div class="paper-marks">
         <div id="old_suggestion_popup" style="display:none;" class="popup-window link-to-doc-bubble paper-mark-1 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div>
         <div class="paper-actions-bubble paper-mark-2 hide popup-window" style="display: none;" id="new_suggestion_popup">
@@ -139,9 +140,8 @@
     </div>
     <pre id="discussion_content"><%=discussion.text_field%></pre>
     <textarea id="discussion_content_textarea" style="display:none;"><%=discussion.text_field%></textarea>
-    <button class="btn btn-large btn-green btn-read-more" onclick="togglePaper();">להמשך קריאה ועריכה</button>
-    <i class="icon icon-close hand hide" onclick="togglePaper();"></i>
 </div>
+
 <div class="spacer-large"></div>
 
 
@@ -249,6 +249,14 @@ $(document).ready(function () {
 
 
     var page_posts, post_groups, count;
+
+    var more_text = $('body.document-review .paper pre').children('span.more_text');
+
+    more_text.show();
+    more_text.removeClass('hide');
+    $('.more_text_split').hide();
+
+    $('.paper-edit').show();
 
     if(is_logged){
         get_and_render.info_items(discussion.subject_id._id);
