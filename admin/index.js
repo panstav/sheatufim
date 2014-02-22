@@ -190,7 +190,7 @@ module.exports = function (app) {
         list:['title'],
         order_by:['gui_order'],
         sortable:'gui_order',
-        search:['title', 'link'],
+        search:['title', 'link']
         /*hideFromMain:true*/
     });
 
@@ -199,6 +199,11 @@ module.exports = function (app) {
     });
    */
     admin.registerMongooseModel('About', Models.About, null, {
+        list:['title'],
+        actions:[
+        ]
+    });
+    admin.registerMongooseModel('Contact', Models.Contact, null, {
         list:['title'],
         actions:[
         ]

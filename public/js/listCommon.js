@@ -20,7 +20,9 @@ var listCommon = (function(){
                         {
                             return encodeURIComponent(elm.get_link());
                         }
-
+                        if(template_name == "discussion_list_item_new") {
+                            elm.deadline = new Date(elm.deadline) < new Date() ? null : elm.deadline;
+                        }
                     });
 
                     dust.renderArray(template_name,data.objects,null,function(err,out)

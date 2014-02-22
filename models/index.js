@@ -252,6 +252,13 @@ var Schemas = exports.Schemas = {
         _preview:{type:Schema.Types.Mixed,link:'/about',editable:false}
     },{strict:true})),
 
+    Contact:utils.revertibleModel(new Schema({
+        title:{type:String, required:true},
+        text_field:{type:Schema.Types.Html, required:true},
+        is_hidden:{type:Boolean, 'default':true},
+        _preview:{type:Schema.Types.Mixed,link:'/contact',editable:false}
+    },{strict:true})),
+
     AboutUruItem:utils.revertibleModel(new Schema({
         img_field:{ type:Schema.Types.File, required:true},
         img_text:String,
@@ -371,6 +378,7 @@ var Models = module.exports = {
     ResourceObligation:mongoose.model('ResourceObligation', new Schema(Schemas.ResourceObligation, {strict:true})),
     Notification:mongoose.model('Notification', new Schema(Schemas.Notification, {strict:true})),
     About:mongoose.model('About', Schemas.About),
+    Contact:mongoose.model('Contact', Schemas.Contact),
     AboutUruItem:mongoose.model('AboutUruItem', Schemas.AboutUruItem),
     Team:mongoose.model('Team', Schemas.Team),
     Founder:mongoose.model('Founder', Schemas.Founder),

@@ -20,11 +20,16 @@
                     <div class="row">
                         <div class="review-original-text">
                             <div class="review-original-text-title">טקסט מקורי</div>
-                            <div class="review-original-text-text{?delete} delete{/delete}" {?add}data-type="add"{/add}>{orig_text}</div>
+                            <div class="review-original-text-text" {?add}data-type="add"{/add}>{orig_text}</div>
                         </div>
                         <div class="review-change">
                             <div class="review-change-title">הצעה לשינוי</div>
-                            <div class="review-change-text"><textarea id="discussion_suggest" placeholder="הזנת טקסט..." {?delete}disabled{/delete}>{?delete} {/delete}{?add}{orig_text} {/add}</textarea></div>
+                            <div class="review-change-text{?delete} delete{/delete}">
+                                {?delete} {orig_text}
+                                {:else}
+                                <textarea id="discussion_suggest" placeholder="הזנת טקסט...">{?add}{orig_text} {/add}</textarea>
+                                {/delete}
+                            </div>
                         </div>
                         <div class="review-exsplain">
                             <div class="review-exsplain-title">נימוק</div>

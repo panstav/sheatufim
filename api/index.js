@@ -50,6 +50,7 @@ var mongoose_resource = require('jest'),
     ImageUploadResource = require('./ImageUploadResource'),
     AboutUruTextResource = require('./AboutUruTextResource'),
     AboutUruItemResource = require('./AboutUruItemResource'),
+    ContactTextResource = require('./ContactTextResource'),
     TeamResource = require('./TeamResource'),
     FounderResource = require('./founder_resource'),
     BringResourceResource = require('./actions/bring_resource_resource'),
@@ -119,7 +120,9 @@ module.exports = function(app)
     rest_api.register_resource('user_invited_friends', new UserInviteFriendsResource());
 
     rest_api.register_resource('about_uru_texts', new AboutUruTextResource());
-        rest_api.register_resource('about_uru_items', new AboutUruItemResource());
+    rest_api.register_resource('about_uru_items', new AboutUruItemResource());
+    rest_api.register_resource('contact_texts', new ContactTextResource());
+
     rest_api.register_resource('team', new TeamResource());
     rest_api.register_resource('founders', new FounderResource());
     rest_api.register_resource('user_helps_action', new BringResourceResource());

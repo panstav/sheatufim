@@ -10,7 +10,7 @@
         <% include partials/menu.ejs %>
     </header>
 
-    <section class="content">
+    <section class="content contact">
         <div class="container">
             <div class="row">
                 <div class="welcome">
@@ -19,15 +19,18 @@
                     <div class="welcome-tagline"></div>
                 </div>
             </div>
+            <div class="row about-text">
+
+            </div>
             <div class="row">
                 <div class="mail">
-                    <div class="row">
-                        <div class="right dialog-title">
-                            <div class="row">
-                                <h3 class="basket-tagline right">צור קשר</h3>
-                            </div>
-                        </div>
-                    </div>
+                    <!--<div class="row">-->
+                        <!--<div class="right dialog-title">-->
+                            <!--<div class="row">-->
+                                <!--<h3 class="basket-tagline right">צור קשר</h3>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="spacer-large"></div>
                     <div class="row">
                         <div class="contact_form">
@@ -51,6 +54,14 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
+        db_functions.getContactText(function (data) {
+            $.each(data.objects, function (index, item) {
+                dust.render('about_text', item, function (err, out) {
+                    $('.about-text').append(out);
+                });
+            });
+
+        });
         $('body').on('click', '.send_mail', function(e){
             $('.send_mail').addClass('disabled');
             var data = {

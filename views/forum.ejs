@@ -108,6 +108,7 @@
             var user = <%- JSON.stringify(user || '') %>;
             var posts = <%- JSON.stringify(posts) %>;
             var post_groups = <%- JSON.stringify(post_groups) %>;
+            var avatar = '<%=avatar%>';
 
             if(is_logged){
                 get_and_render.info_items(subject);
@@ -116,6 +117,7 @@
 
             //render a main post and responses if the post has any recursively
             var render_post = function(type, data, level){
+                data.user_avatar = avatar;
                 dust.render('forum_post', data, function(err, out){
                 if(!err)
                     if(type == 'main')
@@ -191,6 +193,7 @@
                                 data.attachment = attachment;
                                 $.colorbox.close();
                             }
+                            data.user_avatar = avatar;
                             dust.render('forum_post', data, function(err, out){
                                 if(!err)
                                      $('.post-messages-container ul.main_container').prepend(out);
@@ -276,6 +279,7 @@
                                 $original_parent.find('.post-new-message-attachment').hide();
                                 $.colorbox.close();
                             }
+                            data.user_avatar = avatar;
                              dust.render('forum_post', data, function(err, out){
                                 if(!err){
                                     $('ul.replies-' + parent_id).append(out);

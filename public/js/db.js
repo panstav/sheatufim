@@ -358,6 +358,21 @@ var db_functions = {
         });
     },
 
+    getContactText:function (callback) {
+        $.ajax({
+            url:'/api/contact_texts',
+            type:"GET",
+            async:true,
+            success:function (data) {
+                console.log(data);
+                callback(data);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+        });
+    },
+
     getAboutUruItems:function (callback) {
         db_functions.loggedInAjax({
             url:'/api/about_uru_items',

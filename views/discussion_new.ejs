@@ -92,6 +92,11 @@
     </div>-->
     <div class="document-work-time left">
         <i class="icon icon-box-top-left-tip"></i>
+        <% if(new Date(discussion.deadline) < new Date()) { %>
+        <div class="row">
+            <div class="document-work-time-title">עבר הזמן לעריכת המסמך</div>
+        </div>
+        <% } else { %>
         <div class="row">
             <div class="document-work-time-title">זמן עבודה</div>
         </div>
@@ -116,6 +121,8 @@
                 <div class="document-work-time-tag">שניות</div>
             </div>
         </div>
+        <% } %>
+
     </div>
 </div>
 <div class="spacer-large"></div>
@@ -246,6 +253,7 @@ var avatar = "<%=avatar%>";
 $(document).ready(function () {
     var is_logged = <%= user_logged %>;
     var discussion = <%- JSON.stringify(discussion || "") %>;
+    var user = <%- JSON.stringify(user || "") %>;
     var passed_deadline = false;
 
 
@@ -273,6 +281,7 @@ $(document).ready(function () {
 
     //render a main post and responses if the post has any recursively
     var render_post = function(type, data, level){
+        data.user_avatar = avatar;
         dust.render('forum_post', data, function(err, out){
             if(!err)
                 if(type == 'main')
@@ -372,6 +381,7 @@ $(document).ready(function () {
                         data.attachment = attachment;
                         $.colorbox.close();
                     }
+                    data.user_avatar = avatar;
                     dust.render('forum_post', data, function(err, out){
                         if(!err)
                             $('.post-messages-container ul.main_container').prepend(out);
@@ -456,6 +466,7 @@ $(document).ready(function () {
                         $original_parent.find('.post-new-message-attachment').hide();
                         $.colorbox.close();
                     }
+                    data.user_avatar = avatar;
                     dust.render('forum_post', data, function(err, out){
                         if(!err){
                             $('ul.replies-' + parent_id).append(out);

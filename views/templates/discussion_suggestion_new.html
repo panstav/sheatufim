@@ -16,11 +16,11 @@
             <div class="trying row">
                 <div class="review-original-text">
                     <div class="review-original-text-title">טקסט מקורי</div>
-                    <div class="review-original-text-text{?to_delete} delete{/to_delete}">{original_part}</div>
+                    <div class="review-original-text-text">{original_part}</div>
                 </div>
                 <div class="change_proposal review-change">
                     <div class="review-change-title">הצעה לשינוי</div>
-                    <div class="review-change-text">{alternative_part}</div>
+                    <div class="review-change-text{?to_delete} delete{/to_delete}">{?to_delete}{original_part}{/to_delete}{alternative_part}</div>
                 </div>
                 <div class="review-exsplain">
                     <div class="review-exsplain-title">נימוק</div>
