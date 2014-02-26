@@ -50,17 +50,7 @@ InformationItem.methods.toString = function(){
     return this.title || '';
 };
 
-//InformationItem.pre('save',function(next){
-//    var self = this;
-//    models.User.find().where('subjects', self.subject_id).exec(function(err, users){
-//        if(err) next();
-//        async.each(users, function(user, cbk){
-//            notifications.create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user, null, self.subject_id, '/', function (err, results) {
-//                cbk(err, results);
-//            });
-//        }, function(err){
-//            next();
-//        });
-//    });
-//
-//});
+
+InformationItem.statics.onPreSave = function(func){
+    InformationItem.pre('save',func);
+};
