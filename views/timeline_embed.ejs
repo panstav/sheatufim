@@ -1,0 +1,88 @@
+<html>
+<head>
+    <!-- jQuery -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <!-- BEGIN TimelineJS -->
+    <script type="text/javascript" src="/plugins/timeline/js/storyjs-embed.js"></script>
+    <script>
+        $(document).ready(function() {
+            createStoryJS({
+                type:       'timeline',
+                width:      '100%',
+                height:     '484',
+                lang:               'iw',                           //OPTIONAL LANGUAGE
+
+                source:     '<%= source %>',
+                css:                '/plugins/timeline/css/timeline.css',     //OPTIONAL PATH TO CSS
+                font:               'Arial',             //OPTIONAL FONT
+                embed_id:   'my-timeline'
+
+            });
+        });
+    </script>
+    <!-- END TimelineJS -->
+</head>
+
+<style>
+    body
+    {
+        padding: 0px !important;
+        margin: 0px 0px 0px 0px !important; /*spacing between the timeline and the above content */
+        min-width: 250px;
+        overflow:hidden;
+    }
+
+    .vco-slider .slider-item .content .content-container .text .container p {
+        font-family: Arial, Helvetica, sans-serif !important;
+        font-size: 16px;
+        color: #232065 !important;
+        line-height: 150%;
+        text-align: justify;
+    }
+
+    .vco-timeline .vco-navigation .timenav-background
+    {
+        background: #b7d58b !important;
+    }
+
+    .vco-timeline .vco-navigation .timenav-background .timenav-tag-row-1, .vco-timeline .vco-navigation .timenav-background .timenav-tag-row-3, .vco-timeline .vco-navigation .timenav-background .timenav-tag-row-5 {
+        background: none repeat scroll 0 0 #8cc63e !important;
+    }
+
+
+    .vco-skinny.vco-notouch .vco-slider .nav-previous .nav-container .icon, .vco-skinny.vco-notouch .vco-slider .nav-next .nav-container .icon {
+        opacity: 0.75 !important;
+        filter: alpha(opacity=75) !important;
+        -khtml-opacity: 0.75 !important;
+        -moz-opacity: 0.75 !important;
+    }
+
+    #my-timeline sized-embed.storyjs-embed
+    {
+
+    }
+
+    .storyjs-embed {
+        border: 1 solid #8bc43f !important;
+    }
+
+    /* change the media image from square to a square with radius */
+    .media-image {
+        border-radius: 10px;
+
+    }
+
+
+    div.text div.container h2.date .slide-tag {
+        display :none !important;
+    }
+
+
+
+
+</style>
+<body>
+
+<div id="my-timeline"></div>
+</body>
+</html>

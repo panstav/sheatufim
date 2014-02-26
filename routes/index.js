@@ -133,4 +133,6 @@ module.exports = function (app) {
     router.post('/agra', require('./cycles/main'));
 
     router.include('/facebook_realtime', require('./facebook_realtime'));
+
+    router.get('/timeline_embed',require('./discussions/timeline'));
 };
