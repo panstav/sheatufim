@@ -12,11 +12,11 @@ var models = require('../models'),
     notificationResource = require('./NotificationResource'),
     templates = require('../lib/templates'),
     mail = require('../lib/mail'),
+    config = require('../config'),
     _ = require('underscore');
 
 
-exports.create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail,callback) {
-
+exports.create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail, callback) {
 
     if(typeof no_mail === 'function' && typeof callback !== 'function'){
         callback = no_mail;
@@ -59,7 +59,7 @@ exports.create_user_notification = function (notification_type, entity_id, user_
             function (cbk) {
                 notification_type = notification_type + "";
                 if (_.contains(multi_notification_arr, notification_type) && sub_entity) {
-                    models.Notification.findOne({type:notification_type, 'notificators.sub_entity_id':sub_entity, user_id:user_id}, function (err, obj) {
+                    models.Notification.findOne({type:notification_type, 'notificators.sub_entity_id':sub_entity, user_id:user_id, visited: false}, function (err, obj) {
                         cbk(err, obj);
                     });
                 }
@@ -76,6 +76,7 @@ exports.create_user_notification = function (notification_type, entity_id, user_
             function (noti, cbk) {
                 if (noti) {
                     noti.seen = false;
+                    noti.visited = false;
 
                     var date = Date.now();
                     //var last_update_date = noti.update_date;
@@ -221,7 +222,7 @@ var create_new_notification = function (notification_type, entity_id, user_id, n
     notification.url = url;
     notification.seen = false;
     notification.update_date = new Date();
-    notification.visited = true;
+    notification.visited = false;
 
     notification.save(function (err, obj) {
         if (err)
@@ -257,25 +258,8 @@ var sendNotificationToUser = function (notification) {
     var email;
     var  uru_group = [
         /*'saarsta@gmail.com',*/
-        'konfortydor@gmail.com',
-        'aharon@uru.org.il',
-        'poaharon@gmail.com',
-        'aharon.porath@gmail.com',
-        'liorur@gmail.com',
-        'maya@uru.org.il',
-        'urip@uru.org.il',
-        'tahel@uru.org.il',
-        'yoni@uru.org.il',
-        'noa@uru.org.il',
-        'uri@uru.org.il',
-        'noa@uru.org.il',
-        'yoni@uru.org.il',
-        'tahel@uru.org.il',
-        'maya@uru.org.il',
-        'Adi@uru.org.il',
-        'aya@uru.org.il',
-        'shay@uru.org.il',
-        'liat@uru.org.il'
+        'themarianne@gmail.com',
+        'maria@empeeric.com'
     ];
 
     if (SEND_MAIL_NOTIFICATION)
@@ -321,17 +305,16 @@ var sendNotificationToUser = function (notification) {
                     return
                 }
                 // 3.1) check for user notification configuration
-                if  (!isNotiInUserMailConfig(user, notification)){
-                    console.log('user should not receive notification because his/her notification mail configuration');
-                    cbk("break");
-                    return;
-                }else{
+//                if  (!isNotiInUserMailConfig(user, notification)){
+//                    console.log('user should not receive notification because his/her notification mail configuration');
+//                    cbk("break");
+//                    return;
+//                }else{
                     // 3.2) notification populate references by notification type
                     email = user.email;
                     notificationResource.populateNotifications({objects:[notification]}, user.id, function(err, result){
                         cbk(err, result);
                     });
-                }
             },
             // 4) create text message
             function (results, cbk) {
@@ -480,7 +463,7 @@ exports.update_user_notification = function (notification_type, obj_id, user, ca
 }
 
 exports.updateVisited = function (user, url) {
-    models.Notification.update({user_id:user._id, url:url}, {$set:{visited:true}}, {multi:true}, function (err) {
+    models.Notification.update({user_id:user._id, url:url}, {$set:{visited:true}}, {multi:true}, function (err, count) {
         if (err) {
             console.error('failed setting notification visited to true', err);
         }

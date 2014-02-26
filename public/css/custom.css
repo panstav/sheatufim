@@ -487,3 +487,7 @@ ul.list li.link-container a:hover {
         padding: 0 5px;
     }
 }
+
+.vco-slider .slider-item .content .content-container .text .container {
+    text-align: right !important;
+}

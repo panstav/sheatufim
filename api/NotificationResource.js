@@ -15,6 +15,7 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
             this.default_query = function (query) {
                 return query.sort({'update_date': 'descending'});
             };
+            this.filtering = {visited: null};
             this.fields = {
                 _id:null,
                 user_id:null,
@@ -46,6 +47,8 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
                 link_four: null,
                 //text only
                 part_five: null,
+                //post text
+                text: null,
 
                 link_to_first_comment_user_didnt_see: null,
                 discussion_link: null,
@@ -80,7 +83,9 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
 
             if (user_id)
                 filters['user_id'] = user_id;
-
+            if(req.query.filters == 'visited'){
+                filters.visited = 'false';
+            }
 
             this._super(req, filters, sorts, limit, offset, function (err, results) {
 
@@ -834,7 +839,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                             + num_of_joined +  " הודעות חדשות לפורום של "
                     } else {
                         if(user_obj){
-                            notification.part_one = "נוספה הודעה חדשה לפורום של ";
+                            notification.part_one = user_obj.first_name + ' ' + user_obj.last_name + ' ' +   "פרסם/ה הודעה חדשה בפורום של ";
                         }
                     }
 
@@ -843,6 +848,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                         notification.part_two = subject.name;
                     }
                     notification.main_link = notification.url;
+                    notification.extra_text = post.toObject().text;
                     itr_cbk();
                     break;
 
@@ -887,7 +893,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                 case "comment_on_your_forum_post":
                     var num_of_joined = notification.notificators.length;
                     if(num_of_joined > 1){
-                        notification.part_one = "נוספו "
+                        notification.part_one = "נוספו " +
                             num_of_joined +
                             " תגובות חדשות להודעה שהעלית בפורום של "
                     } else {
@@ -900,6 +906,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, action_posts_
                         notification.part_two = subject.name;
                     }
                     notification.main_link = notification.url;
+                    notification.extra_text = post.toString().text;
                     itr_cbk();
                     break;
 
@@ -1014,6 +1021,7 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "post_added_to_action_you_joined",
         "post_added_to_action_you_created"
     ];
+
     var action_ids = _.chain(results.objects)
         .map(function (notification) {
             return  _.indexOf(action_notification_type, notification.type) > -1

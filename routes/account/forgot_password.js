@@ -2,6 +2,7 @@ var models = require('../../models'),
     common = require('./common'),
     templates = require('../../lib/templates'),
     mail = require('../../lib/mail'),
+    config = require('../../config'),
     async = require('async');
 
 module.exports ={
@@ -98,7 +99,7 @@ var forgotPassword = function(user,callback)
             templates.renderTemplate('forgot',{user:user},cbk);
         },
         function(body,cbk) {
-            mail.sendMail(user.email,body,'יצירת סיסמא חדשה לאתר מעגלי השיח',cbk);
+            mail.sendMail(user.email, body, 'יצירת סיסמא חדשה לאתר מעגלי השיח', config.systemEmail ,cbk);
         }
     ],function(err, obj){
         callback(err, obj);

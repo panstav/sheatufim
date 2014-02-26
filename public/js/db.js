@@ -477,7 +477,7 @@ var db_functions = {
 
     getNotifications:function (user_id, limit, callback) {
         db_functions.loggedInAjax({
-            url:'/api/notifications?' + (user_id ? '&user_id=' + user_id : '') + (limit ? '&limit=' + limit : ''),
+            url:'/api/notifications?' + (user_id ? '&user_id=' + user_id : '') + (limit ? '&limit=' + limit : '') + '&filters=visited',
             type:"GET",
             async:true,
 

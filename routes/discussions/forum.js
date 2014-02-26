@@ -3,6 +3,7 @@ var models = require('../../models'),
     common = require('../account/common'),
     InformationItemResource = require('../../api/InformationItemResource.js'),
     LinkResource = require('../../api/LinkResource.js'),
+    notifications = require('../../api/notifications.js'),
     PostForumResource = require('../../api/forum/postForumResource.js');
 
 
@@ -68,5 +69,11 @@ module.exports = function(req,res) {
             information_items: information_items || [],
             links: links || []
         });
+        //update all notifications of user that connected to this object
+        if (req.user) {
+            var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));
+            notifications.updateVisited(req.user, req.path);
+        }
+
     });
 };
