@@ -184,17 +184,11 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                 console.log("user should not get mail if he is the notificator");
                 itr_cbk(null, 0);
             } else {
-                if (discussion_creator_id == unique_user) {
-                    notifications.create_user_notification("change_suggestion_on_discussion_you_created", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id + '/#' + suggestion_object._id.toString(), function (err, results) {
-                        itr_cbk(err, results);
-                    });
-                } else {
-                    notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id + '/#' + suggestion_object._id.toString(), function (err, results) {
-                        itr_cbk(err, results);
-                    });
-                }
+                notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id , function (err, results) {
+                    itr_cbk(err, results);
+                });
             }
-        }
+        };
 
         fields.creator_id = user_id;
         fields.first_name = user.first_name;

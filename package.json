@@ -20,7 +20,8 @@
     "http-proxy": "",
     "nodemailer": "~0.5.5",
     "multiparty": "",
-    "formage-admin": "git://github.com/IshaiJaffe/formage-admin.git"
+    "formage-admin": "git://github.com/IshaiJaffe/formage-admin.git",
+    "sugar" : ""
   },
   "devDependencies": {},
   "engines": {

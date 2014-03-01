@@ -16,7 +16,7 @@ var models = require('../models'),
     _ = require('underscore');
 
 
-exports.create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail, callback) {
+exports.create_user_notification = create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail, callback) {
 
     if(typeof no_mail === 'function' && typeof callback !== 'function'){
         callback = no_mail;
@@ -24,26 +24,17 @@ exports.create_user_notification = function (notification_type, entity_id, user_
     }
 
     var single_notification_arr = [
-        "been_quoted",
         "new_discussion",
         "approved_info_item_i_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
-        "proxy_created_new_discussion",
-        "proxy_created_change_suggestion",
-        "action_suggested_in_cycle_you_are_part_of",
-        "update_created_in_cycle_you_are_part_of",
-        "action_added_in_cycle_you_are_part_of",
-        "action_you_created_was_approved",
-        "action_you_are_participating_in_was_approved",
-        "user_brings_resource_to_action_you_created"
+        "new_information_item_on_subject_you_are_part_of",
+        "new_discussion_in_subject_you_are_part_of"
     ];
 
     var multi_notification_arr = [
         'comment_on_discussion_you_are_part_of',
         "comment_on_discussion_you_created",
-        "post_added_to_action_you_joined",
-        "post_added_to_action_you_created",
         "comment_on_subject_you_are_part_of",
         "comment_on_your_forum_post",
         "comment_on_your_discussion_post",
@@ -55,7 +46,7 @@ exports.create_user_notification = function (notification_type, entity_id, user_
     if (notificatior_id && _.indexOf(single_notification_arr, notification_type) == -1) {
 
         async.waterfall([
-
+            //find existing notification
             function (cbk) {
                 notification_type = notification_type + "";
                 if (_.contains(multi_notification_arr, notification_type) && sub_entity) {
@@ -72,134 +63,62 @@ exports.create_user_notification = function (notification_type, entity_id, user_
                         cbk(err, obj);
                     });
             },
+            function(noti, cbk){
+                //check if mail needs to be sent
+                if(noti){
+                    if(noti.visited)
+                        cbk(null, noti, true);
+                    else
+                        cbk(null, noti, false);
+                } else {
+                    cbk(null, noti, true);
+                }
 
-            function (noti, cbk) {
+            },
+            function (noti, send_mail, cbk) {
                 if (noti) {
                     noti.seen = false;
                     noti.visited = false;
+                    noti.update_date = Date.now();
 
-                    var date = Date.now();
-                    //var last_update_date = noti.update_date;
-
-
-                    //TODO change it later to something prettier
-                    if ((_.contains(multi_notification_arr, notification_type)) &&
-                        _.any(noti.notificators, function (notificator) {
+                    var new_notificator = {
+                            notificator_id:notificatior_id,
+                            sub_entity_id:sub_entity
+                        },
+                        notificator_exists = _.any(noti.notificators, function (notificator) {
                             return notificator.notificator_id + "" == notificatior_id + ""
-                        })) {
-                        var new_notificator = {
-                            notificator_id:notificatior_id,
-                            sub_entity_id:sub_entity
-                        }
-                        noti.notificators.push(new_notificator);
-                        noti.update_date = date;
-                        noti.save();
-                        cbk(null, 0);
-                    } else if (_.any(noti.notificators, function (notificator) {
-                        return notificator.notificator_id + "" == notificatior_id + ""
-                    })) {
-                        noti.update_date = date;
-                        noti.save();
-                        cbk(null, 0);
-                    } else {
-                        var new_notificator = {
-                            notificator_id:notificatior_id,
-                            sub_entity_id:sub_entity
-                        }
-                        noti.notificators.push(new_notificator);
-                        noti.update_date = date;
-                        noti.save(function (err, obj) {
-                            if (err)
-                                console.error(err);
-                            cbk(null, obj || noti);
                         });
+
+                    if(notificator_exists) {
+                        if(_.contains(multi_notification_arr, notification_type)) {
+                            noti.notificators.push(new_notificator);
+                        }
+                    } else {
+                        noti.notificators.push(new_notificator);
                     }
-                    sendNotificationToUser(noti);
+
+                    noti.save(function(err, obj){
+                        if(!err && send_mail) {
+                            sendNotificationToUser(obj);
+                        }
+                        cbk(err, obj);
+                    });
+
                 } else {
                     create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, function (err, obj) {
                         cbk(err, obj);
                     });
                 }
             }
-        ], function (err, obj) {
+        ],
+        function (err, obj) {
             callback(err, obj);
-        })
-    }else {
+        });
+    } else {
         create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail,function (err, obj) {
             callback(err, obj);
         });
     }
-};
-
-exports.create_user_proxy_vote_or_grade_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, is_agree, grade_or_balance, callback) {
-
-    async.waterfall([
-
-        function (cbk) {
-            notification_type = notification_type + "";
-            models.Notification.findOne({type:notification_type, "entity_id":entity_id, user_id:user_id}, cbk);
-        },
-
-        function (noti, cbk) {
-            if (noti) {
-
-                if (notification_type == "proxy_graded_change_suggestion")
-                    noti.notificators[0].ballance = is_agree ? 1 : -1;
-                else
-                    noti.notificators[0].ballance = grade_or_balance;
-
-                //var last_update_date = noti.update_date;
-                noti.update_date = Date.now();
-                noti.seen = false;
-
-                if (notification_type == "proxy_vote_to_post" && noti.notificators[0].ballance == 0) {
-                    noti.remove(function (err, obj) {
-                        cbk(err, obj);
-                    })
-                } else {
-                    noti.save(function (err, obj) {
-                        cbk(err, obj);
-                        sendNotificationToUser(noti);
-                    });
-                }
-
-            }
-            else {
-                var notification = new models.Notification();
-                var balance;
-                if (notification_type == "proxy_graded_change_suggestion")
-                    balance = is_agree ? 1 : -1;
-                else
-                    balance = grade_or_balance;
-
-                var notificator = {
-                    notificator_id:notificatior_id,
-                    sub_entity_id:sub_entity,
-                    ballance:balance
-                }
-
-                notification.user_id = user_id;
-                notification.notificators = notificator;
-                notification.type = notification_type;
-                notification.entity_id = entity_id;
-                notification.seen = false;
-                notification.update_date = new Date();
-
-                notification.save(function (err, obj) {
-                    if (err){
-                        console.error(err);
-                        console.log(notification.entity_id, "entity_id");
-                        console.log(notification.notificators[0].sub_entity_id, "sub_entity_id");
-                    }
-                    cbk(null, obj || notification);
-                    if (!err && obj)
-                        sendNotificationToUser(obj);
-                });
-            }
-        }
-    ], function (err, obj) {
-        callback(err, obj);
-    })
 };
 
 var create_new_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity_id, url, no_mail, callback) {
@@ -211,7 +130,7 @@ var create_new_notification = function (notification_type, entity_id, user_id, n
 
     var notification = new models.Notification();
     var notificator = {
-        notificator_id:notificatior_id,
+        notificator_id:notificatior_id ? notificatior_id : null,
         sub_entity_id:sub_entity_id
     };
 
@@ -264,21 +183,6 @@ var sendNotificationToUser = function (notification) {
 
     if (SEND_MAIL_NOTIFICATION)
         async.waterfall([
-            //1) had user visited the notification page since the last mail
-            function (cbk) {
-
-                // if any of the notifications of this entity and user id is false, user wont get the notification, when he enters the
-                // entity id page all notifications will be visited = true
-                models.Notification.findOne({user_id: notification.user_id + "", url: notification.url, visited: false}, function(err, noti) {
-                    if(err || noti){
-                        console.log('user should not receive notification because he or she have not visited since');
-                        cbk('break');
-                        return;
-                    }else{
-                        cbk();
-                    }
-                });
-            },
             // 2) Get user email
             function (cbk) {
                 models.User.findById(notification.user_id._doc ? notification.user_id.id : notification.user_id, cbk);
@@ -295,15 +199,14 @@ var sendNotificationToUser = function (notification) {
                     });
                 }
             },
-
             function(user, users, cbk){
                 //TODO just for debugging
                 email = user.email;
 
-                if(!_.any(uru_group, function(mail) { return email === mail }) && !_.any(users, function(user) { return email === user.email })) {
-                    cbk('we send mail only to uru_group for now');
-                    return
-                }
+//                if(!_.any(uru_group, function(mail) { return email === mail }) && !_.any(users, function(user) { return email === user.email })) {
+//                    cbk('we send mail only to uru_group for now');
+//                    return
+//                }
                 // 3.1) check for user notification configuration
 //                if  (!isNotiInUserMailConfig(user, notification)){
 //                    console.log('user should not receive notification because his/her notification mail configuration');
@@ -319,6 +222,7 @@ var sendNotificationToUser = function (notification) {
             // 4) create text message
             function (results, cbk) {
                 var notification = results.objects[0];
+
                 notification.entity_name = notification.name || '';
                 notification.description_of_notificators = notification.description_of_notificators || '';
                 notification.message_of_notificators = notification.message_of_notificators || '';
@@ -354,113 +258,10 @@ var sendNotificationToUser = function (notification) {
             });
 };
 
-exports.create_user_vote_or_grade_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, vote_for_or_against, did_change_the_sugg_agreement, is_on_suggestion, url, callback) {
-    async.waterfall([
-
-        function (cbk) {
-            notification_type = notification_type + "";
-            models.Notification.findOne({type:notification_type, entity_id:entity_id, user_id:user_id}, function (err, result) {
-                cbk(err, result)
-            });
-        },
-
-        function (noti, cbk) {
-            if (noti) {
-
-                noti.seen = false;
-                //this tow lines tries to prevant a bug that i dont understand
-                if (!noti.user_id) {
-                    console.log("user id wasnt in noti in create_user_vote_or_grade_notification!");
-                    noti.user_id = user_id;
-                }
-                var date = Date.now();
-
-                var notificator = _.find(noti.notificators, function (notificator) {
-                    return notificator.notificator_id + "" == notificatior_id + ""
-                });
-                if (notificator) {
-                    if (did_change_the_sugg_agreement) {
-                        notificator.ballance += vote_for_or_against == "add" ? 2 : -2;
-                        if (is_on_suggestion) {
-                            notificator.votes_for += vote_for_or_against == "add" ? 1 : -1;
-                            notificator.votes_against += vote_for_or_against == "add" ? -1 : 1;
-                        }
-                    }
-                    else {
-                        notificator.ballance += vote_for_or_against == "add" ? 1 : -1;
-
-                        if (is_on_suggestion) {
-                            notificator.votes_for += vote_for_or_against == "add" ? 1 : 0;
-                            notificator.votes_against += vote_for_or_against == "add" ? 0 : 1;
-                        }
-                    }
-                } else {
-                    var new_notificator = {
-                        notificator_id:notificatior_id,
-                        sub_entity_id:sub_entity,
-                        ballance:vote_for_or_against == "add" ? 1 : -1,
-                        votes_for:vote_for_or_against == "add" && is_on_suggestion ? 1 : 0,
-                        votes_against:vote_for_or_against == "add" && is_on_suggestion ? 0 : 1
-                    }
-                    noti.entity_id = entity_id;
-
-                    noti.notificators.push(new_notificator);
-                }
-
-                //when user votes to post and get to balance 0, i delete this notification
-                if ((notification_type == "user_gave_my_post_tokens" || notification_type == "user_gave_my_post_bad_tokens")
-                    && (notificator ? notificator.ballance == 0 : false)) {
-                    noti.remove(function (err, result) {
-                        cbk(err, result);
-                    })
-                } else {
-                    //var last_update_date = noti.update_date;
-                    noti.update_date = date;
-                    noti.save(function (err, obj) {
-                        cbk(err, obj);
-                        if (!err && obj)
-                            sendNotificationToUser(obj);
-                    })
-                }
-            } else {
-                var notification = new models.Notification();
-                var notificator = {
-                    notificator_id:notificatior_id,
-                    sub_entity_id:sub_entity,
-                    ballance:vote_for_or_against == "add" ? 1 : -1,
-                    votes_for:vote_for_or_against == "add" && is_on_suggestion ? 1 : 0,
-                    votes_against:vote_for_or_against == "add" && is_on_suggestion ? 0 : 1
-                }
-
-                if (!user_id)
-                    console.log("user id wasnt in noti in create_user_vote_or_grade_notification!")
-
-                notification.user_id = user_id;
-                notification.notificators = notificator;
-                notification.type = notification_type;
-                notification.entity_id = entity_id;
-                notification.url = url;
-                notification.seen = false;
-                notification.update_date = new Date();
-
-                notification.save(function (err, obj) {
-                    if (err)
-                        console.error(err);
-                    cbk(null, obj || noti);
-                    if (!err && obj)
-                        sendNotificationToUser(obj);
-                });
-            }
-        }
-    ], function (err, obj) {
-        callback(err, obj);
-    })
-}
-
 exports.update_user_notification = function (notification_type, obj_id, user, callback) {
 
 
-}
+};
 
 exports.updateVisited = function (user, url) {
     models.Notification.update({user_id:user._id, url:url}, {$set:{visited:true}}, {multi:true}, function (err, count) {
@@ -601,17 +402,44 @@ function updateNotificationToSendMail(noti){
 
 models.InformationItem.onPreSave(function(next){
     var self = this;
-    console.log('On information item save ' + self);
-    models.User.find().where('subjects', self.subject_id).exec(function(err, users){
-        if(err) next();
-        async.each(users, function(user, cbk){
-            notifications.create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user, null, self.subject_id, '/', function (err, results) {
-                cbk(err, results);
+
+    if(self.isNew) {
+        async.each(self.subjects, function(subject_id, callback){
+            models.User.find().where('subjects', subject_id).exec(function(err, users){
+                if(err) next();
+                async.each(users, function(user, cbk){
+                    create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user._id, user._id, subject_id, "/discussions/subject/" + subject_id, function (err, results) {
+                        cbk(err, results);
+                    });
+                }, function(err){
+                    callback(err);
+                });
             });
-        }, function(err){
+        } ,function(err){
             next();
         });
-    });
+    } else {
+        next();
+    }
+});
+
+models.Discussion.onPreSave(function(next){
+    var self = this;
+
+    if(self.isNew) {
+        models.User.find().where('subjects', self.subject_id).exec(function(err, users){
+            if(err) next();
+            async.each(users, function(user, cbk){
+                create_user_notification("new_discussion_in_subject_you_are_part_of", self._id, user._id, self.creator_id, self.subject_id, "/discussions/" + self._id.toString(), function (err, results) {
+                    cbk(err, results);
+                });
+            }, function(err){
+                next();
+            });
+        });
+    } else {
+        next();
+    }
 });
 
 //approved_info_item_i_created

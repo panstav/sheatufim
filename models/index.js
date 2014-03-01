@@ -141,7 +141,7 @@ var Schemas = exports.Schemas = {
         user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
         notificators:[new Schema(
         {
-            notificator_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY},
+            notificator_id:{type:ObjectId, ref:'User', query:common.FIND_USER_QUERY, required:false},
             sub_entity_id:{type:ObjectId},
 
             //only for votes and grade notifications
@@ -184,7 +184,9 @@ var Schemas = exports.Schemas = {
             "comment_on_subject_you_are_part_of",
             "comment_on_your_forum_post",
             "comment_on_your_discussion_post",
-            "comment_on_change_suggestion_i_created"
+            "comment_on_change_suggestion_i_created",
+            "new_information_item_on_subject_you_are_part_of",
+            "new_discussion_in_subject_you_are_part_of"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },

@@ -71,6 +71,7 @@ module.exports = function (req, res) {
 
                 //update all notifications of user that connected to this object
                 if (user)
+                    var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));
                     notifications.updateVisited(user, req.path);
             });
         });

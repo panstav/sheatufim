@@ -50,7 +50,6 @@ InformationItem.methods.toString = function(){
     return this.title || '';
 };
 
-
 InformationItem.statics.onPreSave = function(func){
     InformationItem.pre('save',func);
 };

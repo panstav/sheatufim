@@ -120,6 +120,10 @@ Discussion.methods.isUserAllowed = function(user){
         return subjectIds.indexOf(discussionSubjectId) != -1;
 }
 
+Discussion.statics.onPreSave = function(func){
+    Discussion.pre('save',func);
+};
+
 module.exports = utils.revertibleModel(Discussion);
 
 
