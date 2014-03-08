@@ -25,7 +25,6 @@ exports.create_user_notification = create_user_notification = function (notifica
 
     var single_notification_arr = [
         "new_discussion",
-        "approved_info_item_i_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
         "new_information_item_on_subject_you_are_part_of",
@@ -73,7 +72,6 @@ exports.create_user_notification = create_user_notification = function (notifica
                 } else {
                     cbk(null, noti, true);
                 }
-
             },
             function (noti, send_mail, cbk) {
                 if (noti) {
@@ -105,7 +103,7 @@ exports.create_user_notification = create_user_notification = function (notifica
                     });
 
                 } else {
-                    create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, function (err, obj) {
+                    create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, !send_mail, function (err, obj) {
                         cbk(err, obj);
                     });
                 }
@@ -165,13 +163,10 @@ var create_new_notification = function (notification_type, entity_id, user_id, n
 var sendNotificationToUser = function (notification) {
     /**
      * Waterfall:
-     * 1) Check if user has visited the notification page since the last mail
-     * 2) Get user email
-     * 3)
-     *  3.1) check for user notification configuration
-     *  3.2) notification populate references by notification typeChecks if user should be notified, populate references by notification type
-     * 4) create text message
-     * 5) send message
+     * 1) Get user email
+     * 2) Check user mail configuration
+     * 3) create text message
+     * 4) send message
      */
 
     var email;
@@ -183,43 +178,31 @@ var sendNotificationToUser = function (notification) {
 
     if (SEND_MAIL_NOTIFICATION)
         async.waterfall([
-            // 2) Get user email
+            // 1) Get user email
             function (cbk) {
                 models.User.findById(notification.user_id._doc ? notification.user_id.id : notification.user_id, cbk);
             },
-            // 3.1) check for user notification configuration
-            // 3.2) notification populate references by notification type
-            function (user, cbk) {
-                if (!user) {
-                    cbk("user not found");
-                    return;
-                }else{
-                    models.User.find({"discussions.discussion_id" : "51163023533d920200000025"}, function(err, users){
-                        cbk(err, user, users);
-                    });
+
+            // 2) Check user mail configuration
+            function(user, cbk){
+                if(user.mail_notification_configuration['get_alert_of_' + notification.type] && user.mail_notification_configuration.get_mails){
+                    cbk(null, user);
+                } else {
+                    console.log('User should not receive mail because of his mail configuration');
+                    cbk('break');
                 }
             },
-            function(user, users, cbk){
-                //TODO just for debugging
-                email = user.email;
 
-//                if(!_.any(uru_group, function(mail) { return email === mail }) && !_.any(users, function(user) { return email === user.email })) {
-//                    cbk('we send mail only to uru_group for now');
-//                    return
-//                }
-                // 3.1) check for user notification configuration
-//                if  (!isNotiInUserMailConfig(user, notification)){
-//                    console.log('user should not receive notification because his/her notification mail configuration');
-//                    cbk("break");
-//                    return;
-//                }else{
-                    // 3.2) notification populate references by notification type
-                    email = user.email;
-                    notificationResource.populateNotifications({objects:[notification]}, user.id, function(err, result){
-                        cbk(err, result);
-                    });
+            // 3.1) create text message
+            function(user, cbk){
+                // notification populate references by notification type
+                email = user.email;
+                notificationResource.populateNotifications({objects:[notification]}, user.id, function(err, result){
+                    cbk(err, result);
+                });
             },
-            // 4) create text message
+
+            // 3.2) create text message
             function (results, cbk) {
                 var notification = results.objects[0];
 
@@ -230,7 +213,7 @@ var sendNotificationToUser = function (notification) {
                     cbk(err, result);
                 });
             },
-            // 5) send message
+            // 4) send message
             function (message, cbk) {
                 mail.sendMailFromTemplate(email, message, cbk);
             }
@@ -270,126 +253,6 @@ exports.updateVisited = function (user, url) {
         }
     })
 };
-
-function isNotiInUserMailConfig(user, noti){
-
-    if (!user._doc.mail_notification_configuration.get_mails) return false;
-
-    // discussions notification
-    if (noti.type === "comment_on_discussion_you_are_part_of" || noti.type === "comment_on_discussion_you_created"){
-        // check if should get mail and when
-        var discussion = _.find(user.discussions, function(discussion){ return discussion.discussion_id + "" == noti.notificators[0].sub_entity_id });
-
-        if (!discussion || discussion.get_alert_of_comments !== true) return false;
-
-        if (discussion.time_of_alert === 'now') {
-            return true;
-        }else{
-            updateNotificationToSendMail(noti);
-            return false;
-        }
-    }
-
-    if (noti.type === "change_suggestion_on_discussion_you_are_part_of" || noti.type === "change_suggestion_on_discussion_you_created"){
-        // check if should get mail and when
-        var discussion = _.find(user.discussions, function(discussion){ return discussion.discussion_id + "" == noti.notificators[0].sub_entity_id });
-
-        if (!discussion) return false;
-
-        // this way i guarantee that by default this is true
-        if (discussion.get_alert_of_suggestions === false) return false;
-
-        if (discussion.time_of_alert === 'now') {
-            return true;
-        }else{
-            updateNotificationToSendMail(noti);
-            return false;
-        }
-    }
-
-    if (noti.type === "approved_change_suggestion_on_discussion_you_are_part_of"){
-        // check if should get mail and when
-        var discussion = _.find(user.discussions, function(discussion){ return discussion.discussion_id + "" == noti.notificators[0].sub_entity_id });
-
-        if (!discussion) return false;
-
-        console.log('*******');
-        console.log(discussion.discussion_id);
-        console.log('*******');
-
-        console.log('*******');
-        console.log(user.first_name);
-        console.log('*******');
-
-        console.log('*******');
-        console.log(discussion);
-        console.log('*******');
-
-        console.log('*******');
-        console.log(discussion.get_alert_of_approved_suggestions);
-        console.log('*******');
-
-        console.log('**********');
-        console.log(discussion.get_alert_of_approved_suggestions === false);
-        console.log('**********');
-
-        if (discussion.get_alert_of_approved_suggestions === false) return false;
-
-        if (discussion.time_of_alert === 'now') {
-            return true;
-        }else{
-            updateNotificationToSendMail(noti);
-            return false;
-        }
-    }
-
-    // in this case we created a site notification only if user set it in the config
-    if (noti.type === "new_discussion") return true;
-
-    if (noti.type === "approved_change_suggestion_you_created") return true;
-
-
-    // cycles notification
-
-    if (noti.type === "action_suggested_in_cycle_you_are_part_of") {
-        // check if should get mail and when
-        var cycle = _.find(user.cycles, function(cycle){ return cycle.cycle_id + "" == noti.notificators[0].sub_entity_id });
-
-        if (!cycle) return false;
-
-        if (cycle.get_alert_of_new_action !== false) return false;
-
-        if (cycle.time_of_alert === 'now') {
-            return true;
-        }else{
-            updateNotificationToSendMail(noti);
-            return false;
-        }
-    }
-
-    if (noti.type === "action_added_in_cycle_you_are_part_of") {
-        // check if should get mail and when
-        var cycle = _.find(user.cycles, function(cycle){ return cycle.cycle_id + "" == noti.notificators[0].sub_entity_id });
-
-        if (!cycle) return false;
-
-        if (cycle.get_alert_of_approved_action !== false) return false;
-
-        if (cycle.time_of_alert === 'now') {
-            return true;
-        }else{
-            updateNotificationToSendMail(noti);
-            return false;
-        }
-    }
-
-    if (noti.type === "action_you_created_was_approved") return true;
-
-    // actions
-
-    if(noti.type === "get_alert_of_new_posts_in_actions") return user.mail_notification_configuration.get_alert_of_new_posts_in_actions;
-    return false;
-}
 
 function updateNotificationToSendMail(noti){
     models.Notification.update({_id: noti._id}, {$set: {mail_was_sent: false}}, function(err, num){
