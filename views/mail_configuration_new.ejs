@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>מעגלי שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<body class="configurations">
+
+    <!-- Header -->
+    <header>
+        <% include partials/menu.ejs %>
+    </header>
+
+    <section class="content" style="background: white;">
+        <div class="container">
+            <div class="row">
+                <div class="post-body">
+                    <div class="row profile">
+                        <h2 class="title right">ניהול עדכונים במייל</h2>
+
+                    </div>
+                    <div class="spacer-large"></div>
+                    <div class="email_settings">
+                        <h3>כללי</h3>
+                        <div id="general_settings" class="settings_box general_settings">
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_new_discussion" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על פריט מידע חדש</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_new_info_item" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על מסמך חדש שנפתח לעריכה</span></label>
+                            </div>
+                            <div class="notification"> <div class="spinner"></div> </div>
+                        </div>
+
+                        <h3>הפורום</h3>
+                        <div id="forum_settings" class="settings_box">
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_forum_post" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על הודעות חדשות</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_forum_comment_on_my_post" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על תגובות חדשות להודעות שלך</span></label>
+                            </div>
+                            <div class="notification"> <div class="spinner"></div> </div>
+                        </div>
+
+                        <h3>מסמכים בעריכה</h3>
+                        <div id="discussion_settings" class="settings_box">
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_discussion_post" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על הודעות חדשות</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_discussion_comment_on_my_post" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על תגובות חדשות להודעות שלך</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_new_suggestion" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על הצעות חדשות לשינוי</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_comment_on_suggestion" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על תגובות להצעות לשינוי שלך</span></label>
+                            </div>
+                            <div class="sep"></div>
+                            <div class="settings_box_section">
+                                <input id="get_alert_of_suggestion_approved" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על הצעות שהתקבלו</span></label>
+                            </div>
+                            <div class="notification"> <div class="spinner"></div> </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <% include partials/footer.ejs %>
+
+    <script>
+        var user;
+        $(document).ready(function () {
+            user = <%- JSON.stringify(user) %>;
+
+            //set existing configurations
+            for (var conf_obj in user.mail_notification_configuration) {
+                if (user.mail_notification_configuration[conf_obj]){
+                    $('#' + conf_obj).prop('checked', true);
+                }
+            }
+        });
+
+        $(".settings_box_section input").click(function(e){
+            var notif_type = $(e.target).attr('id');
+            var notif=$(this).parents('.settings_box').find('.notification');
+            notif.show();
+            var new_settings = {};
+            new_settings.mail_notification_configuration = {};
+            var is_checked = $(e.target).is(':checked');
+
+            new_settings.mail_notification_configuration[notif_type] = is_checked;
+
+
+            db_functions.updateMailNotification(user._id, new_settings, function(err, result){
+                debugger;
+                if(!err){
+                    notifSuccess(notif);
+                } else{
+                    notifFail(notif);
+                }
+            })
+        });
+        function notifSuccess(notif){
+            if (notif.data('finish') == false){
+                notif.stop();
+            }
+            notif.find('.spinner').hide();
+            notif.text("עודכן");
+            notif.css('color','green');
+            notif.css("fontSize", "20px");
+            notif.css('font-weight', 'bold');
+            notif.data('finish', false);
+            notif.animate({color: '#fff'}, 2200,function() {
+                notif.data('finish', true);
+                notif.hide();
+                notif.find('.spinner').show();
+            });
+        }
+
+        function notifFail(notif){
+            notif.find('.spinner').hide();
+            notif.text("עדכון נכשל");
+            notif.css('color','green');
+            notif.animate({color: '#fff'}, 2000,function() {
+                notif.hide();
+                notif.find('.spinner').show();
+            });
+        }
+    </script>
+
+</body>
+</html>

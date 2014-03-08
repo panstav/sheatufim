@@ -44,11 +44,7 @@ var User = module.exports = new Schema({
         new Schema({
             discussion_id:{type:ObjectId, ref:'Discussion', limit: 1000},
             join_date: {type:Date, 'default':Date.now},
-            get_alert: {type: Boolean, 'default': true},
             time_of_alert: {type:String, "enum":['now', 'today', 'this_week'], 'default': 'now'},
-            get_alert_of_comments: {type: Boolean, 'default': true},
-            get_alert_of_suggestions: {type: Boolean, 'default': true},
-            get_alert_of_approved_suggestions: {type: Boolean, 'default': true}
         })
     ],
 // List of subject ref ids, that the user is authorized to view
@@ -74,21 +70,20 @@ var User = module.exports = new Schema({
 
         // general
         get_mails: {type: Boolean, 'default': true},
-        get_uru_updates: {type: Boolean, 'default': true},
-        get_weekly_mails: {type: Boolean, 'default': true},
+        get_alert_of_new_discussion: {type: Boolean, 'default': true},
+        get_alert_of_new_info_item: {type: Boolean, 'default': true},
 
-        // by default no subject is selected
-        new_discussion: [ new Schema(
-           {
-               subject_id: {type: ObjectId, ref: 'Subject'},
-               get_alert: {type: Boolean}
-           }
-        )],
+        //general forum
+        get_alert_of_forum_post: {type: Boolean, 'default': true},
+        get_alert_of_forum_comment_on_my_post: {type: Boolean, 'default': true},
 
         //general discussions
-        get_alert_of_comments_for_all_discussions: {type: Boolean, 'default': true},
-        get_alert_of_suggestions_for_all_discussions: {type: Boolean, 'default': true},
-        get_alert_of_approved_suggestions_for_all_discussions: {type: Boolean, 'default': true}
+        get_alert_of_discussion_post: {type: Boolean, 'default': true},
+        get_alert_of_discussion_comment_on_my_post: {type: Boolean, 'default': true},
+        get_alert_of_new_suggestion: {type: Boolean, 'default': true},
+        get_alert_of_comment_on_suggestion: {type: Boolean, 'default': true},
+        get_alert_of_suggestion_approved: {type: Boolean, 'default': true}
+
     }
 }, {strict:false});
 

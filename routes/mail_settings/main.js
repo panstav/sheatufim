@@ -8,7 +8,7 @@ module.exports = function(req, res){
 
     getSettingsParams(req, user, function(err, user_obj, discussion_list, cycle_list, user_discussions_hash, user_cycles_hash){
 
-        res.render('mail_configuration.ejs',{
+        res.render('mail_configuration_new.ejs',{
             title:"הגדרות עדכונים",
             user: user_obj,
             discussions: discussion_list,
