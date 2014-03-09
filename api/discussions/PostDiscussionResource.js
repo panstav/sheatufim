@@ -144,7 +144,7 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                                 c(null, 0);
                             } else {
 
-                                notifications.create_user_notification("comment_on_discussion_you_are_part_of", post._id, user._id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id + '#' + post._id, function(err, results){
+                                notifications.create_user_notification("comment_on_discussion_you_are_part_of", post._id, user._id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, function(err, results){
                                     c(err, results);
                                 });
                             }
@@ -158,7 +158,7 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                 function(clbk){
                     if (parent_post && parent_post.creator_id.toString() != user_id.toString()) {
                         //send notification to the parent post user if it exists
-                        notifications.create_user_notification("comment_on_your_discussion_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id + '#' + parent_post._id.toString(), function(err, results){
+                        notifications.create_user_notification("comment_on_your_discussion_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, function(err, results){
                             clbk(err, post);
                         });
                     } else {

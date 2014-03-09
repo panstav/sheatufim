@@ -213,25 +213,14 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     break;
 
                 case "approved_change_suggestion_on_discussion_you_are_part_of":
-                    notification.part_one = "התקבלה הצעה לשינוי שדירגת בדיון - ";
+
+                    notification.main_link = notification.url;
+                    notification.part_one = "התקבלה הצעה לשינוי למסמך ";
                     if(discussion){
-                        notification.main_link = "/discussions/" + discussion._id + "#post_" +  post_id;
-                        notification.pic = discussion.image_field_preview || discussion.image_field;
                         notification.part_two = discussion.title;
                         notification.link_two = "/discussions/" + discussion._id;
-
-                        notification.img_src = notification.pic;
-                        notification.title = discussion.title;
-                        notification.text_preview = discussion.text_field_preview;
-
-                       /* //SAAR: is this still used?
-                        notification.old_text= discussion.vision_text_history==undefined?'': discussion.vision_text_history[discussion.vision_text_history.length - 1];
-                        notification.new_text= discussion.text_field;*/
-
-                        notification.old_text = discussion.replaced_text_history == undefined?'': discussion.replaced_text_history[discussion.replaced_text_history.length - 1].old_text;
-                        notification.new_text = discussion.replaced_text_history == undefined?'': discussion.replaced_text_history[discussion.replaced_text_history.length - 1].new_text;
-                        notification.mail_settings_link = "/mail_settings/discussion/" + discussion.id + '?force_login=1';
                     }
+                    notification.part_three = " והטקסט בו עודכן";
                     itr_cbk();
                     break;
 
@@ -261,6 +250,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     } else {
                         if(user_obj){
                             notification.part_one = user_obj.first_name + ' ' + user_obj.last_name + ' ' +   "פרסם/ה הודעה חדשה בפורום של ";
+                            notification.user = user_obj.first_name + ' ' + user_obj.last_name;
                         }
                     }
 
@@ -277,17 +267,15 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     var num_of_joined = notification.notificators.length;
                     if(num_of_joined > 1){
                         notification.part_one = "נוספו "
-                            + num_of_joined +  " תגובות חדשות למסמך "
+                            + num_of_joined +  " הודעות חדשות למסמך "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הוסיף/ה תגובה חדשה למסמך ";
-                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                            notification.part_one = "הודעה חדשה בעמוד המסמך ";
                         }
                     }
-                    notification.part_three = " שבהשתתפותך ";
 
                     if(discussion){
-                        notification.link_two = "/discussions/" + discussion._id;
+                        notification.link_two = "/discussions/" + discussion._id + '#' + post._id;
                         notification.part_two = discussion.title;
                     }
                     notification.main_link = notification.url;
@@ -334,16 +322,16 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                 case "comment_on_your_discussion_post":
                     var num_of_joined = notification.notificators.length;
                     if(num_of_joined > 1){
-                        notification.part_one = num_of_joined +
-                            "  משתמשים הגיבו על הודעה שכתבת במסמך "
+                        notification.part_one = "נוספו " +
+                            num_of_joined +
+                            " תגובות חדשות להודעה שלך בעמוד המסמך "
                     } else {
                         if(user_obj){
-                            notification.part_one = " הגיב/ה להודעה שכתבת במסמך ";
-                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                            notification.part_one = "תגובה חדשה להודעה שלך בעמוד המסמך ";
                         }
                     }
                     if(discussion){
-                        notification.link_two = "/discussions/" + discussion._id;
+                        notification.link_two = "/discussions/" + discussion._id + '#' + post._id;
                         notification.part_two = discussion.title;
                     }
                     notification.main_link = notification.url;
