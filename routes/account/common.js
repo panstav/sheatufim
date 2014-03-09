@@ -2,7 +2,7 @@ var crypto = require('crypto');
 
 exports.DEFAULT_LOGIN_REDIRECT = '';
 
-exports.LOGIN_PATH = '/account/login';
+exports.LOGIN_PATH = /*'/account/login'*/'';
 
 exports.DONT_NEED_LOGIN_PAGES = [
     /^\/images/,
