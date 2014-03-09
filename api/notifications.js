@@ -175,7 +175,8 @@ var sendNotificationToUser = function (notification) {
         'themarianne@gmail.com',
         'maria@empeeric.com',
         'aharon.porath@gmail.com',
-        'aharon@uru.org.il'
+        'aharon@uru.org.il',
+        'ziv@sheatufim.org.il'
     ];
 
     if (SEND_MAIL_NOTIFICATION)
@@ -199,6 +200,10 @@ var sendNotificationToUser = function (notification) {
             function(user, cbk){
                 // notification populate references by notification type
                 email = user.email;
+                if (!_.find(uru_group, function(_mail){return _mail == email})){
+                    console.error('not in uru group');
+                    return cbk('not in uru group')
+                }
                 notificationResource.populateNotifications({objects:[notification]}, user.id, function(err, result){
                     cbk(err, result);
                 });
