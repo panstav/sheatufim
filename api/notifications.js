@@ -171,9 +171,11 @@ var sendNotificationToUser = function (notification) {
 
     var email;
     var  uru_group = [
-        /*'saarsta@gmail.com',*/
+        'saarsta@gmail.com',
         'themarianne@gmail.com',
-        'maria@empeeric.com'
+        'maria@empeeric.com',
+        'aharon.porath@gmail.com',
+        'aharon@uru.org.il'
     ];
 
     if (SEND_MAIL_NOTIFICATION)
