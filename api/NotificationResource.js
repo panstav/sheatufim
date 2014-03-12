@@ -307,7 +307,8 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                             " תגובות חדשות להודעה שהעלית בפורום של "
                     } else {
                         if(user_obj){
-                            notification.part_one = "נוספה תגובה חדשה להודעה שהעלית בפורום של ";
+                            notification.user = user_obj.first_name + " " + user_obj.last_name;
+                            notification.part_one = " פרסם/ה תגובה חדשה להודעה שלך בפורום של ";
                         }
                     }
                     if(subject){
@@ -368,14 +369,18 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     break;
                 case "new_discussion_in_subject_you_are_part_of":
                     if(subject){
-                        notification.part_one = "מסמך חדש לעריכה במעגל השיח " + '"' + subject.name + '"';
-                        notification.link_one = "/discussions/subject/" + subject._id;
+                        notification.part_one = "מסמך חדש נפתח לעריכה במעגל השיח ";
+                        notification.part_two = subject.name;
+                        notification.link_two = "/discussions/subject/" + subject._id;
                     }
                     if(user_obj){
                         notification.extra_text = "המסמך הועלה על ידי " + user_obj.first_name + " " + user_obj.last_name;
                     }
                     if(discussion) {
                         notification.text = "המסמך פתוח לעריכה למשך: " + calc_time_until(discussion.deadline);
+                        notification.part_three = ": ";
+                        notification.part_four = '"' + discussion.title + '"';
+                        notification.link_four = notification.url;
                     }
                     notification.main_link = notification.url;
                     itr_cbk();

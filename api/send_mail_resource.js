@@ -21,7 +21,7 @@ var SendMailResource = module.exports = jest.Resource.extend({
     create_obj: function(req,fields,callback) {
         var user = req.user;
         var from = req.body.mail_config.email;
-        var to = req.body.mail_config.to || 'themarianne@gmail.com';
+        var to = req.body.mail_config.to || 'maagal@sheatufim.org.il';
         var subject = req.body.mail_config.subject || 'NO MORE MAILS FOR ' + user.email;
         var explanation = req.body.mail_config.explanation;
 //        var explanation = (req.body.mail_config.explanation ?  req.body.mail_config.explanation + " " + user.email : 'The reason is:' + '<br>' + req.body.mail_config.body);
