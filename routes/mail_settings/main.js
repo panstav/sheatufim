@@ -73,7 +73,7 @@ var getSettingsParams = module.exports.getSettingsParams = function(req,user,cal
             if(_.any(user_obj.discussions, function(user_discussion){ return user_discussion.discussion_id  + "" ===  discussion.id})){
                 discussion_list_of_discussions_in_user_discussions.push(discussion);
             }
-        })
+        });
         _.each(user_obj.discussions, function (discussion) {
             user_discussions_hash[discussion.discussion_id + ""] = discussion;
         });
