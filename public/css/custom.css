@@ -520,3 +520,6 @@ ul.list li.link-container a:hover {
     float: left;
     margin-top: -15px;
 }
+.settings_link {
+    float: left;
+}
