@@ -123,6 +123,12 @@ module.exports = function (app) {
         //filters: ['created_by', 'is_published', 'is_hidden', 'is_hot_object', 'is_cycle.flag']
     });
 
+//    admin.registerMongooseModel("Question", Models.Question, null, {
+//        list:['title', 'text'],
+//        cloneable:true,
+//        search:['title', 'text']
+//    });
+
     admin.registerMongooseModel('Post', Models.Post, null, {
         list:['text', 'username', 'discussion_id.title'],
         list_populate:['discussion_id'],

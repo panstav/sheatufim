@@ -347,6 +347,7 @@ var Models = module.exports = {
     Discussion:mongoose.model('Discussion', require('./discussion')),
     Cycle:mongoose.model('Cycle', require('./cycle')),
     Action:mongoose.model('Action', require('./action')),
+    Question:mongoose.model('Question', require('./question')),
 
     Headline:mongoose.model('Headline', Schemas.Headline),
 
