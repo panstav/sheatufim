@@ -40,7 +40,6 @@ var SessionAuthentication = exports.SessionAuthentication = jest.Authentication.
         this.allowAnonymous = allowAnonymous;
     },
     is_authenticated : function(req, callback){
-
         //noinspection JSUnresolvedFunction
         var is_auth = req.isAuthenticated();
         if(is_auth)

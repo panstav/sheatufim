@@ -3,10 +3,13 @@ var mongoose = require("mongoose"),
     common = require('./common'),
     ObjectId = Schema.ObjectId,
     async = require('async'),
+    formage = require('formage-admin').forms,
     utils = require('../utils');
 
-var Question = module.exports = utils.revertibleModel(new Schema({
-    discussion_id:{type:Schema.ObjectId, ref:'Discussion', query:common.FIND_USER_QUERY,index:true, required:true, onDelete:'delete'},
+var Question = module.exports = new Schema({
+    subject_id:{type:Schema.ObjectId, ref:'Subject', query:common.FIND_USER_QUERY,index:true, required:true, onDelete:'delete'},
     title: {type: String},
-    text:{type:Schema.Types.Html}
-}));
+    text:{type:Schema.Types.Html},
+    creation_date:{type:Date, 'default':Date.now},
+    deadline:{type:Date,widget:formage.widgets.DateTimeWidget}
+});

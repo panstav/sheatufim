@@ -30,6 +30,19 @@ span.show_all_text:hover {
     padding: 0px 10px 0 10px;
 }
 
+#questions_list .message.primary-message {
+    min-width: 705px;
+}
+#questions_list div.post-new-reply {
+    max-width: 665px;
+}
+#questions_list .message-bar .message-replies:hover {
+    color: #3bafda;
+}
+#questions_list .message-bar {
+    margin-bottom: 5px;
+}
+
 .latest_posts .message.primary-message .message-text{
     min-width: 598px;
 }

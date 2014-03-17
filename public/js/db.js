@@ -718,6 +718,17 @@ var db_functions = {
         });
     },
 
+    createQuestionPost: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/question_posts/',
+            type: 'POST',
+            data: data,
+            async: true,
+            success: function (data) { callback(data); },
+            error: function () { callback('error'); }
+        });
+    },
+
     createDiscussionPost: function (data, callback) {
         db_functions.loggedInAjax({
             url: '/api/post_discussion/',
@@ -743,6 +754,18 @@ var db_functions = {
     getLastForumPosts: function (data, callback) {
         db_functions.loggedInAjax({
             url: '/api/forum_posts/',
+            type: 'GET',
+            data: data,
+            async: true,
+            success: function (data) {
+                callback(null, data);
+            },
+            error: function () { callback('error'); }
+        });
+    },
+    getQuestions: function (data, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/questions',
             type: 'GET',
             data: data,
             async: true,

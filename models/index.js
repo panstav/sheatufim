@@ -361,6 +361,7 @@ var Models = module.exports = {
     PostOnComment:require('./post_on_comment'),
     PostAction:require('./post_action'),
     PostForum: require('./post_forum'),
+    PostOnQuestion: require('./post_on_question'),
     PostDiscussion: require('./post_discussion'),
     Suggestion:require('./suggestion'),
     ActionSuggestion:require('./action_suggestion'),

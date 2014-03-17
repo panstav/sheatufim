@@ -12,6 +12,7 @@ var mongoose_resource = require('jest'),
 //    ActionShoppingCartResource = require('./actions/ActionShoppingCartResource.js'),
     SubjectResource = require('./SubjectResource'),
     DiscussionResource = require('./discussions/DiscussionResource.js'),
+    QuestionResource = require('./discussions/QuestionResource.js'),
     PostResource = require('./discussions/PostResource.js'),
     PostDiscussionResource = require('./discussions/PostDiscussionResource.js'),
     PostOnSuggestionResource = require('./discussions/post_on_suggestion_resource.js'),
@@ -20,7 +21,9 @@ var mongoose_resource = require('jest'),
     SpecialPostsResource = require('./discussions/special_posts_resource.js'),
     DiscussionHistoryResource = require('./discussions/DiscussionHistoryResource.js'),
     PostForumResource = require('./forum/postForumResource.js'),
+    QuestionPostResource = require('./discussions/QuestionPostResource.js'),
     PostAttachmentResource = require('./discussions/PostAttachmentResource.js'),
+    PostQuestionAttachmentResource = require('./discussions/PostQuestionAttachmentResource.js'),
     PostDiscussionAttachmentResource = require('./discussions/PostDiscussionAttachmentResource.js'),
     VoteSuggestionResource = require('./VoteSuggestionResource.js'),
 //    PostsActionResource = require('./actions/PostActionResource.js'),
@@ -73,7 +76,9 @@ module.exports = function(app)
     rest_api.register_resource('users',new UserResource());
     rest_api.register_resource('information_items',new InformationItemResource());
     rest_api.register_resource('forum_posts',new PostForumResource());
+    rest_api.register_resource('question_posts',new QuestionPostResource());
     rest_api.register_resource('forum_post_attachments',new PostAttachmentResource());
+    rest_api.register_resource('question_post_attachments',new PostQuestionAttachmentResource());
     rest_api.register_resource('headlines',new HeadlineResource());
     rest_api.register_resource('updates',new UpdateResource());
     rest_api.register_resource('shopping_cart',new ShoppingCartResource());
@@ -82,6 +87,7 @@ module.exports = function(app)
 //    rest_api.register_resource('actions_shopping_cart',new ActionShoppingCartResource());
     rest_api.register_resource('subjects', new SubjectResource());
     rest_api.register_resource('discussions', new DiscussionResource());
+    rest_api.register_resource('questions', new QuestionResource());
     rest_api.register_resource('posts', new PostResource());
     rest_api.register_resource('post_discussion', new PostDiscussionResource());
     rest_api.register_resource('post_discussion_attachments',new PostDiscussionAttachmentResource());

@@ -100,12 +100,32 @@
             offset: 0
         };
 
+        db_functions.getQuestions({subject_id: subject_id}, function(err, data){
+            $.each(data.objects, function(i, obj){
+                obj.avatar = user.avatar.url;
+                obj.date = new Date(obj.creation_date).format('dd.mm.yyyy');
+                obj.time = new Date(obj.creation_date).format('HH:MM');
+                obj.post_count = obj.posts.length;
+                obj.deadline = new Date(obj.deadline) < new Date() ? null : obj.deadline;
+                $.each(obj.posts, function(j, post){
+                    post.date = new Date(post.creation_date).format('dd.mm.yyyy');
+                    post.time = new Date(post.creation_date).format('HH:MM');
+                });
+            });
+            dust.renderArray('question_list_item', data.objects, function(err, html){
+                $('#questions_list').append(html);
+                $('.deadline-counter').each(function(){
+                    $(this).countdown();
+                });
+            });
+        });
+
         db_functions.getLastForumPosts(data, function (err, data) {
             if (err) return;
             var posts = data.page_posts;
             $.each(posts, function (i, post) {
-                post.time = new Date(post.creation_date).format('dd.mm.yyyy');
-                post.date = new Date(post.creation_date).format('HH:MM');
+                post.date = new Date(post.creation_date).format('dd.mm.yyyy');
+                post.time = new Date(post.creation_date).format('HH:MM');
                 post.level = 0;
                 post.reply_level = 1;
                 post.closed = true;
@@ -179,6 +199,86 @@
                 });
 
             })
+        });
+        function uploadAttachment( id, file,cbk){
+            var client = new XMLHttpRequest();
+
+            /* Create a FormData instance */
+            var formData = new FormData();
+            /* Add the file */
+            formData.append("upload", file);
+            client.open("put", "/api/question_post_attachments/" + id, true);
+            //client.setRequestHeader("Content-Type", "multipart/form-data");
+            client.send(formData);  /* Send to server */
+
+            /* Check the response status */
+            client.onreadystatechange = function()
+            {
+                if (client.readyState == 4){
+                    if(client.status < 200 || client.status >= 300)
+                        return cbk(client.status);
+                    var attachment = JSON.parse(client.responseText);
+                    cbk(null,attachment);
+                }
+            };
+        }
+        $('.container').on('click','.post-new-message-upload-button',function(){
+            $(this).siblings('.post-new-message-upload').click();
+        });
+        $('body').on('click', '.message-replies', function(e){
+            $(e.target).closest('.question').find('ul.posts').toggleClass('hide');
+        });
+
+        $('body').on('click', '.create_question_post', function(e){
+            var question_id = $(e.target).closest('li.question').data('id');
+            var text = $('.reply-to-message-' + question_id + ' .post-new-message-body-text textarea').val();
+            if(!text) {
+                //show error message?
+            } else if(is_logged) {
+                var data = {
+                    text: text,
+                    creator_id: user._id,
+                    question_id: question_id
+                };
+                db_functions.createQuestionPost(data, function(data){
+                    data.date = new Date(data.creation_date).format('dd.mm.yyyy');
+                    data.time = new Date(data.creation_date).format('HH:MM');
+                    if(data.text.length > 140)
+                        data.text_short = data.text.substring(0, 140) + '...';
+                    data.replies = 0;
+                    var file = $('.question.message-' + question_id).find('.post-new-message-upload')[0].files[0];
+                    if(!file)
+                        return afterPost();
+
+                    popupProvider.showLoading({message:'מעלה קובץ...'});
+                    uploadAttachment(data._id,file,afterPost);
+
+                    function afterPost(err,attachment){
+                        if(err)
+                            return console.error(err);
+                        if(attachment){
+                            data.attachment = attachment;
+                            $.colorbox.close();
+                        }
+                        data.user = user;
+                        dust.render('question_post', data, function(err, out){
+                            if(!err){
+                                $('ul.replies-' + question_id).append(out);
+                                $('.reply-to-message-' + question_id + ' .post-new-message-body-text textarea').val("");
+                                $('.reply-to-message-' + question_id + ' .icon-close').click();
+
+                                $('ul.posts.replies-' + question_id).removeClass('hide');
+
+
+                                var $replies = $('.message-' + question_id + ' .message-replies');
+                                var reply_count = $replies.data('replies') + 1;
+                                $replies.html(reply_count + ' תגובות');
+                                $replies.data('replies', reply_count);
+                            }
+                        });
+                    }
+                });
+            }
         });
     });
 

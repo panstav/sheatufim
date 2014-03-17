@@ -1,0 +1,125 @@
+<li class="row-table message-{_id} question" data-id="{_id}">
+    <div class="document primary-document">
+        <i class="icon icon-document-item-tip"></i>
+        <div class="document-text right">
+            <div class="row document-text-header">
+                <div class="document-name right">{title}</div>
+                <div class="document-bar row">
+                    <div class="document-datetime right">תאריך:</div>
+                    <div class="document-datetime-value right">{creation_date|date}</div>
+                    <div class="document-pipeline right">|</div>
+                    <div class="document-participants right">משתתפים:</div>
+                    <div class="document-participants-value right">{user_count}</div>
+                    <div class="document-pipeline right">|</div>
+                    <!--<div class="document-produced right">נוצר ע"י: </div>
+                    <div class="document-produced-value right">{creator_id.first_name} {creator_id.last_name}</div>-->
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="row">
+                <div class="document-content right">{text|s}</div>
+            </div>
+            <div class="spacer"></div>
+            <div class="message-bar row">
+                <a href="javascript:;" onclick="toggleMessage('message-{_id}');">
+                    <div class="message-replies right" data-replies="{post_count}"> {post_count} תגובות </div>
+                </a>
+                <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
+                    <div class="message-reply-title">
+                        <i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
+                </div>
+                <div class="message-attachment left"></div>
+            </div>
+        </div>
+        <div class="document-work-time right">
+            <i class="icon icon-box-top-left-tip"></i>
+            {?deadline}
+            <div class="row">
+                <div class="document-work-time-title">זמן עבודה</div>
+            </div>
+            <div class="row deadline-counter" data-time="{deadline}">
+                <div class="document-work-time-days left">
+                    <div class="document-work-time-value document-work-time-days days"></div>
+                    <div class="document-work-time-tag">ימים</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-hours left">
+                    <div class="document-work-time-value document-work-time-hours hours"></div>
+                    <div class="document-work-time-tag">שעות</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-minutes left">
+                    <div class="document-work-time-value document-work-time-minutes minutes"></div>
+                    <div class="document-work-time-tag">דקות</div>
+                </div>
+                <div class="semicolon-spacer left">:</div>
+                <div class="document-work-time-seconds left">
+                    <div class="document-work-time-value document-work-time-seconds seconds"></div>
+                    <div class="document-work-time-tag">שניות</div>
+                </div>
+            </div>
+            {:else}
+            <div class="row">
+                <div class="document-work-time-title">עבר הזמן לעריכת המסמך</div>
+            </div>
+            {/deadline}
+        </div>
+    </div>
+
+    <div class="post-new-reply reply-to-message reply-to-message-{_id} message-pad-1 hide">
+        <i class="icon icon-box-top-right-blue-tip"></i>
+        <i class="icon icon-close hand" onclick="closeReply('message-{_id}');"></i>
+        <div class="post-new-message-body">
+            <div class="post-new-message-body-image">
+                <div class="circle circle-wrapper auto-scale" style="opacity: 1; overflow: hidden;">
+                    <img src="{avatar}" alt="תמונה" title="תמונה" width="80">
+                </div>
+            </div>
+            <div class="post-new-message-body-text">
+                <textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                <div class="post-new-message-attachment" style="display: none;">
+                    <label class="post-new-message-attachment-path"></label>
+                    <a class="post-new-message-attachment-path">הסר</a>
+                </div>
+            </div>
+            <div class="post-new-message-body-actions">
+                <div class="row">
+                    <button class="btn btn-medium btn-gray post-new-message-upload-button">הוסף קובץ</button>
+                    <input type="file" class="post-new-message-upload" style="display:none;">
+                </div>
+                <div class="row">
+                    <button class="btn btn-medium btn-green create_question_post">פרסם</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="posts replies-{_id} hide">
+        {#posts}
+        <li class="row-table message-{_id}" data-level="0" data-id="{_id}" id="{_id}">
+            <div class="message primary-message">
+                <div class="message-image">
+                    <div class="circle circle-wrapper auto-scale" style="opacity: 1; overflow: hidden;">
+                        <img src="{?creator_id.avatar}{creator_id.avatar.url}{:else}/images/default_user_img.gif{/creator_id.avatar}" alt="תמונה" title="תמונה" width="80">
+                    </div>
+                </div>
+                <div class="message-text">
+                    <div class="row message-text-header">
+                        <div class="message-author right">{creator_id.first_name} {creator_id.last_name}</div>
+                        <div class="message-author-role right">{creator_id.occupation}</div>
+                    </div>
+                    <div class="row">
+                        <div class="message-content right" data-text=" g">
+                            {text|s}
+                        </div>
+                    </div>
+                    <div class="spacer"></div>
+                    <div class="message-bar row">
+                        <div class="message-datetime right">{time} | {date}</div>
+                        <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {/posts}
+    </ul>
+</li>

@@ -1,0 +1,25 @@
+<li class="row-table message-{_id}" data-level="0" data-id="{_id}" id="{_id}">
+    <div class="message primary-message">
+        <div class="message-image">
+            <div class="circle circle-wrapper auto-scale" style="opacity: 1; overflow: hidden;">
+                <img src="{?user.avatar}{user.avatar.url}{:else}/images/default_user_img.gif{/user.avatar}" alt="תמונה" title="תמונה" width="80">
+            </div>
+        </div>
+        <div class="message-text">
+            <div class="row message-text-header">
+                <div class="message-author right">{user.first_name} {user.last_name}</div>
+                <div class="message-author-role right">{user.occupation}</div>
+            </div>
+            <div class="row">
+                <div class="message-content right" data-text=" g">
+                    {text|s}
+                </div>
+            </div>
+            <div class="spacer"></div>
+            <div class="message-bar row">
+                <div class="message-datetime right">{time} | {date}</div>
+                <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
+            </div>
+        </div>
+    </div>
+</li>

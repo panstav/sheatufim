@@ -123,11 +123,11 @@ module.exports = function (app) {
         //filters: ['created_by', 'is_published', 'is_hidden', 'is_hot_object', 'is_cycle.flag']
     });
 
-//    admin.registerMongooseModel("Question", Models.Question, null, {
-//        list:['title', 'text'],
-//        cloneable:true,
-//        search:['title', 'text']
-//    });
+    admin.registerMongooseModel("Question", Models.Question, null, {
+        list:['title', 'text'],
+        cloneable:true,
+        search:['title', 'text']
+    });
 
     admin.registerMongooseModel('Post', Models.Post, null, {
         list:['text', 'username', 'discussion_id.title'],
@@ -176,6 +176,11 @@ module.exports = function (app) {
         list_populate:['subject_id'],
         order_by:['-creation_date'],
         search:['text', 'first_name', 'last_name']
+    });
+
+    admin.registerMongooseModel('PostOnQuestion', Models.PostOnQuestion, null, {
+        list:['text'],
+        order_by:['-creation_date']
     });
 
     admin.registerMongooseModel('PostDiscussion', Models.PostDiscussion, null, {
