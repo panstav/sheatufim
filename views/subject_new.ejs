@@ -87,6 +87,7 @@
         var is_allowed = '<%= subject.isAllowed %>';
         var is_logged = <%= user_logged %>;
         var user = <%- JSON.stringify(user || "") %>;
+        var avatar = '<%=avatar%>';
 
         if(is_logged && is_allowed){
             get_and_render.info_items(subject_id);
@@ -102,7 +103,7 @@
 
         db_functions.getQuestions({subject_id: subject_id}, function(err, data){
             $.each(data.objects, function(i, obj){
-                obj.avatar = user.avatar.url;
+                obj.avatar = /*user.avatar.url;*/avatar;
                 obj.date = new Date(obj.creation_date).format('dd.mm.yyyy');
                 obj.time = new Date(obj.creation_date).format('HH:MM');
                 obj.post_count = obj.posts.length;
