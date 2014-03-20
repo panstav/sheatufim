@@ -68,7 +68,7 @@
                 subject: $('.mail-title').val(),
                 explanation: $('.text').val(),
                 email: $('.email').val(),
-                to: 'aharon@uru.org.il'
+                to: 'maagal@sheatufim.org.il'
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
                 if(bug.status < 200 && bug.status > 300){

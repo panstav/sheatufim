@@ -27,7 +27,7 @@ config.upload_dir = require('path').join(__dirname,'..','public','cdn');
 
 config.sendgrid_user = 'app2952775@heroku.com';
 config.sendgrid_key = 'a0oui08x';
-config.systemEmail = 'info@sheatufom.org.il';
+config.systemEmail = 'maagal@sheatufim.org.il';
 config.systemEmailName = 'SHEATUFIM';
 
 config.SMTPUsername = process.env.SMTP_USERNAME || 'saar@uru.org.il';

@@ -219,7 +219,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                     }
                 });
                 if (err){
-                    var to = 'aharon@uru.org.il';
+                    var to = 'maagal@sheatufim.org.il';
                     var subject = "הועלתה הצעה לשינוי לטקסט שכבר סומן בדיון";
                     /*var body = "<a href='" + req.app.settings.root_path  +  "'/discussions/" + discussion_id + "#post_" + sug + "'>"
                         + "existing suggestion with same indexes"
