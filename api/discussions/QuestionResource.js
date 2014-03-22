@@ -41,7 +41,7 @@ var QuestionResource = module.exports = common.BaseModelResource.extend({
                     models.PostOnQuestion
                         .find()
                         .where('question_id', question._id)
-                        .sort({creation_date: 1})
+                        .sort({creation_date: -1})
                         .populate('creator_id')
                         .exec(function(err, posts){
                             if(!err){

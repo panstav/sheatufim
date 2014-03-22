@@ -536,3 +536,7 @@ ul.list li.link-container a:hover {
 .settings_link {
     float: left;
 }
+
+.documents-title.questions-title {
+    color: #305c91;
+}

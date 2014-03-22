@@ -263,7 +263,8 @@
                         data.user = user;
                         dust.render('question_post', data, function(err, out){
                             if(!err){
-                                $('ul.replies-' + question_id).append(out);
+                                $('ul.replies-' + question_id).prepend(out);
+                                $('.reply-to-message-' + question_id + ' .post-new-message-body-actions .post-new-message-upload').val('');
                                 $('.reply-to-message-' + question_id + ' .post-new-message-body-text textarea').val("");
                                 $('.reply-to-message-' + question_id + ' .icon-close').click();
 

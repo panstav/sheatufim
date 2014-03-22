@@ -8,9 +8,6 @@
                     <div class="document-datetime right">תאריך:</div>
                     <div class="document-datetime-value right">{creation_date|date}</div>
                     <div class="document-pipeline right">|</div>
-                    <div class="document-participants right">משתתפים:</div>
-                    <div class="document-participants-value right">{user_count}</div>
-                    <div class="document-pipeline right">|</div>
                     <!--<div class="document-produced right">נוצר ע"י: </div>
                     <div class="document-produced-value right">{creator_id.first_name} {creator_id.last_name}</div>-->
                 </div>
@@ -35,7 +32,7 @@
             <i class="icon icon-box-top-left-tip"></i>
             {?deadline}
             <div class="row">
-                <div class="document-work-time-title">זמן עבודה</div>
+                <div class="document-work-time-title">זמן למענה</div>
             </div>
             <div class="row deadline-counter" data-time="{deadline}">
                 <div class="document-work-time-days left">
@@ -60,7 +57,7 @@
             </div>
             {:else}
             <div class="row">
-                <div class="document-work-time-title">עבר הזמן לעריכת המסמך</div>
+                <div class="document-work-time-title">עבר הזמן לדיון בשאלה</div>
             </div>
             {/deadline}
         </div>

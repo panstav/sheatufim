@@ -71,18 +71,18 @@ var User = module.exports = new Schema({
         // general
         get_mails: {type: Boolean, 'default': true},
         get_alert_of_new_discussion_in_subject_you_are_part_of: {type: Boolean, 'default': true},
-        get_alert_of_new_information_item_on_subject_you_are_part_of: {type: Boolean, 'default': true},
+        get_alert_of_new_information_item_on_subject_you_are_part_of: {type: Boolean, 'default': false},
 
         //general forum
-        get_alert_of_comment_on_subject_you_are_part_of: {type: Boolean, 'default': true},
-        get_alert_of_comment_on_your_forum_post: {type: Boolean, 'default': true},
+        get_alert_of_comment_on_subject_you_are_part_of: {type: Boolean, 'default': false},
+        get_alert_of_comment_on_your_forum_post: {type: Boolean, 'default': false},
 
         //general discussions
-        get_alert_of_comment_on_discussion_you_are_part_of: {type: Boolean, 'default': true},
-        get_alert_of_comment_on_your_discussion_post: {type: Boolean, 'default': true},
-        get_alert_of_change_suggestion_on_discussion_you_are_part_of: {type: Boolean, 'default': true},
-        get_alert_of_comment_on_change_suggestion_i_created: {type: Boolean, 'default': true},
-        get_alert_of_approved_change_suggestion_on_discussion_you_are_part_of: {type: Boolean, 'default': true}
+        get_alert_of_comment_on_discussion_you_are_part_of: {type: Boolean, 'default': false},
+        get_alert_of_comment_on_your_discussion_post: {type: Boolean, 'default': false},
+        get_alert_of_change_suggestion_on_discussion_you_are_part_of: {type: Boolean, 'default': false},
+        get_alert_of_comment_on_change_suggestion_i_created: {type: Boolean, 'default': false},
+        get_alert_of_approved_change_suggestion_on_discussion_you_are_part_of: {type: Boolean, 'default': false}
 
     }
 }, {strict:false});
