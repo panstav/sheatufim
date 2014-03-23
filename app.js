@@ -111,10 +111,10 @@ process.on('uncaughtException', function(err) {
 // ######### error handling #########
 
 // ######### general middleware #########
-formage_admin.serve_static(app, express);
 app.use(express.compress());
 app.use(express.static(app.get('public_folder')));
 app.use(express.static(require('path').join(__dirname,'..','public')));
+formage_admin.serve_static(app, express);
 app.use(express.errorHandler());
 app.use(express.urlencoded());
 app.use(express.json());
