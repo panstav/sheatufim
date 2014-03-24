@@ -64,6 +64,7 @@
         });
         $('body').on('click', '.send_mail', function(e){
             $('.send_mail').addClass('disabled');
+            popupProvider.showLoading({message:'שליחת הודעתך מתבצעת...'});
             var data = {
                 subject: $('.mail-title').val(),
                 explanation: $('.text').val(),
@@ -71,6 +72,7 @@
                 to: 'maagal@sheatufim.org.il'
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
+                $.colorbox.close();
                 if(bug.status < 200 && bug.status > 300){
                     $('.contact_form').html('<h4>' +
 "                            ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית. " +

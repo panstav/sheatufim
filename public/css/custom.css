@@ -433,6 +433,24 @@ ul.list li.link-container a:hover {
 .qq-upload-list {
     display: none;
 }
+.qq-upload-button label {
+    position: absolute;
+    top: 0px;
+    color: white;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 34px 0px;
+    border-radius: 100px;
+    width: 80px;
+    height: 12px;
+    font-size: 14px;
+    font-weight: normal;
+    left: 0;
+    text-align: center;
+    display: none;
+}
+.qq-upload-button:hover label{
+    display: block;
+}
 
 .tab .tab-badge,
 .tab-selected .tab-badge {
@@ -535,8 +553,17 @@ ul.list li.link-container a:hover {
 }
 .settings_link {
     float: left;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .documents-title.questions-title {
     color: #305c91;
+}
+.recent-messages-title a{
+    font-size: 31px;
+    font-weight: 700;
+    color: #90c415;
+    margin-bottom: 10px;
+    text-decoration: none;
 }
