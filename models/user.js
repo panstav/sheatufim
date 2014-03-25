@@ -89,7 +89,12 @@ var User = module.exports = new Schema({
 
 User.methods.toString = function()
 {
-    return this.first_name + ' ' + this.last_name;
+    var parts = [];
+    if(this.first_name)
+        parts.push(this.first_name);
+    if(this.last_name)
+        parts.push(this.last_name);
+    return parts.join(' ');
 };
 
 User.methods.avatar_url = function()
