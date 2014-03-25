@@ -178,7 +178,7 @@
                          if(data.text.length > 140)
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.replies = 0;
-                        var file = $('.new_post .post-new-message-upload')[0].files[0];
+                        var file = $('.new_post .post-new-message-upload')[0].files && $('.new_post .post-new-message-upload')[0].files[0];
                         if(!file)
                             return afterPost();
 
@@ -207,7 +207,7 @@
             });
 
             $('.container').on('change','.post-new-message-upload',function(e){
-                var file = this.files[0];
+                var file = this.files && this.files[0];
                 if(file){
                     var $parent = $(this).parents('.post-new-message-body');
                     $parent.find('.post-new-message-attachment label').text(file.name);
@@ -260,7 +260,7 @@
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.last = parent_level == 2 ? true : false;
                          data.replies = 0;
-                        var file = $original_parent.find('.post-new-message-upload')[0].files[0];
+                        var file = $original_parent.find('.post-new-message-upload')[0].files && $original_parent.find('.post-new-message-upload')[0].files[0];
                         if(!file)
                             return afterPost();
 

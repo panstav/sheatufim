@@ -247,7 +247,7 @@
                     if(data.text.length > 140)
                         data.text_short = data.text.substring(0, 140) + '...';
                     data.replies = 0;
-                    var file = $('.question.message-' + question_id).find('.post-new-message-upload')[0].files[0];
+                    var file = $('.question.message-' + question_id).find('.post-new-message-upload')[0].files && $('.question.message-' + question_id).find('.post-new-message-upload')[0].files[0];
                     if(!file)
                         return afterPost();
 
