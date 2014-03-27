@@ -104,6 +104,57 @@ exports.BaseModelResource = jest.MongooseResource.extend({
     }
 });
 
+
+var multiparty = require('multiparty');
+
+exports.MultipartFormResource = exports.BaseModelResource.extend({
+    init:function(model){
+        this._super(model);
+        this.allowed_methods = ['put'];
+        this.fields = {
+            url:null,
+            name:null
+        };
+
+        this.update_fields = {};
+    },
+    deserialize:function(req,res,object,status){
+        if(!req._callback)
+            return this._super(req,res,object,status);
+
+        res.header('Content-Type','text/html');
+        if(status < 200 || status >= 300)
+            res.send('<html><head><script>window.parent["' + req._callback + '"](' + JSON.stringify(object) + ');</script></head><body></body></html>');
+        else
+            res.send('<html><head><script>window.parent["' + req._callback + '"](null,' + JSON.stringify(object) + ');</script></head><body></body></html>');
+    },
+    onFile:function(file,callback){
+        return callback('Not implemented');
+    },
+    update_obj: function(req, object, callback){
+        var form = new multiparty.Form({});
+
+        form.on('field',function(name,val){
+            if(name == 'callback')
+                req._callback = val;
+        });
+
+        var self = this;
+        form.on('file', function(name, val){
+            self.onFile(req,object,val,callback);
+        });
+
+        form.on('error', function(err){
+            callback(err);
+        });
+
+        form.on('close', function(){
+        });
+
+        form.parse(req);
+    }
+});
+
 /**
  * Base API Resources for bare resources
  */

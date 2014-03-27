@@ -20,56 +20,28 @@ var resources = require('jest'),
  * Resource for uploading attachment files to post or discussion
  *
  */
-var PostSuggestionAttachmentResource = module.exports = common.BaseModelResource.extend({
+var PostSuggestionAttachmentResource = module.exports = common.MultipartFormResource.extend({
     init:function () {
 
         this._super(models.PostSuggestion);
-        this.allowed_methods = ['put'];
         this.authorization = new discussionCommon.DiscussionAuthorization();
 
-        this.fields = {
-            url:null,
-            name:null
-        };
-
-        this.update_fields = {};
     },
+    onFile:function(req,object,val,callback){
+        var file = val;
+        req.queueStream = fs.createReadStream(file.path);
+        req.headers['x-file-name'] = val.originalFilename;
+        req.headers['x-file-type'] = val.headers['content-type'];
+        common.uploadHandler(req,function(err,file){
+            if(err) return callback(err);
 
-    update_obj: function(req, object, callback){
-        var form = new multiparty.Form({})
-            , data = {}
-            , files = {}
-            , done;
-
-        form.on('file', function(name, val){
-            console.log(val);
-
-            var file = val;
-            req.queueStream = fs.createReadStream(file.path);
-            req.headers['x-file-name'] = val.originalFilename;
-            req.headers['x-file-type'] = val.headers['content-type'];
-            common.uploadHandler(req,function(err,file){
-                if(err) return callback(err);
-
-                object.attachment = object.attachment || {};
-                object.attachment.path = file.path;
-                object.attachment.name = val.originalFilename;
-                object.attachment.url = file.url;
-                object.save(function(err){
-                    callback(err,object.attachment);
-                });
+            object.attachment = object.attachment || {};
+            object.attachment.path = file.path;
+            object.attachment.name = val.originalFilename;
+            object.attachment.url = file.url;
+            object.save(function(err){
+                callback(err,object.attachment);
             });
-
         });
-
-        form.on('error', function(err){
-            callback(err);
-        });
-
-        form.on('close', function(){
-        });
-
-        form.parse(req);
     }
-
 });

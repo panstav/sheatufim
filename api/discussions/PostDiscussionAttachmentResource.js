@@ -24,52 +24,24 @@ var PostDiscussionAttachmentResource = module.exports = common.BaseModelResource
     init:function () {
 
         this._super(models.PostDiscussion);
-        this.allowed_methods = ['put'];
         this.authorization = new discussionCommon.DiscussionAuthorization();
-
-        this.fields = {
-            url:null,
-            name:null
-        };
-
-        this.update_fields = {};
     },
 
-    update_obj: function(req, object, callback){
-        var form = new multiparty.Form({})
-            , data = {}
-            , files = {}
-            , done;
+    onFile:function(req,object,file,callback){
+        req.queueStream = fs.createReadStream(file.path);
+        req.headers['x-file-name'] = file.originalFilename;
+        req.headers['x-file-type'] = file.headers['content-type'];
+        common.uploadHandler(req,function(err,picture){
+            if(err) return callback(err);
 
-        form.on('file', function(name, val){
-            console.log(val);
-
-            var file = val;
-            req.queueStream = fs.createReadStream(file.path);
-            req.headers['x-file-name'] = val.originalFilename;
-            req.headers['x-file-type'] = val.headers['content-type'];
-            common.uploadHandler(req,function(err,file){
-                if(err) return callback(err);
-
-                object.attachment = object.attachment || {};
-                object.attachment.path = file.path;
-                object.attachment.name = val.originalFilename;
-                object.attachment.url = file.url;
-                object.save(function(err){
-                    callback(err,object.attachment);
-                });
+            object.attachment = object.attachment || {};
+            object.attachment.path = picture.path;
+            object.attachment.name = file.originalFilename;
+            object.attachment.url = picture.url;
+            object.save(function(err){
+                callback(err,object.attachment);
             });
-
         });
-
-        form.on('error', function(err){
-            callback(err);
-        });
-
-        form.on('close', function(){
-        });
-
-        form.parse(req);
     }
 
 });

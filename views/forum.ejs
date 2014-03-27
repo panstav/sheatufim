@@ -178,13 +178,17 @@
                          if(data.text.length > 140)
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.replies = 0;
-                        var file = $('.new_post .post-new-message-upload')[0].files && $('.new_post .post-new-message-upload')[0].files[0];
-                        if(!file)
+                        var $file = $('.new_post .post-new-message-upload')[0];
+                        if(!$file.value)
                             return afterPost();
+                        var file = $file.files && $file.files[0];
 
                         popupProvider.showLoading({message:'מעלה קובץ...'});
 
-                        uploadAttachment(data._id,file,afterPost);
+                        if(file)
+                            uploadAttachment(data._id,file,afterPost);
+                        else
+                            uploadAttachmentIE9( "/api/forum_post_attachments/" + data._id,$file,afterPost);
 
                         function afterPost(error,attachment){
                             if(error)
@@ -260,14 +264,19 @@
                               data.text_short = data.text.substring(0, 140) + '...';
                          data.last = parent_level == 2 ? true : false;
                          data.replies = 0;
-                        var file = $original_parent.find('.post-new-message-upload')[0].files && $original_parent.find('.post-new-message-upload')[0].files[0];
-                        if(!file)
+
+
+                        var $file = $original_parent.find('.post-new-message-upload')[0];
+                        if(!$file.value)
                             return afterPost();
+                        var file = $file.files && $file.files[0];
 
                         popupProvider.showLoading({message:'מעלה קובץ...'});
 
-                        uploadAttachment(data._id,file,afterPost);
-
+                        if(file)
+                            uploadAttachment(data._id,file,afterPost);
+                        else
+                            uploadAttachmentIE9( "/api/forum_post_attachments/" + data._id,$file,afterPost);
 
 
                         function afterPost(err,attachment){
@@ -328,6 +337,8 @@
                     }
                 }
             };
+
+
 
             $('#subjectShoppingCartPopup').click(function(){
                 dust.render('subject_shopping_cart',{

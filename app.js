@@ -139,6 +139,8 @@ app.use(account.populate_user);
 
 // ######### locals #########
 app.use(function (req, res, next) {
+    if(req.query.overrideMethod)
+        req.method = req.query.overrideMethod;
     //noinspection JSUnresolvedVariable
     res.handle500 = function(err){
         console.error(err);

@@ -68,6 +68,7 @@ config.headConfigs = {
             '/js/lib/dust-full-0.3.0.js',
            // '/js/InfoBox.js',
             '/js/lib/fileuploader.js',
+            '/js/upload.js',
             '/js/imgscale.jquery.min.js',
             '/js/jquerypp/jqtouch.min.js',
             '/js/jquerypp/jquery-fieldselection.js',
