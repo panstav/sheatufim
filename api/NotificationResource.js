@@ -101,7 +101,7 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
     });
 
 
-var iterator = function (users_hash, discussions_hash, posts_hash, info_items_hash, subjects_hash, user_id) {
+var iterator = function (users_hash, discussions_hash, posts_hash, info_items_hash, subjects_hash, questions_hash, user_id) {
     return function (notification, itr_cbk) {
         {
             var user_obj = notification.notificators.length ?
@@ -111,6 +111,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
             var post = posts_hash[notification.entity_id + ''] || posts_hash[notification.notificators[0].sub_entity_id + ''];
             var post_id = post ? post._id : "";
             var subject = subjects_hash[notification.entity_id + ''] || subjects_hash[notification.notificators[0].sub_entity_id + ''];
+            var question = questions_hash[notification.entity_id + ''] || questions_hash[notification.notificators[0].sub_entity_id + ''];
 
             switch (notification.type) {
                 case "approved_info_item_i_created":
@@ -221,24 +222,6 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/" + discussion._id;
                     }
                     notification.part_three = " והטקסט בו עודכן";
-                    itr_cbk();
-                    break;
-
-                case "new_discussion":
-                    if(discussion){
-                        notification.part_one = discussion.subject_name;
-                        notification.main_link = "/discussions/" + discussion._id;
-                        notification.pic = discussion.image_field_preview || discussion.image_field;
-                        notification.part_two = discussion.title;
-                        notification.link_two = "/discussions/" + discussion._id;
-
-                        notification.img_src = notification.pic;
-                        notification.title = discussion.title;
-                        notification.text_preview = discussion.text_field_preview;
-                    }
-                    if(user_obj){
-                        notification.user = user_obj.first_name + " " + user_obj.last_name;
-                    }
                     itr_cbk();
                     break;
 
@@ -357,7 +340,6 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     itr_cbk();
                     break;
                 case "new_information_item_on_subject_you_are_part_of":
-
                     notification.part_one = "פריט מידע חדש נוסף למעגל השיח ";
                     if(subject){
                         notification.link_two = "/discussions/subject/" + subject._id;
@@ -383,6 +365,41 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_four = notification.url;
                     }
                     notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+                case "new_question_in_subject_you_are_part_of":
+                    if(subject){
+                        notification.part_one = "שאלה חדשה נפתחה לדיון במעגל השיח ";
+                        notification.part_two = subject.name;
+                        notification.link_two = "/discussions/subject/" + subject._id;
+                    }
+                    if(question){
+                        notification.part_three = ' : "' + question.title + '"';
+                        notification.text = '"' + question.title + '"';
+                    }
+
+                    notification.main_link = notification.url;
+                    itr_cbk();
+                    break;
+
+                case "comment_on_question_in_subject_you_are_part_of":
+                    var num_of_joined = notification.notificators.length;
+                    if(num_of_joined > 1){
+                        notification.part_one = "נוספו "
+                            + num_of_joined +  " הודעות חדשות לשאלה לדיון "
+                    } else {
+                        if(user_obj){
+                            notification.part_one = user_obj.first_name + ' ' + user_obj.last_name + ' ' +   " הגיב/ה על שאלה לדיון ";
+                            notification.user = user_obj.first_name + ' ' + user_obj.last_name;
+                        }
+                    }
+
+                    if(question){
+                        notification.link_two = "/discussions/subject/" + question.subject_id;
+                        notification.part_two = question.title;
+                    }
+                    notification.main_link = notification.url;
+                    notification.extra_text = post ? post.toObject().text : '';
                     itr_cbk();
                     break;
                 default:
@@ -412,7 +429,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         .value();
 
     var post_or_suggestion_notification_types = [
-        "comment_on_change_suggestion_i_created"
+        "comment_on_change_suggestion_i_created",
+        "comment_on_question_in_subject_you_are_part_of"
     ];
 
     var post_notification_types = [
@@ -425,7 +443,6 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "comment_on_subject_you_are_part_of",
         "comment_on_your_forum_post",
         "comment_on_your_discussion_post"
-
     ];
 
     var discussion_notification_types = [
@@ -478,7 +495,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "comment_on_subject_you_are_part_of",
         "comment_on_your_forum_post",
         "new_information_item_on_subject_you_are_part_of",
-        "new_discussion_in_subject_you_are_part_of"
+        "new_discussion_in_subject_you_are_part_of",
+        "new_question_in_subject_you_are_part_of"
     ];
 
     var subject_ids_as_sub_entity = _.chain(results.objects)
@@ -514,6 +532,39 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         .value();
 
     post_ids = _.union(post_ids, post_or_suggestion_ids);
+
+    var question_notification_types = [
+        "new_question_in_subject_you_are_part_of"
+    ];
+
+    var question_notification_types_as_sub_entity = [
+        "comment_on_question_in_subject_you_are_part_of"
+    ];
+
+    var question_ids_as_sub_entity = _.chain(results.objects)
+        .map(function (notification) {
+            return  _.indexOf(question_notification_types_as_sub_entity, notification.type) > -1
+                ? notification.notificators[0].sub_entity_id : null;
+        })
+        .compact()
+        .uniq()
+        .value();
+
+    var question_ids = _.chain(results.objects)
+        .map(function (notification) {
+            return  _.indexOf(question_notification_types, notification.type) > -1
+                ? notification.entity_id : null;
+        })
+        .compact()
+        .uniq()
+        .value();
+
+    question_ids_as_sub_entity = _.chain(question_ids_as_sub_entity)
+        .compact()
+        .uniq()
+        .value();
+
+    question_ids = _.union(question_ids, question_ids_as_sub_entity);
 
     var info_item_notification_types = [
         "new_information_item_on_subject_you_are_part_of"
@@ -640,9 +691,27 @@ var populateNotifications = module.exports.populateNotifications = function(resu
                     })
             }else
                 cbk(null,{});
+        },
+        function(cbk){
+            if(question_ids.length){
+                models.Question.find()
+                    .where('_id').in(question_ids)
+                    .select({'_id': 1, 'title': 1})
+                    .exec(function(err, questions){
+                        if(!err){
+                            var questions_hash = {};
+
+                            _.each(questions, function(question){
+                                questions_hash[question._id] = question;
+                            });
+                        }
+                        cbk(err, questions_hash);
+                    })
+            }else
+                cbk(null,{});
         }
     ], function(err, args){
-        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], user_id), function (err, obj) {
+        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], args[5], user_id), function (err, obj) {
             callback(err, results);
         })
     })

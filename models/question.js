@@ -13,3 +13,7 @@ var Question = module.exports = new Schema({
     creation_date:{type:Date, 'default':Date.now},
     deadline:{type:Date,widget:formage.widgets.DateTimeWidget}
 });
+
+Question.statics.onPreSave = function(func){
+    Question.pre('save',func);
+};

@@ -186,7 +186,9 @@ var Schemas = exports.Schemas = {
             "comment_on_your_discussion_post",
             "comment_on_change_suggestion_i_created",
             "new_information_item_on_subject_you_are_part_of",
-            "new_discussion_in_subject_you_are_part_of"
+            "new_discussion_in_subject_you_are_part_of",
+            "new_question_in_subject_you_are_part_of",
+            "comment_on_question_in_subject_you_are_part_of"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },

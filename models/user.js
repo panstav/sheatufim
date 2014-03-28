@@ -72,6 +72,9 @@ var User = module.exports = new Schema({
         get_mails: {type: Boolean, 'default': true},
         get_alert_of_new_discussion_in_subject_you_are_part_of: {type: Boolean, 'default': true},
         get_alert_of_new_information_item_on_subject_you_are_part_of: {type: Boolean, 'default': false},
+        get_alert_of_new_question_in_subject_you_are_part_of: {type: Boolean, 'default': true},
+        get_alert_of_comment_on_question_in_subject_you_are_part_of: {type: Boolean, 'default': false},
+
 
         //general forum
         get_alert_of_comment_on_subject_you_are_part_of: {type: Boolean, 'default': false},

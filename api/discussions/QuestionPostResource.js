@@ -48,7 +48,33 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
         var self = this;
         self._super(req, fields, function(err, post){
             post.creator_id = req.user;
-            callback(err, post);
+            async.waterfall([
+                function(cbk) {
+                    models.Question.findById(post.question_id, function(err, question){
+                        cbk(err, question);
+                    });
+                },
+                function(question, cbk) {
+                    models.User.find()
+                        .where('subjects', question.subject_id)
+                        .exec(function(err, users){
+                            var user_id = post.creator_id;
+                            async.each(users, function(user, c){
+                                if(user._id.toString() == user_id.toString()){
+                                    c(null);
+                                } else {
+                                    notifications.create_user_notification("comment_on_question_in_subject_you_are_part_of", post._id, user._id.toString(), post.creator_id.toString(), question._id, '/discussions/subject/' + question.subject_id, function(err){
+                                        c(err);
+                                    });
+                                }
+                            }, function(err){
+                                cbk(err, post);
+                            });
+                        });
+                }
+            ], function(err, post){
+                callback(err, post);
+            });
         });
     }
 });

@@ -567,3 +567,9 @@ ul.list li.link-container a:hover {
     margin-bottom: 10px;
     text-decoration: none;
 }
+
+.icon-questions {
+    width: 36px;
+    height: 29px;
+    background-image: url('../img/question_icon.png');
+}
