@@ -185,7 +185,7 @@ var sendNotificationToUser = function (notification) {
         async.waterfall([
             // 1) Get user email
             function (cbk) {
-                models.User.findById(notification.user_id._doc ? notification.user_id.id : notification.user_id, cbk);
+                models.User.findById(notification.user_id, cbk);
             },
 
             // 2) Check user mail configuration

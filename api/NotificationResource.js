@@ -191,25 +191,14 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     break;
 
                 case "approved_change_suggestion_you_created":
-                    notification.part_one = "התקבלה הצעה לשינוי שהעלת בדיון - ";
+
+                    notification.main_link = notification.url;
+                    notification.part_one = "התקבלה הצעה לשינוי שהעלת במסמך ";
                     if(discussion){
                         notification.part_two = discussion.title;
                         notification.link_two = "/discussions/" + discussion._id;
-                        notification.main_link = "/discussions/" + discussion._id + '#post_' + post_id;
-                        notification.pic = discussion.image_field_preview || discussion.image_field;
-
-                        notification.img_src = notification.pic;
-                        notification.title = discussion.title;
-                        notification.text_preview = discussion.text_field_preview;
-
-                        /*//SAAR: is this still used?
-                        notification.old_text= discussion.vision_text_history == undefined?'': discussion.vision_text_history[discussion.vision_text_history.length - 1];
-                        notification.new_text= discussion.text_field;*/
-
-                        notification.old_text = discussion.replaced_text_history == undefined?'': discussion.replaced_text_history[discussion.replaced_text_history.length - 1].old_text;
-                        notification.new_text = discussion.replaced_text_history == undefined?'': discussion.replaced_text_history[discussion.replaced_text_history.length - 1].new_text;
-                        notification.mail_settings_link = "/mail_settings/discussion/" + discussion.id + '?force_login=1';
                     }
+                    notification.part_three = " והטקסט בו עודכן";
                     itr_cbk();
                     break;
 
@@ -261,6 +250,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/" + discussion._id + '#' + post._id;
                         notification.part_two = discussion.title;
                     }
+                    notification.extra_text = post.toObject().text;
                     notification.main_link = notification.url;
                     itr_cbk();
                     break;

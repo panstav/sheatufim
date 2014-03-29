@@ -21,10 +21,12 @@
                 <a href="javascript:;" onclick="toggleMessage('message-{_id}');">
                     <div class="message-replies right" data-replies="{post_count}"> {post_count} תגובות </div>
                 </a>
+                {?deadline}
                 <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
                     <div class="message-reply-title">
                         <i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
                 </div>
+                {/deadline}
                 <div class="message-attachment left"></div>
             </div>
         </div>

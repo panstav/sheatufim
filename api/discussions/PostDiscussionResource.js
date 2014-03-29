@@ -106,11 +106,20 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                 });
             },
             function(post, cbk){
+            //find the discussion to get the subject_id
                 var discussion_id = post.discussion_id;
+                models
+                    .Discussion
+                    .findById(discussion_id, function(err, discussion){
+                        cbk(err, post, discussion);
+                    });
+            },
+            function(post, discussion, cbk){
+                var subject_id = discussion.subject_id;
                 models
                     .User
                     .find()
-                    .where('discussions.discussion_id', discussion_id)
+                    .where('subjects', subject_id)
                     .exec(function(err, users){
                         cbk(err, post, users);
                     });
