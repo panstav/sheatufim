@@ -374,13 +374,14 @@ $(document).ready(function () {
                 if(!$file.value)
                     return afterPost();
 
+                popupProvider.showLoading({message:'מעלה קובץ...'});
+					
                 var file = $file.files && $file.files[0];
                 if(!file)
                     uploadAttachmentIE9('/api/post_discussion_attachments/' + data._id + '?discussion_id=' + discussion._id,$file,afterPost);
                 else
                     uploadAttachment(data._id,file,afterPost);
 
-                popupProvider.showLoading({message:'מעלה קובץ...'});
 
 
                 function afterPost(error,attachment){

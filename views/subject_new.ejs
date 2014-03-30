@@ -253,13 +253,14 @@
                     if(!$file.value)
                         return afterPost();
 
+                    popupProvider.showLoading({message:'מעלה קובץ...'});
+						
                     var file = $file.files && $file.files[0];
                     if(!file)
                         uploadAttachmentIE9('/api/question_post_attachments/' + data._id,$file,afterPost);
                     else
                         uploadAttachment(data._id,file,afterPost);
 
-                    popupProvider.showLoading({message:'מעלה קובץ...'});
 
                     function afterPost(err,attachment){
                         if(err)
