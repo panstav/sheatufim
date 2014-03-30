@@ -224,6 +224,8 @@
             };
         }
         $('.container').on('click','.post-new-message-upload-button',function(){
+			if(!SUPPORT_FILE_API)
+				return;
             $(this).siblings('.post-new-message-upload').click();
         });
         $('body').on('click', '.message-replies', function(e){

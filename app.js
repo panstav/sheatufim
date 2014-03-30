@@ -111,6 +111,13 @@ process.on('uncaughtException', function(err) {
 // ######### error handling #########
 
 // ######### general middleware #########
+app.use(function(req,res,next){ 
+    if(req.header('content-type') && req.header('content-type').indexOf('multipart') > -1){
+		console.log('Pausing req stream');
+		req.pause();
+	}
+	next();
+});
 app.use(express.compress());
 app.use(express.static(app.get('public_folder')));
 app.use(express.static(require('path').join(__dirname,'..','public')));

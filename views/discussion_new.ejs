@@ -217,9 +217,13 @@
             </div>
             <div class="post-new-message-body-actions">
                 <div class="row">
-                    <button class="btn btn-medium btn-gray post-new-message-upload-button">
-                        הוסף קובץ
-                    </button>
+					<form method="POST" enctype="multipart/form-data" target="hiddenFrame">
+						<input type="file" id="image" class="hiddenUpload post-new-message-upload" name="image" style="opacity:0; position:absolute; width:80px ;height:51px; border:none; padding:0;" />
+						<button class="btn btn-medium btn-gray post-new-message-upload-button">
+							הוסף קובץ
+						</button>
+						<input type="hidden" name="callback" value="" />
+					</form>
                     <input type="file" class="post-new-message-upload" style="display:none;" />
                 </div>
                 <div class="row">
@@ -414,6 +418,8 @@ $(document).ready(function () {
         $parent.find('.post-new-message-attachment').hide();
     });
     $('.container').on('click','.post-new-message-upload-button',function(){
+		if(!SUPPORT_FILE_API)
+			return;
         $(this).siblings('.post-new-message-upload').click();
     });
 
