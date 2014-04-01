@@ -178,6 +178,8 @@ var sendNotificationToUser = function (notification) {
         'maria@empeeric.com',
         'aharon.porath@gmail.com',
         'aharon@uru.org.il',
+        'miriyaacobi@gmail.com',
+        'miri@sheatufim.org.il',
         'ziv@sheatufim.co.il',
         'zivm21@gmail.com',
         'ziv@sheatufim.org.il'
