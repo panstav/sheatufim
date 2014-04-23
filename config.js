@@ -22,7 +22,7 @@ config.fb_auth_params = {
 
 config.fb_general_params = {
     fb_title: '',
-    fb_description:  '',
+    fb_description:  'אתר "מעגלי השיח" מבית שיתופים נועד לתמוך בתהליכי שיח רבי משתתפים באמצעות סביבה אינטרנטית נגישה, המותאמת לכל תהליך ופתוחה למשתמשים מורשים בלבד.',
     fb_image: ''
 }
 
