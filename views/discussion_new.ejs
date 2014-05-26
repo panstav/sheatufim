@@ -287,11 +287,16 @@ $(document).ready(function () {
     var render_post = function(type, data, level){
         data.user_avatar = avatar;
         dust.render('forum_post', data, function(err, out){
-            if(!err)
+            if(!err){
                 if(type == 'main')
                     $('.post-messages-container ul.main_container').append(out);
-                else
+                else {
+                    console.log('reply');
                     $('ul.replies-' + data.parent_id).prepend(out);
+                }
+            }
+
+
             //check if the post has any responses
             if(post_groups[data._id] && post_groups[data._id].length > 0) {
                 var child_posts = post_groups[data._id];
@@ -351,11 +356,42 @@ $(document).ready(function () {
 
     init();
 
+    $('.main_container').on('click', '.message-likes .like', function(e){
+        var post_id = $(e.target).closest('.row-table').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            console.log('liked');
+            if(err) return;
+            var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter += 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('like').addClass('unlike');
+            $img.attr('src', '/images/unlike.png');
+        });
+    });
+    $('.main_container').on('click', '.message-likes .unlike', function(e){
+        var post_id = $(e.target).closest('.row-table').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            console.log('unliked');
+            if(err) return;
+            var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter -= 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('unlike').addClass('like');
+            $img.attr('src', '/images/like.png');
+        });
+    });
+
+
     //create new post and render it on post button click
     $('.create_post').on('click', function(){
         var text = $('.new_post .post-new-message-body-text textarea').val();
-        if(!text) {
-            //show error message?
+        var $file = $('.new_post .post-new-message-upload')[0];
+        if(!text && !$file.value) {
+            popupProvider.showOkPopup({message: "נא הזן טקסט או הוסף קובץ"});
         } else if(is_logged) {
             var data = {
                 text: text,
@@ -442,8 +478,9 @@ $(document).ready(function () {
         var parent_id = $parent_post.data('id');
 
         var text = $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val();
-        if(!text) {
-            //show error message?
+        var $file = $('.new_post .post-new-message-upload')[0];
+        if(!text && !$file.value) {
+            popupProvider.showOkPopup({message: "נא הזן טקסט או הוסף קובץ"});
         } else if(is_logged) {
             var data = {
                 parent_id: parent_id,

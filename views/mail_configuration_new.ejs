@@ -23,6 +23,7 @@
                     <div class="email_settings">
                         <h3>כללי</h3>
                         <div id="general_settings" class="settings_box general_settings">
+                            <div class="notification"> <div class="spinner"></div> </div>
                             <div class="settings_box_section">
                                 <input id="get_alert_of_new_discussion_in_subject_you_are_part_of" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על מסמך חדש שנפתח לעריכה</span></label>
                             </div>
@@ -30,11 +31,11 @@
                             <div class="settings_box_section">
                                 <input id="get_alert_of_new_information_item_on_subject_you_are_part_of" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על פריט מידע חדש</span></label>
                             </div>
-                            <div class="notification"> <div class="spinner"></div> </div>
                         </div>
 
                         <h3>הפורום</h3>
                         <div id="forum_settings" class="settings_box">
+                            <div class="notification"> <div class="spinner"></div> </div>
                             <div class="settings_box_section">
                                 <input id="get_alert_of_comment_on_subject_you_are_part_of" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על הודעות חדשות</span></label>
                             </div>
@@ -42,11 +43,11 @@
                             <div class="settings_box_section">
                                 <input id="get_alert_of_comment_on_your_forum_post" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על תגובות חדשות להודעות שלך</span></label>
                             </div>
-                            <div class="notification"> <div class="spinner"></div> </div>
                         </div>
 
                         <h3>מסמכים בעריכה</h3>
                         <div id="discussion_settings" class="settings_box">
+                            <div class="notification"> <div class="spinner"></div> </div>
                             <div class="settings_box_section">
                                 <input id="get_alert_of_comment_on_discussion_you_are_part_of" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על הודעות חדשות</span></label>
                             </div>
@@ -66,11 +67,11 @@
                             <div class="settings_box_section">
                                 <input id="get_alert_of_approved_change_suggestion_on_discussion_you_are_part_of" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על הצעות שהתקבלו</span></label>
                             </div>
-                            <div class="notification"> <div class="spinner"></div> </div>
                         </div>
 
                         <h3>שאלות לדיון</h3>
                         <div id="discussion_settings" class="settings_box">
+                            <div class="notification"> <div class="spinner"></div> </div>
                             <div class="settings_box_section">
                                 <input id="get_alert_of_new_question_in_subject_you_are_part_of" type="checkbox" data-setting-type="get_uru_updates" id="get_uru_updates" class="checkbox general" /><label for="general_updates" class="title"><span>התראה על שאלות חדשות לנפתחו לדיון</span></label>
                             </div>
@@ -78,7 +79,6 @@
                             <div class="settings_box_section">
                                 <input id="get_alert_of_comment_on_question_in_subject_you_are_part_of" type="checkbox" data-setting-type="get_weekly_mails" id="get_weekly_mails" class="checkbox general" /><label for="weekly_mail" class="title"><span>התראה על תגובות חדשות לשאלות לדיון</span></label>
                             </div>
-                            <div class="notification"> <div class="spinner"></div> </div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +114,6 @@
 
 
             db_functions.updateMailNotification(user._id, new_settings, function(err, result){
-                debugger;
                 if(!err){
                     notifSuccess(notif);
                 } else{
@@ -129,7 +128,7 @@
             notif.find('.spinner').hide();
             notif.text("עודכן");
             notif.css('color','green');
-            notif.css("fontSize", "20px");
+            notif.css("fontSize", "24px");
             notif.css('font-weight', 'bold');
             notif.data('finish', false);
             notif.animate({color: '#fff'}, 2200,function() {
