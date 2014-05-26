@@ -166,6 +166,7 @@
                 if(post.text.length > 140)
                     post.text_short = post.text.substring(0, 140) + '...';
                 post.hidden = true;
+                post.link = true;
                 post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                 render_post('main', post, 0);
             });
