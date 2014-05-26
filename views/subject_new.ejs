@@ -88,6 +88,7 @@
         var is_logged = <%= user_logged %>;
         var user = <%- JSON.stringify(user || "") %>;
         var avatar = '<%=avatar%>';
+        var posts, post_groups;
 
         if(is_logged && is_allowed){
             get_and_render.info_items(subject_id);
@@ -121,25 +122,193 @@
             });
         });
 
+        var render_post = function(type, data, level){
+            data.user_avatar = avatar;
+            dust.render('forum_post', data, function(err, out){
+                if(!err) {
+                    if(type == 'main') {
+                        $('.latest_posts ul.posts').append(out);
+                        console.log('main');
+                    } else {
+                        $('ul.replies-' + data.parent_id).prepend(out);
+                        console.log('reply');
+                    }
+
+                }
+
+                //check if the post has any responses
+                if(post_groups[data._id] && post_groups[data._id].length > 0) {
+                    var child_posts = post_groups[data._id];
+                    $.each(child_posts, function(i, child_post){
+                        var new_level = level + 1;
+                        child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
+                        child_post.date = new Date(child_post.creation_date).format('HH:MM');
+                        child_post.level = level + 1;
+                        child_post.reply_level = level + 2;
+                        if(child_post.text.length > 140)
+                            child_post.text_short = child_post.text.substring(0, 140) + '...';
+                        child_post.last = level == 2 ? true : false;
+                        child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
+                        render_post('child', child_post, new_level);
+                    });
+                }
+            });
+        };
         db_functions.getLastForumPosts(data, function (err, data) {
             if (err) return;
-            var posts = data.page_posts;
-            $.each(posts, function (i, post) {
-                post.date = new Date(post.creation_date).format('dd.mm.yyyy');
-                post.time = new Date(post.creation_date).format('HH:MM');
+                posts = data.page_posts;
+                post_groups = data.post_groups;
+            $.each(posts, function(i, post){
+                post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                post.date = new Date(post.creation_date).format('HH:MM');
                 post.level = 0;
                 post.reply_level = 1;
-                post.closed = true;
-                if (post.text.length > 140)
+                if(post.text.length > 140)
                     post.text_short = post.text.substring(0, 140) + '...';
                 post.hidden = true;
-                post.replies = data.post_groups[post._id] && data.post_groups[post._id].length > 0 ? data.post_groups[post._id].length : 0;
-                dust.render('forum_post', post, function (err, out) {
-                    if (err) return;
-                    $('.latest_posts ul').append(out);
-                })
-            })
+                post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
+                render_post('main', post, 0);
+            });
+
         });
+
+        $('.last-messages').on('click', '.create_secondary_post', function(e){
+            var $parent_post = $(e.target).closest('li');
+            var $original_parent = $parent_post;
+            var parent_level = $parent_post.data('level');
+            var orig_parent_id = '';
+
+            // check if this is a message on level 4, so that the comment will actually be added to its parent
+            if(parent_level == 3) {
+                orig_parent_id = $parent_post.data('id');
+                $parent_post = $(e.target).closest('li').closest('ul').closest('li');
+                parent_level = $parent_post.data('level');
+            }
+            var parent_id = $parent_post.data('id');
+
+            var text = $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val();
+            var $file = $('.reply-to-message-' + parent_id +' .post-new-message-upload')[0];
+            if(!text && !$file.value) {
+                popupProvider.showOkPopup({message: "נא הזן טקסט או הוסף קובץ"});
+            } else if(is_logged) {
+                var data = {
+                    parent_id: parent_id,
+                    text: text,
+                    creator_id: user._id,
+                    subject_id: subject_id
+                };
+                db_functions.createForumPost(data, function(data){
+
+                    data.time = new Date(data.creation_date).format('dd.mm.yyyy');
+                    data.date = new Date(data.creation_date).format('HH:MM');
+                    data.level = parent_level + 1;
+                    data.reply_level = parent_level + 2;
+                    if(data.text.length > 140)
+                        data.text_short = data.text.substring(0, 140) + '...';
+                    data.last = parent_level == 2 ? true : false;
+                    data.replies = 0;
+
+
+                    var $file = $original_parent.find('.post-new-message-upload')[0];
+                    if(!$file.value)
+                        return afterPost();
+                    var file = $file.files && $file.files[0];
+
+                    popupProvider.showLoading({message:'מעלה קובץ...'});
+
+                    if(file)
+                        uploadAttachment('forum', data._id,file,afterPost);
+                    else
+                        uploadAttachmentIE9( "/api/forum_post_attachments/" + data._id,$file,afterPost);
+
+
+                    function afterPost(err,attachment){
+                        if(err)
+                            return console.error(err);
+                        if(attachment){
+                            data.attachment = attachment;
+                            $original_parent.find('.post-new-message-upload').val('');
+                            $original_parent.find('.post-new-message-attachment').hide();
+                            $.colorbox.close();
+                        }
+                        data.user_avatar = avatar;
+                        dust.render('forum_post', data, function(err, out){
+                            if(!err){
+                                $('ul.replies-' + parent_id).append(out);
+                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .post-new-message-body-text textarea').val("");
+                                $('.reply-to-message-' + (orig_parent_id != "" ? orig_parent_id : parent_id) + ' .icon-close').click();
+
+                                var $primary_message = $('ul.replies-' + parent_id).siblings('.primary-message');
+                                if($primary_message.hasClass('message-closed')) {
+                                    $primary_message.find('.icon-expand').click();
+                                }
+                                var $replies = $('.message-' + parent_id + ' .message-text .message-replies').first();
+                                var reply_count = $replies.data('replies') + 1;
+                                $replies.html(reply_count + ' תגובות');
+                                $replies.data('replies', reply_count);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        $('.latest_posts').on('click', '.message-likes .like', function(e){
+            var post_id = $(e.target).closest('.row-table').data('id');
+            db_functions.likePost(post_id, user._id, function(err, data){
+                console.log('liked');
+                if(err) return;
+                var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
+                var counter = parseInt($likes.html());
+                counter += 1;
+                $likes.html(counter);
+                var $img = $likes.next('img');
+                $img.removeClass('like').addClass('unlike');
+                $img.attr('src', '/images/unlike.png');
+            });
+        });
+        $('.latest_posts').on('click', '.message-likes .unlike', function(e){
+            var post_id = $(e.target).closest('.row-table').data('id');
+            db_functions.likePost(post_id, user._id, function(err, data){
+                console.log('unliked');
+                if(err) return;
+                var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
+                var counter = parseInt($likes.html());
+                counter -= 1;
+                $likes.html(counter);
+                var $img = $likes.next('img');
+                $img.removeClass('unlike').addClass('like');
+                $img.attr('src', '/images/like.png');
+            });
+        });
+
+        $('.latest_posts').on('click', '.show_all_text', function(e){
+            var text = $(e.target).closest('.message-content').data('text');
+            $(e.target).closest('.message-content').html(text);
+        });
+
+        function uploadAttachment( id, file,cbk){
+            var client = new XMLHttpRequest();
+
+            /* Create a FormData instance */
+            var formData = new FormData();
+            /* Add the file */
+            formData.append("upload", file);
+            client.open("put", "/api/forum_post_attachments/" + id, true);
+            //client.setRequestHeader("Content-Type", "multipart/form-data");
+            client.send(formData);  /* Send to server */
+
+            /* Check the response status */
+            client.onreadystatechange = function()
+            {
+                if (client.readyState == 4){
+                    if(client.status < 200 || client.status >= 300)
+                        return cbk(client.status);
+                    var attachment = JSON.parse(client.responseText);
+                    cbk(null,attachment);
+                }
+            }
+        };
 
         $('.login_form_btn').on('click', function (e) {
             e.preventDefault();
@@ -201,14 +370,18 @@
 
             })
         });
-        function uploadAttachment( id, file,cbk){
+        function uploadAttachment(type, id, file, cbk){
             var client = new XMLHttpRequest();
 
             /* Create a FormData instance */
             var formData = new FormData();
             /* Add the file */
             formData.append("upload", file);
-            client.open("put", "/api/question_post_attachments/" + id, true);
+            if(type == 'forum'){
+                client.open("put", "/api/forum_post_attachments/" + id, true);
+            } else {
+                client.open("put", "/api/question_post_attachments/" + id, true);
+            }
             //client.setRequestHeader("Content-Type", "multipart/form-data");
             client.send(formData);  /* Send to server */
 
@@ -224,6 +397,8 @@
             };
         }
         $('.container').on('click','.post-new-message-upload-button',function(){
+			if(!SUPPORT_FILE_API)
+				return;
             $(this).siblings('.post-new-message-upload').click();
         });
         $('body').on('click', '.message-replies', function(e){
@@ -233,8 +408,9 @@
         $('body').on('click', '.create_question_post', function(e){
             var question_id = $(e.target).closest('li.question').data('id');
             var text = $('.reply-to-message-' + question_id + ' .post-new-message-body-text textarea').val();
-            if(!text) {
-                //show error message?
+            var $file = $('.new_post .post-new-message-upload')[0];
+            if(!text && !$file.value) {
+                popupProvider.showOkPopup({message: "נא הזן טקסט או הוסף קובץ"});
             } else if(is_logged) {
                 var data = {
                     text: text,
@@ -251,13 +427,14 @@
                     if(!$file.value)
                         return afterPost();
 
+                    popupProvider.showLoading({message:'מעלה קובץ...'});
+						
                     var file = $file.files && $file.files[0];
                     if(!file)
                         uploadAttachmentIE9('/api/question_post_attachments/' + data._id,$file,afterPost);
                     else
-                        uploadAttachment(data._id,file,afterPost);
+                        uploadAttachment('question', data._id,file,afterPost);
 
-                    popupProvider.showLoading({message:'מעלה קובץ...'});
 
                     function afterPost(err,attachment){
                         if(err)

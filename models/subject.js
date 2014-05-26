@@ -8,7 +8,7 @@ var Subject  = module.exports = new Schema({
     tooltip:String,
     description: {type:Schema.Types.Html},
     text_field_preview:{type:Schema.Types.Text},
-    image_field:Schema.Types.File,
+    image_field: {type: Schema.Types.File, required: true},
     cover_image_field:Schema.Types.File,
     timeline_url: String,
     tags:[String],

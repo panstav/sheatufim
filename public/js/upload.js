@@ -5,12 +5,19 @@ function uploadAttachmentIE9(url,input,cbk){
         url += '&overrideMethod=PUT';
     else
         url += '?overrideMethod=PUT';
-    $(input).attr('name','file');
-    $('<form method="post" enctype="multipart/form-data" action="' + url + '" target="hiddenFrame" style="display:none"><input type="hidden" name="something" value="something">'+
+		
+	var $form = $(input).parents('form');
+		
+//    var $form = $('#hiddenForm')
+	$form.attr('action',url);
+	$form.find('input[name=callback]').val(callback);	
+    $form.submit();
+    /*var $form = $('<form method="POST" enctype="multipart/form-data" action="' + url + '" target="hiddenFrame">'+
         '<input type="hidden" name="callback" value="' + callback + '" >'+
-        '</form>').appendTo('body')
-        .append(input)
-        .submit();
+		'<input type="file" name="file">' +
+        '</form>').appendTo('body');
+		.submit();
+		*/
 }
 var SUPPORT_FILE_API = true, IE_globalCounter = 0;
 $(function(){
@@ -18,6 +25,7 @@ $(function(){
         return;
 
     SUPPORT_FILE_API = false;
+	$('body').addClass('noUploadApi');
     $('<iframe width="0" height="0" border="0" id="hiddenFrame" name="hiddenFrame"></iframe>').appendTo('body');
 
 });

@@ -48,6 +48,10 @@
                     </div>
                     {/closed}
                 {/last}
+                <div class="message-likes right">
+                    <div class="like-counter right" title="">{likes}</div>
+                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png">
+                </div>
                 <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
             </div>
         </div>
@@ -79,8 +83,11 @@
 
                     <div class="post-new-message-body-actions">
                         <div class="row">
-                            <button class="btn btn-medium btn-gray post-new-message-upload-button"  >הוסף קובץ</button>
-                            <input type="file" class="post-new-message-upload" style="display:none;" />
+							<form method="POST" enctype="multipart/form-data" target="hiddenFrame">
+								<input type="file" id="image" class="hiddenUpload post-new-message-upload" name="image" style="opacity:0; position:absolute; width:80px ;height:51px; border:none; padding:0;" />
+								<button class="btn btn-medium btn-gray post-new-message-upload-button" onclick="return false"  >הוסף קובץ</button>
+								<input type="hidden" name="callback" value="" />
+							</form>
                         </div>
                         <div class="row">
                             <button class="btn btn-medium btn-green create_secondary_post">פרסם</button>

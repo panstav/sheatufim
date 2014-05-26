@@ -3255,3 +3255,9 @@ body.request-change-dialog .message .message-text textarea {
     position: relative;
 }
 
+.hiddenUpload{
+	display:none;
+}
+.noUploadApi .hiddenUpload{
+	display:block;
+}

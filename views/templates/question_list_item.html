@@ -21,10 +21,12 @@
                 <a href="javascript:;" onclick="toggleMessage('message-{_id}');">
                     <div class="message-replies right" data-replies="{post_count}"> {post_count} תגובות </div>
                 </a>
+                {?deadline}
                 <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
                     <div class="message-reply-title">
                         <i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
                 </div>
+                {/deadline}
                 <div class="message-attachment left"></div>
             </div>
         </div>
@@ -81,8 +83,11 @@
             </div>
             <div class="post-new-message-body-actions">
                 <div class="row">
-                    <button class="btn btn-medium btn-gray post-new-message-upload-button">הוסף קובץ</button>
-                    <input type="file" class="post-new-message-upload" style="display:none;">
+					<form method="POST" enctype="multipart/form-data" target="hiddenFrame">
+						<input type="file" id="image" class="hiddenUpload post-new-message-upload" name="image" style="opacity:0; position:absolute; width:80px ;height:51px; border:none; padding:0;" />
+						<button class="btn btn-medium btn-gray post-new-message-upload-button" onclick="return false;">הוסף קובץ</button>
+						<input type="hidden" name="callback" value="" />
+					</form>
                 </div>
                 <div class="row">
                     <button class="btn btn-medium btn-green create_question_post">פרסם</button>

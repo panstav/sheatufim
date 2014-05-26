@@ -44,10 +44,34 @@ span.show_all_text:hover {
 }
 
 .latest_posts .message.primary-message .message-text{
-    min-width: 598px;
+    min-width: 575px;
 }
 .latest_posts .message.primary-message {
     min-width: 705px;
+}
+.latest_posts .message.message-pad-1,
+.latest_posts .post-new-reply.message-pad-1 {
+    min-width: 665px;
+    max-width: 665px;
+}
+.latest_posts .message.message-pad-1 .message-text {
+    min-width: 555px;
+}
+.latest_posts .message.message-pad-2,
+.latest_posts .post-new-reply.message-pad-2 {
+    min-width: 645px;
+    max-width: 645px;
+}
+.latest_posts .message.message-pad-2 .message-text {
+    min-width: 535px;
+}
+.latest_posts .message.message-pad-3,
+.latest_posts .post-new-reply.message-pad-3 {
+    min-width: 625px;
+    max-width: 625px;
+}
+.latest_posts .message.message-pad-3 .message-text {
+    min-width: 515px;
 }
 .latest_posts a {
     color: black;
@@ -548,8 +572,9 @@ ul.list li.link-container a:hover {
     margin-right: 10px;
 }
 .settings_box .notification{
-    float: left;
-    margin-top: -15px;
+    float: right;
+    margin-right: -90px;
+    font-size: 24px;
 }
 .settings_link {
     float: left;
@@ -566,4 +591,40 @@ ul.list li.link-container a:hover {
     color: #90c415;
     margin-bottom: 10px;
     text-decoration: none;
+}
+
+.icon-questions {
+    width: 36px;
+    height: 29px;
+    background-image: url('../img/question_icon.png');
+}
+#discussions_list .primary-document:hover {
+    background: #f7f7f7;
+}
+#discussions_list .primary-document:hover .document-name,
+#discussions_list .primary-document:hover .document-content {
+    color: #3bafda;
+}
+nav#header-nav li#header-nav-logged-in {
+    cursor: pointer;
+}
+nav#header-nav li#header-nav-logged-in:hover {
+    background-color: #c7c7c7;
+}
+nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
+    color: white;
+}
+
+.forum_link .message-image {
+    padding-top: 20px;
+}
+.message-likes {
+    margin-right: 20px;
+    cursor: pointer;
+}
+.message-likes img {
+    width: 20px;
+}
+.message-likes .like-counter {
+    margin-left: 5px;
 }

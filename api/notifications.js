@@ -28,7 +28,8 @@ exports.create_user_notification = create_user_notification = function (notifica
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
         "new_information_item_on_subject_you_are_part_of",
-        "new_discussion_in_subject_you_are_part_of"
+        "new_discussion_in_subject_you_are_part_of",
+        "new_question_in_subject_you_are_part_of"
     ];
 
     var multi_notification_arr = [
@@ -39,7 +40,8 @@ exports.create_user_notification = create_user_notification = function (notifica
         "comment_on_your_discussion_post",
         "comment_on_change_suggestion_i_created",
         "change_suggestion_on_discussion_you_created",
-        "change_suggestion_on_discussion_you_are_part_of"
+        "change_suggestion_on_discussion_you_are_part_of",
+        "comment_on_question_in_subject_you_are_part_of"
     ];
 
     if (notificatior_id && _.indexOf(single_notification_arr, notification_type) == -1) {
@@ -176,6 +178,10 @@ var sendNotificationToUser = function (notification) {
         'maria@empeeric.com',
         'aharon.porath@gmail.com',
         'aharon@uru.org.il',
+        'miriyaacobi@gmail.com',
+        'miri@sheatufim.org.il',
+        'ziv@sheatufim.co.il',
+        'zivm21@gmail.com',
         'ziv@sheatufim.org.il'
     ];
 
@@ -183,7 +189,7 @@ var sendNotificationToUser = function (notification) {
         async.waterfall([
             // 1) Get user email
             function (cbk) {
-                models.User.findById(notification.user_id._doc ? notification.user_id.id : notification.user_id, cbk);
+                models.User.findById(notification.user_id, cbk);
             },
 
             // 2) Check user mail configuration
@@ -301,6 +307,25 @@ models.Discussion.onPreSave(function(next){
             if(err) next();
             async.each(users, function(user, cbk){
                 create_user_notification("new_discussion_in_subject_you_are_part_of", self._id, user._id, self.creator_id, self.subject_id, "/discussions/" + self._id.toString(), function (err, results) {
+                    cbk(err, results);
+                });
+            }, function(err){
+                next();
+            });
+        });
+    } else {
+        next();
+    }
+});
+
+models.Question.onPreSave(function(next){
+    var self = this;
+
+    if(self.isNew) {
+        models.User.find().where('subjects', self.subject_id).exec(function(err, users){
+            if(err) next();
+            async.each(users, function(user, cbk){
+                create_user_notification("new_question_in_subject_you_are_part_of", self._id, user._id, user._id, self.subject_id, "/discussions/subject/" + self.subject_id, function (err, results) {
                     cbk(err, results);
                 });
             }, function(err){

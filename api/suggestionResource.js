@@ -283,8 +283,14 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
             },
 
             function(suggestion_obj, cbk){
+                models.Discussion.findById(discussion_id, function(err, discussion){
+                    cbk(err, suggestion_obj, discussion);
+                });
+            },
+
+            function(suggestion_obj, discussion, cbk){
                 // find all users that has this discussion in their discussion list (for notifications)
-                models.User.find({'discussions.discussion_id': discussion_id}, function(err, users){
+                models.User.find({'subjects': discussion.subject_id}, function(err, users){
                     cbk(err, suggestion_obj, users);
                 });
             },
@@ -330,7 +336,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                         discussion_creator_id = disc_obj.creator_id;
 
                         // be sure that there are no duplicated users in discussion.users
-                        _.each(disc_obj.users, function(user){ unique_users.push(user.id || user.user_id + "")});
+//                        _.each(disc_obj.users, function(user){ unique_users.push(user.id || user.user_id + "")});
                         _.each(users, function(user){ unique_users.push(user.id)});
                         unique_users = _.uniq(unique_users);
 

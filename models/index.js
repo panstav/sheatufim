@@ -104,6 +104,12 @@ var Schemas = exports.Schemas = {
         creation_date:{type:Date, 'default':Date.now}
     },
 
+    LikePost:{
+        user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
+        post_id:{type:ObjectId, ref:'Post', index:true, required:true},
+        creation_date:{type:Date, 'default':Date.now}
+    },
+
     Join:{
         user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
         action_creator_id:{type:ObjectId, ref:'User', query:common.FIND_USER_QUERY, index:true, required:true},
@@ -186,7 +192,9 @@ var Schemas = exports.Schemas = {
             "comment_on_your_discussion_post",
             "comment_on_change_suggestion_i_created",
             "new_information_item_on_subject_you_are_part_of",
-            "new_discussion_in_subject_you_are_part_of"
+            "new_discussion_in_subject_you_are_part_of",
+            "new_question_in_subject_you_are_part_of",
+            "comment_on_question_in_subject_you_are_part_of"
         ]
 //        is_proxy_notification: {type: Boolean, 'default': false}
         },
@@ -370,6 +378,7 @@ var Models = module.exports = {
     VoteActionPost:mongoose.model('VoteActionPost', require('./vote_action_post')),
     VoteSuggestion:mongoose.model('VoteSuggestion', new Schema(Schemas.VoteSuggestion, {strict:true})),
     Like:mongoose.model('Like', new Schema(Schemas.Like, {strict:true})),
+    LikePost:mongoose.model('LikePost', new Schema(Schemas.LikePost, {strict:true})),
     Grade:mongoose.model('Grade', new Schema(Schemas.Grade, {strict:true})),
     GradeAction:mongoose.model('GradeAction', new Schema(Schemas.GradeAction, {strict:true})),
     GradeSuggestion:mongoose.model('GradeSuggestion', new Schema(Schemas.GradeSuggestion, {strict:true})),

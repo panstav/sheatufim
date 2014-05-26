@@ -33,7 +33,10 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
             post_groups: null,
             count: null,
             page_posts: null,
-            attachment:null
+            attachment:null,
+            like_users: null,
+            likes: null,
+            user_liked: null
         };
         this.default_limit = 50;
     },
@@ -62,30 +65,53 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                 new_posts.push(new_post);
             });
 
-            //the posts with no parents are main posts
-            var main_posts = _.filter(new_posts, function(post){
-                return !post.parent_id;
-            });
+                async.forEach(new_posts, function(post, cbk){
+                    post.like_users = "";
+                    post.likes = 0;
+                    post.user_liked = false;
+                    models.LikePost.find().where('post_id', post._id).populate('user_id').exec(function(err, likes){
+                        if(err) cbk(err);
+                        else {
+                            _.forEach(likes, function(like){
+                                post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + ' ';
+                                post.likes += 1;
+                                if(like.user_id._id.toString() == req.user._id.toString()){
+                                    post.user_liked = true;
+                                }
+                            });
+                            cbk(null);
+                        }
+                    });
+                }, function(err){
+                    //the posts with no parents are main posts
+                    var main_posts = _.filter(new_posts, function(post){
+                        return !post.parent_id;
+                    });
 
-            //group sub_posts by their parents
-            var post_groups = _.groupBy(new_posts, function(post){
-                return post.parent_id;
-            });
+                    //group sub_posts by their parents
+                    var post_groups = _.groupBy(new_posts, function(post){
+                        return post.parent_id;
+                    });
 
 
-            //paginate
-            var page_posts = main_posts;
-            if(offset)
-                page_posts = _.rest(page_posts, offset);
-            if(limit)
-                page_posts = _.first(page_posts,limit);
+                    //paginate
+                    var page_posts = main_posts;
+                    if(offset)
+                        page_posts = _.rest(page_posts, offset);
+                    if(limit)
+                        page_posts = _.first(page_posts,limit);
 
-            var result = {
-                post_groups: post_groups,
-                count: main_posts.length,
-                page_posts: page_posts
-            };
-            callback(err, result);
+
+
+                    var result = {
+                        post_groups: post_groups,
+                        count: main_posts.length,
+                        page_posts: page_posts
+                    };
+
+                    callback(err, result);
+                });
+
         });
     },
 
@@ -106,11 +132,20 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                 });
             },
             function(post, cbk){
+            //find the discussion to get the subject_id
                 var discussion_id = post.discussion_id;
+                models
+                    .Discussion
+                    .findById(discussion_id, function(err, discussion){
+                        cbk(err, post, discussion);
+                    });
+            },
+            function(post, discussion, cbk){
+                var subject_id = discussion.subject_id;
                 models
                     .User
                     .find()
-                    .where('discussions.discussion_id', discussion_id)
+                    .where('subjects', subject_id)
                     .exec(function(err, users){
                         cbk(err, post, users);
                     });
