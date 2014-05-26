@@ -133,24 +133,36 @@ exports.MultipartFormResource = exports.BaseModelResource.extend({
     },
     update_obj: function(req, object, callback){
         var form = new multiparty.Form({});
-
+		console.log(req.headers);
+		req.on('data',function(chunk) { 
+			console.log(chunk.length);
+		});
         form.on('field',function(name,val){
             if(name == 'callback')
-                req._callback = val;
+                req._callback = val;			
         });
 
         var self = this;
         form.on('file', function(name, val){
             self.onFile(req,object,val,callback);
+			callback = null;
         });
 
         form.on('error', function(err){
-            callback(err);
+			if(callback)
+				callback(err);
+			callback = null;
         });
 
-        form.on('close', function(){
+        req.on('end', function(){
+			setTimeout(function(){
+				if(callback)
+					callback({code:400, message:'No file'});
+				callback = null;				
+			},5000);
         });
 
+		req.resume();
         form.parse(req);
     }
 });
