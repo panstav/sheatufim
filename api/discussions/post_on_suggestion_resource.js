@@ -26,7 +26,10 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
             discussion_id:null,
             suggestion_id: null,
             is_my_comment: null,
-            attachment:null
+            attachment:null,
+            like_users: null,
+            likes: null,
+            user_liked: null
         };
         this.default_limit = 50;
     },
@@ -41,17 +44,36 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
         // get user's avatar for each post
         this._super(req, filters, sorts, limit, offset, function(err, results){
             if(!err) {
-                _.each(results.objects, function(post){
+                async.forEach(results.objects, function(post, cbk){
+                    post.like_users = "";
+                    post.likes = 0;
+                    post.user_liked = false;
                     post.avatar = post.creator_id.avatar_url();
                     post.username = post.creator_id.toString();
                     post.creator_id = post.creator_id.id;
 
                     //set is_my_comment flag
                     post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
-                });
-            }
 
-            callback(err, results);
+                    //get likes
+                    models.LikePost.find().where('post_id', post._id).populate('user_id').exec(function(err, likes){
+                        if(err) cbk(err);
+                        else {
+                            _.forEach(likes, function(like){
+                                post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + ' ';
+                                post.likes += 1;
+                                if(like.user_id._id.toString() == req.user._id.toString()){
+                                    post.user_liked = true;
+                                }
+                            });
+                            cbk(null);
+                        }
+                    });
+                }, function(err){
+                    callback(err, results);
+                });
+
+            }
         });
     },
 

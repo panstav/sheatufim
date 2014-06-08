@@ -1,4 +1,4 @@
-<li class="row review-1-1">
+<li class="row review-1-1 discussion_suggestion_post" data-id="{_id}">
     <div class="message message-pad-0">
         <i class="icon icon-box-top-right-gray-tip"></i>
         <div class="message-image"><div  class="circle circle-wrapper auto-scale"><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
@@ -14,6 +14,10 @@
             <div class="message-bar row">
                 <div class="message-datetime right">{creation_date|time}</div>
                 <div class="message-replies right"></div>
+                <div class="message-likes right">
+                    <div class="like-counter right" title="">{likes}</div>
+                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png">
+                </div>
                 <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
 
             </div>

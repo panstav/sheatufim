@@ -14,6 +14,9 @@
         <nav id="header-nav" class="col6">
             <ul class="menu inline-list">
                 <li><a href="/about">אודות</a></li>
+                <% if( user_logged ) { %>
+                <li><a href="/user">הפרופיל שלי</a></li>
+                <% } %>
                 <li style="display:none"><a href="/information_items">מאגרי מידע</a></li>
                 <li><a id="contact" href="/contact">צור קשר</a></li>
                 <% if( user_logged ) { %>

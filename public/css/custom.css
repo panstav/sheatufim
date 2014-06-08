@@ -619,12 +619,14 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
 .message-likes {
     margin-right: 20px;
     cursor: pointer;
+    margin-top: -2px;
 }
 .message-likes img {
     width: 20px;
 }
 .message-likes .like-counter {
     margin-left: 5px;
+    font-size: 19px;
 }
 .primary-message .message-ticker {
     height: 121px;
