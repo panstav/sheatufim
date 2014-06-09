@@ -19,7 +19,7 @@
                 </div>
                 <div class="profile-box">
                     <div class="user">
-                        <div class="user_image right">
+                        <div class="user_image right" data-toggle="tooltip" data-placement="bottom" title="ניתן להעלות תמונה מסוג.... ובגודל מירבי של... ודא שפניך מופיעות במרכז התמונה.">
                             <div id="upload-new-image"></div>
                             <!--<input type="file" id="upload-new-image" class="upload-new-image" style="display:none;">-->
                         </div>
@@ -68,6 +68,8 @@
                 });
             }
         });
+
+        $('.user_image').tooltip({});
 
         $('.edit_name').on('click', function(e){
             if($('.name_input').hasClass('active') && user.first_name + " " + user.last_name != $('.name_input').val()) {

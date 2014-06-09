@@ -1,14 +1,19 @@
 <li class="row-table message-{_id}" data-level="{level}" data-id="{_id}" id="{_id}">
+
     {?parent_id}
         <div class="message message-pad-{level}">
             <i class="icon icon-box-top-right-gray-tip"></i>
     {:else}
+            {?link}
+            <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
+                {/link}
         {?closed}
             <div class="message primary-message">
                 <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
-
         {:else}
+
             <div class="message primary-message message-closed">
+
                 <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
         {/closed}
     {/parent_id}
@@ -48,6 +53,10 @@
                     </div>
                     {/closed}
                 {/last}
+                <div class="message-likes right">
+                    <div class="like-counter right" title="">{likes}</div>
+                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png">
+                </div>
                 <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
             </div>
         </div>
@@ -60,6 +69,7 @@
             </div>
             {:else}
                 </div>
+
             </div>
             {/closed}
         {/parent_id}
@@ -95,4 +105,7 @@
     {^last}
         <ul class="replies-{_id} {?hidden}hide{/hidden}"></ul>
     {/last}
+    {?link}
+    </a>
+    {/link}
 </li>

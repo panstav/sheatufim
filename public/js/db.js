@@ -975,6 +975,22 @@ var db_functions = {
         });
     },
 
+    likePost: function(post_id, user_id, callback) {
+        db_functions.loggedInAjax({
+            url:'/api/likePost/',
+            type:"POST",
+            async:true,
+            data:{"post_id":post_id, "user_id":user_id},
+            success:function (data) {
+                console.log(data);
+                callback(null, data);
+            },
+            error:function (err) {
+                callback(err, null);
+            }
+        });
+    },
+
     /*voteForSuggestion:function (suggestionId, method, user_info, callback) {
         db_functions.loggedInAjax({
             url:'/api/votes_on_suggestion/',

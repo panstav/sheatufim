@@ -104,6 +104,12 @@ var Schemas = exports.Schemas = {
         creation_date:{type:Date, 'default':Date.now}
     },
 
+    LikePost:{
+        user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
+        post_id:{type:ObjectId, ref:'Post', index:true, required:true},
+        creation_date:{type:Date, 'default':Date.now}
+    },
+
     Join:{
         user_id:{type:ObjectId, ref:'User',query:common.FIND_USER_QUERY, index:true, required:true},
         action_creator_id:{type:ObjectId, ref:'User', query:common.FIND_USER_QUERY, index:true, required:true},
@@ -372,6 +378,7 @@ var Models = module.exports = {
     VoteActionPost:mongoose.model('VoteActionPost', require('./vote_action_post')),
     VoteSuggestion:mongoose.model('VoteSuggestion', new Schema(Schemas.VoteSuggestion, {strict:true})),
     Like:mongoose.model('Like', new Schema(Schemas.Like, {strict:true})),
+    LikePost:mongoose.model('LikePost', new Schema(Schemas.LikePost, {strict:true})),
     Grade:mongoose.model('Grade', new Schema(Schemas.Grade, {strict:true})),
     GradeAction:mongoose.model('GradeAction', new Schema(Schemas.GradeAction, {strict:true})),
     GradeSuggestion:mongoose.model('GradeSuggestion', new Schema(Schemas.GradeSuggestion, {strict:true})),

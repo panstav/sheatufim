@@ -385,7 +385,7 @@ var GradeSuggestionResource = module.exports = common.BaseModelResource.extend({
             )
         })
     }
-})
+});
 
 var calculateSuggestionGrade = GradeSuggestionResource.calculateSuggestionGrade =
     function (suggestion_id, discussion_id, is_agree_to_suggestion, did_change_agreement_with_suggestion, discussion_thresh, proxy_power, previous_proxy_power, callback) {
