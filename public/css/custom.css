@@ -11,6 +11,7 @@ body {
  }
  span.show_all_text {
      color: #3bafda;
+     cursor: pointer;
  }
 span.show_all_text:hover {
     text-decoration: underline;
@@ -615,16 +616,18 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
     color: white;
 }
 
-.forum_link .message-image {
-    padding-top: 20px;
-}
 .message-likes {
     margin-right: 20px;
     cursor: pointer;
+    margin-top: -2px;
 }
 .message-likes img {
     width: 20px;
 }
 .message-likes .like-counter {
     margin-left: 5px;
+    font-size: 19px;
+}
+.primary-message .message-ticker {
+    height: 121px;
 }

@@ -611,6 +611,35 @@ function initDiscussionEditing(discussion,target){
         }
     });
 
+    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.message-likes .like', function(e){
+        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            console.log('liked');
+            if(err) return;
+            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter += 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('like').addClass('unlike');
+            $img.attr('src', '/images/unlike.png');
+        });
+    });
+    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.message-likes .unlike', function(e){
+        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            console.log('unliked');
+            if(err) return;
+            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter -= 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('unlike').addClass('like');
+            $img.attr('src', '/images/like.png');
+        });
+    });
+
     $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.add_suggestion_comment', function (e) {
         activateMailNotifications();
         var $parent = $(this).parents('.reply-to-message');

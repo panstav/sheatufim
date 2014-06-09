@@ -1,14 +1,19 @@
 <li class="row-table message-{_id}" data-level="{level}" data-id="{_id}" id="{_id}">
+
     {?parent_id}
         <div class="message message-pad-{level}">
             <i class="icon icon-box-top-right-gray-tip"></i>
     {:else}
+            {?link}
+            <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
+                {/link}
         {?closed}
             <div class="message primary-message">
                 <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
-
         {:else}
+
             <div class="message primary-message message-closed">
+
                 <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
         {/closed}
     {/parent_id}
@@ -64,6 +69,7 @@
             </div>
             {:else}
                 </div>
+
             </div>
             {/closed}
         {/parent_id}
@@ -99,4 +105,7 @@
     {^last}
         <ul class="replies-{_id} {?hidden}hide{/hidden}"></ul>
     {/last}
+    {?link}
+    </a>
+    {/link}
 </li>
