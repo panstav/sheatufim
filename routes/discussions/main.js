@@ -34,7 +34,7 @@ module.exports = function (req, res) {
 
             var discussion = results[0];
             if (!discussion)
-                return res.redirect('/discussions/subject/' + discussion.subject_id._id.toString());
+                return res.redirect('/');
 
             if (!discussion.isUserAllowed(req.user))
                 return res.redirect('/discussions/subject/' + discussion.subject_id._id.toString());

@@ -178,6 +178,13 @@ module.exports = function (app) {
         search:['text', 'first_name', 'last_name']
     });
 
+    admin.registerMongooseModel('PostOrSuggestion', Models.PostOrSuggestion, null, {
+        list:['text', 'subject_id.title'],
+        list_populate:['subject_id'],
+        order_by:['-creation_date'],
+        search:['text', 'first_name', 'last_name']
+    });
+
     admin.registerMongooseModel('PostOnQuestion', Models.PostOnQuestion, null, {
         list:['text'],
         order_by:['-creation_date']

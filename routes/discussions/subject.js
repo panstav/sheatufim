@@ -1,9 +1,12 @@
 var models = require('../../models'),
-    SubjectResource = require('../../api/SubjectResource.js');
+    SubjectResource = require('../../api/SubjectResource.js'),
+    notifications = require('../../api/notifications.js');
+
 
 module.exports = function(req,res) {
     var subject_id = req.params[0];
     var subject_resource = new SubjectResource();
+    var user = req.user;
 
     subject_resource.get_object(req, subject_id, function(err, result){
         if(err) {
@@ -17,7 +20,11 @@ module.exports = function(req,res) {
                 user_logged: req.isAuthenticated(),
                 url:req.url
             });
+            if (user)
+                var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));
+            notifications.updateVisited(user, req.path);
         }
+
     });
 };
 //    async.parallel([
