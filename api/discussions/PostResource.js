@@ -53,7 +53,10 @@ var PostResource = module.exports = common.BaseModelResource.extend({
             post_groups: null,
             count: null,
             page_posts: null,
-            attachment:null
+            attachment:null,
+            like_users: null,
+            likes: null,
+            user_liked: null
         };
         this.update_fields = {text: null, discussion_id: null, ref_to_post_id: null, attachment:null};
 //    this.validation = new resources.Validation();=

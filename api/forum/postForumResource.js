@@ -140,6 +140,9 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             function(cbk) {
                 base.call(self, req, fields, function(err, post){
                     post.user = req.user;
+                    post.creator_id = req.user;
+                    post.like_users = "";
+                    post.likes = 0;
                     cbk(err, post);
                 });
             },

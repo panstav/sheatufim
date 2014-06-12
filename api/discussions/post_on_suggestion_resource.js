@@ -73,6 +73,8 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
                     callback(err, results);
                 });
 
+            } else {
+                callback(err);
             }
         });
     },
@@ -91,6 +93,9 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
                 self._super(req, fields, function(err, post_suggestion){
                     post_suggestion.avatar = req.user.avatar_url();
                     post_suggestion.username = req.user + "";
+                    post.creator_id = req.user;
+                    post.like_users = "";
+                    post.likes = 0;
 
                     //add user that discussion participant_count to discussion
                     models.Discussion.update({_id: post_suggestion.discussion_id, "users.user_id": {$ne: fields.creator_id}},

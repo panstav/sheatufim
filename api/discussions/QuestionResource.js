@@ -46,10 +46,37 @@ var QuestionResource = module.exports = common.BaseModelResource.extend({
                         .exec(function(err, posts){
                             if(!err){
                                 var groups = _.unique(_.pluck(posts, 'creator_id'));
-                                question.posts = posts;
+
+                                question.posts = JSON.parse(JSON.stringify(posts));
                                 question.user_count = groups.length;
+                                async.forEach(question.posts, function(post, cb){
+                                    post.like_users = "";
+                                    post.likes = 0;
+                                    post.user_liked = false;
+
+                                    //set is_my_comment flag
+                                    post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
+
+                                    //get likes
+                                    models.LikePost.find().where('post_id', post._id).populate('user_id').exec(function(err, likes){
+                                        if(err) cb(err);
+                                        else {
+                                            _.forEach(likes, function(like){
+                                                post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + ' ';
+                                                post.likes += 1;
+                                                if(like.user_id._id.toString() == req.user._id.toString()){
+                                                    post.user_liked = true;
+                                                }
+                                            });
+                                            cb(null);
+                                        }
+                                    });
+                                }, function(err){
+                                    cbk(err, results);
+                                });
+                            } else {
+                                cbk(err);
                             }
-                            cbk(err);
                         })
                 }, function(err){
                     callback(err, results);

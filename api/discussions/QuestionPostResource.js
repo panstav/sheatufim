@@ -27,7 +27,10 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
             is_my_comment: null,
             user_occupation: null,
             count: null,
-            attachment:null
+            attachment:null,
+            like_users: null,
+            likes: null,
+            user_liked: null
         };
         this.default_limit = 50;
     },
@@ -40,7 +43,35 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
     get_objects:function (req, filters, sorts, limit, offset, callback) {
         var self = this;
         self._super(req, filters, sorts, 0, 0, function (err, results) {
-            callback(err, results);
+            if(!err) {
+                async.forEach(results.objects, function(post, cbk){
+                    post.like_users = "";
+                    post.likes = 0;
+                    post.user_liked = false;
+
+                    //set is_my_comment flag
+                    post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
+
+                    //get likes
+                    models.LikePost.find().where('post_id', post._id).populate('user_id').exec(function(err, likes){
+                        if(err) cbk(err);
+                        else {
+                            _.forEach(likes, function(like){
+                                post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + ' ';
+                                post.likes += 1;
+                                if(like.user_id._id.toString() == req.user._id.toString()){
+                                    post.user_liked = true;
+                                }
+                            });
+                            cbk(null);
+                        }
+                    });
+                }, function(err){
+                    callback(err, results);
+                });
+            } else {
+                callback(err);
+            }
         });
     },
 
@@ -48,6 +79,9 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
         var self = this;
         self._super(req, fields, function(err, post){
             post.creator_id = req.user;
+            post.like_users = "";
+            post.likes = 0;
+            post.user_liked = false;
             async.waterfall([
                 function(cbk) {
                     models.Question.findById(post.question_id, function(err, question){
