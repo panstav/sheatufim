@@ -95,44 +95,44 @@ module.exports = function (app) {
     router.include('/mail_settings', require('./mail_settings'));
 
     router.include('/app_error', AppError.routing);
+//
+//    router.all('/facebook', require('./account/facebook'));
+//
+//    router.all('/facebookShare', require('./account/facebook_share'));
 
-    router.all('/facebook', require('./account/facebook'));
+//    router.include('/information_items', InformationItems);
 
-    router.all('/facebookShare', require('./account/facebook_share'));
+//    router.include('/cycles', require('./cycles'));
 
-    router.include('/information_items', InformationItems);
+//    router.include('/updates', require('./updates'));
 
-    router.include('/cycles', require('./cycles'));
+//    router.include('/actions', require('./actions'));
 
-    router.include('/updates', require('./updates'));
+//    router.include('./pending_actions', require('./pending_actions'));
 
-    router.include('/actions', require('./actions'));
-
-    router.include('./pending_actions', require('./pending_actions'));
-
-    router.include('/meida', InformationItems);
+//    router.include('/meida', InformationItems);
 
     router.include('/discussions', Discussions);
 
     router.include('/forum', Forum);
 
-    router.include('/myuru', MyUru);
+//    router.include('/myuru', MyUru);
 
     router.include('/user', User);
 
     router.include('/og', require('../og'));
+//
+//    router.all('/smallgov', require('./cycles/main'));//,'508026e8cb2276020000001f'
+//
+//    router.all('/vote', require('./cycles/main'));//'5098eb8bc492d10200000024'
+//
+//    router.all('/health', require('./cycles/main'));//'507c39809cba93020000003d'
+//
+//    router.get('/agra', require('./cycles/main'));
+//
+//    router.post('/agra', require('./cycles/main'));
 
-    router.all('/smallgov', require('./cycles/main'));//,'508026e8cb2276020000001f'
-
-    router.all('/vote', require('./cycles/main'));//'5098eb8bc492d10200000024'
-
-    router.all('/health', require('./cycles/main'));//'507c39809cba93020000003d'
-
-    router.get('/agra', require('./cycles/main'));
-
-    router.post('/agra', require('./cycles/main'));
-
-    router.include('/facebook_realtime', require('./facebook_realtime'));
+//    router.include('/facebook_realtime', require('./facebook_realtime'));
 
     router.get('/timeline_embed',require('./discussions/timeline'));
 };

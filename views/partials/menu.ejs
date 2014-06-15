@@ -46,17 +46,17 @@
                                         <label for="inputUsername">כתובת אימייל:</label>
                                     </div>
                                     <div>
-                                        <input name="username" id="inputUsername" class="zirot-login-username" type="text" tabindex="1" required="">
+                                        <input name="username" id="username" class="zirot-login-username" type="text" required="">
                                     </div>
                                     <div>
                                         <label for="inputPassword">סיסמא:</label>
                                     </div>
                                     <div>
-                                        <input name="password" id="inputPassword" class="zirot-login-password" type="password" tabindex="2" required="">
+                                        <input name="password" id="password" class="zirot-login-password" type="password" required="">
                                     </div>
                                     <div>
                                         <div class="zirot-login-actions">
-                                            <div class="spacer-login"><button type="submit" tabindex="3" class="btn btn-medium btn-blue btn-submit login_form_btn">התחברות</button></div>
+                                            <div class="spacer-login"><input type="submit" class="btn btn-medium btn-blue btn-submit login_menu_btn" value="התחברות"></div>
                                             <div class="zirot-login-forgot-password"><a href="account/forgot_password">שכחתי סיסמא</a></div>
                                         </div>
                                     </div>
@@ -74,7 +74,16 @@
     $(document).ready(function () {
 
         $('.btn-nav-login').bind('click', function (e) {
+            showMenu(e);
+        });
 
+        $('.login_form_btn').on('keypress', function(e){
+            if(e.keyCode == 13){
+                showMenu(e);
+            }
+        });
+
+        var showMenu = function(e){
             e.stopPropagation();
 
             $bubble = $('.login-bubble');
@@ -84,8 +93,7 @@
                 'top': $(this).position().top + $(this).outerHeight() + $('.login-bubble .icon-login-bubble-tip').height(),
                 'left': $(this).position().left - (($bubble.outerWidth() - $(this).outerWidth()) / 2)
             });
-
-        });
+        }
 //        $('#contact').on('click', function(e){
 //            e.preventDefault();
 //            dust.render('contact_popup', {},function(err,out){
@@ -95,6 +103,30 @@
 //
 //            });
 //        });
+
+        $('.login_menu_btn').on('click', function(e){
+            loginMenu(e);
+        });
+
+        $('.login_menu_btn').on('keypress', function(e){
+            if(e.keyCode == 13){
+                loginMenu(e);
+            }
+        });
+
+        var loginMenu = function(e){
+            e.preventDefault();
+            var username = $(e.target).closest('form').find('#username').val(),
+                    password = $(e.target).closest('form').find('#password').val();
+            db_functions.login(username, password, function (err, result) {
+                if(err){
+                    popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
+                }
+                else{
+                    window.location.href = "/";
+                }
+            });
+        }
 
     });
 

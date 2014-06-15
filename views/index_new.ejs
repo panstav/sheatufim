@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿<!DOCTYPE html lang="he">
 <html lang="he-IL">
 <head>
     <title>מעגלי שיח</title>
@@ -62,18 +62,28 @@
             }
 
             $('.login_form_btn').on('click', function(e){
+                login(e);
+            });
+
+            $('.login_form_btn').on('keypress', function(e){
+                if(e.keyCode == 13){
+                    login(e);
+                }
+            });
+
+            var login = function(e){
                 e.preventDefault();
                 var username = $(e.target).closest('form').find('#inputUsername').val(),
                         password = $(e.target).closest('form').find('#inputPassword').val();
                 db_functions.login(username, password, function (err, result) {
                     if(err){
-                       popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
+                        popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
                     }
                     else{
                         window.location.href = "/";
                     }
                 });
-            });
+            }
         });
      </script>
 </body>

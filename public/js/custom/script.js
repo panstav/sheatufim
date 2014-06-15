@@ -203,4 +203,4 @@ function formatWords(sentence, show) {
 
     return new_sentence;
 
-}	
+}

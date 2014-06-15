@@ -2246,7 +2246,8 @@ body.zirot section.content {
                     text-align: right !important;
                 }
 
-                div.zirot-login input {
+                div.zirot-login input[type='password'],
+                div.zirot-login input[type='text'] {
                     margin-top: 10px;
                     padding: 10px 30px 10px 10px;
                     font-size: 15px;

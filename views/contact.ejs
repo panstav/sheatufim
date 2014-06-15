@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!DOCTYPE html lang="he">
 <html>
 <head>
-    <title>מעגלי שיח</title>
+    <title>מעגלי שיח - צור קשר</title>
     <% include partials/head.ejs %>
 </head>
 <body class="zirot">
@@ -34,9 +34,14 @@
                     <div class="spacer-large"></div>
                     <div class="row">
                         <div class="contact_form">
+                            <label for="email" style="display: none;">מייל השולח</label>
                             <input class="email" name="email" type="email" placeholder="מייל השולח">
+
+                            <label for="mail-title" style="display: none;">כותרת</label>
                             <input class="mail-title" name="title" type="text" placeholder="כותרת">
+
                             <div class="review-change-text">
+                                <label for="text" style="display: none;">תוכן ההודעה</label>
                                 <textarea class="text" name="text" class="text" placeholder="תוכן ההודעה..."></textarea>
                             </div>
                             <button class="btn btn-medium btn-green send_mail">שלח</button>
@@ -63,6 +68,15 @@
 
         });
         $('body').on('click', '.send_mail', function(e){
+            sendMail(e);
+        });
+
+        $('body').on('keypress', '.send_mail', function(e){
+            if(e.keyCode == 13)
+                sendMail(e);
+        });
+
+        var sendMail = function(e){
             $('.send_mail').addClass('disabled');
             popupProvider.showLoading({message:'שליחת הודעתך מתבצעת...'});
             var data = {
@@ -75,11 +89,11 @@
                 $.colorbox.close();
                 if(bug.status < 200 && bug.status > 300){
                     $('.contact_form').html('<h4>' +
-"                            ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית. " +
+                            "                            ארעה שגיאה בשליחת הודעתך. אנא נסה/י שנית. " +
                             '</h4>');
                 } else {
                     $('.contact_form').html('<h4>' +
-"הודעתך נשלחה בהצלחה." +
+                            "הודעתך נשלחה בהצלחה." +
                             '</h4>');
                 }
             });
@@ -91,7 +105,7 @@
 //                    popupProvider.showOkPopup({message:'הודעתך נשלחה בהצלחה.'});
 //                }
 //            });
-        });
+        }
     });
 
 </script>
