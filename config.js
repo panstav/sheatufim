@@ -98,7 +98,8 @@ config.headConfigs = {
             '/js/countdown.js',
             '/js/custom/script.js',
             '/js/custom/links_and_info_items.js',
-            '/js/lib/bootstrap.js'
+            '/js/lib/bootstrap.js',
+            '/js/accessibility.js'
 
             /*'/js/jquerypp/jquery.dotdotdot-1.5.6-packed.js'*/
         ]

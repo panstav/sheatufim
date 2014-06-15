@@ -654,7 +654,10 @@ img {
 .btn-blue:active {
     background-color: #fff;
     color: #3bafda;
-    border: 2px #3bafda solid;
+    border: 2px #3bafda solid !important;
+}
+.btn-blue.focused {
+    border: 2px black solid;
 }
 
 .btn-red {

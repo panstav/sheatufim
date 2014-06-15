@@ -232,6 +232,7 @@ ul.list li.link-container a:hover {
 }
 #logo a {
     text-decoration: none;
+    display: inline-block;
 }
 
 .request-change-dialog .message.primary-message {
@@ -630,4 +631,31 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
 }
 .primary-message .message-ticker {
     height: 121px;
+}
+
+a.focused {
+    border: 1px solid #2890b7;
+}
+
+footer a.focused {
+    border: 1px solid #90c415;
+}
+.btn_login {
+    box-shadow: none;
+    border:none;
+    background: transparent;
+}
+button.focused {
+    border: 2px solid #2890b7;
+}
+.btn-green.focused {
+    border: 2px solid #2890b7;
+}
+
+li.focused {
+    border: 1px solid #2890b7;
+}
+
+footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hover, footer #footer-links a:visited {
+    display: inline-block;
 }

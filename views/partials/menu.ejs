@@ -2,11 +2,11 @@
     <div class="row">
         <!-- Logo -->
         <div id="logo" class="col4">
-            <a href="/">
+            <a href="/" tabindex="1">
                 <img src="/img/logo.png" alt="מעגלי שיח מבית שיתופים" title="מעגלי שיח מבית שיתופים"/>
 
             </a>
-            <a href="http://www.sheatufim.org.il" target="_blank">
+            <a href="http://www.sheatufim.org.il" target="_blank" tabindex="2">
                 <img src="/img/shitufim.png" alt="שיתופים" title="שיתופים"/>
             </a>
         </div>
@@ -22,7 +22,7 @@
                 <% if( user_logged ) { %>
 
                     <li id="header-nav-logged-in">
-                        <a href="/user">
+                        <button class="btn_login">
                         <div  class="row">
                             <div class="right">
                                 <img src="<%=avatar%>" class="logged-in-user-img circle" alt="<%=user.first_name%>"/>
@@ -33,7 +33,7 @@
                                 <div class="logged-in-user-logout"><a href="/account/logout">יציאה</a></div>
                             </div>
                         </div>
-                        </a>
+                        </button>
                     </li>
                 <% } else { %>
                     <li id="header-nav-login">
@@ -112,6 +112,10 @@
             if(e.keyCode == 13){
                 loginMenu(e);
             }
+        });
+
+        $('#header-nav-logged-in').on('click', function(){
+            window.location.href = '/user';
         });
 
         var loginMenu = function(e){
