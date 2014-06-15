@@ -19,9 +19,9 @@
         <div class="container">
             <div class="row">
                 <div class="welcome">
-                    <div class="welcome-pre-title"><%- welcome_pre_title %></div>
-                    <div class="welcome-title"><%- welcome_title %></div>
-                    <div class="welcome-tagline"><%- text %></div>
+                    <h2 class="welcome-pre-title"><%- welcome_pre_title %></h2>
+                    <h1 class="welcome-title"><%- welcome_title %></h1>
+                    <h3 class="welcome-tagline"><%- text %></h3>
                 </div>
             </div>
             <div class="row zirot-container">
@@ -78,8 +78,7 @@
                 db_functions.login(username, password, function (err, result) {
                     if(err){
                         popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
-                    }
-                    else{
+                    } else {
                         window.location.href = "/";
                     }
                 });
