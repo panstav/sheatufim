@@ -4,6 +4,8 @@ module.exports = function(router) {
 
     router.get('/about',require('./about'));
 
+    router.get('/about-en',require('./about-en'));
+
     router.get('/contact',require('./contact'));
 
     router.get('/team',require('./team'));

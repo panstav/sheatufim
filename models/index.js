@@ -258,6 +258,8 @@ var Schemas = exports.Schemas = {
     About:utils.revertibleModel(new Schema({
         title:{type:String, required:true},
         text_field:{type:Schema.Types.Html, required:true},
+        title_en:{type:String, required:true},
+        text_field_en:{type:Schema.Types.Html, required:true},
         is_hidden:{type:Boolean, 'default':true},
         _preview:{type:Schema.Types.Mixed,link:'/about',editable:false}
     },{strict:true})),

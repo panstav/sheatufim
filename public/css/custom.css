@@ -494,9 +494,14 @@ ul.list li.link-container a:hover {
     margin-top: 40px;
     font-size: 20px;
 }
+
+.about-one.english h4, .about-one.english p {
+    direction: ltr;
+}
 .review-change-text.delete {
     text-decoration: line-through;
 }
+
 .request-change-dialog .review-change-text.delete {
     width: 100%;
     height: 60px;

@@ -1,8 +1,8 @@
-<div class="about-one">
+<div class="about-one {?is_english}english{/is_english}">
     <h4>
-{title}
+        {?is_english}{title_en}{:else}{title}{/is_english}
    </h4>
     <p>
-        {text_field|s}
+        {?is_english}{text_field_en|s}{:else}{text_field|s}{/is_english}
     </p>
 </div>
