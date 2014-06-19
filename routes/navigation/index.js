@@ -10,6 +10,8 @@ module.exports = function(router) {
 
     router.get('/team',require('./team'));
 
+    router.get('/terms-of-use',require('./terms_of_use'));
+
     router.get('/qa',require('./qa'));
 
     router.get('/founders',require('./founders'));
