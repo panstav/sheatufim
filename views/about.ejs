@@ -14,8 +14,8 @@
         <div class="container">
             <div class="row">
                 <div class="welcome">
-                    <div class="welcome-pre-title">about</div>
-                    <div class="welcome-title">The Circles of Dialogue</div>
+                    <div class="welcome-pre-title">אודות</div>
+                    <div class="welcome-title">אתר מעגלי השיח</div>
                     <div class="welcome-tagline"></div>
                 </div>
             </div>
@@ -33,6 +33,11 @@
 
     $(document).ready(function () {
         var is_english = "<%= is_english %>";
+
+        if (is_english == "true"){
+            $('.welcome-pre-title').html('about');
+            $('.welcome-title').html('The Circles of Dialogue');
+        }
 
         db_functions.getAboutUruTexts(function (data) {
                 $.each(data.objects, function (index, item) {
