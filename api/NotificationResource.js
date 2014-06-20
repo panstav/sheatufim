@@ -110,6 +110,8 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
             var info_item = info_items_hash[notification.entity_id + ''] || info_items_hash[notification.notificators[0].sub_entity_id + ''];
             var post = posts_hash[notification.entity_id + ''] || posts_hash[notification.notificators[0].sub_entity_id + ''];
             var post_id = post ? post._id : "";
+            var post_text = post ? post.toObject().text : "";
+
             var subject = subjects_hash[notification.entity_id + ''] || subjects_hash[notification.notificators[0].sub_entity_id + ''];
             var question = questions_hash[notification.entity_id + ''] || questions_hash[notification.notificators[0].sub_entity_id + ''];
 
@@ -128,7 +130,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                 case "change_suggestion_on_discussion_you_are_part_of":
                     var num_of_comments = notification.notificators.length;
                     if(discussion){
-                        notification.main_link = notification.url + '#' + post._id.toString();
+                        notification.main_link = notification.url + '#' + post_id.toString();
                         notification.part_two = discussion.title;
                         notification.link_two = "/discussions/" + discussion._id + "";
                     }
@@ -231,7 +233,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = subject.name;
                     }
                     notification.main_link = notification.url;
-                    notification.extra_text = post.toObject().text;
+                    notification.extra_text = post_text;
                     itr_cbk();
                     break;
 
@@ -247,10 +249,10 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     }
 
                     if(discussion){
-                        notification.link_two = "/discussions/" + discussion._id + '#' + post._id;
+                        notification.link_two = "/discussions/" + discussion._id + '#' + post_id;
                         notification.part_two = discussion.title;
                     }
-                    notification.extra_text = post.toObject().text;
+                    notification.extra_text = post_text;
                     notification.main_link = notification.url;
                     itr_cbk();
                     break;
@@ -289,7 +291,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = subject.name;
                     }
                     notification.main_link = notification.url;
-                    notification.extra_text = post.toObject().text;
+                    notification.extra_text = post_text;
                     itr_cbk();
                     break;
 
@@ -305,7 +307,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         }
                     }
                     if(discussion){
-                        notification.link_two = "/discussions/" + discussion._id + '#' + post._id;
+                        notification.link_two = "/discussions/" + discussion._id + '#' + post_id;
                         notification.part_two = discussion.title;
                     }
                     notification.main_link = notification.url;
@@ -326,7 +328,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/" + discussion._id;
                         notification.part_two = discussion.title;
                     }
-                    notification.main_link = notification.url + '#' + post._id;
+                    notification.main_link = notification.url + '#' + post_id;
                     itr_cbk();
                     break;
                 case "new_information_item_on_subject_you_are_part_of":
@@ -389,7 +391,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = question.title;
                     }
                     notification.main_link = notification.url;
-                    notification.extra_text = post ? post.toObject().text : '';
+                    notification.extra_text = post_text;
                     itr_cbk();
                     break;
                 default:
