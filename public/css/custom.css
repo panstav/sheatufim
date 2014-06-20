@@ -671,3 +671,7 @@ li.focused {
 footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hover, footer #footer-links a:visited {
     display: inline-block;
 }
+
+.user_image.focused .qq-upload-button label {
+    display: block;
+}
