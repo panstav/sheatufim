@@ -32,5 +32,21 @@ $(document).ready(function () {
     }).on('blur', "*", null, function (event) {
             $(event.target).removeClass("focused");
     });
+
+    $(document).on('focus', '.qq-uploader input', function(event){
+        if (is_tabbing) {
+            $(event.target).closest('.user_image').addClass("focused");
+        }
+    }).on('blur', ".qq-uploader input", null, function (event) {
+        $(event.target).closest('.user_image').removeClass("focused");
+    });
+
+    $(document).on('focus', '.email_settings input', function(event){
+        if (is_tabbing) {
+            $(event.target).next('label').addClass("focused");
+        }
+    }).on('blur', ".email_settings input", null, function (event) {
+        $(event.target).next('label').removeClass("focused");
+    });
 });
 

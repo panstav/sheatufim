@@ -614,6 +614,7 @@ ul.list li.link-container a:hover {
 }
 nav#header-nav li#header-nav-logged-in {
     cursor: pointer;
+    padding: 0;
 }
 nav#header-nav li#header-nav-logged-in:hover {
     background-color: #c7c7c7;
@@ -649,6 +650,12 @@ footer a.focused {
     box-shadow: none;
     border:none;
     background: transparent;
+    padding: 11px 20px 10px 20px;
+}
+label.focused,
+.user_image.focused,
+.btn_login.focused {
+    border: 1px solid #2890b7;
 }
 button.focused {
     border: 2px solid #2890b7;

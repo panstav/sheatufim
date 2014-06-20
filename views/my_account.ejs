@@ -84,9 +84,10 @@
             }
             $('.name').toggleClass('active');
             $('.name_input').toggleClass('active');
-            if($('.edit_name').html() == 'ערוך')
+            if($('.edit_name').html() == 'ערוך') {
                 $('.edit_name').html('שמור');
-            else {
+                $('.name_input').focus();
+            } else {
                 $('.edit_name').html('ערוך');
             }
 

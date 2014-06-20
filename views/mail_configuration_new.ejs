@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="he-IL">
 <head>
     <title>מעגלי שיח</title>
     <% include partials/head.ejs %>
@@ -103,6 +103,24 @@
         });
 
         $(".settings_box_section input").click(function(e){
+            updateNotification(e);
+        });
+
+        $(".settings_box_section input").on('keypress', function(e){
+            if(e.keyCode == 13){
+                var $target = $(e.target);
+                if($target.is(':checked')){
+                    $target.prop('checked', false);
+                } else {
+                    $target.prop('checked', true);
+                }
+
+                updateNotification(e);
+            }
+
+        });
+
+        var updateNotification = function(e) {
             var notif_type = $(e.target).attr('id');
             var notif=$(this).parents('.settings_box').find('.notification');
             notif.show();
@@ -120,7 +138,7 @@
                     notifFail(notif);
                 }
             })
-        });
+        };
         function notifSuccess(notif){
             if (notif.data('finish') == false){
                 notif.stop();
