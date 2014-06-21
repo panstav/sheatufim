@@ -294,7 +294,7 @@ function initDiscussionEditing(discussion,target){
             }
             text = text.replace(/(\r?\n)/g, '<br>');
             lines.push(original.substr(lastIndex,suggestion.parts[0].start - lastIndex).replace(/(\r?\n)/g, '<br>'));
-            lines.push('<span data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</span>');
+            lines.push('<a href="javascript:;" data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</a>');
             lastIndex = suggestion.parts[0].end;
         });
         lines.push(original.substr(lastIndex,original.length - lastIndex).replace(/(\r?\n)/g, '<br>'));
@@ -319,10 +319,11 @@ function initDiscussionEditing(discussion,target){
     });
 
     var fadeTO;
+
     $("#discussion_content").on('mouseenter','.marker_1',function(e){
         if ($("#discussion_content").parent().find(".icon-close").hasClass('hide')) return;
 
-        var position = $(this).offset();
+        var position = $(e.target).offset();
         var offset = $('#discussion_edit_container').offset();
         left = Math.ceil((e.clientX + e.clientX) / 2 - 97);
 

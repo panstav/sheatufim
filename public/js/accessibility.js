@@ -25,7 +25,7 @@ $(document).ready(function () {
             $(event.target).addClass("focused");
         }
     }).on('blur', "*", null, function (event) {
-            $(event.target).removeClass("focused");
+        $(event.target).removeClass("focused");
     });
 
     $(document).on('focus', '.qq-uploader input', function(event){
@@ -44,12 +44,10 @@ $(document).ready(function () {
         $(event.target).next('label').removeClass("focused");
     });
 
-    //skip hidden replies
-//    $(document).on('focus', '.message-likes', function(event){
-//        var $target = $(event.target);
-//        if (is_tabbing && $target.closest('ul.posts').css('display') == 'none') {
-//            $target.closest('li.question').next().find('.message-likes').focus();
-//        }
-//    });
+    $(document).on('focus', '.paper-mark', function(event){
+        if (is_tabbing) {
+            $(event.target).mouseenter();
+        }
+    });
 });
 

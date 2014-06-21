@@ -716,7 +716,11 @@ a.forum_link,
 .info-item a {
     display: inline-block;
 }
-
+.paper.paper-opened .paper-mark {
+    display: inline-block;
+    padding: 0;
+    line-height: 17px;
+}
 .aside-more-info a {
     height: 31px;
 }

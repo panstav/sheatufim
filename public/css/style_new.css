@@ -2983,6 +2983,12 @@ body.document-review .message-datetime {
     background-color: #f1db61;
     cursor: pointer;
     position: static;
+    color: #143a7a;
+    text-decoration: none;
+}
+
+.paper.paper-opened .paper-mark.focused {
+
 }
 
 .paper.paper-opened .paper-mark-selected {
