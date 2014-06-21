@@ -22,7 +22,10 @@
             <div class="row">
                 <div class="message-content right" data-text="{text}">
                     {?text_short}
-                        {text_short}<span class="show_all_text">קרא עוד</span>
+                        {text_short}
+                            <a href="javascript:;" class="show_all_text">
+                                <span>קרא עוד</span>
+                            </a>
                     {:else}
                         {text}
                     {/text_short}

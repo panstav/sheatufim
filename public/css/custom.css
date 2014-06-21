@@ -18,6 +18,7 @@ span.show_all_text:hover {
 }
 .message.primary-message {
     min-width: 725px;
+    margin: 0;
 }
 .message.primary-message .message-text{
     min-width: 595px;
@@ -702,6 +703,10 @@ footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hove
     display: block;
 }
 
+.post-headerbox a {
+    margin-top: 16px;
+}
+.post-headerbox a,
 a.forum_link,
 #discussions_list li a,
 .message-bar a,
@@ -779,4 +784,11 @@ button.forum_link {
 }
 .forum_link .message-text {
     cursor: pointer;
+}
+.basket-item-container {
+    text-align: left;
+}
+.basket-item-container a {
+    display: inline-block;
+    margin-bottom: -3px;
 }

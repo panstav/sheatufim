@@ -14,7 +14,7 @@
 
         <div class="container">
             <!-- Breadcrumbs -->
-            <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="discussions/subject/<%=subject._id%>"><%=subject.name%></a> > <a href="#">פורום</a></div>
+            <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="discussions/subject/<%=subject._id%>"><%=subject.name%></a> > פורום</div>
             <div class="row">
                 <!-- Sidebar -->
                 <% include partials/sidebar.ejs %>
@@ -33,9 +33,7 @@
                                         <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-home right"></i>לעמוד מעגל שיח ראשי</div>
                                     </div>
                                 </a>
-                                <a href="#">
-                                    <div class="left link-forum">פורום</div>
-                                </a>
+                                <div class="left link-forum">פורום</div>
                             </div>
                         </div>
                     </div>
@@ -319,6 +317,16 @@
             $('.main_container').on('click', '.show_all_text', function(e){
                 var text = $(e.target).closest('.message-content').data('text');
                 $(e.target).closest('.message-content').html(text);
+                var $next_focus = $(e.target).closest('.message-text').find('.toggle_replies');
+                if(!$next_focus){
+                    $next_focus = $(e.target).closest('.message-text').find('.message-likes');
+                }
+                $next_focus.focus();
+            });
+
+            $('body').on('click', '.message-reply', function(e){
+                var id = $(e.target).closest('li').data('id');
+                replyTo('message-' + id);
             });
 
             function uploadAttachment( id, file,cbk){
@@ -344,7 +352,7 @@
                 }
             };
 
-            $('.main_container').on('click', '.message-likes .like', function(e){
+            var likePost = function(e){
                 var post_id = $(e.target).closest('.row-table').data('id');
                 db_functions.likePost(post_id, user._id, function(err, data){
                     console.log('liked');
@@ -357,8 +365,9 @@
                     $img.removeClass('like').addClass('unlike');
                     $img.attr('src', '/images/unlike.png');
                 });
-            });
-            $('.main_container').on('click', '.message-likes .unlike', function(e){
+            }
+
+            var unlikePost = function(e){
                 var post_id = $(e.target).closest('.row-table').data('id');
                 db_functions.likePost(post_id, user._id, function(err, data){
                     console.log('unliked');
@@ -371,6 +380,19 @@
                     $img.removeClass('unlike').addClass('like');
                     $img.attr('src', '/images/like.png');
                 });
+            };
+
+            $('.main_container').on('click', '.message-likes', function(e){
+                var $target = $(e.target).closest('.message-likes').find('img');
+                if($target.hasClass('like'))
+                    likePost(e);
+                else
+                    unlikePost(e);
+            });
+
+            $('body').on('click', '.toggle_replies', function(e){
+                var id = $(e.target).closest('li').data('id');
+                toggleMessage('message-' + id);
             });
 
             $('#subjectShoppingCartPopup').click(function(){
