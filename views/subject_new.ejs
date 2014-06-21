@@ -255,6 +255,7 @@
                                 var reply_count = $replies.data('replies') + 1;
                                 $replies.html(reply_count + ' תגובות');
                                 $replies.data('replies', reply_count);
+                                $primary_message.find('.message-reply').focus();
                             }
                         });
                     }
@@ -325,38 +326,41 @@
             });
         };
 
-        $latest_posts.on('click', '.message-likes .like', function(e){
-            likePost(e);
-        });
-
-        $latest_posts.on('click', '.message-likes .unlike', function(e){
-            unlikePost(e);
-        });
-
-        $questions_list.on('click', '.message-likes .like', function(e){
-            likeQuestionPost(e);
-        });
-        $questions_list.on('click', '.message-likes .unlike', function(e){
-            unlikeQuestionPost(e);
-        });
-
-        $latest_posts.on('keypress', '.message-likes .like', function(e){
-            if(e.keyCode == 13)
+        $latest_posts.on('click', '.message-likes', function(e){
+            var $target = $(e.target).closest('.message-likes').find('img');
+            if($target.hasClass('like'))
                 likePost(e);
-        });
-
-        $latest_posts.on('keypress', '.message-likes .unlike', function(e){
-            if(e.keyCode == 13)
+            else
                 unlikePost(e);
         });
 
-        $questions_list.on('keypress', '.message-likes .like', function(e){
-            if(e.keyCode == 13)
+
+        $questions_list.on('click', '.message-likes', function(e){
+            var $target = $(e.target).closest('.message-likes').find('img');
+            if($target.hasClass('like'))
                 likeQuestionPost(e);
-        });
-        $questions_list.on('keypress', '.message-likes .unlike', function(e){
-            if(e.keyCode == 13)
+            else
                 unlikeQuestionPost(e);
+        });
+
+        $latest_posts.on('keypress', '.message-likes', function(e){
+            if(e.keyCode == 13) {
+                var $target = $(e.target).closest('.message-likes').find('img');
+                if($target.hasClass('like'))
+                    likePost(e);
+                else
+                    unlikePost(e);
+            }
+        });
+
+        $questions_list.on('keypress', '.message-likes', function(e){
+            if(e.keyCode == 13) {
+                var $target = $(e.target).closest('.message-likes').find('img');
+                if($target.hasClass('like'))
+                    likeQuestionPost(e);
+                else
+                    unlikeQuestionPost(e);
+            }
         });
 
         $latest_posts.on('click', '.show_all_text', function(e){
@@ -520,13 +524,25 @@
                 $(this).siblings('.post-new-message-upload').click();
             }
         });
-        $body.on('click', '.toggle_replies', function(e){
+        $body.on('click', '.question .toggle_replies', function(e){
             $(e.target).closest('.question').find('ul.posts').toggleClass('hide');
         });
 
-        $body.on('keypress', '.toggle_replies', function(e){
+        $body.on('keypress', '.question .toggle_replies', function(e){
             if(e.keyCode == 13)
                 $(e.target).closest('.question').find('ul.posts').toggleClass('hide');
+        });
+
+        $body.on('click', '.last-messages .toggle_replies', function(e){
+            var id = $(e.target).closest('li').data('id');
+            toggleMessage('message-' + id);
+        });
+
+        $body.on('keypress', '.last-messages .toggle_replies', function(e){
+            if(e.keyCode == 13) {
+                var id = $(e.target).closest('li').data('id');
+                toggleMessage('message-' + id);
+            }
         });
 
         $body.on('click', '.create_question_post', function(e){
@@ -538,6 +554,25 @@
                 createQuestionPost(e);
         });
 
+        $body.on('click', 'button.forum_link', function(e){
+            var $target = $(e.target);
+            if(!($target.hasClass('message-replies') || $target.hasClass('like')
+                    || $target.hasClass('unlike') || $target.hasClass('message-reply-title')
+                    || $target.hasClass('icon-expand') || $target.hasClass('icon-collapse')
+                    || $target.hasClass('like-counter')
+                    || $target.hasClass('message-ticker') || $target.hasClass('toggle_replies')
+                    || $target.hasClass('message-likes') || $target.hasClass('message-reply')))
+                window.location.href = $(e.target).closest('.forum_link').data('href');
+        });
+
+        $body.on('click', '.message-reply', function(e){
+            var id = $(e.target).closest('li').data('id');
+            replyTo('message-' + id);
+        });
+        $body.on('click', '.message-reply', function(e){
+            var id = $(e.target).closest('li').data('id');
+            replyTo('message-' + id);
+        });
 
 
         var createQuestionPost = function(e){
@@ -593,6 +628,7 @@
                                 var reply_count = $replies.data('replies') + 1;
                                 $replies.html(reply_count + ' תגובות');
                                 $replies.data('replies', reply_count);
+                                $('.replies-' + question_id).css('display', 'block');
                             }
                         });
                     }

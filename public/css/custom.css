@@ -33,6 +33,7 @@ span.show_all_text:hover {
 
 #questions_list .message.primary-message {
     min-width: 705px;
+    margin: 0;
 }
 #questions_list div.post-new-reply {
     max-width: 665px;
@@ -49,11 +50,13 @@ span.show_all_text:hover {
 }
 .latest_posts .message.primary-message {
     min-width: 705px;
+    margin: 0;
 }
 .latest_posts .message.message-pad-1,
 .latest_posts .post-new-reply.message-pad-1 {
     min-width: 665px;
     max-width: 665px;
+    margin-bottom: 0;
 }
 .latest_posts .message.message-pad-1 .message-text {
     min-width: 555px;
@@ -62,6 +65,7 @@ span.show_all_text:hover {
 .latest_posts .post-new-reply.message-pad-2 {
     min-width: 645px;
     max-width: 645px;
+    margin-bottom: 0;
 }
 .latest_posts .message.message-pad-2 .message-text {
     min-width: 535px;
@@ -70,16 +74,32 @@ span.show_all_text:hover {
 .latest_posts .post-new-reply.message-pad-3 {
     min-width: 625px;
     max-width: 625px;
+    margin-bottom: 0;
 }
 .latest_posts .message.message-pad-3 .message-text {
     min-width: 515px;
 }
+.latest_posts {
+    padding-top: 7px;
+    padding-bottom: 20px;
+}
 .latest_posts a {
     color: black;
+}
+.latest_posts a.message-reply {
+    color: #3bafda;
 }
 .latest_posts a.forum_link {
     color: black;
     text-decoration: none;
+}
+
+.reply-to-message {
+    margin-top: 10px;
+    margin-bottom: -3px;
+}
+.message {
+    margin-bottom: 3px;
 }
 .message.message-pad-1 {
     min-width: 685px;
@@ -634,6 +654,7 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
 .message-likes .like-counter {
     margin-left: 5px;
     font-size: 19px;
+    color: black;
 }
 .primary-message .message-ticker {
     height: 121px;
@@ -652,6 +673,7 @@ footer a.focused {
     background: transparent;
     padding: 11px 20px 10px 20px;
 }
+button.forum_link.focused,
 label.focused,
 .user_image.focused,
 .btn_login.focused {
@@ -680,7 +702,8 @@ footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hove
     display: block;
 }
 
-#discussions_list .post-messages-container ul li a,
+a.forum_link,
+#discussions_list li a,
 .message-bar a,
 .list.notifications a,
 .post-headerbox a.home,
@@ -688,6 +711,7 @@ footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hove
 .info-item a {
     display: inline-block;
 }
+
 .aside-more-info a {
     height: 31px;
 }
@@ -738,4 +762,21 @@ button {
 .document-text .row.text_preview {
     margin-bottom: 15px;
     display: block;
+}
+
+button.icon-close {
+    box-shadow: none;
+    border: none;
+}
+button.icon-close.focused {
+    background-image: url('../img/icon-close-hover.png');
+    border: 2px solid #3bafda;
+}
+button.forum_link {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+}
+.forum_link .message-text {
+    cursor: pointer;
 }

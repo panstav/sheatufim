@@ -11,17 +11,17 @@
                 <div class="message-author-role right">{user.occupation}</div>
             </div>
             <div class="row">
-                <div class="message-content right" data-text=" g">
+                <div class="message-content right" data-text="{text|s}">
                     {text|s}
                 </div>
             </div>
             <div class="spacer"></div>
             <div class="message-bar row">
                 <div class="message-datetime right">{time} | {date}</div>
-                <div class="message-likes right">
+                <a href="javascript:;" class="message-likes right">
                     <div class="like-counter right" title="">{likes}</div>
-                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png">
-                </div>
+                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png" title="{?user_liked}לא אהבתי את התגובה{:else}אהבתי את התגובה{/user_liked}">
+                </a>
                 <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
             </div>
         </div>

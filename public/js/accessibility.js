@@ -17,17 +17,12 @@ $(document).ready(function () {
 
     $('body').mouseup(function (e) {
         is_tabbing = false;
-        $popover = null;
+        $('body').find('.focused').removeClass('focused');
     });
+
     $(document).on('focus', "a, input, li, button", null, function (event) {
         if (is_tabbing) {
-            if ($popover && !$.contains($popover[0], event.target)) {
-                var $btn = $popover.find('.close-btn');
-                $btn.focus();
-                $btn.addClass("focused");
-            } else {
-                $(event.target).addClass("focused");
-            }
+            $(event.target).addClass("focused");
         }
     }).on('blur', "*", null, function (event) {
             $(event.target).removeClass("focused");
@@ -48,5 +43,13 @@ $(document).ready(function () {
     }).on('blur', ".email_settings input", null, function (event) {
         $(event.target).next('label').removeClass("focused");
     });
+
+    //skip hidden replies
+//    $(document).on('focus', '.message-likes', function(event){
+//        var $target = $(event.target);
+//        if (is_tabbing && $target.closest('ul.posts').css('display') == 'none') {
+//            $target.closest('li.question').next().find('.message-likes').focus();
+//        }
+//    });
 });
 

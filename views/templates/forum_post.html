@@ -4,18 +4,14 @@
         <div class="message message-pad-{level}">
             <i class="icon icon-box-top-right-gray-tip"></i>
     {:else}
-            {?link}
-            <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
-                {/link}
-        {?closed}
-            <div class="message primary-message">
-                <a class="forum_link" href="/discussions/subject/{subject_id}/forum#{_id}">
-        {:else}
-
-            <div class="message primary-message message-closed">
-
-            <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" class="toggle_replies"></i></div>
-        {/closed}
+        <!--{?link}-->
+            <!--<div class="forum_link" data-href="/discussions/subject/{subject_id}/forum#{_id}">-->
+        <!--{/link}-->
+    <div class="message primary-message message-closed">
+        {?link}
+        <button class="forum_link" data-href="/discussions/subject/{subject_id}/forum#{_id}">
+        {/link}
+            <a href="javascript:;" class="message-ticker primary-ticker toggle_replies"><i class="icon icon-expand hand"></i></a>
     {/parent_id}
         <div class="message-image"><div class="circle circle-wrapper auto-scale"><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
         <div class="message-text">
@@ -36,27 +32,30 @@
             <div class="message-bar row">
                 <div class="message-datetime right">{date} | {time}</div>
                 {?last}
-                <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
-                    <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
-                </div>
-                {:else}
-                {^parent_id}
-                <a class="toggle_replies" href="javascript:;">
-                {/parent_id}
-                <div class="message-replies right" data-replies="{replies}"> {replies} תגובות </div>
-                {^parent_id}
-                </a>
-                {/parent_id}
-                    {^closed}
                     <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
                         <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
                     </div>
+                {:else}
+                    {^parent_id}
+                        <a href="javascript:;" class="toggle_replies">
+                            <div class="message-replies right" data-replies="{replies}"> {replies} תגובות </div>
+                        </a>
+                    {:else}
+                        <div class="message-replies right" data-replies="{replies}"> {replies} תגובות </div>
+                    {/parent_id}
+
+                    <a href="javascript:;" class="message-likes">
+                        <div class="like-counter right" title="">{likes}</div>
+                        <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png" title="{?user_liked}לא אהבתי את התגובה{:else}אהבתי את התגובה{/user_liked}">
+                    </a>
+
+                    {^closed}
+                        <a href="javascript:;" class="message-reply hand left">
+                            <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>
+                        </a>
                     {/closed}
                 {/last}
-                <div class="message-likes right">
-                    <div class="like-counter right" title="">{likes}</div>
-                    <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.png">
-                </div>
+
                 <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
             </div>
         </div>
@@ -64,19 +63,16 @@
             </div>
         </div>
         {:else}
-            {?closed}
-                </a>
             </div>
-            {:else}
-                </div>
-
-            </div>
-            {/closed}
+            {?link}
+            </button>
+        {/link}
+        </div>
         {/parent_id}
         <div class="reply-to-message row hide">
             <div class="post-new-reply reply-to-message-{_id} message-pad-{reply_level}">
                 <i class="icon icon-box-top-right-blue-tip"></i>
-                <i class="icon icon-close hand" onclick="closeReply('message-{_id}');"></i>
+                <button class="icon icon-close hand" onclick="closeReply('message-{_id}');"></button>
                 <div class="post-new-message-body">
                     <div class="post-new-message-body-image"><div class="circle circle-wrapper auto-scale" ><img src="{user_avatar}" alt="תמונה" title="תמונה"/></div></div>
                     <div class="post-new-message-body-text">
@@ -105,7 +101,7 @@
     {^last}
         <ul class="replies-{_id} {?hidden}hide{/hidden}"></ul>
     {/last}
-    {?link}
-    </a>
-    {/link}
+    <!--{?link}-->
+    <!--</div>-->
+    <!--{/link}-->
 </li>
