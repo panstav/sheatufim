@@ -284,6 +284,7 @@ function initDiscussionEditing(discussion,target){
             return a.parts[0].start - b.parts[0].start;
         });
         var lastIndex = 0;
+        var tab_counter = 0;
         $.each(suggestions_list, function (index, suggestion) {
             //var html = $('#discussion_content').html();
             var text = original.substr(suggestion.parts[0].start, suggestion.parts[0].end - suggestion.parts[0].start);
@@ -292,17 +293,27 @@ function initDiscussionEditing(discussion,target){
                 console.log('range problem |' + suggestion.id);
                 return
             }
-            text = text.replace(/(\r?\n)/g, '<br>');
-            lines.push(original.substr(lastIndex,suggestion.parts[0].start - lastIndex).replace(/(\r?\n)/g, '<br>'));
-            lines.push('<a href="javascript:;" data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</a>');
+            text = text.replace(/(\r?\n)/g, '<br/>');
+            lines.push(original.substr(lastIndex,suggestion.parts[0].start - lastIndex).replace(/(\r?\n)/g, '<br/>'));
+            lines.push('<a href="javascript:;" data-tab="' + tab_counter + '" data-id="' + suggestion.id + '" class="marker_1 paper-mark">' + text + '</a>');
+            tab_counter++;
             lastIndex = suggestion.parts[0].end;
         });
-        lines.push(original.substr(lastIndex,original.length - lastIndex).replace(/(\r?\n)/g, '<br>'));
+        lines.push(original.substr(lastIndex,original.length - lastIndex).replace(/(\r?\n)/g, '<br/>'));
         $('#discussion_content').html(lines.join(''));
     }
 
     $("#discussion_content").on("click", ".marker_1", function () {
         if (!mouseDown) {
+            $('#suggestionTab').click();
+            var id = $(this).data('id');
+            $('html, body').animate({
+                scrollTop: $("li.suggestion-item[data-id=" + id + "]").offset().top
+            }, 500);
+        }
+    });
+    $("body").on("keydown", ".marker_1", function (e) {
+        if (e.keyCode == 13) {
             $('#suggestionTab').click();
             var id = $(this).data('id');
             $('html, body').animate({
@@ -325,7 +336,7 @@ function initDiscussionEditing(discussion,target){
 
         var position = $(e.target).offset();
         var offset = $('#discussion_edit_container').offset();
-        left = Math.ceil((e.clientX + e.clientX) / 2 - 97);
+        left = Math.ceil((position.left + $(e.target).width() / 2) - 97);
 
         if(fadeTO)
             clearTimeout(fadeTO);
@@ -610,35 +621,6 @@ function initDiscussionEditing(discussion,target){
             // Transform the button to a replies button
             $li.find(' button.review-respond').html('תגובות');
         }
-    });
-
-    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.message-likes .like', function(e){
-        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
-        db_functions.likePost(post_id, user._id, function(err, data){
-            console.log('liked');
-            if(err) return;
-            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
-            var counter = parseInt($likes.html());
-            counter += 1;
-            $likes.html(counter);
-            var $img = $likes.next('img');
-            $img.removeClass('like').addClass('unlike');
-            $img.attr('src', '/images/unlike.png');
-        });
-    });
-    $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.message-likes .unlike', function(e){
-        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
-        db_functions.likePost(post_id, user._id, function(err, data){
-            console.log('unliked');
-            if(err) return;
-            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
-            var counter = parseInt($likes.html());
-            counter -= 1;
-            $likes.html(counter);
-            var $img = $likes.next('img');
-            $img.removeClass('unlike').addClass('like');
-            $img.attr('src', '/images/like.png');
-        });
     });
 
     $('#approved_suggestions_wrapper,#suggestions_wrapper').on('click', '.add_suggestion_comment', function (e) {

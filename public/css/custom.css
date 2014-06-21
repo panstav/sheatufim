@@ -796,3 +796,31 @@ button.forum_link {
     display: inline-block;
     margin-bottom: -3px;
 }
+
+.document-review-tabs .tab {
+    padding: 0 !important;
+}
+
+.document-review-tabs .tab a {
+    display: inline-block;
+    height: 69px;
+}
+
+.document-review-tabs .tab a .row {
+    width: 244px;
+    padding: 19px 19px 16px;
+    display: inline-block;
+}
+
+.document-review-tabs .tab a.focused {
+    background: #2890b7;
+}
+.document-review-tabs .tab.tab-selected a.focused {
+    background: transparent;
+}
+
+.review-options button.focused {
+    border: 2px solid black;
+    padding-right: 21px;
+    border: 2px solid black;
+}
