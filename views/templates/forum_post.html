@@ -14,7 +14,7 @@
 
             <div class="message primary-message message-closed">
 
-                <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" onclick="toggleMessage('message-{_id}');"></i></div>
+            <div class="message-ticker primary-ticker"><i class="icon icon-expand hand" class="toggle_replies"></i></div>
         {/closed}
     {/parent_id}
         <div class="message-image"><div class="circle circle-wrapper auto-scale"><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
@@ -41,7 +41,7 @@
                 </div>
                 {:else}
                 {^parent_id}
-                <a href="javascript:;" onclick="toggleMessage('message-{_id}');">
+                <a class="toggle_replies" href="javascript:;">
                 {/parent_id}
                 <div class="message-replies right" data-replies="{replies}"> {replies} תגובות </div>
                 {^parent_id}

@@ -660,6 +660,10 @@ label.focused,
 button.focused {
     border: 2px solid #2890b7;
 }
+button.link-to-forum.focused {
+    border: 3px solid black;
+    color: #2890b7;
+}
 .btn-green.focused {
     border: 2px solid #2890b7;
 }
@@ -673,5 +677,65 @@ footer #footer-links a, footer #footer-links a:link, footer #footer-links a:hove
 }
 
 .user_image.focused .qq-upload-button label {
+    display: block;
+}
+
+#discussions_list .post-messages-container ul li a,
+.message-bar a,
+.list.notifications a,
+.post-headerbox a.home,
+.aside-more-info a,
+.info-item a {
+    display: inline-block;
+}
+.aside-more-info a {
+    height: 31px;
+}
+
+.aside-more-info a.focused .icon-plus {
+    background-image: url('../img/icon-plus-hover.png');
+}
+
+.post-header a.home {
+    margin-top: 16px;
+}
+.post-header .link-home {
+    padding: 2px;
+    height: 32px;
+}
+
+button {
+    cursor: pointer;
+}
+.zirot-section-content a.focused {
+    border: none;
+}
+.zirot-section-content a.focused .zira-container {
+    border-color: #3bafda;
+}
+
+.zirot-section-content a.focused .zira-details-container {
+    background-color: #3bafda;
+}
+
+.zirot-section-content a.focused i.icon-plus {
+    background-image: url('../img/icon-plus-hover.png');
+}
+
+.zirot-section-content a.focused .zira-name {
+    color: #fff;
+}
+
+.toggle_replies:hover .message-replies {
+    color: #3bafda;
+}
+
+.post-messages-container ul li a .document-work-time {
+    margin-left: 18px;
+    display: inline-block;
+}
+
+.document-text .row.text_preview {
+    margin-bottom: 15px;
     display: block;
 }

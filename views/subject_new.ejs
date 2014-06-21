@@ -19,7 +19,7 @@
          style="background-image: url('<%=subject.cover_image_field && subject.cover_image_field.url%>'); background-size: 100% 230px; background-repeat: no-repeat; margin-bottom: 20px;">
     <div class="container" >
         <!-- Breadcrumbs -->
-        <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="/discussions/subject/<%=subject._id%>"></a><%=subject.name%>
+        <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <%=subject.name%>
         </div>
         <div class="row">
             <!-- Sidebar -->
@@ -39,18 +39,17 @@
                         <h1 class="post-title"><%=subject.name%></h1>
 
                         <div class="row">
-                            <a href="/">
+                            <a class="home" href="/">
                                 <div class="right link-home">
-                                    <div class="link-home-title"><i
+                                    <div class="link-home-title">
+                                        <i
                                             class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לדף
                                         הבית
                                     </div>
                                 </div>
                             </a>
                             <% if(user_logged && subject.isAllowed) { %>
-                            <a href="<%=url%>/forum">
-                                <div class="left link-to-forum">לפורום</div>
-                            </a>
+                            <button class="left link-to-forum" data-href="<%=url%>/forum">לפורום</button>
                             <% } %>
                         </div>
                     </div>
@@ -90,6 +89,13 @@
         var avatar = '<%=avatar%>';
         var posts, post_groups;
 
+        var $body = $('body'),
+            $last_messages = $('.last-messages'),
+            $latest_posts = $('.latest_posts'),
+            $questions_list = $('#questions_list'),
+            $login_btn = $('.login_form_btn'),
+            $container = $('.container');
+
         if(is_logged && is_allowed){
             get_and_render.info_items(subject_id);
             get_and_render.links(subject_id);
@@ -101,6 +107,10 @@
             sorts: {'creation_date': -1},
             offset: 0
         };
+
+        $('button.link-to-forum').on('click', function(e){
+            window.location.href = $(e.target).data('href');
+        });
 
         db_functions.getQuestions({subject_id: subject_id}, function(err, data){
             $.each(data.objects, function(i, obj){
@@ -128,10 +138,8 @@
                 if(!err) {
                     if(type == 'main') {
                         $('.latest_posts ul.posts').append(out);
-                        console.log('main');
                     } else {
                         $('ul.replies-' + data.parent_id).prepend(out);
-                        console.log('reply');
                     }
 
                 }
@@ -252,13 +260,13 @@
                     }
                 });
             }
-        }
+        };
 
-        $('.last-messages').on('click', '.create_secondary_post', function(e){
+        $last_messages.on('click', '.create_secondary_post', function(e){
             createSecondaryPost(e);
         });
 
-        $('.last-messages').on('keypress', '.create_secondary_post', function(e){
+        $last_messages.on('keypress', '.create_secondary_post', function(e){
             if(e.keyCode == 13){
                 createSecondaryPost(e);
             }
@@ -267,7 +275,6 @@
         var likePost = function(e){
             var post_id = $(e.target).closest('.row-table').data('id');
             db_functions.likePost(post_id, user._id, function(err, data){
-                console.log('liked');
                 if(err) return;
                 var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                 var counter = parseInt($likes.html());
@@ -277,11 +284,10 @@
                 $img.removeClass('like').addClass('unlike');
                 $img.attr('src', '/images/unlike.png');
             });
-        }
+        };
         var unlikePost = function(e){
             var post_id = $(e.target).closest('.row-table').data('id');
             db_functions.likePost(post_id, user._id, function(err, data){
-                console.log('unliked');
                 if(err) return;
                 var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                 var counter = parseInt($likes.html());
@@ -291,11 +297,10 @@
                 $img.removeClass('unlike').addClass('like');
                 $img.attr('src', '/images/like.png');
             });
-        }
+        };
         var likeQuestionPost = function(e){
             var post_id = $(e.target).closest('.row-table').data('id');
             db_functions.likePost(post_id, user._id, function(err, data){
-                console.log('liked');
                 if(err) return;
                 var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                 var counter = parseInt($likes.html());
@@ -305,11 +310,10 @@
                 $img.removeClass('like').addClass('unlike');
                 $img.attr('src', '/images/unlike.png');
             });
-        }
+        };
         var unlikeQuestionPost = function(e){
             var post_id = $(e.target).closest('.row-table').data('id');
             db_functions.likePost(post_id, user._id, function(err, data){
-                console.log('unliked');
                 if(err) return;
                 var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                 var counter = parseInt($likes.html());
@@ -319,48 +323,48 @@
                 $img.removeClass('unlike').addClass('like');
                 $img.attr('src', '/images/like.png');
             });
-        }
+        };
 
-        $('.latest_posts').on('click', '.message-likes .like', function(e){
+        $latest_posts.on('click', '.message-likes .like', function(e){
             likePost(e);
         });
 
-        $('.latest_posts').on('click', '.message-likes .unlike', function(e){
+        $latest_posts.on('click', '.message-likes .unlike', function(e){
             unlikePost(e);
         });
 
-        $('#questions_list').on('click', '.message-likes .like', function(e){
+        $questions_list.on('click', '.message-likes .like', function(e){
             likeQuestionPost(e);
         });
-        $('#questions_list').on('click', '.message-likes .unlike', function(e){
+        $questions_list.on('click', '.message-likes .unlike', function(e){
             unlikeQuestionPost(e);
         });
 
-        $('.latest_posts').on('keypress', '.message-likes .like', function(e){
+        $latest_posts.on('keypress', '.message-likes .like', function(e){
             if(e.keyCode == 13)
                 likePost(e);
         });
 
-        $('.latest_posts').on('keypress', '.message-likes .unlike', function(e){
+        $latest_posts.on('keypress', '.message-likes .unlike', function(e){
             if(e.keyCode == 13)
                 unlikePost(e);
         });
 
-        $('#questions_list').on('keypress', '.message-likes .like', function(e){
+        $questions_list.on('keypress', '.message-likes .like', function(e){
             if(e.keyCode == 13)
                 likeQuestionPost(e);
         });
-        $('#questions_list').on('keypress', '.message-likes .unlike', function(e){
+        $questions_list.on('keypress', '.message-likes .unlike', function(e){
             if(e.keyCode == 13)
                 unlikeQuestionPost(e);
         });
 
-        $('.latest_posts').on('click', '.show_all_text', function(e){
+        $latest_posts.on('click', '.show_all_text', function(e){
             var text = $(e.target).closest('.message-content').data('text');
             $(e.target).closest('.message-content').html(text);
         });
 
-        $('.latest_posts').on('keypress', '.show_all_text', function(e){
+        $latest_posts.on('keypress', '.show_all_text', function(e){
             if(e.keyCode == 13) {
                 var text = $(e.target).closest('.message-content').data('text');
                 $(e.target).closest('.message-content').html(text);
@@ -390,11 +394,11 @@
             }
         };
 
-        $('.login_form_btn').on('click', function(e){
+        $login_btn.on('click', function(e){
             login(e);
         });
 
-        $('.login_form_btn').on('keypress', function(e){
+        $login_btn.on('keypress', function(e){
             if(e.keyCode == 13){
                 login(e);
             }
@@ -412,16 +416,16 @@
                     window.location.href = "/";
                 }
             });
-        }
+        };
 
-        $('.latest_posts').on('click', '.show_all_text', function (e) {
+        $latest_posts.on('click', '.show_all_text', function (e) {
             e.preventDefault();
             e.stopPropagation();
             var text = $(e.target).closest('.message-content').data('text');
             $(e.target).closest('.message-content').html(text);
         });
 
-        $('.latest_posts').on('keypress', '.show_all_text', function (e) {
+        $latest_posts.on('keypress', '.show_all_text', function (e) {
             if(e.keyCode == 13){
                 e.preventDefault();
                 e.stopPropagation();
@@ -477,7 +481,7 @@
                 });
 
             })
-        }
+        };
         function uploadAttachment(type, id, file, cbk){
             var client = new XMLHttpRequest();
 
@@ -503,36 +507,38 @@
                     cbk(null,attachment);
                 }
             };
-        }
-        $('.container').on('click','.post-new-message-upload-button',function(){
+        };
+        $container.on('click','.post-new-message-upload-button',function(){
 			if(!SUPPORT_FILE_API)
 				return;
             $(this).siblings('.post-new-message-upload').click();
         });
-        $('.container').on('keypress','.post-new-message-upload-button',function(e){
+        $container.on('keypress','.post-new-message-upload-button',function(e){
             if(e.keyCode == 13){
                 if(!SUPPORT_FILE_API)
                     return;
                 $(this).siblings('.post-new-message-upload').click();
             }
         });
-        $('body').on('click', '.message-replies', function(e){
+        $body.on('click', '.toggle_replies', function(e){
             $(e.target).closest('.question').find('ul.posts').toggleClass('hide');
         });
 
-        $('body').on('keypress', '.message-replies', function(e){
+        $body.on('keypress', '.toggle_replies', function(e){
             if(e.keyCode == 13)
                 $(e.target).closest('.question').find('ul.posts').toggleClass('hide');
         });
 
-        $('body').on('click', '.create_question_post', function(e){
+        $body.on('click', '.create_question_post', function(e){
             createQuestionPost(e);
         });
 
-        $('body').on('keypress', '.create_question_post', function(e){
+        $body.on('keypress', '.create_question_post', function(e){
             if(e.keyCode == 13)
                 createQuestionPost(e);
         });
+
+
 
         var createQuestionPost = function(e){
             var question_id = $(e.target).closest('li.question').data('id');

@@ -2,7 +2,7 @@
     <a href="/discussions/{_id}">
         <div class="document primary-document">
         <i class="icon icon-document-item-tip"></i>
-        <div class="document-text right">
+        <div class="document-text">
             <div class="row document-text-header">
                 <div class="document-name right">{title}</div>
                 <div class="document-bar row">
@@ -17,11 +17,11 @@
                 </div>
             </div>
             <div class="spacer"></div>
-            <div class="row">
-                <div class="document-content right">{text_field_preview|s|truncate}</div>
+            <div class="row text_preview">
+                <div class="document-content">{text_field_preview|s|truncate}</div>
             </div>
         </div>
-        <div class="document-work-time right">
+        <div class="document-work-time">
             <i class="icon icon-box-top-left-tip"></i>
             {?deadline}
             <div class="row">

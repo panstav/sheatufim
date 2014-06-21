@@ -1420,6 +1420,8 @@ div.pagination-container ul li.pagination-current-page a:visited {
 
 .post-messages-container ul li {
     height: 121px;
+    margin-bottom: 3px;
+    margin-top: 10px;
 }
 
 .message {
@@ -1934,7 +1936,7 @@ body.home.logged section.content {
     font-size: 23px;
     font-weight: 700;
     margin-top: 9px;
-    padding-top: 8px;
+    padding-top: 11px;
     padding-bottom: 8px;
     padding-left: 36px;
     padding-right: 36px;
@@ -1999,7 +2001,7 @@ body.home .post-messages-container {
 .document .document-text {
     padding-left: 20px;
     padding-right: 20px;
-    display: table-cell;
+    display: inline-block;
     vertical-align: middle;
     padding-left: 20px;
     font-size: 15px;
@@ -2085,7 +2087,8 @@ body.home .post-messages-container {
 }
 
 .primary-document {
-    margin-top: 10px;
+    margin-top: 0;
+    margin-bottom: 0;
     padding-top: 10px;
     display: inline-table;
     position: relative;
