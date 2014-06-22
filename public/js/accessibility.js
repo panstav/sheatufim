@@ -6,6 +6,14 @@ $(document).ready(function () {
         var code = e.keyCode || e.which;
         if (code == '9') { //tab
             is_tabbing = true;
+            if($(e.target).hasClass('marker_1')) {
+                var next_tab_id = $(e.target).data('tab') + 1,
+                    $next_tab = $("#discussion_content a[data-tab=" + next_tab_id + "]");
+                if($next_tab.length)
+                    $("#discussion_content a[data-tab=" + next_tab_id + "]").focus();
+                else
+                    $('#suggestionTab').focus();
+            }
         }
     });
     var returnToPopoverLink = function () {

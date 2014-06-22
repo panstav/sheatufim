@@ -36,12 +36,11 @@
                 <div class="right link-home">
                     <div class="link-home-title"><i class="icon icon-small-pad-left icon-size2 icon-index-logged right"></i>לעמוד מעגל שיח ראשי</div>
                 </div>
-                <% if(user_logged) { %>
-                <a href="/discussions/subject/<%=discussion.subject_id._id%>/forum">
-                    <div class="left link-to-forum">לפורום</div>
-                </a>
-                <% } %>
             </a>
+            <% if(user_logged) { %>
+            <button class="left link-to-forum" data-href="/discussions/subject/<%=discussion.subject_id._id%>/forum">לפורום</button>
+            <% } %>
+
         </div>
     </div>
 </div>
@@ -356,10 +355,9 @@ $(document).ready(function () {
 
     init();
 
-    $('.main_container').on('click', '.message-likes .like', function(e){
+    var likePostOnDiscussion = function(e){
         var post_id = $(e.target).closest('.row-table').data('id');
         db_functions.likePost(post_id, user._id, function(err, data){
-            console.log('liked');
             if(err) return;
             var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
             var counter = parseInt($likes.html());
@@ -369,11 +367,11 @@ $(document).ready(function () {
             $img.removeClass('like').addClass('unlike');
             $img.attr('src', '/images/unlike.png');
         });
-    });
-    $('.main_container').on('click', '.message-likes .unlike', function(e){
+    };
+
+    var unlikePostOnDiscussion = function(e) {
         var post_id = $(e.target).closest('.row-table').data('id');
         db_functions.likePost(post_id, user._id, function(err, data){
-            console.log('unliked');
             if(err) return;
             var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
             var counter = parseInt($likes.html());
@@ -383,8 +381,61 @@ $(document).ready(function () {
             $img.removeClass('unlike').addClass('like');
             $img.attr('src', '/images/like.png');
         });
+    };
+
+    var likePostOnSuggestion = function(e){
+        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            if(err) return;
+            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter += 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('like').addClass('unlike');
+            $img.attr('src', '/images/unlike.png');
+        });
+    };
+
+    var unlikePostOnSuggestion = function(e) {
+        var post_id = $(e.target).closest('.discussion_suggestion_post').data('id');
+        db_functions.likePost(post_id, user._id, function(err, data){
+            if(err) return;
+            var $likes = $($('.discussion_suggestion_post[data-id=' + data.post_id + '] .like-counter')[0]);
+            var counter = parseInt($likes.html());
+            counter -= 1;
+            $likes.html(counter);
+            var $img = $likes.next('img');
+            $img.removeClass('unlike').addClass('like');
+            $img.attr('src', '/images/like.png');
+        });
+    };
+
+    $('#tab-3').on('click', '.message-likes', function(e){
+        var $target = $(e.target).closest('.message-likes').find('img');
+        if($target.hasClass('like'))
+            likePostOnDiscussion(e);
+        else
+            unlikePostOnDiscussion(e);
     });
 
+    $('#tab-1').on('click', '.message-likes', function(e){
+        var $target = $(e.target).closest('.message-likes').find('img');
+        if($target.hasClass('like'))
+            likePostOnSuggestion(e);
+        else
+            unlikePostOnSuggestion(e);
+    });
+
+    $('#tab-3').on('click', '.message-reply', function(e){
+        var id = $(e.target).closest('li').data('id');
+        replyTo('message-' + id);
+    });
+
+    $('#tab-3').on('click', '.toggle_replies', function(e){
+        var id = $(e.target).closest('li').data('id');
+        toggleMessage('message-' + id);
+    });
 
     //create new post and render it on post button click
     $('.create_post').on('click', function(){

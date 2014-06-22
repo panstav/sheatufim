@@ -53,7 +53,7 @@ module.exports = function(req,res) {
         if (!subject.isUserAllowed(req.user))
             return res.redirect('/');
 
-        res.render('forum_fake.ejs', {
+        res.render('forum.ejs', {
             subject: subject,
             logged: req.isAuthenticated(),
             user: req.user,
