@@ -23,7 +23,7 @@
                     <!-- Post Header -->
                     <div class="row post-header">
                         <div class="right sidebox post-image">
-                            <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px;" alt="תמונה" title="תמונה"/>
+                            <img src="<%=subject.image_field.url%>" style="width: 224px; height: 224px;" alt="תמונת מעגל השיח" title="<%=subject.name%>"/>
                         </div>
                         <div class="left post-headerbox">
                             <h1 class="post-title"><%=subject.name%></h1>
@@ -46,7 +46,9 @@
                             </div>
                             <div class="new_post post-new-message-body row">
                                 <div class="post-new-message-body-image"><img src="<%=avatar%>" class="circle" alt="<%=user.first_name%> + <%=user.last_name%>" title="תמונה"/></div>
-                                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                                <div class="post-new-message-body-text">
+                                    <label for="new_post" style="display: none;">הכנס את הטקסט שלך...</label>
+                                    <textarea name="new_post" placeholder="הכנס את הטקסט שלך..."></textarea>
                                     <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>
                                         &nbsp;<a class="post-new-message-attachment-path">
                                             הסר

@@ -1137,7 +1137,7 @@ div.spacer-plus {
     height: 31px;
     background-position: center center;
     text-align: center;
-    margin-bottom: 9px;
+    margin-bottom: 30px;
 }
 
 div.spacer-login {
@@ -1156,6 +1156,8 @@ div.aside-show-more {
     line-height: 8px;
     font-weight: 400;
     height: 15px;
+    margin: 10px 0;
+    color: black;
 }
 
 div.aside-links {

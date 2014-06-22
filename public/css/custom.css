@@ -722,7 +722,7 @@ a.forum_link,
     line-height: 17px;
 }
 .aside-more-info a {
-    height: 31px;
+    text-decoration: none;
 }
 
 .aside-more-info a.focused .icon-plus {
