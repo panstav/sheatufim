@@ -26,14 +26,14 @@
                         <div class="user_name right">
                             <h2 class="name active"><%=user.first_name%> <%=user.last_name%></h2>
                             <label for="name_input" style="display: none;">הכנס את שמך</label>
-                            <input name="name_input" class="name_input" type="text" placeholder="ערוך שם..." value="<%=user.first_name%> <%=user.last_name%>"></h2>
+                            <input id="name_input" class="name_input" type="text" placeholder="ערוך שם..." value="<%=user.first_name%> <%=user.last_name%>"></h2>
                             <button class="edit_name btn btn-medium btn-green">ערוך</button>
                         </div>
 
                         <div class="occupation right">
                             <h2 class="user_occupation active right"><%=user.occupation%></h2>
-                            <label for="name_input" style="display: none;">הכנס את תיאור תפקידך</label>
-                            <textarea class="occupation_input right" placeholder="הכנס כאן תיאור תפקיד..."><%=user.occupation%></textarea>
+                            <label for="occupation_input" style="display: none;">הכנס את תיאור תפקידך</label>
+                            <textarea id="occupation_input" class="occupation_input right" placeholder="הכנס כאן תיאור תפקיד..."><%=user.occupation%></textarea>
                             <button class=" right edit_occupation btn btn-medium btn-green">ערוך</button>
                         </div>
                     </div>
@@ -120,7 +120,7 @@
                     debug: false,
                     template: '<div class="qq-uploader">' +
                             '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
-                            '<div class="qq-upload-button"><img src="' + avatar + '" class="circle"/><label>העלה תמונה</label></div>' +
+                            '<div class="qq-upload-button"><img src="' + avatar + '" class="circle" alt="' + user.first_name + '"/><label>העלה תמונה</label></div>' +
                                 '<ul class="qq-upload-list"></ul>' +
                                '</div>',
                     onComplete: function(id, fileName, responseJSON){
