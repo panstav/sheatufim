@@ -2290,6 +2290,7 @@ div.zirot-login input.zirot-login-username {
     background-image: url("../img/icon-input-login.png");
     background-repeat: no-repeat;
     background-position: 170px 10px;
+    font-family: none;
 }
 
 div.zirot-login input.zirot-login-password {
