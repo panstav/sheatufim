@@ -256,7 +256,8 @@ var avatar = "<%=avatar%>";
 $(document).ready(function () {
     var is_logged = <%= user_logged %>;
     var discussion = <%- JSON.stringify(discussion || "") %>;
-    var user = <%- JSON.stringify(user || "") %>;
+//    var user = <%- JSON.stringify(user || "") %>;
+    var user = {_id:"<%= user && user.id %>"};
     var passed_deadline = false;
 
 
