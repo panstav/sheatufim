@@ -69,7 +69,7 @@
 
     <div class="post-new-reply reply-to-message reply-to-message-{_id} message-pad-1 hide">
         <i class="icon icon-box-top-right-blue-tip"></i>
-        <button class="icon icon-close hand" onclick="closeReply('message-{_id}');"></button>
+        <input type="image" alt="סגור תיבת תגובה" class="icon icon-close hand" onclick="closeReply('message-{_id}');">
         <div class="post-new-message-body">
             <div class="post-new-message-body-image">
                 <div class="circle circle-wrapper auto-scale" style="opacity: 1; overflow: hidden;">
@@ -77,7 +77,8 @@
                 </div>
             </div>
             <div class="post-new-message-body-text">
-                <textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                <label for="question-textarea-{_id}" style="display: none;">הכנס את הטקסט שלך</label>
+                <textarea id="question-textarea-{_id}" placeholder="הכנס את הטקסט שלך..."></textarea>
                 <div class="post-new-message-attachment" style="display: none;">
                     <label class="post-new-message-attachment-path"></label>
                     <a class="post-new-message-attachment-path">הסר</a>
