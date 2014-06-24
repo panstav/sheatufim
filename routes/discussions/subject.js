@@ -15,10 +15,10 @@ module.exports = function(req,res) {
             res.render('subject_fake.ejs', {
                 subject: result,
                 logged: req.isAuthenticated(),
-                user: {_id: req.user._id, first_name: req.user.first_name, last_name: req.user.last_name, occupation: req.user.occupation},
-                avatar:req.session.avatar_url,
+                user: {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
+                avatar: req.session.avatar_url,
                 user_logged: req.isAuthenticated(),
-                url:req.url
+                url: req.url
             });
             if (user)
                 var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));

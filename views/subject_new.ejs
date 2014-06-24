@@ -115,7 +115,7 @@
 
         db_functions.getQuestions({subject_id: subject_id}, function(err, data){
             $.each(data.objects, function(i, obj){
-                obj.avatar = /*user.avatar.url;*/avatar;
+                obj.avatar = avatar;
                 obj.date = new Date(obj.creation_date).format('dd.mm.yyyy');
                 obj.time = new Date(obj.creation_date).format('HH:MM');
                 obj.post_count = obj.posts.length;
