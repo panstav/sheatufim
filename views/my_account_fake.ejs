@@ -46,7 +46,7 @@
 
                     <ul class="notifications list">
 
-                        <li class="row zirot-message message-1"><p><a href="/discussions/subject/52b47b47f54a6b368a000021/forum"><!----><!----><!--מריה החדשה--><!----><!----><span class="part_one">מריה החדשה פרסם/ה הודעה חדשה בפורום של  </span>"שם קצת יותר קצר"</a></p></li><li class="row zirot-message message-1"><p><a href="/discussions/52b47c5ef54a6b368a000022"><!----><span class="part_one">נוספו 3 הודעות חדשות למסמך  </span>"בדיקה בדיקה"</a></p></li></ul>
+                    </ul>
 
                 </div>
 
@@ -120,8 +120,8 @@
                     template: '<div class="qq-uploader">' +
                             '<div class="qq-upload-drop-area"><span>Drop files here to upload</span></div>' +
                             '<div class="qq-upload-button"><img src="' + avatar + '" class="circle" alt="' + user.first_name + '"/><label>העלה תמונה</label></div>' +
-                                '<ul class="qq-upload-list"></ul>' +
-                               '</div>',
+                            '<ul class="qq-upload-list"></ul>' +
+                            '</div>',
                     onComplete: function(id, fileName, responseJSON){
                         debugger;
                         $('.qq-upload-button img').attr('src', responseJSON.avatar.url);

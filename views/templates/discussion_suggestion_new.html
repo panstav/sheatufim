@@ -76,7 +76,9 @@
                         <img src="{avatar}" alt="תמונה" title="תמונה"/>
                     </div>
                 </div>
-                <div class="post-new-message-body-text"><textarea placeholder="הכנס את הטקסט שלך..."></textarea></div>
+                <div class="post-new-message-body-text">
+                    <label for="suggestion-textarea-{id}" style="display: none;">הכנס את הטקסט שלך</label>
+                    <textarea id="suggestion-textarea-{id}" placeholder="הכנס את הטקסט שלך..."></textarea></div>
                 <div class="post-new-message-body-actions">
                     <div class="row">
 						<form method="POST" enctype="multipart/form-data" target="hiddenFrame">

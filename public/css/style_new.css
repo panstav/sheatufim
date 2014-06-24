@@ -1603,7 +1603,7 @@ div.pagination-container ul li.pagination-current-page a:visited {
     right: 0;
 }
 
-.post-new-reply button.icon-close {
+.post-new-reply input.icon-close {
     position:  absolute;
     bottom: 0;
     right: 0;
@@ -2403,7 +2403,7 @@ div.zirot-login-forgot-password a:hover {
 .zira-link.disabled .zira-name {
     color: #9b9c9c;
 }
-
+.zirot-library-step-box .zira-link:nth-child(3n + 3),
 .zira-link:last-child {
     margin-left: 0;
     margin-bottom: 0;

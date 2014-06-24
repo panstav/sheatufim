@@ -75,11 +75,12 @@
         <div class="reply-to-message row hide">
             <div class="post-new-reply reply-to-message-{_id} message-pad-{reply_level}">
                 <i class="icon icon-box-top-right-blue-tip"></i>
-                <button class="icon icon-close hand" onclick="closeReply('message-{_id}');"></button>
+                <input type="image" alt="סגור תיבת תגובה" class="icon icon-close hand" onclick="closeReply('message-{_id}');">
                 <div class="post-new-message-body">
                     <div class="post-new-message-body-image"><div class="circle circle-wrapper auto-scale" ><img src="{user_avatar}" alt="תמונה" title="תמונה"/></div></div>
                     <div class="post-new-message-body-text">
-                        <textarea placeholder="הכנס את הטקסט שלך..."></textarea>
+                        <label for="textarea-{_id}" style="display: none;">הכנס את הטקסט שלך...</label>
+                        <textarea id="textarea-{_id}" placeholder="הכנס את הטקסט שלך..."></textarea>
                         <div class="post-new-message-attachment" style="display: none;"><label class="post-new-message-attachment-path"></label>
                             &nbsp;<a class="post-new-message-attachment-path">
                                 הסר

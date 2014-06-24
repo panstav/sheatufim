@@ -773,11 +773,11 @@ button {
     display: block;
 }
 
-button.icon-close {
+input.icon-close {
     box-shadow: none;
     border: none;
 }
-button.icon-close.focused {
+input.icon-close.focused {
     background-image: url('../img/icon-close-hover.png');
     border: 2px solid #3bafda;
 }

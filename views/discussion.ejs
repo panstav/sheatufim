@@ -60,6 +60,7 @@ var error_message = error_message || '';
                             בחר בעזרת הסמן קטעי טקסט שברצונך לשנות. לחץ על קטעים מסומנים כדי לראות הצעות שהעלו אחרים
                         </div>
                         <div id="discussion_content" class=""><%- discussion.text_field.replace(/\n/g, '<br/>') %></div>
+                        <label for="discussion_content_textarea">עריכת מסמך</label>
                         <textarea id="discussion_content_textarea"
                                   class="hidden_textarea"><%=discussion.text_field%></textarea>
                         <a class="read_less" href="javascript:void(0);">סגור</a>
