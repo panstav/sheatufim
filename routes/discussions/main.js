@@ -57,7 +57,7 @@ module.exports = function (req, res) {
                     fb_title: discussion.title,
                     fb_image: discussion.image_field && discussion.image_field.url,
                     avatar:req.session.avatar_url,
-                    user: user,
+                    user: {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
                     meta: {
                         type: req.app.get('facebook_app_name') + ':discussion',
                         id: discussion.id,
