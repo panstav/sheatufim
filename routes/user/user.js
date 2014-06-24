@@ -2,7 +2,7 @@ var models = require('../../models');
 var async = require('async');
 
 module.exports = function (req, res) {
-    res.render('my_account.ejs', {
+    res.render('my_account_fake.ejs', {
         layout: false,
         title: "פרופיל שלי",
         logged: req.isAuthenticated(),
