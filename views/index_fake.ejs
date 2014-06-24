@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="he-IL">
+<head>
+    <title>מעגלי שיח</title>
+    <% include partials/head.ejs %>
+</head>
+<% if( user_logged ) { %>
+      <body class="zirot logged">
+<% } else { %>
+    <body class="zirot not-logged">
+<% } %>
+<body class="zirot logged">
+    <!-- Header -->
+    <header>
+         <% include partials/menu.ejs %>
+    </header>
+    <!-- Content -->
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="welcome">
+                    <h2 class="welcome-pre-title">ברוכים הבאים לשיתופים</h2>
+                    <h1 class="welcome-title">לורם איפסום דולור סיט אמט . </h1>
+                    <h3 class="welcome-tagline">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קונדימנטום קורוס בליקרה, נונסטי קלובר בריקנה סטום, לפריקך תצטריק לרטי. </h3>
+                </div>
+            </div>
+            <div class="row zirot-container">
+                <!-- Enter a zira -->
+
+                <div class="zirot-library-container right">
+                    <div class="row zirot-section-content zirot-library-step-box">
+                        <div>
+
+                        </div>
+                        <a href="/discussions/subject/52b4a165ce895cbb8c00001f" class="zira-link right"><div class="zira-container"><div class="zira-image-container"><img src="/img/scanlines.png" class="zira-image-scanlines" alt="לא פעיל"><img src="/cdn/2682-xbqyke_336.jpg" class="zira-image align-me" alt="זירת שיח ראשונה עם שם ארוך" title="זירת שיח ראשונה עם שם ארוך" style="width: 231px; height: 230px; top: 0px; left: -0.5px;"></div><div class="zira-details-container"><div class="zira-name">זירת שיח ראשונה עם שם ארוך</div><i class="icon icon-plus"></i></div></div></a><a href="/discussions/subject/52b47b47f54a6b368a000021" class="zira-link right"><div class="zira-container"><div class="zira-image-container"><img src="/img/scanlines.png" class="zira-image-scanlines" alt="לא פעיל"><img src="/cdn/2682-14597ij_48.jpg" class="zira-image align-me" alt="שם קצת יותר קצר" title="שם קצת יותר קצר" style="width: 231px; height: 230px; top: 0px; left: -0.5px;"></div><div class="zira-details-container"><div class="zira-name">שם קצת יותר קצר</div><i class="icon icon-plus"></i></div></div></a><a href="/discussions/subject/53a4c7e8e2d3437a0a00001b" class="zira-link right"><div class="zira-container"><div class="zira-image-container"><img src="/img/scanlines.png" class="zira-image-scanlines" alt="לא פעיל"><img src="/cdn/2682-chqdwz_1.jpg" class="zira-image align-me" alt="שם קצת יותר קצר" title="שם קצת יותר קצר" style="width: 231px; height: 230px; top: 0px; left: -0.5px;"></div><div class="zira-details-container"><div class="zira-name">שם קצת יותר קצר</div><i class="icon icon-plus"></i></div></div></a></div>
+                </div>
+                <!-- Latest News -->
+                <aside id="sidebar" class="zirot-sidebar right">
+                    <div class="zirot-messages-container sidebox">
+                        <div class="row">
+                            <i class="icon icon-medium-pad-left icon-message right"></i>
+                            <h2 class="zirot-messages-container-title right">עדכונים אחרונים</h2>
+                        </div>
+                        <div class="spacer" alt="רווח"></div>
+                        <ul class="list notifications">
+                            <li class="row zirot-message message-1"><p><a href="/discussions/subject/52b47b47f54a6b368a000021/forum"><!----><!----><!--מריה החדשה--><!----><!----><span class="part_one">מריה החדשה פרסם/ה הודעה חדשה בפורום של  </span>"שם קצת יותר קצר"</a></p></li><li class="row zirot-message message-1"><p><a href="/discussions/52b47c5ef54a6b368a000022"><!----><span class="part_one">נוספו 3 הודעות חדשות למסמך  </span>"בדיקה בדיקה"</a></p></li></ul>
+                    </div>
+                </aside>
+
+            </div>
+        </div>
+    </section>    <!-- Footer -->
+    <% include partials/footer.ejs %>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var user = <%- JSON.stringify(user || "") %>;
+            var user_logged =  "<%- user_logged %>";
+            db_functions.getAllSubjects(function(err, subjects){
+                if(err) return;
+                $.each(subjects.objects, function(i, subject){
+                    dust.render('subject', subject, function(err, html){
+                        if(err) return;
+                        $('.zirot-container .zirot-library-step-box').append(html);
+                    });
+                });
+            });
+            if (user_logged) {
+                db_functions.getNotifications(user._id, 6, function(data){
+                    if(data.objects){
+                        dust.renderArray("notification", data.objects, function(err, html){
+                            if(err) return;
+                            $('.notifications.list').append(html);
+                        });
+                    }
+                });
+            }
+
+            $('.login_form_btn').on('click', function(e){
+                login(e);
+            });
+
+            $('.login_form_btn').on('keypress', function(e){
+                if(e.keyCode == 13){
+                    login(e);
+                }
+            });
+
+            var login = function(e){
+                e.preventDefault();
+                var username = $(e.target).closest('form').find('#inputUsername').val(),
+                        password = $(e.target).closest('form').find('#inputPassword').val();
+                db_functions.login(username, password, function (err, result) {
+                    if(err){
+                        popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
+                    } else {
+                        window.location.href = "/";
+                    }
+                });
+            }
+        });
+     </script>
+</body>
+</html>

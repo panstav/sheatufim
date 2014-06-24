@@ -12,7 +12,7 @@ module.exports = function(req,res) {
         if(err) {
             res.render('500.ejs',{error:err});
         } else {
-            res.render('subject_new.ejs', {
+            res.render('subject_fake.ejs', {
                 subject: result,
                 logged: req.isAuthenticated(),
                 user: {_id: req.user._id, first_name: req.user.first_name, last_name: req.user.last_name, occupation: req.user.occupation},

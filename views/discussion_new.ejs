@@ -652,6 +652,10 @@ $(document).ready(function () {
         })
     };
 
+    $('.link-to-forum').on('click', function(e){
+        window.location.href = $(e.target).data('href');
+    });
+
     $('#subjectShoppingCartPopup').click(function(){
         dust.render('subject_shopping_cart',{
             id:discussion.subject_id._id,
