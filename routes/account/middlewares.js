@@ -51,29 +51,29 @@ exports.auth_middleware = function (req, res, next) {
         return (req.path.search(element) >= 0);
     }
 
-    req.body['email'] = 'themarianne@gmail.com';
-    req.body['password'] = '123';
-    req.authenticate('simple',function(err,is_authenticated) {
-        return next();
-    });
+//    req.body['email'] = 'themarianne@gmail.com';
+//    req.body['password'] = '123';
+//    req.authenticate('simple',function(err,is_authenticated) {
+//        return next();
+//    });
 
-//    if (req.isAuthenticated())
-//        return next();
-//
-//    if (isInArr("mail_settings")) return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
-//
-//    // todo this always return true (search fails returns with -1)
-//    if (common.DONT_NEED_LOGIN_PAGES.some(req.path.search, req.path)) {
-//        req.no_need_auth = true;
-//        console.log('skipped auth for %s', req.url);
-//        return next();
-//    }
-//
-//    if (common.REDIRECT_FOR_LOGIN_PAGES.some(req.path.search, req.path)) {
-//        return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
-//    }
-//
-//    return null;
+    if (req.isAuthenticated())
+        return next();
+
+    if (isInArr("mail_settings")) return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
+
+    // todo this always return true (search fails returns with -1)
+    if (common.DONT_NEED_LOGIN_PAGES.some(req.path.search, req.path)) {
+        req.no_need_auth = true;
+        console.log('skipped auth for %s', req.url);
+        return next();
+    }
+
+    if (common.REDIRECT_FOR_LOGIN_PAGES.some(req.path.search, req.path)) {
+        return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
+    }
+
+    return null;
 };
 
 
