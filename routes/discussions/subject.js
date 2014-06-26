@@ -20,11 +20,10 @@ module.exports = function(req,res) {
                 user_logged: req.isAuthenticated(),
                 url: req.url
             });
-            if (user)
+            if (user){
                 var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));
-            notifications.updateVisited(user, req.path);
-        }
-
+                notifications.updateVisited(user, req.path);
+            }                        }
     });
 };
 //    async.parallel([

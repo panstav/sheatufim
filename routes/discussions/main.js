@@ -57,7 +57,7 @@ module.exports = function (req, res) {
                     fb_title: discussion.title,
                     fb_image: discussion.image_field && discussion.image_field.url,
                     avatar:req.session.avatar_url,
-                    user: {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
+                    user: user && {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
                     meta: {
                         type: req.app.get('facebook_app_name') + ':discussion',
                         id: discussion.id,
@@ -70,9 +70,10 @@ module.exports = function (req, res) {
                 });
 
                 //update all notifications of user that connected to this object
-                if (user)
+                if (user){
                     var path = req.path.indexOf('#') == -1 ? req.path : req.path.substr(0, req.path.indexOf('#'));
                     notifications.updateVisited(user, req.path);
+                }
             });
         });
 
