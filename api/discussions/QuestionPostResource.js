@@ -77,6 +77,9 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
 
     create_obj: function(req, fields, callback) {
         var self = this;
+
+        fields.text = common.escapeHtml(fields.text);
+
         self._super(req, fields, function(err, post){
             post.creator_id = req.user;
             post.like_users = "";

@@ -255,8 +255,9 @@ var PostResource = module.exports = common.BaseModelResource.extend({
                 }
 
 
+                fields.text = common.escapeHtml(fields.text);
                 // TODO add better sanitizer
-                //   fields.text = sanitizer.sanitize(fields.text);
+                //  fields.text = sanitizer.sanitize(fields.text);
 
                 for (var field in fields) {
                     post_object.set(field, fields[field]);

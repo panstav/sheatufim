@@ -194,6 +194,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
         fields.first_name = user.first_name;
         fields.last_name = user.last_name;
 
+        fields.text = common.escapeHtml(fields.text);
 
         for (var field in fields) {
             suggestion_object.set(field, fields[field]);

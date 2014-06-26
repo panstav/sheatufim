@@ -312,3 +312,20 @@ if(!fs.existsSync(path.join(__dirname,'..','public','cdn'))){
     console.log('create folder ' + path.join(__dirname,'..','public','cdn'));
     fs.mkdirSync(path.join(__dirname,'..','public','cdn'));
 }
+
+var escapeHtml = exports.escapeHtml = function(text){
+
+    var entityMap = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': '&quot;',
+        "'": '&#39;',
+        "/": '&#x2F;'
+    };
+
+    return String(text).replace(/[&<>"'\/]/g, function (s) {
+        return entityMap[s];
+    });
+};
+

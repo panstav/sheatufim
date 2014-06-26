@@ -61,6 +61,8 @@ var PostOnCommentResource = module.exports = common.BaseModelResource.extend({
         fields.first_name = user.first_name;
         fields.last_name = user.last_name;
 
+        fields.text = common.escapeHtml(fields.text);
+
         self._super(req, fields, function(err, post_on_comment){
             post_on_comment.avatar = req.user.avatar_url();
             post_on_comment.username = req.user + "";

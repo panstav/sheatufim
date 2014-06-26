@@ -88,6 +88,8 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
         fields.first_name = user.first_name;
         fields.last_name = user.last_name;
 
+        fields.text = common.escapeHtml(fields.text);
+
         async.parallel([
             function(cbk) {
                 self._super(req, fields, function(err, post_suggestion){

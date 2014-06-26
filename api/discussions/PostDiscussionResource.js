@@ -122,6 +122,7 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
             user_id = req.session.user._id;
 
         fields.creator_id = req.session.user.id;
+        fields.text = common.escapeHtml(fields.text);
 
         async.waterfall([
             function(cbk) {
