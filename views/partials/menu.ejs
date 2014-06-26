@@ -127,7 +127,7 @@
                     popupProvider.showOkPopup({message:'הפרטים שהוזנו אינם נכונים. נסה שנית או לחץ על "שכחתי סיסמא"'});
                 }
                 else{
-                    window.location.href = "/";
+                    db_functions.redirectAfterLogin();
                 }
             });
         }

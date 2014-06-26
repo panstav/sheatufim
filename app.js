@@ -101,12 +101,6 @@ var models = require('./models');
 models.setDefaultPublish(app.settings.show_only_published);
 // ######### settings #########
 
-// ######### error handling #########
-process.on('uncaughtException', function(err) {
-    console.error('*************************  unhandled exception !!!!! ********************************');
-    console.error(err);
-    console.error(err.stack);
-});
 
 // ######### error handling #########
 
@@ -127,7 +121,7 @@ app.use(express.urlencoded());
 app.use(express.json());
 app.use(express.methodOverride());
 app.use(express.cookieParser());
-app.use(express.cookieSession({secret: 'Rafdo5L2iyhcsGoEcaBd', cookie: { path: '/', httpOnly: false, maxAge: 60 * 24 * 60 * 60 * 1000}}));
+app.use(express.cookieSession({secret: 'Rafdo5L2iyhcsGoEcaBd', cookie: { path: '/', httpOnly: false/*, maxAge: 60 * 24 * 60 * 60 * 1000*/}}));
 // ######### general middleware #########
 
 // ########### Add request memory logger after 'static' folders ###########
@@ -224,15 +218,22 @@ app.locals({
 app.configure('development', function(){
     app.set('send_mails', true);
     IS_ADMIN = true;
+    //app.set('listenHttps',true);
 });
 
 app.configure('staging',function(){
     IS_ADMIN = true;
+    // ######### error handling #########
+    app.set('listenHttps',true);
+    
+    process.on('uncaughtException', function(err) {
+        console.error('*************************  unhandled exception !!!!! ********************************');
+        console.error(err);
+        console.error(err.stack);
+    });
+
 });
 
-app.configure('staging',function(){
-    IS_ADMIN = true;
-});
 app.configure('production',function(){
     app.use(function (req, res, next) {
         if(req.headers['host'] == 'sheatufim-roundtable.org.il')
@@ -240,6 +241,13 @@ app.configure('production',function(){
         next();
     });
     app.set('listenHttps',true);
+    // ######### error handling #########
+    process.on('uncaughtException', function(err) {
+        console.error('*************************  unhandled exception !!!!! ********************************');
+        console.error(err);
+        console.error(err.stack);
+    });
+
 });
 
 if (IS_ADMIN) {
@@ -276,29 +284,42 @@ if (IS_PROCESS_WEB) {
         }
     ], function (err, general) {
 //        app.set('general', general);
-        console.log('listening on port ',app.get('port'));
-        var server = app.listen(app.get('port'), function (err) {
-            if (err) {
-                console.error(err.stack || err);
-                process.exit(1);
-            }
-            console.log("Express server listening on port %d in %s mode", (server.address() || {}).port, app.get('env'));
-        });
+
+        // Redirect http to https
+        var server;
+
+        if(app.get('listenHttps')){
+            // create HTTPS server, listen on 443
+            var fs = require('fs');
+            var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
+            var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();
+            server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
+
+            // create HTTP server that redirects to HTTPS
+            require('http').createServer(function(req,res){
+                res.writeHead(302, {
+                    'Location': 'https://' + req.headers['host'] + req.url
+                });
+                res.end();
+            }).listen(app.get('port'));
+        }
+        else {
+            console.log('listening on port ',app.get('port'));
+            server = app.listen(app.get('port'), function (err) {
+                if (err) {
+                    console.error(err.stack || err);
+                    process.exit(1);
+                }
+                console.log("Express server listening on port %d in %s mode", (server.address() || {}).port, app.get('env'));
+            });
+        }
         server.on('error', function (err) {
             console.error('********* Server Is NOT Working !!!! ***************\n %s', err);
         });
     });
 }
 
-var fs = require('fs');
-var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
-var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();
 
-if(app.get('listenHttps')){
-    require('https').createServer({key: privateKey, cert: certificate},app).listen(443,function(){
-        console.log('Listening on 443');
-    });
-}
 
 // Redirect http to https
 // require('http').createServer(function(req,res){

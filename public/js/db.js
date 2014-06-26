@@ -6,7 +6,11 @@ var user = {
 };
 
 var db_functions = {
-
+    redirectAfterLogin:function(){
+        var qs = $.unparam(location.search);
+        var next = qs['next'];
+        window.location.href = next || window.location.href;
+    },
     loggedInAjax:function (options) {
         var onError = options.error || function () {
             console.error(arguments[2]);

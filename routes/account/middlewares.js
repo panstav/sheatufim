@@ -60,7 +60,7 @@ exports.auth_middleware = function (req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    if (isInArr("mail_settings")) return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
+    if (isInArr("mail_settings")) return res.redirect(common.LOGIN_PATH + '?next=' + encodeURIComponent(req.path));
 
     // todo this always return true (search fails returns with -1)
     if (common.DONT_NEED_LOGIN_PAGES.some(req.path.search, req.path)) {
@@ -70,7 +70,7 @@ exports.auth_middleware = function (req, res, next) {
     }
 
     if (common.REDIRECT_FOR_LOGIN_PAGES.some(req.path.search, req.path)) {
-        return res.redirect(common.LOGIN_PATH + '?next=' + req.path);
+        return res.redirect(common.LOGIN_PATH + '?next=' + encodeURIComponent(req.path));
     }
 
     return null;

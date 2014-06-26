@@ -296,7 +296,9 @@ $(function(){
                 $("#login_head").text(err.responseText || "נסה שוב");
             }
             else{
-                window.location.href = window.location.href;
+                var qs = $.unparam(location.search);
+                var next = qs['next'];
+                window.location.href = next || window.location.href;
             }
 
         });
@@ -304,6 +306,16 @@ $(function(){
     });
 
 
+    $.unparam = $.unparam = function(str){
+        var hash = {};
+        if(str[0] == '?')
+            str = str.substring(1);
+        $.each(str.split('&'),function(i,part){
+            var parts = part.split('=');
+            hash[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+        });
+        return hash;
+    };
 
     $('input, textarea').placeholder();
 

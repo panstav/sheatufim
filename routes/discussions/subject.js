@@ -15,7 +15,7 @@ module.exports = function(req,res) {
             res.render('subject_new.ejs', {
                 subject: result,
                 logged: req.isAuthenticated(),
-                user: {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
+                user: user && {_id: user._id, first_name: user.first_name, last_name: user.last_name, occupation: user.occupation},
                 avatar: req.session.avatar_url,
                 user_logged: req.isAuthenticated(),
                 url: req.url
