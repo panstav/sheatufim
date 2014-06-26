@@ -46,6 +46,7 @@ var auth_middleware = auth({
 
 
 // Run some compilations
+// Run some compilations
 require('./tools/compile_dust_templates');
 
 
@@ -224,7 +225,7 @@ app.configure('development', function(){
 app.configure('staging',function(){
     IS_ADMIN = true;
     // ######### error handling #########
-    app.set('listenHttps',true);
+    app.set('listenHttps',false);
     
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
@@ -240,7 +241,7 @@ app.configure('production',function(){
             return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
         next();
     });
-    app.set('listenHttps',true);
+    app.set('listenHttps',false);
     // ######### error handling #########
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
