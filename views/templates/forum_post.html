@@ -22,12 +22,12 @@
             <div class="row">
                 <div class="message-content right" data-text="{text}">
                     {?text_short}
-                        {text_short}
+                        {text_short|s}
                             <a href="javascript:;" class="show_all_text">
                                 <span>קרא עוד</span>
                             </a>
                     {:else}
-                        {text}
+                        {text|s}
                     {/text_short}
                 </div>
             </div>

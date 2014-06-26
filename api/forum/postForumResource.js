@@ -68,10 +68,10 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             //set avatar and user info for each posts
             _.each(results.objects, function(post){
                 var new_post = post.toObject();
-                new_post.avatar = post.creator_id.avatar_url();
-                new_post.username = post.creator_id.toString();
-                new_post.creator_id = post.creator_id.id;
-                new_post.user_occupation = post.creator_id.occupation;
+                new_post.avatar = post.creator_id && post.creator_id.avatar_url();
+                new_post.username = post.creator_id && post.creator_id.toString();
+                new_post.creator_id = post.creator_id && post.creator_id.id;
+                new_post.user_occupation = post.creator_id && post.creator_id.occupation;
 
                 //set is_my_comment flag
                 new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
@@ -135,6 +135,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             user_id = req.session.user._id;
 
         fields.creator_id = req.session.user.id;
+        fields.text = common.escapeHtml(fields.text);
 
         async.waterfall([
             function(cbk) {

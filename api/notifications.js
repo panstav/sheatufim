@@ -194,7 +194,7 @@ var sendNotificationToUser = function (notification) {
 
             // 2) Check user mail configuration
             function(user, cbk){
-                if(user.mail_notification_configuration['get_alert_of_' + notification.type] && user.mail_notification_configuration.get_mails){
+                if(user && user.mail_notification_configuration['get_alert_of_' + notification.type] && user.mail_notification_configuration.get_mails){
                     cbk(null, user);
                 } else {
                     console.log('User should not receive mail because of his mail configuration');
