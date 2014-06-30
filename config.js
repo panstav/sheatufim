@@ -65,7 +65,6 @@ config.headConfigs = {
             '/js/jquerypp/jquery.placeholder.min.js',
             '/js/jquerypp/jquery.tools.min.js',
             '/js/jquerypp/jquery.tooltip.min.js',
-            '/js/jquerypp/jquery.validate.min.js',
             '/js/jquerypp/jquery.compare.js',
             '/js/jquerypp/jquery.range.js',
             '/js/jquerypp/jquery.selection.js',
