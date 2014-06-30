@@ -6,8 +6,8 @@ function initDiscussionEditing(discussion,target){
     var range = {};
     var vision_text_history_count = discussion.vision_text_history.length;
 
-    queryPaper = ".paper";
-    paper = $(queryPaper);
+    var queryPaper = ".paper";
+    var paper = $(queryPaper);
 
 
     $(target)
@@ -17,7 +17,65 @@ function initDiscussionEditing(discussion,target){
             console.log(mouseDown);
         })
         .on('keydown', function (e) {
-            if (!(e.shiftKey && (e.keyCode <= 40 && e.keyCode >= 37) || (e.ctrlKey && e.keyCode == 65))) e.preventDefault();
+            if(e.keyCode == 16){
+                mouseDown = e;
+            } else if ((e.shiftKey && (e.keyCode <= 40 && e.keyCode >= 37) || (e.ctrlKey && e.keyCode == 65))) {
+                drag = true;
+            } else {
+                e.preventDefault();
+            }
+        })
+        .on('keyup', function (e) {
+            if(e.keyCode == 16){
+                if(drag && paper.hasClass('passed_deadline')) {
+                    popupProvider.showOkPopup({message:'עבר הזמן לעריכת המסמך'});
+                    mouseDown = null;
+                } else {
+                    if(!mouseDown || paper.hasClass('paper-closed'))
+                        return;
+                    e.stopPropagation();
+                    mouseUp = e;
+                    var err = false;
+
+                    left = Math.ceil((mouseDown.clientX + mouseUp.clientX) / 2 - 97);
+                    top = Math.min(mouseDown.clientY, mouseUp.clientY) - $("#new_suggestion_popup").height() - 40 + $(window).scrollTop() + 35;
+
+                    range_txt = window.getSelection().toString();
+
+                    // if we got here after flipping the discussion content to textarea get range easily
+                    if ($(this).attr('id') === "discussion_content_textarea") {
+                        range = $(this).getSelection();
+                        range_txt = range.text;
+                    }
+
+                    if (range.length > 0 || range_txt.length > 0) {
+                        if (!user._id) {
+                            popupProvider.showLoginPopup({}, function (err, result) {
+                                if (!err)
+                                    window.location = window.location;
+                            });
+                            return false;
+                        }
+
+
+                        if (navigator.appName === "Microsoft Internet Explorer") {
+                            $("#pop_suggest_bt").click();
+                        } else {
+                            var offset = $('#discussion_edit_container').offset();
+                            $("#old_suggestion_popup").hide();
+                            $("#new_suggestion_popup")
+                                .css({ top: top - offset.top - 50, left: (e.pageX - 97) - offset.left, opacity: 0 })
+                                .show()
+                                .animate({ top: '-=20px', opacity: 1 }, 100, 'linear');
+                            setTimeout(function () {
+                                mouseDown = null;
+                            }, 500)
+                        }
+                    } else {
+                        mouseDown = null;
+                    }
+                }
+            }
         })
         .on('dragstart', function (e) {
             e.preventDefault();
