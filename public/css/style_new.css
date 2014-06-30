@@ -973,6 +973,7 @@ nav#header-nav li#header-nav-logged-in{
     background-color: #f7f7f7;
     padding-right: 20px;
     padding-left: 20px;
+    position: relative;
 }
 
 nav#header-nav li#header-nav-logged-in img.logged-in-user-img {
@@ -1001,6 +1002,9 @@ nav#header-nav li#header-nav-logged-in div.logged-in-user-logout {
     font-weight: 400;
     line-height: 15px;
     text-align: right;
+    position: absolute;
+    top: 43px;
+    left: 23px;
 }
 
 nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a,
