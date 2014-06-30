@@ -39,7 +39,6 @@ function initDiscussionEditing(discussion,target){
 
                     left = Math.ceil((mouseDown.clientX + mouseUp.clientX) / 2 - 97);
                     top = Math.min(mouseDown.clientY, mouseUp.clientY) - $("#new_suggestion_popup").height() - 40 + $(window).scrollTop() + 35;
-
                     range_txt = window.getSelection().toString();
 
                     // if we got here after flipping the discussion content to textarea get range easily
@@ -57,8 +56,8 @@ function initDiscussionEditing(discussion,target){
                             return false;
                         }
 
-
-                        if (navigator.appName === "Microsoft Internet Explorer") {
+                        // ie and accessibility work around
+                        if (navigator.appName === "Microsoft Internet Explorer" || isNaN(top)) {
                             $("#pop_suggest_bt").click();
                         } else {
                             var offset = $('#discussion_edit_container').offset();
