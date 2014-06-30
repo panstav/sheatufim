@@ -23,7 +23,8 @@ $(document).ready(function () {
         $('body').find('.focused').removeClass('focused');
     });
 
-    $(document).on('focus', "a, input, li, button", null, function (event) {
+
+    $('body').on('focus', "a, input, li, button", null, function (event) {
         if (is_tabbing) {
             console.log('focused added');
             $(event.target).addClass("focused");
