@@ -1004,7 +1004,7 @@ nav#header-nav li#header-nav-logged-in div.logged-in-user-logout {
     text-align: right;
     position: absolute;
     top: 43px;
-    left: 23px;
+    right: 76px;
 }
 
 nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a,

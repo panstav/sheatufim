@@ -2,9 +2,10 @@ $(document).ready(function () {
     var is_tabbing = false,
         $popover = null;
     $('body').keydown(function (e) {
-        // console.log('keyup called');
+        console.log('keydown called');
         var code = e.keyCode || e.which;
         if (code == '9') { //tab
+            console.log('tabbing');
             is_tabbing = true;
             if($(e.target).hasClass('marker_1')) {
                 var next_tab_id = $(e.target).data('tab') + 1,
@@ -16,12 +17,6 @@ $(document).ready(function () {
             }
         }
     });
-    var returnToPopoverLink = function () {
-        var $btn = $('.popover').closest('.popover_container').find('.popover_btn');
-        $popover = null;
-        $btn.popover('hide');
-        $btn.focus();
-    };
 
     $('body').mouseup(function (e) {
         is_tabbing = false;
@@ -30,6 +25,7 @@ $(document).ready(function () {
 
     $(document).on('focus', "a, input, li, button", null, function (event) {
         if (is_tabbing) {
+            console.log('focused added');
             $(event.target).addClass("focused");
         }
     }).on('blur', "*", null, function (event) {
