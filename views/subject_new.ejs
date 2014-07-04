@@ -21,7 +21,7 @@
         <!-- Breadcrumbs -->
         <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <%=subject.name%>
         </div>
-        <div class="row">
+        <div id="nav_content" class="row">
             <!-- Sidebar -->
             <% if(user_logged && subject.isAllowed){ %>
             <% include partials/sidebar.ejs %>
