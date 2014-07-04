@@ -2297,6 +2297,10 @@ div.zirot-login input.zirot-login-username {
     font-family: none;
 }
 
+div input#email {
+    font-family: none;
+}
+
 div.zirot-login input.zirot-login-password {
     background-image: url("../img/icon-input-key.png");
     background-repeat: no-repeat;
