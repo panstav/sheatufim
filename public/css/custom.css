@@ -661,9 +661,11 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
     height: 121px;
 }
 
+div.zirot-login-forgot-password a.focused,
 a.focused {
     border: 1px solid #2890b7;
 }
+
 
 footer a.focused {
     border: 1px solid #90c415;
@@ -680,8 +682,13 @@ label.focused,
 .btn_login.focused {
     border: 1px solid #2890b7;
 }
+button.back-to-top.focused,
 button.focused {
     border: 2px solid #2890b7;
+}
+
+.forgot-password .login-form button.focused {
+    border: 3px solid black;
 }
 button.link-to-forum.focused {
     border: 3px solid black;
@@ -781,6 +788,7 @@ input.icon-close.focused {
     background-image: url('../img/icon-close-hover.png');
     border: 2px solid #3bafda;
 }
+button.back-to-top,
 button.forum_link {
     background: transparent;
     box-shadow: none;
@@ -822,9 +830,9 @@ button.forum_link {
 .review-options button.focused {
     border: 2px solid black;
     padding-right: 21px;
-    border: 2px solid black;
 }
 
+.contrast,
 .edit_content,
 .skip {
     position: absolute;
@@ -836,11 +844,14 @@ button.forum_link {
     overflow: hidden;
 }
 
+a.contrast:active,
+a.contrast:focus,
+a.contrast:hover,
 a.skip:active,
 a.skip:focus,
 a.skip:hover {
-    right: 0;
-    top: 0;
+    right: 20px;
+    top: 32px;
     width: auto;
     height: auto;
     overflow: visible;
@@ -854,4 +865,28 @@ a.edit_content:hover{
     width: auto;
     height: auto;
     overflow: visible;
+}
+
+
+/*accessibility contrast*/
+
+.contrasted .zirot-section-title-container {
+    background-color: #222;
+}
+.contrasted .btn-green {
+    background-color: #222;
+    border: 2px #222 solid;
+}
+body.zirot.contrasted section.content {
+    background: white;
+}
+
+.contrasted .back-to-top,
+.contrasted div.zirot-login-forgot-password a,
+.contrasted div.zirot-login-forgot-password a:link,
+.contrasted div.zirot-login-forgot-password a:visited,
+.contrasted .welcome-pre-title,
+.contrasted .welcome-tagline,
+.contrasted .welcome-title {
+    color: black !important;
 }

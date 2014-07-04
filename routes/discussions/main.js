@@ -45,7 +45,7 @@ module.exports = function (req, res) {
                     return res.render('500.ejs', {error: err});
                 res.setHeader("Expires", "0");
 
-                var ejs = 'discussion_new.ejs';
+                var ejs = 'discussion_fake.ejs';
 
                 res.render(ejs, {
                     title: "דיון",

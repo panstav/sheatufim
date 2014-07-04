@@ -16,8 +16,6 @@
             <!-- Breadcrumbs -->
             <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="discussions/subject/<%=subject._id%>"><%=subject.name%></a> > פורום</div>
             <div id="nav_content" class="row">
-                <!-- Sidebar -->
-                <% include partials/sidebar.ejs %>
                 <!-- Post -->
                 <div class="right content-container">
                     <!-- Post Header -->
@@ -96,6 +94,9 @@
                         </div>
                     </div>
                 </div>
+                <!-- Sidebar -->
+                <% include partials/sidebar.ejs %>
+
             </div>
         </div>
     </section>

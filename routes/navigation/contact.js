@@ -1,6 +1,6 @@
 
 module.exports = function(req,res) {
-    res.render('contact.ejs',{
+    res.render('contact_fake.ejs',{
         layout: false,
         url: req.url,
         user_logged: req.isAuthenticated(),
