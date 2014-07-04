@@ -825,6 +825,7 @@ button.forum_link {
     border: 2px solid black;
 }
 
+.edit_content,
 .skip {
     position: absolute;
     top: -1000px;
@@ -840,6 +841,16 @@ a.skip:focus,
 a.skip:hover {
     right: 0;
     top: 0;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+a.edit_content:active,
+a.edit_content:focus,
+a.edit_content:hover{
+    position: relative;
+    right: 165px;
+    top: -32px;
     width: auto;
     height: auto;
     overflow: visible;

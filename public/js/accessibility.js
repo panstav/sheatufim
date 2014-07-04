@@ -7,6 +7,8 @@ $(document).ready(function () {
         if (code == '9') { //tab
             console.log('tabbing');
             is_tabbing = true;
+            //workaround for marker navigation
+            // (explicitly focusing on next maker...)
             if($(e.target).hasClass('marker_1')) {
                 var next_tab_id = $(e.target).data('tab') + 1,
                     $next_tab = $("#discussion_content a[data-tab=" + next_tab_id + "]");
@@ -15,12 +17,15 @@ $(document).ready(function () {
                 else
                     $('#suggestionTab').focus();
             }
+            //workaround for textarea editor navigation...
+            if($(e.target).hasClass('discussion_content_textarea')) {
+                $('#suggestionTab').focus();
+            }
         }
     });
 
     // bind a click event to the 'skip' link
     $(".skip").click(function(event){
-
         // strip the leading hash and declare
         // the content we're skipping to
         var skipTo="#"+this.href.split('#')[1];
