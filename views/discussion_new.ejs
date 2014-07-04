@@ -17,7 +17,7 @@
 <!-- Breadcrumbs -->
 <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <a href="/discussions/subject/<%=discussion.subject_id._id%>"><%=discussion.subject_id.name%></a> > <%=discussion.title%>
 </div>
-<div class="row">
+<div id="nav_content" class="row">
 <!-- Sidebar -->
 <% if(user_logged){ %>
 <% include partials/sidebar.ejs %>
@@ -130,7 +130,7 @@
         <div class="paper-edit-text">בחר בעזרת הסמן קטעי טקסט שברצונך לשנות. לחץ על קטעים מסומנים כדי לראות הצעות שהעלו אחרים.</div>
         <div class="paper-edit-title"><i class="icon icon-small-pad-left icon-edit"></i>מצב עריכה</div>
     </div>
-
+    <a href="javascript:;" class="edit_content">לעריכת מסמך נגישה</a>
     <div class="paper paper-opened" id="discussion_edit_container">
         <div class="paper-marks">
             <div id="old_suggestion_popup" style="display:none;" class="popup-window link-to-doc-bubble paper-mark-1 hide">לחץ לצפייה בהצעה לשינוי<i class="icon icon-bubble-bottom-tip"></i></div>
@@ -145,7 +145,7 @@
             </div>
         </div>
         <pre id="discussion_content"><%=discussion.text_field%></pre>
-        <textarea id="discussion_content_textarea" style="display:none;"><%=discussion.text_field%></textarea>
+        <textarea id="discussion_content_textarea" class="discussion_content_textarea" style="display:none;"><%=discussion.text_field%></textarea>
     </div>
 
     <div class="spacer-large"></div>
