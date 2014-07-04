@@ -870,18 +870,65 @@ a.edit_content:hover{
 
 /*accessibility contrast*/
 
+.contrasted .tab-selected .tab-badge span {
+    color: white;
+}
+.contrasted .tab,
 .contrasted .zirot-section-title-container {
     background-color: #222;
+}
+
+.contrasted .review-options-like,
+.contrasted .review-options-dislike {
+    background-color: #222;
+    background-image: none;
+    box-shadow: none;
+    border: 1px #222 solid;
 }
 .contrasted .btn-green {
     background-color: #222;
     border: 2px #222 solid;
 }
+.contrasted .tab.tab-selected{
+    background-color: #f1f1f1;
+}
+body.home.logged.contrasted section.content,
 body.zirot.contrasted section.content {
-    background: white;
+    background: white !important;
 }
 
+.contrasted .review-respond,
+.contrasted .link-to-forum {
+    color: black;
+    border-color: black;
+}
+
+.contrasted .review-change-title,
+.contrasted .review-options-pro-value,
+.contrasted .review-options-against-value,
+.contrasted .review-options-respondes-value,
+.contrasted .tab .tab-badge,
+.contrasted div.activity-box h2.activity-box-title,
+.contrasted .message-datetime,
+.contrasted .message-reply div,
+.contrasted .message-reply div:link,
+.contrasted .message-reply div:visited,
+.contrasted .recent-messages-title a,
+.contrasted .semicolon-spacer,
+.contrasted .document-participants,
+.contrasted .document-work-time-tag,
+.contrasted .document-work-time-value,
+.contrasted .documents-title,
+.contrasted .document-datetime,
+.contrasted #breadcrumbs,
+.contrasted div#breadcrumbs a, div#breadcrumbs a:link,
+.contrasted div#breadcrumbs a:hover, div#breadcrumbs a:visited,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a:link,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a:visited,
+.contrasted h2.zirot-messages-container-title,
 .contrasted .back-to-top,
+.contrasted .post-headerbox .post-title,
 .contrasted div.zirot-login-forgot-password a,
 .contrasted div.zirot-login-forgot-password a:link,
 .contrasted div.zirot-login-forgot-password a:visited,
