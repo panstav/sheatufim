@@ -232,7 +232,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
                     }
-                    notification.main_link = notification.url;
+                    notification.main_link = notification.url + '#' + post_id;
                     notification.extra_text = post_text;
                     itr_cbk();
                     break;
@@ -253,7 +253,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = discussion.title;
                     }
                     notification.extra_text = post_text;
-                    notification.main_link = notification.url;
+                    notification.main_link = notification.url + '#' + post_id;
                     itr_cbk();
                     break;
 
@@ -290,7 +290,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
                     }
-                    notification.main_link = notification.url;
+                    notification.main_link = notification.url + '#' + post._id;
                     notification.extra_text = post_text;
                     itr_cbk();
                     break;
