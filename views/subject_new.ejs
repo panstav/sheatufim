@@ -22,11 +22,6 @@
         <div id="breadcrumbs"><a href="/">מעגלי שיח</a> > <%=subject.name%>
         </div>
         <div id="nav_content" class="row">
-            <!-- Sidebar -->
-            <% if(user_logged && subject.isAllowed){ %>
-            <% include partials/sidebar.ejs %>
-            <% } %>
-
             <!-- Post -->
             <div class="right content-container">
                 <!-- Post Header -->
@@ -61,6 +56,10 @@
                 <% include partials/descussions_and_posts.ejs%>
                 <% } %>
             </div>
+            <!-- Sidebar -->
+            <% if(user_logged && subject.isAllowed){ %>
+            <% include partials/sidebar.ejs %>
+            <% } %>
             <!-- Zira Activity -->
             <div class="activity-box">
                 <div class="row">
