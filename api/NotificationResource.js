@@ -370,7 +370,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.text = '"' + question.title + '"';
                     }
 
-                    notification.main_link = notification.url;
+                    notification.main_link = notification.url + '#' + question._id;
                     itr_cbk();
                     break;
 
@@ -390,7 +390,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + question.subject_id;
                         notification.part_two = question.title;
                     }
-                    notification.main_link = notification.url;
+                    notification.main_link = notification.url + '#' + question._id;
                     notification.extra_text = post_text;
                     itr_cbk();
                     break;
@@ -422,7 +422,8 @@ var populateNotifications = module.exports.populateNotifications = function(resu
 
     var post_or_suggestion_notification_types = [
         "comment_on_change_suggestion_i_created",
-        "comment_on_question_in_subject_you_are_part_of"
+        "comment_on_question_in_subject_you_are_part_of",
+        "change_suggestion_on_discussion_you_are_part_of"
     ];
 
     var post_notification_types = [
