@@ -241,7 +241,7 @@ app.configure('production',function(){
             return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
         next();
     });
-    app.set('listenHttps',false);
+    app.set('listenHttps',true);
     // ######### error handling #########
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
@@ -292,8 +292,8 @@ if (IS_PROCESS_WEB) {
         if(app.get('listenHttps')){
             // create HTTPS server, listen on 443
             var fs = require('fs');
-            var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
-            var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();
+            var privateKey = fs.readFileSync(__dirname + '/cert/key.pem').toString();
+            var certificate = fs.readFileSync(__dirname + '/cert/cert.cer').toString();
             server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
 
             // create HTTP server that redirects to HTTPS
