@@ -21,7 +21,7 @@ function initDiscussionEditing(discussion,target){
                 mouseDown = e;
             } else if ((e.shiftKey && (e.keyCode <= 40 && e.keyCode >= 37) || (e.ctrlKey && e.keyCode == 65))) {
                 drag = true;
-            } else {
+            } else if(!(e.keyCode <= 40 && e.keyCode >= 37)) {
                 e.preventDefault();
             }
         })
@@ -165,6 +165,17 @@ function initDiscussionEditing(discussion,target){
                 }
             }
         });
+
+    $('body').on('click', '.edit_content', function(){
+        var clicked = 'ok';
+        //   if (flag === false){
+        $('#discussion_content').hide();
+        $('#discussion_content_textarea').show();
+        $('#discussion_content_textarea').css('height', $("#discussion_content_textarea")[0].scrollHeight);
+        $('.read_less').click();
+        $('.read_more').click();
+        $('#discussion_content_textarea').focus();
+    });
 
     $('#pop_suggest_bt, .pop_suggest_bt').click(function (e) {
         e.stopPropagation();

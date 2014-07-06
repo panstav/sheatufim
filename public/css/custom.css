@@ -661,9 +661,11 @@ nav#header-nav li#header-nav-logged-in:hover .logged-in-user-welcome {
     height: 121px;
 }
 
+div.zirot-login-forgot-password a.focused,
 a.focused {
     border: 1px solid #2890b7;
 }
+
 
 footer a.focused {
     border: 1px solid #90c415;
@@ -680,8 +682,13 @@ label.focused,
 .btn_login.focused {
     border: 1px solid #2890b7;
 }
+button.back-to-top.focused,
 button.focused {
     border: 2px solid #2890b7;
+}
+
+.forgot-password .login-form button.focused {
+    border: 3px solid black;
 }
 button.link-to-forum.focused {
     border: 3px solid black;
@@ -781,6 +788,7 @@ input.icon-close.focused {
     background-image: url('../img/icon-close-hover.png');
     border: 2px solid #3bafda;
 }
+button.back-to-top,
 button.forum_link {
     background: transparent;
     box-shadow: none;
@@ -822,5 +830,113 @@ button.forum_link {
 .review-options button.focused {
     border: 2px solid black;
     padding-right: 21px;
-    border: 2px solid black;
+}
+
+.contrast,
+.edit_content,
+.skip {
+    position: absolute;
+    top: -1000px;
+    right: -1000px;
+    height: 1px;
+    width: 1px;
+    text-align: left;
+    overflow: hidden;
+}
+
+a.contrast:active,
+a.contrast:focus,
+a.contrast:hover,
+a.skip:active,
+a.skip:focus,
+a.skip:hover {
+    right: 20px;
+    top: 32px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+a.edit_content:active,
+a.edit_content:focus,
+a.edit_content:hover{
+    position: relative;
+    right: 165px;
+    top: -32px;
+    width: auto;
+    height: auto;
+    overflow: visible;
+}
+
+
+/*accessibility contrast*/
+
+.contrasted .tab-selected .tab-badge span {
+    color: white;
+}
+.contrasted .tab,
+.contrasted .zirot-section-title-container {
+    background-color: #222;
+}
+
+.contrasted .review-options-like,
+.contrasted .review-options-dislike {
+    background-color: #222;
+    background-image: none;
+    box-shadow: none;
+    border: 1px #222 solid;
+}
+.contrasted .btn-green {
+    background-color: #222;
+    border: 2px #222 solid;
+}
+.contrasted .tab.tab-selected{
+    background-color: #f1f1f1;
+}
+body.home.logged.contrasted section.content,
+body.forum.contrasted section.content,
+body.zirot.contrasted section.content {
+    background: white !important;
+}
+
+.contrasted .review-respond,
+.contrasted .link-to-forum {
+    color: black;
+    border-color: black;
+}
+
+.contrasted .review-change-title,
+.contrasted .review-options-pro-value,
+.contrasted .review-options-against-value,
+.contrasted .review-options-respondes-value,
+.contrasted .tab .tab-badge,
+.contrasted div.activity-box h2.activity-box-title,
+.contrasted .message-datetime,
+.contrasted .message-reply div,
+.contrasted .message-reply div:link,
+.contrasted .message-reply div:visited,
+.contrasted .recent-messages-title a,
+.contrasted .semicolon-spacer,
+.contrasted .document-participants,
+.contrasted .document-work-time-tag,
+.contrasted .document-work-time-value,
+.contrasted .documents-title,
+.contrasted .document-datetime,
+.contrasted div#breadcrumbs,
+.contrasted div#breadcrumbs a,
+.contrasted div#breadcrumbs a:link,
+.contrasted div#breadcrumbs a:hover,
+.contrasted div#breadcrumbs a:visited,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a:link,
+.contrasted nav#header-nav li#header-nav-logged-in div.logged-in-user-logout a:visited,
+.contrasted h2.zirot-messages-container-title,
+.contrasted .back-to-top,
+.contrasted .post-headerbox .post-title,
+.contrasted div.zirot-login-forgot-password a,
+.contrasted div.zirot-login-forgot-password a:link,
+.contrasted div.zirot-login-forgot-password a:visited,
+.contrasted .welcome-pre-title,
+.contrasted .welcome-tagline,
+.contrasted .welcome-title {
+    color: black !important;
 }

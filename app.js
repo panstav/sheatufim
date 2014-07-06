@@ -217,7 +217,7 @@ app.locals({
 // ######### environment specific settings #########
 
 app.configure('development', function(){
-    app.set('send_mails', true);
+    app.set('send_mails', false);
     IS_ADMIN = true;
     //app.set('listenHttps',true);
 });
@@ -225,7 +225,7 @@ app.configure('development', function(){
 app.configure('staging',function(){
     IS_ADMIN = true;
     // ######### error handling #########
-    app.set('listenHttps',false);
+    app.set('listenHttps',true);
     
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');

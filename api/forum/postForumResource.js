@@ -132,10 +132,12 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
         var self = this,
             base = this._super,
             user = req.session.user,
-            user_id = req.session.user._id;
+            user_id = req.session.user._id,
+            page = fields.page;
 
         fields.creator_id = req.session.user.id;
         fields.text = common.escapeHtml(fields.text);
+
 
         async.waterfall([
             function(cbk) {
@@ -178,6 +180,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 }
 
             }
+
         ], function(err, post, users, subject, parent_post){
             if(err){}
             var post = post,
