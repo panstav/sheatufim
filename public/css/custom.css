@@ -893,6 +893,7 @@ a.edit_content:hover{
     background-color: #f1f1f1;
 }
 body.home.logged.contrasted section.content,
+body.forum.contrasted section.content,
 body.zirot.contrasted section.content {
     background: white !important;
 }
