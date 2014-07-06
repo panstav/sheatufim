@@ -219,13 +219,13 @@ app.locals({
 app.configure('development', function(){
     app.set('send_mails', true);
     IS_ADMIN = true;
-    //app.set('listenHttps',true);
+    app.set('listenHttps',true);
 });
 
 app.configure('staging',function(){
     IS_ADMIN = true;
     // ######### error handling #########
-    app.set('listenHttps',true);
+    app.set('listenHttps',false);
     
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
@@ -293,10 +293,10 @@ if (IS_PROCESS_WEB) {
             // create HTTPS server, listen on 443
             var fs = require('fs');
             /*var privateKey = fs.readFileSync(__dirname + '/cert/private.pem').toString();
-            var certificate = fs.readFileSync(__dirname + '/cert/public.pem').toString();*/
+            var certificate = fs.readFileSync(__dirname + '/cert/www.sheatufim-roundtable.org.il.csr').toString();*/
 
-            var privateKey = fs.readFileSync(__dirname + '/cert-2014/private.pem').toString();
-            var certificate = fs.readFileSync(__dirname + '/cert-2014/public.pem').toString();
+            var privateKey = fs.readFileSync(__dirname + '/cert-2014/www.sheatufim-roundtable.org.il.key').toString();
+            var certificate = fs.readFileSync(__dirname + '/cert-2014/www.sheatufim-roundtable.org.il.csr').toString();
             server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
 
             // create HTTP server that redirects to HTTPS
