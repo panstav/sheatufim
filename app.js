@@ -225,7 +225,7 @@ app.configure('development', function(){
 app.configure('staging',function(){
     IS_ADMIN = true;
     // ######### error handling #########
-    app.set('listenHttps',true);
+    app.set('listenHttps',false);
     
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
