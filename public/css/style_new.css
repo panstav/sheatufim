@@ -3284,3 +3284,7 @@ body.request-change-dialog .message .message-text textarea {
 .noUploadApi .hiddenUpload{
 	display:block;
 }
+
+.noti_time{
+    margin-top: 3px;
+}
