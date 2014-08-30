@@ -3288,3 +3288,23 @@ body.request-change-dialog .message .message-text textarea {
 .noti_time{
     margin-top: 3px;
 }
+
+/*no sheatufim mraks*/
+.no_sheatufim #odot,
+.no_sheatufim #about,
+.no_sheatufim #about,
+.no_sheatufim #about,
+.no_sheatufim #contact,
+.no_sheatufim #sheatufim-website-link,
+.no_sheatufim #footer-about,
+.no_sheatufim #footer-links,
+.no_sheatufim #footer-contact{
+    display: none;
+}
+
+.no_sheatufim #sheatufim-roundatble-link{
+    position: relative;
+    width: 150px;
+    overflow: hidden;
+}
+

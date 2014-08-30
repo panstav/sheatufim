@@ -5,8 +5,9 @@
     <% include partials/head.ejs %>
 
 </head>
+
 <% if( user_logged ) { %>
-<body class="home logged">
+<body class="home logged <% if(subject && subject.is_no_sheatufim) { %>no_sheatufim<% } %>">
 <% } else { %>
 <body class="home not-logged">
 <% } %>

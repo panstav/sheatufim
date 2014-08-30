@@ -15,7 +15,8 @@ var Subject  = module.exports = new Schema({
     gui_order: {type:Number,'default':9999999, editable:false},
     is_hot_object: {type:Boolean,'default':false},
     is_uru:{type:Boolean,'default':false},
-    hidden_subject: {type:Boolean,'default':false}
+    hidden_subject: {type:Boolean,'default':false},
+    is_no_sheatufim: {type:Boolean,'default':false}
 
 }, {strict: true});
 

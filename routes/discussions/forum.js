@@ -68,7 +68,8 @@ module.exports = function(req,res) {
             next: Number(page) + 1,
             prev: Number(page) - 1,
             information_items: information_items || [],
-            links: links || []
+            links: links || [],
+            is_no_sheatufim: subject.is_no_sheatufim
         });
         //update all notifications of user that connected to this object
         if (req.user) {

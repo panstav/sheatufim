@@ -5,23 +5,23 @@
         <a href="#nav_content" class="skip" tabindex="1">דלג לתוכן</a>
         <!-- Logo -->
         <div id="logo" class="col4">
-            <a href="/" tabindex="2">
+            <a id="sheatufim-roundatble-link"href="/" tabindex="2">
                 <img src="/img/logo.png" alt="לעמוד הבית מעגלי שיח" title="מעגלי שיח מבית שיתופים"/>
 
             </a>
-            <a href="http://www.sheatufim.org.il" target="_blank" tabindex="2">
+            <a id="sheatufim-website-link" href="http://www.sheatufim.org.il" target="_blank" tabindex="2">
                 <img src="/img/shitufim.png" alt="לאתר שיתופים" title="שיתופים"/>
             </a>
         </div>
         <!-- Navigation -->
         <nav id="header-nav" class="col6">
             <ul class="menu inline-list">
-                <li><a href="/about">אודות</a></li>
+                <li id="odot"><a href="/about">אודות</a></li>
                 <% if( user_logged ) { %>
-                <li><a href="/user">הפרופיל שלי</a></li>
+                <li id="my_profile"><a href="/user">הפרופיל שלי</a></li>
                 <% } %>
-                <li><a id="contact" href="/contact">צור קשר</a></li>
-                <li><a href="/about-en">about</a></li>
+                <li id="cantact"><a id="contact" href="/contact">צור קשר</a></li>
+                <li id="about"><a href="/about-en">about</a></li>
                 <% if( user_logged ) { %>
 
                     <li id="header-nav-logged-in">
