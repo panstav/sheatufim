@@ -5,6 +5,7 @@ module.exports = function(req,res) {
         url: req.url,
         user_logged: req.isAuthenticated(),
         user: req.session.user,
-        avatar_url: req.session.avatar_url
+        avatar_url: req.session.avatar_url,
+        government_terms: req.query.government
     });
 };
