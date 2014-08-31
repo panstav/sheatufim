@@ -509,7 +509,7 @@ var db_functions = {
 
     getAllSubjects:function (callback) {
         $.ajax({
-            url:'/api/subjects',
+            url:'/api/subjects?is_no_sheatufim=false',
             type:"GET",
             async:true,
             success:function (data) {

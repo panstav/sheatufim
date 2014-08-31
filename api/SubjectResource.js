@@ -15,7 +15,7 @@ var SubjectResource = module.exports = common.BaseModelResource.extend({
     init:function(){
         this._super(models.Subject);
         this.allowed_methods = ['get'];
-        this.filtering = {tags:null};
+        this.filtering = {tags:null, is_no_sheatufim: null};
         this.authentication = new common.SessionAuthentication(true);
         this.max_limit = 8;
         this.default_query = function(query){
