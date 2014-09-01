@@ -232,9 +232,16 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
                     }
-                    notification.main_link = notification.url + '#' + post_id;
-                    notification.extra_text = post_text;
-                    itr_cbk();
+
+                    get_post_page(post._id, function(page){
+                        if(page == 0)
+                            notification.main_link = notification.url + '#' + post._id;
+                        else
+                            notification.main_link = notification.url + '?page=' + page + '#' + post._id;
+
+                        notification.extra_text = post_text;
+                        itr_cbk();
+                    });
                     break;
 
                 case "comment_on_discussion_you_are_part_of":
@@ -290,9 +297,15 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
                     }
-                    notification.main_link = notification.url + '#' + post._id;
-                    notification.extra_text = post_text;
-                    itr_cbk();
+                    get_post_page(post._id, function(page){
+                        if(page == 0)
+                            notification.main_link = notification.url + '#' + post._id;
+                        else
+                            notification.main_link = notification.url + '?page=' + page + '#' + post._id;
+
+                        notification.extra_text = post_text;
+                        itr_cbk();
+                    });
                     break;
 
                 case "comment_on_your_discussion_post":
@@ -400,6 +413,33 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
         }
     };
 };
+
+var get_post_page = function(post_id, callback){
+    var count = 0, id = post_id;
+
+    models.PostForum.find().exec(function(err, posts){
+        var main_posts = _.filter(posts, function(post){
+            return !post.parent_id;
+        });
+
+        var find_parent = function(post){
+            var temp = post;
+            while(temp && temp.parent_id){
+                var temp = _.find(posts, function(pst){
+                    return pst._id.toString() == temp.parent_id.toString();
+                });
+            }
+            return temp;
+        };
+
+        var post = _.find(posts, function(pst){ return pst._id == post_id.toString(); });
+        var parent = find_parent(post);
+        var parent_idx = _.indexOf(main_posts, parent);
+        var page = Math.floor(main_posts.length / 10) - Math.floor(main_posts.length / parent_idx);
+        callback(page);
+    });
+};
+
 
 var calc_time_until = function(date_obj){
     var date = Date.create(date_obj),
@@ -573,6 +613,7 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         .uniq()
         .value();
 
+
     async.parallel([
         function(cbk){
             if(notificator_ids.length)
@@ -630,7 +671,6 @@ var populateNotifications = module.exports.populateNotifications = function(resu
                 models.PostOrSuggestion.find({},{'id':1, 'text':1})
                     .where('_id').in(post_ids)
                     .exec(function (err, posts_items) {
-
                         if(!err){
                             var post_items_hash = {};
 

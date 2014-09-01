@@ -63,7 +63,7 @@ module.exports = function (app) {
     admin.registerSingleRowModel( Models.General, "General", {
         list:['title'],
         order_by:['gui_order'],
-        sortable:'gui_order',
+        sortable:'gui_order'
     });
 
     admin.registerMongooseModel("Subject", Models.Subject, null, {
@@ -140,7 +140,7 @@ module.exports = function (app) {
     });
 
     admin.registerMongooseModel('Suggestion', Models.Suggestion, null, {
-        list:['parts.0.text', 'discussion_id.title'],
+        list:['text', 'discussion_id.title'],
         list_populate:['discussion_id'],
         form:SuggestionForm,
         order_by:['-discussion_id', '-creation_date'],

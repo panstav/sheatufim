@@ -118,9 +118,28 @@
                 get_and_render.links(subject);
             }
 
+            var go_to_hash = function(){
+                //check if there is a hash, and if so find it and open it
+                if(window.location.hash){
+                    var message_id = window.location.hash.substr(1),
+                        message = $('li.message-' + message_id);
+
+                    if(message){
+                        if(message.data('level') == 0){
+                            scrollTo($('#' + message_id), 1000);
+                        } else {
+                            var main_msg = message.closest('li[data-level=0]');
+                            toggleMessage('message-' + main_msg.data('id'));
+                            scrollTo($('#' + message_id), 1000);
+                        }
+                    }
+
+                }
+            }
 
             //render a main post and responses if the post has any recursively
             var render_post = function(type, data, level, callback) {
+                count++;
                 data.user_avatar = avatar;
                 dust.render('forum_post', data, function(err, out){
                 if(!err)
@@ -128,7 +147,6 @@
                         $('.post-messages-container ul.main_container').append(out);
                     else
                         $('ul.replies-' + data.parent_id).prepend(out);
-
 
                     //check if the post has any responses
                     if(post_groups[data._id] && post_groups[data._id].length > 0) {
@@ -145,13 +163,19 @@
                                child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
                                render_post('child', child_post, new_level);
                          });
-                    }
 
+                    }
+                    count--;
+                    if (count == 0 && callback)
+                        callback();
                 });
 
 
             };
+            var count = 0;
+
             var init = function() {
+                var post_count = posts.length;
                 $.each(posts, function(i, post) {
                      post.time = new Date(post.creation_date).format('dd.mm.yyyy');
                      post.date = new Date(post.creation_date).format('HH:MM');
@@ -163,7 +187,10 @@
                      post.hidden = true;
                      post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                      render_post('main', post, 0, function(){
-                         console.log('callback');
+                         post_count--;
+                         if(post_count == 0) {
+                             go_to_hash();
+                         }
                      });
                 });
             };
@@ -386,7 +413,7 @@
                     $img.removeClass('like').addClass('unlike');
                     $img.attr('src', '/images/unlike.png');
                 });
-            }
+            };
 
             var unlikePost = function(e){
                 var post_id = $(e.target).closest('.row-table').data('id');
