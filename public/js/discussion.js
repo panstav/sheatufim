@@ -451,142 +451,159 @@ function initDiscussionEditing(discussion,target){
     };
 
     var suggestions_list, approved_suggestions_list;
-    // get change suggestions and render
-    db_functions.getSuggestionByDiscussion(discussion._id, 0, 0, function (err, data) {
 
-        if (err) return false;
+    var suggestion_count, approved_count, post_count = 0;
 
-        $('#suggestion_number').text(data.meta.total_count);
-
-        suggestions_list = data.objects;
-        displaySuggestionsRanges();
-        $.each(suggestions_list,function(i,suggestion){
-            render_suggestion(suggestion);
+    var init = function(){
+        init_suggestions(function(){
+            init_approved(function(){
+                init_posts(function(){
+                    go_to_hash();
+                });
+            });
         });
-//            suggestion = suggestions_list[0];
-//
-//            // set title and img for fb share
-//            suggestion.title = discussion.title;
-//            suggestion.image_field_preview = discussion.img_field_preview;
-//
-//            //render_suggestion(suggestion);
-//
-//            var curr_suggestion = $('#suggestions_wrapper').find('[data-id=' + suggestion.id + ']');
+    };
 
-//            db_functions.getCommentsBySuggestion(suggestion.id, function (err, data) {
-//
-//                // set comments counter
-//                curr_suggestion.find('.comments_counter span').text(data.objects.length);
-//
-//                if (data.objects.length === 0) {
-//                    curr_suggestion.find('.close').hide();
-//                }
-//
-//                $.each(data.objects, function (index, comment) {
-//                    var is_first_comment = (index == 0);
-//                    comment.is_even = (index % 2) == 0;
-//                    dust.render('nested_comment', comment, function (err, out) {
-//                        // append before "add_comment"
-//                        curr_suggestion.find('.suggestion_comments_holder .add_comment').before(out);
-//                        /* if (is_first_comment) {
-//                         $(curr_suggestion).find('.suggestion_comments_holder .comment').show();
-//                         }*/
-//                        image_autoscale(curr_suggestion.find('.auto-scale img'));
-//                    });
-//                });
-//            });
-////
-//            $('#suggestion_number').text(' (' + data.meta.total_count + ')');
-//            if (data.objects.length > 0) {
-//                var curr_suggestion;
-//                first_suggestion = data.objects[0];
-//                $(".content_break_content").show();
-//                if (data.meta.total_count >= 2) {
-//                    $(".more-deals").show();
-//
-//                    $(".more-deals a").on('click', function (e) {
-//                        $('#suggestions_wrapper').empty();
-//                        var self = $(this);
-//                        if (self.data('executing')) {
-//
-//                            render_suggestion(first_suggestion);
-//                            curr_suggestion = $('#suggestions_wrapper').find('[data-id=' + first_suggestion.id + ']');
-//
-//                            db_functions.getCommentsBySuggestion(first_suggestion.id, function (err, data) {
-//
-//                                // set comments counter
-//                                curr_suggestion.find('.comments_counter span').text(data.objects.length);
-//
-//                                $.each(data.objects, function (index, comment) {
-//                                    var is_first_comment = (index == 0);
-//                                    comment.is_even = (index % 2) == 0;
-//
-//                                    dust.render('nested_comment', comment, function (err, out) {
-//                                        // append before "add_comment"
-//                                        curr_suggestion.find('.add_comment').before(out);
-//                                        /*if (is_first_comment) {
-//                                         $(curr_suggestion).find('.suggestion_comments_holder .comment').show();
-//                                         }*/
-//                                        image_autoscale(curr_suggestion.find('.auto-scale img'));
-//                                    });
-//                                });
-//                            })
-//                            self.text('עוד הצעות');
-//                            $(this).removeClass('flip');
-//
-//                            $(this).data('executing', false);
-//                            scrollTo('#content_wrapper_suggestions')
-//                            return false;
-//                        }
-//                        return displayAllSuggestions();
-//                    });
-//                }
+    var go_to_hash = function(){
+        //check if there is a hash, and if so find it and open it
+        if(window.location.hash){
+            var hash = window.location.hash,
+                hash_item = $(hash);
+            if(hash_item.hasClass('suggestion-item')){
+                scrollTo(hash, 1000);
+            } else if(hash_item.hasClass('discussion_suggestion_post')){
+                var suggestion = hash_item.closest('li.suggestion-item');
+                suggestion.find('.toggleComments').click();
+                scrollTo(hash, 1000);
+            } else if(hash_item.closest('#tab-3')) {
+                $('.tab a[href=#tab-3]').click();
+                if(hash_item.data('level') == 0){
+                    scrollTo($(hash), 1000);
+                } else {
+                    var main_msg = hash_item.closest('li[data-level=0]');
+                    toggleMessage('message-' + main_msg.data('id'));
+                    scrollTo($(hash), 1000);
+                }
+            }
+        }
+    };
 
-//                // if needs to scroll to suggestion that is not shown, open list of suggestions and scroll to suggestion
-//                var hash = window.location.hash;
-//                if (hash) {
-//                    if (!scrollTo(hash)) {
-//                        var match = /^#post_([0-9a-f]+)/.exec(hash);
-//
-//                        if (!match) return false;
-//
-//                        var is_suggestion = false;
-//                        $.each(suggestions_list, function (index, suggestion) {
-//                            if ("#post_" + suggestion.id + "" == hash) is_suggestion = true
-//                        });
-//                        if (is_suggestion) {
-//                            displayAllSuggestions();
-//                        }
-//                    }
-//                }
-//            }
-//            else {
-//                $(".content_break_content").hide();
-//            }
-    });
+    var init_suggestions = function(callback){
+        // get change suggestions and render
+        db_functions.getSuggestionByDiscussion(discussion._id, 0, 0, function (err, data) {
+            if (err) return false;
 
-    db_functions.getApprovedSuggestionsByDiscussion(discussion._id, 0, 0, function (err, data) {
+            $('#suggestion_number').text(data.meta.total_count);
 
-        approved_suggestions_list = data.objects || {};
-        $.each(approved_suggestions_list,function(i,suggestion){
-            render_suggestion(suggestion,false,true);
+            suggestions_list = data.objects;
+            displaySuggestionsRanges();
+            suggestion_count = suggestions_list.length;
+            $.each(suggestions_list,function(i,suggestion){
+                render_suggestion(suggestion);
+            });
+            while(suggestion_count > 0){};
+            callback();
         });
-        // set vision version details
-        //$('.draft_no span').text(data.objects.length + 1);
+    };
 
-//                if (data.objects[0].approve_date)
-//                    $('.history_details_holder .item.last span').text($.datepicker.formatDate('dd.mm.yy', new Date(Date.parse(data.objects[0].approve_date))));
-//                else {
-//                    $('.history_details_holder .item.last').hide();
-//                    $('.history_details_holder .item.by').hide();
-//                }
-//                $('.history_details_holder .item.by a').text(data.objects[0].creator_id.first_name + " " + data.objects[0].creator_id.last_name);
-//                $('.history_details_holder .item.by a').attr('href', '../myuru/' + data.objects[0].creator_id.id);
-//                $('.history_details_holder').show();
-//                $('.content_break.approved_suggestions').show();
+    var init_approved = function(callback){
+        db_functions.getApprovedSuggestionsByDiscussion(discussion._id, 0, 0, function (err, data) {
 
-        $('#approved_suggestion_number').text(data.meta.total_count);
-    });
+            approved_suggestions_list = data.objects || {};
+            approved_count = approved_suggestions_list.length;
+            $.each(approved_suggestions_list,function(i,suggestion){
+                render_suggestion(suggestion,false,true);
+            });
+            while(approved_count > 0){};
+            callback();
+            $('#approved_suggestion_number').text(data.meta.total_count);
+        });
+    };
+
+    var sub_post_count = 0;
+    //render a main post and responses if the post has any recursively
+    var render_post = function(type, data, level, callback){
+        sub_post_count++;
+        data.user_avatar = avatar;
+        dust.render('forum_post', data, function(err, out){
+            if(!err){
+                if(type == 'main')
+                    $('.post-messages-container ul.main_container').append(out);
+                else {
+                    console.log('reply');
+                    $('ul.replies-' + data.parent_id).prepend(out);
+                }
+            }
+
+
+            //check if the post has any responses
+            if(post_groups[data._id] && post_groups[data._id].length > 0) {
+                var child_posts = post_groups[data._id];
+                $.each(child_posts, function(i, child_post){
+
+                    var new_level = level + 1;
+                    child_post.time = new Date(child_post.creation_date).format('dd.mm.yyyy');
+                    child_post.date = new Date(child_post.creation_date).format('HH:MM');
+                    child_post.level = level + 1;
+                    child_post.reply_level = level + 2;
+                    if(child_post.text.length > 140)
+                        child_post.text_short = child_post.text.substring(0, 140) + '...';
+                    child_post.last = level == 2 ? true : false;
+                    child_post.replies = post_groups[child_post._id] && post_groups[child_post._id].length > 0 ? post_groups[child_post._id].length : 0;
+                    render_post('child', child_post, new_level);
+                });
+            }
+            sub_post_count--;
+            if (sub_post_count == 0 && callback)
+                callback();
+        });
+    };
+    var init_posts = function(callback) {
+        var data = {
+            discussion_id: discussion._id,
+            limit: 0,
+            sorts: {'creation_date': -1},
+            offset: 0
+        };
+        db_functions.getDiscussionPosts(data, function(err, data){
+
+            page_posts = data.page_posts;
+            post_groups = data.post_groups;
+            count = data.count;
+            var post_count = page_posts.length;
+            $('#comments_number').html(count);
+
+            $.each(page_posts, function(i, post){
+                post.time = new Date(post.creation_date).format('dd.mm.yyyy');
+                post.date = new Date(post.creation_date).format('HH:MM');
+                post.level = 0;
+                post.reply_level = 1;
+                if(post.text.length > 140)
+                    post.text_short = post.text.substring(0, 140) + '...';
+                post.hidden = true;
+                post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
+                render_post('main', post, 0, function(){
+                    post_count--;
+                    if(post_count == 0) {
+                        callback();
+                    }
+                });
+            });
+            // check if we have passed teh deadline
+            if(new Date(discussion.deadline) < new Date()) {
+                passed_deadline = true;
+                $('.paper').addClass('passed_deadline');
+                $('.paper-edit-text').html('עבר הזמן לעריכת המסמך');
+                $('.paper-edit-title').hide();
+                $('#tab-3').addClass('hidden');
+                $('.message-reply').addClass('hidden');
+            }
+        });
+
+
+    };
+    init();
+
 
 
 //render change suggestion
@@ -644,6 +661,14 @@ function initDiscussionEditing(discussion,target){
 
                     $(id).find('.suggestion_bottom_segment ' + action + ' input').click();
                 }
+                db_functions.getCommentsBySuggestion(suggestion.id, function (err, data) {
+                    suggestion.comments = data.objects;
+                    dust.renderArray('discussion_suggestion_comment_new',suggestion.comments,null,function(err,out){
+                        $('#' + suggestion._id).find('ul').html(out);
+                    });
+                });
+                suggestion_count--;
+                approved_count--;
             });
         }
         return null;
@@ -667,18 +692,6 @@ function initDiscussionEditing(discussion,target){
             })[0];
             if(!suggestion)
                 return;
-            if(suggestion.comments)
-                dust.renderArray('discussion_suggestion_comment_new',suggestion.comments,null,function(err,out){
-                    $li.find('ul').html(out);
-                });
-            else {
-                db_functions.getCommentsBySuggestion(suggestion.id, function (err, data) {
-                    suggestion.comments = data.objects;
-                    dust.renderArray('discussion_suggestion_comment_new',suggestion.comments,null,function(err,out){
-                        $li.find('ul').html(out);
-                    });
-                });
-            }
         }
         else if (message.hasClass('message-open')) {
             message.removeClass('message-open');

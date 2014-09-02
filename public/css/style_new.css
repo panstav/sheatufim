@@ -526,6 +526,7 @@ img {
 .icon-close-comments {
     width: 12px;
     height: 12px;
+    margin-bottom: -1px;
     background-image: url('../img/icon-close-comments.png');
 }
 
