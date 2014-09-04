@@ -16,8 +16,8 @@ var Subject  = module.exports = new Schema({
     is_hot_object: {type:Boolean,'default':false},
     is_uru:{type:Boolean,'default':false},
     hidden_subject: {type:Boolean,'default':false},
-    is_no_sheatufim: {type:Boolean,'default':false}
-
+    is_no_sheatufim: {type:Boolean,'default':false},
+    host: String
 }, {strict: true});
 
 Subject.methods.toString = function(){

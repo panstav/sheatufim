@@ -3,7 +3,11 @@ var async = require('async');
 var TokensBarModel= require('./tokensBarModel');
 
 module.exports = function (req, res) {
-
+    var is_no_sheatufim = false;
+    var host = req.get('host');
+    if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
+        is_no_sheatufim = true;
+    }
     var isHisuru=req.params[0]? true: false;
     var pageUserID = isHisuru ? req.params[0] : req.user.id;
     var sessionUser = req.user;
@@ -14,9 +18,6 @@ module.exports = function (req, res) {
             isHisuru=false;
         }
     }
-
-
-
 
     /*
      async
@@ -137,6 +138,7 @@ module.exports = function (req, res) {
         }
         var proxyJson= JSON.stringify(proxyToSerializ);
         res.render('my_account.ejs', {
+            is_no_sheatufim: is_no_sheatufim,
             layout: false,
             tag_name: req.query.tag_name,
             biographyReadonly: isHisuru,
@@ -153,6 +155,7 @@ module.exports = function (req, res) {
             tab: '',
             isHisUru: isHisuru,
             proxy: proxyJson
+
         });
     })
 };

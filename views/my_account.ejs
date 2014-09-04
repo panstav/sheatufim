@@ -4,7 +4,7 @@
     <title>מעגלי שיח - הפרופיל שלי</title>
     <% include partials/head.ejs %>
 </head>
-<body class="forum logged">
+<body class="forum logged <% if(is_no_sheatufim) { %>no_sheatufim<% } %>">
 <!-- Header -->
 <header>
     <% include partials/menu.ejs %>

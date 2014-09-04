@@ -9,7 +9,7 @@
 <% if( user_logged ) { %>
 <body class="home logged <% if(subject && subject.is_no_sheatufim) { %>no_sheatufim<% } %>">
 <% } else { %>
-<body class="home not-logged">
+<body class="home not-logged <% if(subject && subject.is_no_sheatufim) { %>no_sheatufim<% } %>">
 <% } %>
 <!-- Header -->
 <header>

@@ -5,6 +5,11 @@ var _ = require('underscore');
 module.exports = function(req, res){
 
     var user = req.session.user;
+    var is_no_sheatufim = false;
+    var host = req.get('host');
+    if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
+        is_no_sheatufim = true;
+    }
 
     getSettingsParams(req, user, function(err, user_obj, discussion_list, cycle_list, user_discussions_hash, user_cycles_hash){
 
@@ -15,7 +20,8 @@ module.exports = function(req, res){
             discussions_hash: user_discussions_hash,
             cycles: cycle_list,
             cycles_hash: user_cycles_hash,
-            selected_item: ""
+            selected_item: "",
+            is_no_sheatufim: is_no_sheatufim
         });
     })
 }
