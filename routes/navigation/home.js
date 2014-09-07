@@ -4,11 +4,10 @@ module.exports = function(req, res){
     var host = req.get('host');
 
     if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
-       console.log("req.get('host')", req.get('host'));
         models.Subject.findOne().where('host', 'http://' + req.get('host')).exec(function(err, discussion){
             if(err || !discussion) return err;
 
-            res.redirect('http://www.civilsocietyroundtable.co.il/discussions/subject/' + discussion._id);
+            res.redirect('discussions/subject/' + discussion._id);
         });
     } else {
         res.render('index_new.ejs', {
