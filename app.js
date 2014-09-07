@@ -298,10 +298,14 @@ if (IS_PROCESS_WEB) {
 
             // create HTTP server that redirects to HTTPS
             require('http').createServer(function(req,res){
-                res.writeHead(302, {
-                    'Location': 'https://' + req.headers['host'] + req.url
-                });
-                res.end();
+                var domain = req.headers['host'].toLowerCase();
+                if(domain == 'sheatufim-roundtable.org.il'){
+                    res.writeHead(302, {
+                        'Location': 'https://sheatufim-roundtable.org.il' + req.url
+                    });
+                    return res.end();
+                }
+                app(req,res);
             }).listen(app.get('port'));
         }
         else {
