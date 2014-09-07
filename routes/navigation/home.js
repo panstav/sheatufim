@@ -8,7 +8,7 @@ module.exports = function(req, res){
         models.Subject.findOne().where('host', 'http://' + req.get('host')).exec(function(err, discussion){
             if(err || !discussion) return err;
 
-            res.redirect(host + 'discussions/subject/' + discussion._id);
+            res.redirect('http://www.civilsocietyroundtable.co.il/discussions/subject/' + discussion._id);
         });
     } else {
         res.render('index_new.ejs', {
