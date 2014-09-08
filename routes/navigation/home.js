@@ -2,12 +2,13 @@ module.exports = function(req, res){
     var models = require('../../models');
     var doc = models.General.getGeneral();
     var host = req.get('host');
+    var config = require('../../config.js');
+    var _ = require('underscore');
 
-    if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
-        models.Subject.findOne().where('host', 'http://' + req.get('host')).exec(function(err, discussion){
-            if(err || !discussion) return err;
-
-            res.redirect('discussions/subject/' + discussion._id);
+    if(!_.find(config.hosts, function(hst){return hst == host; })){
+        models.Subject.findOne().where('host_details.host_address', 'http://' + req.get('host')).exec(function(err, subject){
+            if(err || !subject) throw new Error('Subject with this host was not found');
+            res.redirect('discussions/subject/' + subject._id);
         });
     } else {
         res.render('index_new.ejs', {

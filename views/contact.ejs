@@ -4,7 +4,7 @@
     <title>מעגלי שיח - צור קשר</title>
     <% include partials/head.ejs %>
 </head>
-<body class="zirot">
+<body class="zirot <% if(is_no_sheatufim) { %>no_sheatufim<% } %>">
     <!-- Header -->
     <header>
         <% include partials/menu.ejs %>
@@ -15,7 +15,13 @@
             <div class="row">
                 <div class="welcome">
                     <h1 class="welcome-pre-title">צור קשר</h1>
-                    <h2 class="welcome-title">אתר מעגלי השיח</h2>
+                    <h2 class="welcome-title">
+                        <% if(subject && subject.is_no_sheatufim) { %>
+                        <%=subject.host_details.title%>
+                        <% }else{ %>
+                        אתר מעגלי השיח
+                        <% } %>
+                    </h2>
                     <div class="welcome-tagline"></div>
                 </div>
             </div>
@@ -59,14 +65,21 @@
     <script type="text/javascript">
 
     $(document).ready(function () {
-        db_functions.getContactText(function (data) {
-            $.each(data.objects, function (index, item) {
-                dust.render('about_text', item, function (err, out) {
-                    $('.about-text').append(out);
+        var subject = <%- JSON.stringify(subject || "") %>;
+        if(!subject.is_no_sheatufim) {
+            db_functions.getContactText(function (data) {
+                $.each(data.objects, function (index, item) {
+                    dust.render('about_text', item, function (err, out) {
+                        $('.about-text').append(out);
+                    });
                 });
             });
+        } else {
+            dust.render('about_text', {title: "צור קשר"}, function (err, out) {
+                $('.about-text').append(out);
+            });
+        }
 
-        });
         $('body').on('click', '.send_mail', function(e){
             sendMail(e);
         });
@@ -83,7 +96,7 @@
                 subject: $('.mail-title').val(),
                 explanation: $('.text').val(),
                 email: $('.email').val(),
-                to: 'sheatufim@gmail.com'
+                to: subject && subject.host_details.email ? subject.host_details.email : 'sheatufim@gmail.com'
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
                 $.colorbox.close();

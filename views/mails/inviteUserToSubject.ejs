@@ -1,4 +1,5 @@
-הזמנה להשתתף במעגל שיח באתר שיתופים
+<p style="text-align: right"> הזמנה להשתתף במעגל שיח באתר
+    <%= host_title %></p>
 <!--body -->
 <div style="direction:rtl" xmlns="http://www.w3.org/1999/html">
     <div align="center"><font face="arial"><br><br></font></div>
@@ -26,12 +27,13 @@
                 <p class="MsoNormal">
                     הוזמנת להשתתף בדיון וירטואלי במעגל השיח
                 <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
-                    באתר שיתופים.
+                    באתר
+                   <%= host_title %>.
                 </p>
                 <p>
                     לכניסה למעגל השיח יש ללחוץ
-                   <!-- <a href="<%= settings.root_path %><%= next %>">כאן</a>-->
-                    <a href="<%= settings.root_path %>">כאן</a>
+                   <!-- <a href="<%= root_path %><%= next %>">כאן</a>-->
+                    <a href="<%= root_path %>">כאן</a>
                     ולהזין סיסמה להתחברות לאתר.
                 </p>
             </td>

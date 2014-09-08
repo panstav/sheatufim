@@ -217,7 +217,7 @@ app.locals({
 // ######### environment specific settings #########
 
 app.configure('development', function(){
-    app.set('send_mails', false);
+    app.set('send_mails', true);
     IS_ADMIN = true;
     //app.set('listenHttps',true);
 });

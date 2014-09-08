@@ -148,11 +148,21 @@ User.pre('save',function(next){
 
             var firstSubjectUrl = '/discussions/subject/' + subjects[0].id;
             var redirect_to = require('../routes/account/common').DEFAULT_LOGIN_REDIRECT;
-
+            var host_title = "שיתופים",
+                root_path = "http://www.sheatufim-roundtable.org.il/",
+                email_details;
+            if(subjects[0].is_no_sheatufim){
+                host_title = subjects[0].host_details.title;
+                root_path = subjects[0].host_details.host_address + '/';
+                email_details = {
+                    email: subjects[0].host_details.email,
+                    title: subjects[0].host_details.title
+                };
+            }
             if(is_new || !self.has_reset_password || !self.is_activated){
                 // if the user is new, need to send activation mail
 
-                require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects},function(err){
+                require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects, host_title: host_title, root_path: root_path}, email_details,function(err){
                     if(err)
                         console.error('Error sending mail to user ' + self,err);
                 });
@@ -161,10 +171,10 @@ User.pre('save',function(next){
                 // if the user exists, send only activation mail
                 async.waterfall([
                     function(cbk){
-                        require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects},cbk);
+                        require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects, host_title: host_title, root_path: root_path},cbk);
                     },
                     function(string,cbk) {
-                        require('../lib/mail').sendMailFromTemplate(self.email, string , cbk);
+                        require('../lib/mail').sendMailFromTemplate(self.email, string ,email_details, cbk);
                     }
                 ],function(err){
                     if(err)

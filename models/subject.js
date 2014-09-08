@@ -17,7 +17,12 @@ var Subject  = module.exports = new Schema({
     is_uru:{type:Boolean,'default':false},
     hidden_subject: {type:Boolean,'default':false},
     is_no_sheatufim: {type:Boolean,'default':false},
-    host: String
+    host_details: {
+        title: String,
+        host_address: String,
+        email: String,
+        contact_details: Schema.Types.Html
+    }
 }, {strict: true});
 
 Subject.methods.toString = function(){
