@@ -3298,8 +3298,7 @@ body.request-change-dialog .message .message-text textarea {
 .no_sheatufim #contact,
 .no_sheatufim #sheatufim-website-link,
 .no_sheatufim #footer-about,
-.no_sheatufim #footer-links,
-.no_sheatufim #footer-contact{
+.no_sheatufim #footer-links{
     display: none;
 }
 

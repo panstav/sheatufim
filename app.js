@@ -300,7 +300,7 @@ if (IS_PROCESS_WEB) {
             require('http').createServer(function(req,res){
                 var domain = req.headers['host'].toLowerCase();
                 if(domain == 'sheatufim-roundtable.org.il'){
-                    res.writeHead(302, {
+                    res.writeHead(301, {
                         'Location': 'https://sheatufim-roundtable.org.il' + req.url
                     });
                     return res.end();
