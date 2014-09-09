@@ -20,6 +20,7 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
             this.fields = {
                 _id:null,
                 user_id:null,
+                main_subject: null,
                 notificators:{
                     sub_entity_id: null,
                     notificator_id: null,
@@ -101,7 +102,7 @@ var NotificationCategoryResource = module.exports = resources.MongooseResource.e
     });
 
 
-var iterator = function (users_hash, discussions_hash, posts_hash, info_items_hash, subjects_hash, questions_hash, user_id) {
+var iterator = function (users_hash, discussions_hash, posts_hash, info_items_hash, subjects_hash, questions_hash, subjects_hash, user_id) {
     return function (notification, itr_cbk) {
         {
             var user_obj = notification.notificators.length ?
@@ -115,18 +116,9 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
             var subject = subjects_hash[notification.entity_id + ''] || subjects_hash[notification.notificators[0].sub_entity_id + ''];
             var question = questions_hash[notification.entity_id + ''] || questions_hash[notification.notificators[0].sub_entity_id + ''];
 
-            switch (notification.type) {
-                case "approved_info_item_i_created":
-                    notification.part_one = "פריט מידע שיצרת התקבל למערכת: ";
-                    if(info_item){
-                        notification.main_link = "/information_items/" + info_item._id;
-                        notification.pic = info_item.image_field_preview || info_item.image_field;
-                        notification.part_two = info_item.title;
-                        notification.link_two = "/information_items/" + info_item._id;
-                    }
-                    itr_cbk();
-                    break;
+            notification.main_subject = subjects_hash[notification.subject_id + ''];
 
+            switch (notification.type) {
                 case "change_suggestion_on_discussion_you_are_part_of":
                     var num_of_comments = notification.notificators.length;
                     if(discussion){
@@ -169,27 +161,6 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_one = " הגיב על דיון שיצרת - ";
                         itr_cbk();
                     }
-                    break;
-
-                case "change_suggestion_on_discussion_you_created":
-                    var num_of_comments = notification.notificators.length;
-                    if(discussion){
-                        notification.main_link = notification.url;
-                        notification.part_two = discussion.title;
-                        notification.link_two = "/discussions/" + discussion._id + "";
-
-//                        notification.img_src = notification.pic;
-//                        notification.title = discussion.title;
-//                        notification.text_preview = notification.text_field_preview;
-//                        notification.mail_settings_link = "/mail_settings/discussion/" + discussion.id + '?force_login=1';
-                    }
-                    if (num_of_comments > 1) {
-                        notification.user =  "נוספו " + num_of_comments;
-                        notification.part_one = " הצעות חדשות לשינוי למסמך ";
-                    } else {
-                        notification.part_one = "נוספה הצעה חדשה לשינוי למסמך ";
-                    }
-                    itr_cbk();
                     break;
 
                 case "approved_change_suggestion_you_created":
@@ -263,24 +234,6 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                     notification.main_link = notification.url + '#' + post_id;
                     itr_cbk();
                     break;
-
-                case "comment_on_your_post":
-                    var num_of_joined = notification.notificators.length;
-                    if(num_of_joined > 1){
-                        notification.part_one = "נוספו " + 
-                            num_of_joined +
-                            " תגובות חדשות על הודעה שכתבת בפורום מעגל השיח "
-                    } else {
-                        if(user_obj){
-                            notification.part_one = " הגיב/ה להודעה שכתבת בפורום מעגל השיח ";
-                            notification.user = user_obj.first_name + " " + user_obj.last_name;
-                        }
-                    }
-
-                    notification.main_link = notification.url;
-                    itr_cbk();
-                    break;
-
                 case "comment_on_your_forum_post":
                     var num_of_joined = notification.notificators.length;
                     if(num_of_joined > 1){
@@ -470,7 +423,6 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "comment_on_discussion_you_are_part_of",
         "comment_on_discussion_you_created",
         "change_suggestion_on_discussion_you_are_part_of",
-        "change_suggestion_on_discussion_you_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
         "comment_on_subject_you_are_part_of",
@@ -483,6 +435,14 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "comment_on_discussion_you_are_part_of",
         "comment_on_discussion_you_created"
     ];
+
+    var noti_subjects = _.chain(results.objects)
+        .map(function (notification) {
+            return notification.subject_id;
+        })
+        .compact()
+        .uniq()
+        .value();
 
     var discussion_ids = _.chain(results.objects)
         .map(function (notification) {
@@ -497,7 +457,6 @@ var populateNotifications = module.exports.populateNotifications = function(resu
         "comment_on_discussion_you_are_part_of",
         "comment_on_discussion_you_created",
         "change_suggestion_on_discussion_you_are_part_of",
-        "change_suggestion_on_discussion_you_created",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
         "comment_on_your_discussion_post",
@@ -742,9 +701,24 @@ var populateNotifications = module.exports.populateNotifications = function(resu
                     })
             }else
                 cbk(null,{});
+        }, function(cbk){
+            if(noti_subjects.length > 0){
+                models.Subject.find()
+                    .where('_id').in(noti_subjects)
+                    .exec(function(err, subjects){
+                        if(!err){
+                            var noti_subjects_hash = {};
+
+                            _.each(subjects, function(subject){
+                                noti_subjects_hash[subject._id] = subject;
+                            });
+                        }
+                        cbk(err, noti_subjects_hash);
+                    })
+            }
         }
     ], function(err, args){
-        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], args[5], user_id), function (err, obj) {
+        async.forEach(results.objects, iterator(args[0], args[1], args[2], args[3], args[4], args[5], args[6], user_id), function (err, obj) {
             callback(err, results);
         })
     })

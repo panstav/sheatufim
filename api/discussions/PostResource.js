@@ -206,11 +206,11 @@ var PostResource = module.exports = common.BaseModelResource.extend({
                     itr_cbk(null, 0);
                 else{
                     if (discussion_creator_id + "" == unique_user + ""){
-                        notifications.create_user_notification("comment_on_discussion_you_created", post_id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, function(err, results){
+                        notifications.create_user_notification("comment_on_discussion_you_created", post_id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, this.subject_id, function(err, results){
                             itr_cbk(err, results);
                         });
                     }else{
-                        notifications.create_user_notification("comment_on_discussion_you_are_part_of", post_id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, function(err, results){
+                        notifications.create_user_notification("comment_on_discussion_you_are_part_of", post_id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, this.subject_id, function(err, results){
                             itr_cbk(err, results);
                         });
                     }
@@ -306,7 +306,7 @@ var PostResource = module.exports = common.BaseModelResource.extend({
                     function(cbk2){
                         console.log('debugging waterfall 3 2');
 
-                        models.Discussion.findById(object.discussion_id, function(err, disc_obj){
+                        models.Discussion.findById(object.discussion_id).populate('subject_id').exec(function(err, disc_obj){
                              if (err)
                                 cbk2(err, null);
                              else{
@@ -318,7 +318,7 @@ var PostResource = module.exports = common.BaseModelResource.extend({
 
                                 discussion_creator_id = disc_obj.creator_id;
                                  cbk2();
-                                async.forEach(unique_users, iterator, function(err){
+                                async.forEach(unique_users, iterator.bind({subject_id: disc_obj.subject_id}), function(err){
                                     if (err) console.log(err);
                                 });
                              }

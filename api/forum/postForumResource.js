@@ -197,7 +197,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                             if(user._id.toString() == user_id.toString()){
                                 c(null, 0);
                             } else {
-                                notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum', function(err, results){
+                                notifications.create_user_notification("comment_on_subject_you_are_part_of", post._id, user._id.toString(), user_id.toString(), subject_id, '/discussions/subject/' + subject_id + '/forum', subject_id, function(err, results){
                                     c(err, results);
                                 });
                             }
@@ -211,7 +211,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 function(clbk){
                     if (parent_post && parent_post.creator_id.toString() != user_id.toString()) {
                         //send notification to the parent post user if it exists
-                        notifications.create_user_notification("comment_on_your_forum_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), subject_id.toString(), '/discussions/subject/' + subject_id + '/forum', function(err, results){
+                        notifications.create_user_notification("comment_on_your_forum_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), subject_id.toString(), '/discussions/subject/' + subject_id + '/forum', subject_id, function(err, results){
                             clbk(err, post);
                         });
                     } else {

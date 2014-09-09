@@ -184,7 +184,7 @@ var SuggestionResource = module.exports = common.BaseModelResource.extend({
                 console.log("user should not get mail if he is the notificator");
                 itr_cbk(null, 0);
             } else {
-                notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id , function (err, results) {
+                notifications.create_user_notification("change_suggestion_on_discussion_you_are_part_of", suggestion_object._id, unique_user, user_id, discussion_id, '/discussions/' + discussion_id, disc_obj.subject_id, function (err, results) {
                     itr_cbk(err, results);
                 });
             }
@@ -430,6 +430,7 @@ module.exports.approveSuggestion = function (id, callback) {
     var suggestion_creator;
     var discussion_id;
     var suggestion_grade;
+    var discussion_obj;
 
    /* //update discussion grade
     var iterator = function (sugg_grade, itr_cbk) {
@@ -452,7 +453,7 @@ module.exports.approveSuggestion = function (id, callback) {
     var noti_itr = function(user_id, itr_cbk){
         if (suggestion_creator != user_id + "") {
             notifications.create_user_notification("approved_change_suggestion_on_discussion_you_are_part_of",
-                suggestion_object._id, user_id + "", null, discussion_id, '/discussions/' + discussion_id, itr_cbk);
+                suggestion_object._id, user_id + "", null, discussion_id, '/discussions/' + discussion_id, this.disc_obj.subject_id, itr_cbk);
         } else {
             itr_cbk(null, 0);
         }
@@ -471,12 +472,12 @@ module.exports.approveSuggestion = function (id, callback) {
             } else {
                 discussion_id = suggestion_object.discussion_id;
                 var vision_changes_array = [];
-                models.Discussion.findOne({_id:discussion_id}, cbk);
+                models.Discussion.findById(discussion_id, cbk);
             }
         },
 
         function (discussion_object, cbk) {
-
+            discussion_obj = discussion_object;
             async.parallel([
 
                 //set latest discussionHistory with discussion grade
@@ -643,7 +644,7 @@ module.exports.approveSuggestion = function (id, callback) {
                 //set notifications for creator
                 function (par_cbk) {
                     notifications.create_user_notification("approved_change_suggestion_you_created",
-                        id, suggestion_creator, null, discussion_id, '/discussions/' + discussion_id, function (err, obj) {
+                        id, suggestion_creator, null, discussion_id, '/discussions/' + discussion_id, discussion_obj.subject_id, function (err, obj) {
                             par_cbk(err, obj);
                         });
                 },
@@ -682,7 +683,7 @@ module.exports.approveSuggestion = function (id, callback) {
                             _.each(disc_obj.users, function(user){ unique_users.push(user.user_id + "")});
                             unique_users = _.uniq(unique_users);
 
-                            async.forEach(unique_users, noti_itr, function(err){
+                            async.forEach(unique_users, noti_itr.bind({disc_obj: disc_obj}), function(err){
                                 if(err) console.error(err);
                             });
                         }

@@ -1,12 +1,26 @@
-var models = require('../../models')
-    , common = require('./common');
+var models = require('../../models'),
+    config = require('../../config.js'),
+    _ = require('underscore')
+, common = require('./common');
 
 module.exports ={
+
     get: function(req, res){
-        res.render('reset_password.ejs',{
+        var host = req.get('host');
+        var data = {
             next: req.query.next,
             title: "רישום"
-        });
+        };
+        if(!_.find(config.hosts, function(hst){return hst == host; })){
+            data.is_no_sheatufim = true;
+            models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function(err, subject){
+                if(err || !subject) throw new Error('Subject with this host was not found');
+                data.subject = subject;
+                res.render('reset_password.ejs', data);
+            });
+        } else {
+            res.render('reset_password.ejs', data);
+        }
     },
 
     post: function(req, res){

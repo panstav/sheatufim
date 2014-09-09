@@ -1,11 +1,12 @@
 var models = require('../../models');
+var config = require('../../config.js');
 var async = require('async');
 var _ = require('underscore');
 
 module.exports = function(req, res){
 
-    var user = req.session.user;
     var is_no_sheatufim = false;
+    var user = req.session.user;
     var host = req.get('host');
     if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
         is_no_sheatufim = true;

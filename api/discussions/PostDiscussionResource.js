@@ -148,28 +148,29 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                     .find()
                     .where('subjects', subject_id)
                     .exec(function(err, users){
-                        cbk(err, post, users);
+                        cbk(err, post, users, subject_id);
                     });
             },
-            function(post, users, cbk){
+            function(post, users, subject_id, cbk){
                 //find parent post user if exists
                 if(post.parent_id) {
                     models
                         .PostDiscussion
                         .findById(post.parent_id, function(err, parent_post){
-                            cbk(err, post, users, parent_post);
+                            cbk(err, post, users, subject_id, parent_post);
                         });
                 } else {
-                    cbk(null, post, users, null);
+                    cbk(null, post, users, subject_id, null);
                 }
 
             }
-        ], function(err, post, users, parent_post){
+        ], function(err, post, users, subject_id, parent_post){
             if(err){}
             var post = post,
                 discussion_id = post.discussion_id.toString(),
                 users = users,
-                parent_post = parent_post;
+                parent_post = parent_post,
+                subject_id = subject_id;
 
             async.parallel([
                 function(clbk){
@@ -180,7 +181,7 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                                 c(null, 0);
                             } else {
 
-                                notifications.create_user_notification("comment_on_discussion_you_are_part_of", post._id, user._id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, function(err, results){
+                                notifications.create_user_notification("comment_on_discussion_you_are_part_of", post._id, user._id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, subject_id, function(err, results){
                                     c(err, results);
                                 });
                             }
@@ -194,7 +195,7 @@ var PostDiscussionResource = module.exports = common.BaseModelResource.extend({
                 function(clbk){
                     if (parent_post && parent_post.creator_id.toString() != user_id.toString()) {
                         //send notification to the parent post user if it exists
-                        notifications.create_user_notification("comment_on_your_discussion_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, function(err, results){
+                        notifications.create_user_notification("comment_on_your_discussion_post", post._id.toString(), parent_post.creator_id.toString(), user_id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, subject_id, function(err, results){
                             clbk(err, post);
                         });
                     } else {

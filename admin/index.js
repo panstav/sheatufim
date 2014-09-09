@@ -198,8 +198,8 @@ module.exports = function (app) {
     });
 
     admin.registerMongooseModel('Notification', Models.Notification, null, {
-        list:['text', 'discussion_id.title'],
-        list_populate:['discussion_id'],
+        list:['user_id', 'type', 'subject_id'],
+        list_populate:['user_id'],
         order_by:['-creation_date'],
         search:['text', 'first_name', 'last_name']
     });

@@ -465,57 +465,6 @@ var DiscussionResource = module.exports = common.BaseModelResource.extend({
 });
 
 function notifications_for_the_info_items_relvant(discussion_id, notificator_id, subject_id, callback) {
-
-    var set_notification_for_liked_items = function (like, itr_cbk) {
-        if (like.info_item_creator + "" != like.user_id + "" && like.info_item_creator != null) {
-            notifications.create_user_notification("a_dicussion_created_with_info_item_that_you_like",
-                like.info_item_id, like.user_id, notificator_id, discussion_id, '/discussions/' + discussion_id, itr_cbk);
-        } else {
-            itr_cbk(null, 0);
-        }
-    }
-
-    var iterator = function (info_item, itr_cbk) {
-
-        var creator_id = null;
-        if (info_item.created_by)
-            creator_id = info_item.created_by.creator_id;
-
-        async.parallel([
-
-            //set notifications for people that like the items
-            function (par_cbk) {
-                async.waterfall([
-                    function (cbk) {
-                        models.Like.find({info_item_id:info_item._id}, cbk);
-                    },
-
-                    function (likes, cbk) {
-                        _.each(likes, function (like) {
-                            like.info_item_creator = creator_id
-                        });
-                        async.forEach(likes, set_notification_for_liked_items, cbk);
-                    }
-
-                ], function (err, arg) {
-                    par_cbk(err, arg);
-                })
-            },
-
-            //set notifications for information item's creators
-            function (par_cbk) {
-                if (creator_id) {
-                    notifications.create_user_notification("a_dicussion_created_with_info_item_that_you_created",
-                        info_item._id, creator_id, notificator_id, discussion_id, '/discussions/' + discussion_id, par_cbk);
-                } else {
-                    par_cbk(null, 0);
-                }
-            }
-        ], function (err, args) {
-            itr_cbk(err, args);
-        })
-    }
-
     var new_discussion_notification_itr = function (user, itr_cbk) {
 
         // check if user is not the notificator and if user chosen to get this notification in mail configuration
@@ -523,28 +472,13 @@ function notifications_for_the_info_items_relvant(discussion_id, notificator_id,
             return discussion.subject_id + "" == subject_id + "" && discussion.get_alert  }))
         {
             notifications.create_user_notification("new_discussion",
-                discussion_id, user._id, notificator_id, null, '/discussions/' + discussion_id, itr_cbk);
+                discussion_id, user._id, notificator_id, null, '/discussions/' + discussion_id, subject_id, itr_cbk);
         }else{
             itr_cbk();
         }
-    }
+    };
 
     async.parallel([
-
-        // notifications related to info items
-        function(par_cbk){
-            async.waterfall([
-                function (cbk) {
-                    models.InformationItem.find({discussions:discussion_id}, cbk);
-                },
-
-                function (info_items, cbk) {
-                    async.forEach(info_items, iterator, cbk);
-                }], function (err, arg) {
-                par_cbk(err, arg);
-            })
-        },
-
         // notifications about new discussion
         function(par_cbk){
 
@@ -553,18 +487,10 @@ function notifications_for_the_info_items_relvant(discussion_id, notificator_id,
                 // find users that chosen to get notifications about new discussions of this subject
                 function (cbk) {
                     models.User.find({"mail_notification_configuration.get_mails": true, "mail_notification_configuration.new_discussion" : {$elemMatch : { subject_id : subject_id + "", get_alert : true}}}, cbk);
-                   /* models.User.find()
-                    .where("mail_notification_configuration.new_discussion").elemMatch(function (elem) {
-                        elem.where('subject_id', subject_id+ "");
-                        elem.where('get_alert', true)
-                    })
-//                    .where("mail_notification_configuration.get_mails", true)
-                    .exec(cbk);*/
                 },
 
                 // create site notifications and mail notifications
                 function (users, cbk) {
-//                   users = _.each(users, ))
                     async.forEach(users, new_discussion_notification_itr, cbk);
                 }
             ], function (err) {

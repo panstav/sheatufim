@@ -107,9 +107,9 @@ var PostOnSuggestionResource = module.exports = common.BaseModelResource.extend(
                 });
             },
             function(cbk) {
-                models.Suggestion.findById(req.body.suggestion_id).exec(function(err, suggestion){
+                models.Suggestion.findById(req.body.suggestion_id).populate('discussion_id').exec(function(err, suggestion){
                     if(err) cbk(err);
-                    notifications.create_user_notification("comment_on_change_suggestion_i_created", suggestion._id.toString(), suggestion.creator_id.toString(), user._id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, function(err, result){
+                    notifications.create_user_notification("comment_on_change_suggestion_i_created", suggestion._id.toString(), suggestion.creator_id.toString(), user._id.toString(), discussion_id.toString(), '/discussions/' + discussion_id, suggestion.discussion_id.subject_id, function(err, result){
                         cbk(err, result);
                     });
                 });

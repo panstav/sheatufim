@@ -1,16 +1,19 @@
-<h4 style="direction: rtl;">עדכון מאתר מעגלי השיח של שיתופים</h4>
+<h4 style="direction: rtl;">
+    עדכון מאתר מעגלי השיח של
+    <%=host_title%>
+</h4>
 <div style="direction: rtl;">
     <p><%=user%>
         פרסם/ה
-        <a href="<%= settings.root_path %><%=main_link%>">הודעה חדשה</a>
+        <a href="<%= root_path %><%=main_link%>">הודעה חדשה</a>
    בפורום של
-        <a href="<%= settings.root_path %><%=link_two%>">"<%=part_two%>"</a>:</p>
+        <a href="<%= root_path %><%=link_two%>">"<%=part_two%>"</a>:</p>
     <p><%=extra_text%></p>
 </div>
 
 <div style="direction: rtl;">
     <p>
         חשוב לדעת! ביכולתך לשלוט בעדכונים הנשלחים למייל. לניהול עדכונים מהמערכת
-        <a href="<%= settings.root_path %>/mail_settings">לחץ כאן</a>
+        <a href="<%= root_path %>/mail_settings">לחץ כאן</a>
     </p>
 </div>
