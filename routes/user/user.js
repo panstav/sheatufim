@@ -11,7 +11,9 @@ module.exports = function (req, res) {
         logged: req.isAuthenticated(),
         user: req.user,                 // logged user
         url: req.url,
-        avatar:req.session.avatar_url
+        avatar:req.session.avatar_url,
+        is_no_sheatufim : false,
+        subject : {}
     };
 
     if(!_.find(config.hosts, function(hst){return hst == host; })){

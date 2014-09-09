@@ -9,7 +9,9 @@ module.exports ={
         var host = req.get('host');
         var data = {
             next: req.query.next,
-            title: "רישום"
+            title: "רישום",
+            is_no_sheatufim : false,
+            subject : {}
         };
         if(!_.find(config.hosts, function(hst){return hst == host; })){
             data.is_no_sheatufim = true;
