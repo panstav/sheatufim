@@ -1,19 +1,27 @@
 var models = require('../../models');
 var async = require('async');
+var config = require('../../config.js');
+var _ = require('underscore');
 
 module.exports = function (req, res) {
-    var is_no_sheatufim = false;
     var host = req.get('host');
-    if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
-        is_no_sheatufim = true;
-    }
-    res.render('my_account.ejs', {
+    var data = {
         layout: false,
         title: "פרופיל שלי",
         logged: req.isAuthenticated(),
         user: req.user,                 // logged user
         url: req.url,
-        avatar:req.session.avatar_url,
-        is_no_sheatufim: is_no_sheatufim
-    });
+        avatar:req.session.avatar_url
+    };
+
+    if(!_.find(config.hosts, function(hst){return hst == host; })){
+        data.is_no_sheatufim = true;
+        models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function(err, subject){
+            if(err || !subject) throw new Error('Subject with this host was not found');
+            data.subject = subject;
+            res.render('my_account.ejs', data);
+        });
+    } else {
+        res.render('my_account.ejs', data);
+    }
 };

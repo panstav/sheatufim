@@ -94,8 +94,12 @@ module.exports = {
     }
 };
 
-var sendActivationMail = module.exports.sendActivationMail = function(user,next,mail_template,context,callback)
+var sendActivationMail = module.exports.sendActivationMail = function(user,next,mail_template,context, email_details, callback)
 {
+    if(typeof email_details === "function" && typeof callback !== 'function') {
+        callback = email_details;
+        email_details = null;
+    }
     if(typeof(context) == 'function'){
         callback = context;
         context = null;
@@ -135,7 +139,13 @@ var sendActivationMail = module.exports.sendActivationMail = function(user,next,
             templates.renderTemplate(template,_.extend({user:user, temp_password:temp_password,next:next},context||{}),cbk);
         },
         function(body,cbk) {
-            mail.sendMail(user.email, body, 'הזמנה להשתתף במעגל שיח באתר שיתופים', cbk);
+            var subject = 'הזמנה להשתתף במעגל שיח באתר שיתופים';
+            var expFrom = null;
+            if(email_details){
+                subject = 'הזמנה להשתתף במעגל שיח באתר ' + email_details.title;
+                expFrom = email_details.title ? email_details.title + " <" + email_details.email + ">" : null;
+            }
+            mail.sendMail(user.email, body, subject, expFrom, cbk);
         }
     ],function(err) {
         callback(err,temp_password);

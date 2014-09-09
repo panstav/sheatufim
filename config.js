@@ -24,7 +24,12 @@ config.fb_general_params = {
     fb_title: '',
     fb_description:  'אתר "מעגלי השיח" מבית שיתופים נועד לתמוך בתהליכי שיח רבי משתתפים באמצעות סביבה אינטרנטית נגישה, המותאמת לכל תהליך ופתוחה למשתמשים מורשים בלבד.',
     fb_image: ''
-}
+};
+config.hosts = [
+    'www.sheatufim-roundtable.org.il',
+    'www.sheatufim-roundtable.org.il:8080',
+//    'localhost:8080'
+];
 
 /**
  * Static fils configuration

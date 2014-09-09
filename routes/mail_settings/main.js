@@ -1,19 +1,19 @@
 var models = require('../../models');
+var config = require('../../config.js');
 var async = require('async');
 var _ = require('underscore');
 
 module.exports = function(req, res){
 
-    var user = req.session.user;
     var is_no_sheatufim = false;
+    var user = req.session.user;
     var host = req.get('host');
     if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
         is_no_sheatufim = true;
     }
 
     getSettingsParams(req, user, function(err, user_obj, discussion_list, cycle_list, user_discussions_hash, user_cycles_hash){
-
-        res.render('mail_configuration_new.ejs',{
+        var data = {
             title:"הגדרות עדכונים",
             user: user_obj,
             discussions: discussion_list,
@@ -22,9 +22,19 @@ module.exports = function(req, res){
             cycles_hash: user_cycles_hash,
             selected_item: "",
             is_no_sheatufim: is_no_sheatufim
-        });
-    })
-}
+        };
+        if(!_.find(config.hosts, function(hst){return hst == host; })){
+            data.is_no_sheatufim = true;
+            models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function(err, subject){
+                if(err || !subject) throw new Error('Subject with this host was not found');
+                data.subject = subject;
+                res.render('mail_configuration_new.ejs', data);
+            });
+        } else {
+            res.render('mail_configuration_new.ejs', data);
+        }
+    });
+};
 
 /***
  * parallel:

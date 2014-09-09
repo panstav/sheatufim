@@ -16,7 +16,7 @@ var models = require('../models'),
     _ = require('underscore');
 
 
-exports.create_user_notification = create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail, callback) {
+exports.create_user_notification = create_user_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity, url, subject_id, no_mail, callback) {
 
     if(typeof no_mail === 'function' && typeof callback !== 'function'){
         callback = no_mail;
@@ -24,7 +24,6 @@ exports.create_user_notification = create_user_notification = function (notifica
     }
 
     var single_notification_arr = [
-        "new_discussion",
         "approved_change_suggestion_you_created",
         "approved_change_suggestion_on_discussion_you_are_part_of",
         "new_information_item_on_subject_you_are_part_of",
@@ -39,7 +38,6 @@ exports.create_user_notification = create_user_notification = function (notifica
         "comment_on_your_forum_post",
         "comment_on_your_discussion_post",
         "comment_on_change_suggestion_i_created",
-        "change_suggestion_on_discussion_you_created",
         "change_suggestion_on_discussion_you_are_part_of",
         "comment_on_question_in_subject_you_are_part_of"
     ];
@@ -105,7 +103,7 @@ exports.create_user_notification = create_user_notification = function (notifica
                     });
 
                 } else {
-                    create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, !send_mail, function (err, obj) {
+                    create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, subject_id, !send_mail, function (err, obj) {
                         cbk(err, obj);
                     });
                 }
@@ -115,13 +113,13 @@ exports.create_user_notification = create_user_notification = function (notifica
             callback(err, obj);
         });
     } else {
-        create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, no_mail,function (err, obj) {
+        create_new_notification(notification_type, entity_id, user_id, notificatior_id, sub_entity, url, subject_id, no_mail,function (err, obj) {
             callback(err, obj);
         });
     }
 };
 
-var create_new_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity_id, url, no_mail, callback) {
+var create_new_notification = function (notification_type, entity_id, user_id, notificatior_id, sub_entity_id, url, subject_id, no_mail, callback) {
 
     if(typeof no_mail === 'function' && typeof callback !== 'function'){
         callback = no_mail;
@@ -142,6 +140,9 @@ var create_new_notification = function (notification_type, entity_id, user_id, n
     notification.seen = false;
     notification.update_date = new Date();
     notification.visited = false;
+    notification.subject_id = subject_id;
+
+    console.log(subject_id);
 
     notification.save(function (err, obj) {
         if (err)
@@ -171,7 +172,7 @@ var sendNotificationToUser = function (notification) {
      * 4) send message
      */
 
-    var email;
+    var email, email_details;
     var  uru_group = [
         'saarsta@gmail.com',
         'themarianne@gmail.com',
@@ -217,18 +218,33 @@ var sendNotificationToUser = function (notification) {
 
             // 3.2) create text message
             function (results, cbk) {
-                var notification = results.objects[0];
+                var notification = results.objects[0],
+                    main_subject = notification.main_subject,
+                    email_details;
+
+                notification.host_title = "שיתופים";
+                notification.root_path = "http://www.sheatufim-roundtable.org.il/";
+
+                if(main_subject.is_no_sheatufim && main_subject.host_details) {
+                    notification.host_title = main_subject.host_details.title;
+                    notification.root_path = main_subject.host_details.host_address;
+                    email_details = {
+                        title: notification.main_subject.host_details.title,
+                        email: notification.main_subject.host_details.email
+                    }
+                }
 
                 notification.entity_name = notification.name || '';
                 notification.description_of_notificators = notification.description_of_notificators || '';
                 notification.message_of_notificators = notification.message_of_notificators || '';
+
                 templates.renderTemplate('notifications/' + notification.type, notification, function(err, result){
-                    cbk(err, result);
+                    cbk(err, result, email_details);
                 });
             },
             // 4) send message
-            function (message, cbk) {
-                mail.sendMailFromTemplate(email, message, cbk);
+            function (message, email_details, cbk) {
+                mail.sendMailFromTemplate(email, message, email_details, cbk);
             }
         ],
             // Final
@@ -284,7 +300,7 @@ models.InformationItem.onPreSave(function(next){
             models.User.find().where('subjects', subject_id).exec(function(err, users){
                 if(err) next();
                 async.each(users, function(user, cbk){
-                    create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user._id, user._id, subject_id, "/discussions/subject/" + subject_id, function (err, results) {
+                    create_user_notification("new_information_item_on_subject_you_are_part_of", self._id, user._id, user._id, subject_id, "/discussions/subject/" + subject_id, subject_id, function (err, results) {
                         cbk(err, results);
                     });
                 }, function(err){
@@ -306,7 +322,7 @@ models.Discussion.onPreSave(function(next){
         models.User.find().where('subjects', self.subject_id).exec(function(err, users){
             if(err) next();
             async.each(users, function(user, cbk){
-                create_user_notification("new_discussion_in_subject_you_are_part_of", self._id, user._id, self.creator_id, self.subject_id, "/discussions/" + self._id.toString(), function (err, results) {
+                create_user_notification("new_discussion_in_subject_you_are_part_of", self._id, user._id, self.creator_id, self.subject_id, "/discussions/" + self._id.toString(), self.subject_id, function (err, results) {
                     cbk(err, results);
                 });
             }, function(err){
@@ -325,7 +341,7 @@ models.Question.onPreSave(function(next){
         models.User.find().where('subjects', self.subject_id).exec(function(err, users){
             if(err) next();
             async.each(users, function(user, cbk){
-                create_user_notification("new_question_in_subject_you_are_part_of", self._id, user._id, user._id, self.subject_id, "/discussions/subject/" + self.subject_id, function (err, results) {
+                create_user_notification("new_question_in_subject_you_are_part_of", self._id, user._id, user._id, self.subject_id, "/discussions/subject/" + self.subject_id, self.subject_id, function (err, results) {
                     cbk(err, results);
                 });
             }, function(err){

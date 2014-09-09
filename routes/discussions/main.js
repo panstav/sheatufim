@@ -20,7 +20,8 @@ module.exports = function (req, res) {
                     'name': 1,
                     'cover_image_field': 1,
                     'image_field' : 1,
-                    'is_no_sheatufim' : 1
+                    'is_no_sheatufim' : 1,
+                    'host_details' : 1
                 })
                 .exec(cbk);
         },
@@ -52,6 +53,7 @@ module.exports = function (req, res) {
                     title: "דיון",
                     discussion_id: req.params[0],
                     subject_id: req.query.subject_id,
+                    subject: discussion.subject_id,
                     is_no_sheatufim: discussion.subject_id.is_no_sheatufim,
                     tab: 'discussions',
                     discussion: discussion,

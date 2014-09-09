@@ -100,7 +100,7 @@ var QuestionPostResource = module.exports = common.BaseModelResource.extend({
                                 if(user._id.toString() == user_id.toString()){
                                     c(null);
                                 } else {
-                                    notifications.create_user_notification("comment_on_question_in_subject_you_are_part_of", post._id, user._id.toString(), post.creator_id.toString(), question._id, '/discussions/subject/' + question.subject_id, function(err){
+                                    notifications.create_user_notification("comment_on_question_in_subject_you_are_part_of", post._id, user._id.toString(), post.creator_id.toString(), question._id, '/discussions/subject/' + question.subject_id, question.subject_id, function(err){
                                         c(err);
                                     });
                                 }

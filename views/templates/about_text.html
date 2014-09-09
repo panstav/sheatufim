@@ -2,7 +2,15 @@
     <h4>
         {?is_english}{title_en}{:else}{title}{/is_english}
    </h4>
-    <p>
-        {?is_english}{text_field_en|s}{:else}{text_field|s}{/is_english}
-    </p>
+    {?text_field_en}
+        <p>
+            {text_field_en|s}
+        </p>
+    {:else}
+        {?text_field}
+            <p>
+                {text_field|s}
+            </p>
+        {/text_field}
+    {/text_field_en}
 </div>
