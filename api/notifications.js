@@ -223,7 +223,7 @@ var sendNotificationToUser = function (notification) {
                     email_details;
 
                 notification.host_title = "שיתופים";
-                notification.root_path = "http://www.sheatufim-roundtable.org.il/";
+                notification.root_path = "http://www.sheatufim-roundtable.org.il";
 
                 if(main_subject.is_no_sheatufim && main_subject.host_details) {
                     notification.host_title = main_subject.host_details.title;

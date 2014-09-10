@@ -159,6 +159,7 @@ User.pre('save',function(next){
                     title: subjects[0].host_details.title
                 };
             }
+
             if(is_new || !self.has_reset_password || !self.is_activated){
                 // if the user is new, need to send activation mail
 

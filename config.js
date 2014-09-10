@@ -28,7 +28,7 @@ config.fb_general_params = {
 config.hosts = [
     'www.sheatufim-roundtable.org.il',
     'www.sheatufim-roundtable.org.il:8080',
-//    'localhost:8080'
+    'localhost:8080'
 ];
 
 /**

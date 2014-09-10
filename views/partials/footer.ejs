@@ -25,7 +25,7 @@
                 <% }) %>
             </ul>
         </div>
-        <% if(subject && subject.is_no_sheatufim) { %>
+        <% if(is_no_sheatufim && subject && subject.is_no_sheatufim) { %>
         <div id="footer-contact" class="footer-column">
             <p class="title">פרטי התקשרות</p>
             <%-subject.host_details.contact_details%>
@@ -40,10 +40,20 @@
             <div><a href="mailto:info@sheatufim.org.il">info@sheatufim.org.il</a></div>
         </div>
         <%}%>
+        <% if(is_no_sheatufim && subject && subject.is_no_sheatufim) { %>
+        <div id="footer-credits" class="footer-column">
+            <p class="title">הוקם על ידי</p>
+            <span>האתר הוקם על בסיס אתר</span>
+            <a target="_blank" href="http://www.sheatufim-roundtable.org.il/">מעגלי השיח</a>
+            <span>מבית</span>
+            <a target="_blank" href="http://www.sheatufim.org.il/">שיתופים</a>
+        </div>
+        <% }else{ %>
         <div id="footer-credits" class="footer-column">
             <p class="title">הוקם על ידי</p>
             <div><a target="_blank" href="http://www.hasdera.org.il/">אנו</a></div>
         </div>
+        <%}%>
     </div>
 </div>
 <% include includes.ejs %>
