@@ -175,7 +175,7 @@ User.pre('save',function(next){
                 // if the user exists, send only activation mail
                 async.waterfall([
                     function(cbk){
-                        require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects, host_title: host_title, root_path: root_path},cbk);
+                        require('../lib/templates').renderTemplate('inviteUserToSubject',{user:self, next:firstSubjectUrl,subjects:subjects, host_title: host_title, root_path: root_path, is_sheatufim_flag: is_sheatufim_flag},cbk);
                     },
                     function(string,cbk) {
                         require('../lib/mail').sendMailFromTemplate(self.email, string ,email_details, cbk);
