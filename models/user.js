@@ -150,7 +150,9 @@ User.pre('save',function(next){
             var redirect_to = require('../routes/account/common').DEFAULT_LOGIN_REDIRECT;
             var host_title = "שיתופים",
                 root_path = "http://www.sheatufim-roundtable.org.il/",
-                email_details;
+                email_details,
+                is_sheatufim_flag = true;
+
             if(subjects[0].is_no_sheatufim){
                 host_title = subjects[0].host_details.title;
                 root_path = subjects[0].host_details.host_address + '/';
@@ -158,6 +160,7 @@ User.pre('save',function(next){
                     email: subjects[0].host_details.email,
                     title: subjects[0].host_details.title
                 };
+                is_sheatufim_flag = false;
             }
 
             if(is_new || !self.has_reset_password || !self.is_activated){
