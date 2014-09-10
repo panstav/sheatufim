@@ -160,7 +160,7 @@ User.pre('save',function(next){
                 email_details = {
                     email: subjects[0].host_details.email,
                     title: subjects[0].host_details.title,
-                    is_sheatufim_flag: false;
+                    is_sheatufim_flag: false
                 };
             }
 
