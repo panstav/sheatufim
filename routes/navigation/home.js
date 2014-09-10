@@ -7,6 +7,7 @@ module.exports = function(req, res){
 
     if(!_.find(config.hosts, function(hst){return hst == host; })){
         console.log('hosting_subject');
+        console.log("req.get('host')", host);
         models.Subject.findOne().where('host_details.host_address', 'http://' + req.get('host')).exec(function(err, subject){
             if(err || !subject) throw new Error('Subject with this host was not found');
             res.redirect('discussions/subject/' + subject._id);
