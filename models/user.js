@@ -150,24 +150,23 @@ User.pre('save',function(next){
             var redirect_to = require('../routes/account/common').DEFAULT_LOGIN_REDIRECT;
             var host_title = "שיתופים",
                 root_path = "http://www.sheatufim-roundtable.org.il/",
-                email_details = {
-                    is_sheatufim_flag: true
-                };
+                email_details,
+                is_sheatufim_flag = true;
 
             if(subjects[0].is_no_sheatufim){
                 host_title = subjects[0].host_details.title;
                 root_path = subjects[0].host_details.host_address + '/';
                 email_details = {
                     email: subjects[0].host_details.email,
-                    title: subjects[0].host_details.title,
-                    is_sheatufim_flag: false
+                    title: subjects[0].host_details.title
                 };
+                is_sheatufim_flag = false;
             }
 
             if(is_new || !self.has_reset_password || !self.is_activated){
                 // if the user is new, need to send activation mail
 
-                require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects, host_title: host_title, root_path: root_path}, email_details,function(err){
+                require('../routes/account/activation').sendActivationMail(self, redirect_to/*firstSubjectUrl*/, 'inviteNewUserToSubject',{subjects:subjects, host_title: host_title, root_path: root_path, is_sheatufim_flag: is_sheatufim_flag}, email_details,function(err){
                     if(err)
                         console.error('Error sending mail to user ' + self,err);
                 });
