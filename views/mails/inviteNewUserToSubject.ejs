@@ -27,7 +27,7 @@
                 <p class="MsoNormal">
                     הוזמנת להשתתף בדיון וירטואלי במעגל השיח
                     <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
-                    <% if (is_sheatufim_flag) {%>
+                    <% if (email_details && email_details.is_sheatufim_flag) {%>
                     באתר
                     <%= host_title %> <%}%>.
                 </p>
