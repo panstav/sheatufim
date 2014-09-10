@@ -27,7 +27,7 @@
                 <p class="MsoNormal">
                     הוזמנת להשתתף בדיון וירטואלי במעגל השיח
                     <%= subjects.map(function(subject) { return subject + ''; }).join(', ') %>
-                    <% if (host_title == "שיתופים") {%>
+                    <% if (email_details) {%>
                     באתר
                     <%= host_title %> <%}%>.
                 </p>
