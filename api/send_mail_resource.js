@@ -13,7 +13,7 @@ var SendMailResource = module.exports = jest.Resource.extend({
     init:function() {
         this._super();
         this.allowed_methods = ['post'];
-        this.authentication = new common.SessionAuthentication();
+//        this.authentication = new common.SessionAuthentication();
         this.fields = {};
         this.update_fields = {
             body : null

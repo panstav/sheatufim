@@ -96,7 +96,7 @@
                 subject: $('.mail-title').val(),
                 explanation: $('.text').val(),
                 email: $('.email').val(),
-                to: subject && subject.host_details ? 'saarsta@gmail.com' : 'sheatufim@gmail.com'
+                to: subject && subject.host_details ? 'office@migzar3.org.il' : 'sheatufim@gmail.com'
             };
             db_functions.sendMailFromUserToSystem(data, function(bug){
                 $.colorbox.close();
