@@ -13,15 +13,20 @@ module.exports ={
             is_no_sheatufim = true;
         }
 
-        res.render('forgot_password.ejs',{
-            is_no_sheatufim: is_no_sheatufim,
-            subject: false,
-            next: req.query.next,
-            email:'',
-            found:false,
-            method:'get',
-            title: "רישום"
+        models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function(err, subject){
+            if(err || !subject) throw new Error('Subject with this host was not found');
+            res.render('forgot_password.ejs',{
+                is_no_sheatufim: is_no_sheatufim,
+                subject: subject,
+                next: req.query.next,
+                email:'',
+                found:false,
+                method:'get',
+                title: "רישום"
+            });
         });
+
+
     },
 
     post: function(req, res){
