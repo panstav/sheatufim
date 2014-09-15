@@ -15,6 +15,8 @@ module.exports ={
 
         models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function(err, subject){
             if(err || !subject) throw new Error('Subject with this host was not found');
+            console.log('subject', subject);
+            console.log('subject.is_no_sheatufim', subject.is_no_sheatufim);
             res.render('forgot_password.ejs',{
                 is_no_sheatufim: is_no_sheatufim,
                 subject: subject,
