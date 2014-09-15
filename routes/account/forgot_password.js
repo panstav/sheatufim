@@ -7,7 +7,15 @@ var models = require('../../models'),
 
 module.exports ={
     get: function(req, res){
+        var is_no_sheatufim = false;
+        var host = req.get('host');
+        if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080'){
+            is_no_sheatufim = true;
+        }
+
         res.render('forgot_password.ejs',{
+            is_no_sheatufim: is_no_sheatufim,
+            subject: false,
             next: req.query.next,
             email:'',
             found:false,
