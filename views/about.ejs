@@ -45,7 +45,8 @@
                     if (is_english == "true") {
                         item.is_english =  true;
                     }
-
+                    console.log(item);
+                    console.log(item.is_english);
                     dust.render('about_text', item, function (err, out) {
                         $('.about-text').append(out);
                     });
