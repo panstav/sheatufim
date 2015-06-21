@@ -204,7 +204,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = subject.name;
                     }
 
-                    get_post_page(post._id, function(page){
+                    get_post_page(post._id, subject._id, function(page){
                         if(page == 0)
                             notification.main_link = notification.url + '#' + post._id;
                         else
@@ -250,7 +250,7 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.link_two = "/discussions/subject/" + subject._id;
                         notification.part_two = subject.name;
                     }
-                    get_post_page(post._id, function(page){
+                    get_post_page(post._id, subject._id, function(page){
                         if(page == 0)
                             notification.main_link = notification.url + '#' + post._id;
                         else
@@ -367,10 +367,10 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
     };
 };
 
-var get_post_page = function(post_id, callback){
+var get_post_page = function(post_id, subject_id, callback){
     var count = 0, id = post_id;
 
-    models.PostForum.find().exec(function(err, posts){
+    models.PostForum.find({'subject_id': subject_id}).exec(function(err, posts){
         var main_posts = _.filter(posts, function(post){
             return !post.parent_id;
         });
@@ -388,6 +388,7 @@ var get_post_page = function(post_id, callback){
         var post = _.find(posts, function(pst){ return pst._id == post_id.toString(); });
         var parent = find_parent(post);
         var parent_idx = _.indexOf(main_posts, parent);
+        debugger
         var page = Math.floor(main_posts.length / 10) - Math.floor(main_posts.length / parent_idx);
         callback(page);
     });
