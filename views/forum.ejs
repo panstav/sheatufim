@@ -411,8 +411,11 @@
                     if(err) return;
                     var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                     var counter = parseInt($likes.html());
+                    var like_users = $likes.prop('title')
+                    like_users += user.first_name + ' ' + user.last_name + '\n';
                     counter += 1;
                     $likes.html(counter);
+                    $likes.prop('title', like_users);
                     var $img = $likes.next('img');
                     $img.removeClass('like').addClass('unlike');
                     $img.attr('src', '/images/unlike.jpg');
@@ -426,8 +429,12 @@
                     if(err) return;
                     var $likes = $($('.row-table[data-id=' + data.post_id + '] .like-counter')[0]);
                     var counter = parseInt($likes.html());
+                    var like_users = $likes.prop('title')
+                    var user_name = user.first_name + ' ' + user.last_name + '\n';
+                    like_users = like_users.replace(user_name,'');
                     counter -= 1;
                     $likes.html(counter);
+                    $likes.prop('title', like_users);
                     var $img = $likes.next('img');
                     $img.removeClass('unlike').addClass('like');
                     $img.attr('src', '/images/like.jpg');
