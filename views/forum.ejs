@@ -187,6 +187,10 @@
                      post.hidden = true;
                      post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                      render_post('main', post, 0, function(){
+
+                         // by default open all messages
+                         toggleMessage('message-' + post._id);
+
                          post_count--;
                          if(post_count == 0) {
                              go_to_hash();
