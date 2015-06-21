@@ -86,7 +86,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                     if(err) cbk(err);
                     else {
                         _.forEach(likes, function(like){
-                            post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + ' ';
+                            post.like_users += like.user_id.first_name + ' ' + like.user_id.last_name + '\n';
                             post.likes += 1;
                             if(like.user_id._id.toString() == req.user._id.toString()){
                                 post.user_liked = true;
