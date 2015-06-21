@@ -178,6 +178,9 @@
                 post.link = true;
                 post.replies = post_groups[post._id] && post_groups[post._id].length > 0 ? post_groups[post._id].length : 0;
                 render_post('main', post, 0);
+
+                // by default open all replies
+                toggleMessage('message-' + post._id);
             });
 
         });
