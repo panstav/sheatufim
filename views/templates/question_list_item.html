@@ -98,7 +98,7 @@
             </div>
         </div>
     </div>
-    <ul class="posts replies-{_id} hide">
+    <ul class="posts replies-{_id}">
         {#posts}
         <li class="row-table message-{_id}" data-level="0" data-id="{_id}" id="{_id}">
             <div class="message primary-message">
@@ -121,7 +121,7 @@
                     <div class="message-bar row">
                         <div class="message-datetime right">{time} | {date}</div>
                         <a href="javascript:;" class="message-likes right">
-                            <div class="like-counter right" title="">{likes}</div>
+                            <div class="like-counter right" title="{like_users}">{likes}</div>
                             <img class="{?user_liked}unlike{:else}like{/user_liked}" src="/images/{?user_liked}unlike{:else}like{/user_liked}.jpg" title="{?user_liked}אהבתי{:else}לא אהבתי{/user_liked}" alt="{?user_liked}לא אהבתי את התגובה{:else}אהבתי את התגובה{/user_liked}">
                         </a>
                         <div class="message-attachment left">{?attachment}<a download="{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}" href="{attachment.url}">{?attachment.name}{attachment.name}{:else}attachment{/attachment.name}</a>{/attachment}</div>
