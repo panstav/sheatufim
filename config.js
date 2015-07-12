@@ -7,7 +7,7 @@ config.sendgrid_key = 'a0oui08x';
 config.systemEmail = 'saarsta@gmail.com'/*'maagal@sheatufim.org.il'*/;
 config.systemEmailName = 'SHEATUFIM';
 config.mailjet_user = process.env['SMTP-USER'] || '1ee0d830159fafb52746b375e1403294';
-config.mailjet_pass = process.env['SMTP-PASSWORD'] || '';
+config.mailjet_pass = process.env['SENDGRID_KEY'] || '';
 
 config.DB_URL = process.env['MONGOLAB_URI'] || 'mongodb://localhost/idemos';
 config.ROOT_PATH = process.env.ROOT_PATH || 'http://dev.empeeric.com';
