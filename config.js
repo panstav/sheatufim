@@ -4,8 +4,10 @@ config.upload_dir = require('path').join(__dirname,'..','public','cdn');
 
 config.sendgrid_user = 'app2952775@heroku.com';
 config.sendgrid_key = 'a0oui08x';
-config.systemEmail = 'maagal@sheatufim.org.il';
+config.systemEmail = 'saarsta@gmail.com'/*'maagal@sheatufim.org.il'*/;
 config.systemEmailName = 'SHEATUFIM';
+config.mailjet_user = process.env['SMTP-USER'] || '1ee0d830159fafb52746b375e1403294';
+config.mailjet_pass = process.env['SMTP-PASSWORD'] || '';
 
 config.DB_URL = process.env['MONGOLAB_URI'] || 'mongodb://localhost/idemos';
 config.ROOT_PATH = process.env.ROOT_PATH || 'http://dev.empeeric.com';
