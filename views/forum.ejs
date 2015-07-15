@@ -472,6 +472,35 @@
                 })
             });
 
+          /*  $('.row-table').on({
+                'mouseenter':function(){
+                    $(this).addClass("active");
+                },'mouseleave':function(){
+                    $(this).removeClass("active");
+                }
+            });*/
+            $('body').on('click', '.delete', function(){
+                var $this = $(this);
+                    var post_id = $($this.parents('.row-table')[0]).data('id');
+
+                var popupConfig = {};
+                popupConfig.post_id = post_id;
+                popupConfig.popup_text = "" +
+                        'למחוק תגובה זו?';
+
+                popupConfig.onOkCilcked = function (e) {
+                    e.preventDefault();
+                    clicked = 'ok';
+                    db_functions.removeForumPost(post_id, function (err) {
+                            console.log('here');
+                            console.log($this);
+                            $('#' + popupConfig.post_id).slideUp(1200, "swing");
+                    });
+                    $.colorbox.close();
+                },
+
+                popupProvider.showDeletePostPopup(popupConfig);
+            })
         });
 
      </script>

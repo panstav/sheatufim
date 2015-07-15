@@ -1,7 +1,11 @@
 <li class="row-table message-{_id}" data-level="{level}" data-id="{_id}" id="{_id}">
-
+    {?no_children}
+    {?is_my_comment}
+    <span class="icon icon-delete hand delete"> </span>
+    {/is_my_comment}
+    {/no_children}
     {?parent_id}
-        <div class="message message-pad-{level}">
+        <div class="message message-pad-{level} has-parent">
             <i class="icon icon-box-top-right-gray-tip"></i>
     {:else}
         <!--{?link}-->
@@ -10,16 +14,17 @@
     <div class="message primary-message message-closed">
         {?link}
         <button class="forum_link" data-href="/discussions/subject/{subject_id}/forum#{_id}">
-        {/link}
+            {/link}
             <a href="javascript:;" class="message-ticker primary-ticker toggle_replies"><i class="icon icon-expand hand"></i></a>
     {/parent_id}
         <div class="message-image"><div class="circle circle-wrapper auto-scale"><img src="{avatar}" alt="תמונה" title="תמונה"/></div></div>
-        <div class="message-text">
+            <div class="message-text">
             <div class="row message-text-header">
                 <div class="message-author right">{user.first_name} {user.last_name}{?username}{username}{/username}</div>
                 <div class="message-author-role right">{user.occupation}{?user_occupation}{user_occupation}{/user_occupation}</div>
             </div>
             <div class="row">
+
                 <div class="message-content right" data-text="{text}">
                     {?text_short}
                         {text_short|s}
@@ -31,9 +36,11 @@
                     {/text_short}
                 </div>
             </div>
-            <div class="spacer"></div>
+            <div class="spacer">
+                          </div>
             <div class="message-bar row">
                 <div class="message-datetime right">{date} | {time}</div>
+
                 {?last}
                     <div class="message-reply hand left" onclick="replyTo('message-{_id}');">
                         <div class="message-reply-title"><i class="icon icon-xsmall-pad-left icon-bubble right"></i>הגב</div>

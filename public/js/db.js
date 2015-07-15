@@ -722,6 +722,21 @@ var db_functions = {
         });
     },
 
+    removeForumPost: function (post_id, callback) {
+        db_functions.loggedInAjax({
+            url: '/api/forum_posts/' + post_id,
+            type: 'DELETE',
+            async: true,
+            success:function (data) {
+                console.log(data);
+                callback(null, data);
+            },
+            error:function (err) {
+                callback(err);
+            }
+    });
+    },
+
     createQuestionPost: function (data, callback) {
         db_functions.loggedInAjax({
             url: '/api/question_posts/',

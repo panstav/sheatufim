@@ -40,6 +40,7 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
             _id:null,
             subject_id:null,
             is_my_comment: null,
+            no_children: null,
             parent_id: null,
             user_occupation: null,
             responses: null,
@@ -65,6 +66,10 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
         this._super(req, filters, sorts, 0, 0, function (err, results) {
             var new_posts = [];
 
+            //set parents list
+            var parents_ids = _.map(results.objects, function(post){ return post.parent_id + ""; });
+            parents_ids = _.uniq(parents_ids);
+
             //set avatar and user info for each posts
             _.each(results.objects, function(post){
                 var new_post = post.toObject();
@@ -74,7 +79,11 @@ var PostForumResource = module.exports = common.BaseModelResource.extend({
                 new_post.user_occupation = post.creator_id && post.creator_id.occupation;
 
                 //set is_my_comment flag
-                new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id + ""));
+                new_post.is_my_comment = req.user && (req.user.id + "" === (post.creator_id && post.creator_id.id + ""));
+
+                //set post with no child flag
+                new_post.no_children = !_.contains(parents_ids, new_post._id + "");
+
                 new_posts.push(new_post);
             });
 

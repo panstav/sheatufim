@@ -335,10 +335,11 @@ img {
     background-image: url('../img/icon-box-top-right-gray-tip.png');
 }
 
-.icon-close {
-    width: 20px;
-    height: 20px;
-    background-image: url('../img/icon-close.png');
+
+.icon-delete {
+    width: 25px;
+    height: 25px;
+    background-image: url('../images/delete-app.png');
 }
 
 .icon-close:hover {
@@ -3305,3 +3306,56 @@ body.request-change-dialog .message .message-text textarea {
     overflow: hidden;
 }
 
+.forum span.delete {
+    position: relative;
+    bottom: 76px;
+    left: -567px;/*303*/
+    z-index: 1;
+   /* display: none;*/
+}
+
+.forum .has-parent span.delete {
+    left: -550px; /*345*/
+}
+
+.last-messages span.delete {
+    position: relative;
+    bottom: 78px;
+    left: -303px;
+    z-index: 1;
+   /* display: none;*/
+}
+
+.last-messages .has-parent span.delete {
+    left: -345px;
+}
+
+.active span.delete {
+    display: block;
+}
+
+
+ a.dark-grey-btn {
+    color: #fff;
+    background: #757d7e url(/images/search-submit.png) 0 0 repeat-x;
+    height: 29px;
+    font: normal 18px/32px "AdumaFOTRegular";
+    border: 1px solid #2e3030;
+    text-align: center;
+    border-radius: 2px;
+    text-decoration: none;
+    display: inline-block;
+    position: relative;
+    width: 110px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+ a.dark-grey-btn:hover {
+    background-color: #555a5d;
+}
+ a.dark-grey-btn:active {
+    background-color: #919d9d;
+    background-position: 0 100%;
+}

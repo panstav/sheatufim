@@ -204,15 +204,19 @@ var iterator = function (users_hash, discussions_hash, posts_hash, info_items_ha
                         notification.part_two = subject.name;
                     }
 
-                    get_post_page(post._id, subject._id, function(page){
-                        if(page == 0)
-                            notification.main_link = notification.url + '#' + post._id;
-                        else
-                            notification.main_link = notification.url + '?page=' + page + '#' + post._id;
+                    if(subject && post){
+                        get_post_page(post._id, subject._id, function(page){
+                            if(page == 0)
+                                notification.main_link = notification.url + '#' + post._id;
+                            else
+                                notification.main_link = notification.url + '?page=' + page + '#' + post._id;
 
-                        notification.extra_text = post_text;
+                            notification.extra_text = post_text;
+                            itr_cbk();
+                        });
+                    }else {
                         itr_cbk();
-                    });
+                    }
                     break;
 
                 case "comment_on_discussion_you_are_part_of":
