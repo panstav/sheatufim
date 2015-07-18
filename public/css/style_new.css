@@ -3306,31 +3306,14 @@ body.request-change-dialog .message .message-text textarea {
     overflow: hidden;
 }
 
-.forum span.delete {
-    position: relative;
-    bottom: 76px;
-    left: -567px;/*303*/
+span.delete {
+    position: absolute;
+    left: 0px;
     z-index: 1;
    /* display: none;*/
 }
 
-.forum .has-parent span.delete {
-    left: -550px; /*345*/
-}
-
-.last-messages span.delete {
-    position: relative;
-    bottom: 78px;
-    left: -303px;
-    z-index: 1;
-   /* display: none;*/
-}
-
-.last-messages .has-parent span.delete {
-    left: -345px;
-}
-
-.active span.delete {
+.active.delete {
     display: block;
 }
 
@@ -3359,3 +3342,7 @@ body.request-change-dialog .message .message-text textarea {
     background-color: #919d9d;
     background-position: 0 100%;
 }
+
+ li.row-table {
+     position: relative;
+ }
