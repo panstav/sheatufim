@@ -31,7 +31,10 @@ config.hosts = [
     'www.sheatufim-roundtable.org.il',
     'www.sheatufim-roundtable.org.il:8080',
     'localhost:8080',
-    'dev.empeeric.com'
+    'dev.empeeric.com',
+    '195.28.181.249',
+    '195.28.181.249:8080',
+    'ubuntu.sheatufim.org.il'
 ];
 
 /**
