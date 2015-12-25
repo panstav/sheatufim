@@ -5,9 +5,11 @@ var models = require('../../models'),
     config = require('../../config'),
     async = require('async');
 
+var is_no_sheatufim = false;
+
 module.exports ={
     get: function(req, res){
-        var is_no_sheatufim = false;
+
         var host = req.get('host');
         if(!_.find(config.hosts, function(hst){return hst == host; })){
             data.is_no_sheatufim = true;
@@ -66,6 +68,7 @@ module.exports ={
             else
                 if(obj == 0)
                     res.render('forgot_password.ejs',{
+                        is_no_sheatufim: is_no_sheatufim,
                         next: req.query.next,
                         found:false,
                         email:email,
@@ -74,6 +77,7 @@ module.exports ={
                     });
                 else
                     res.render('forgot_password.ejs',{
+                        is_no_sheatufim: is_no_sheatufim,
                         next: req.query.next,
                         email:email,
                         method:'post',
