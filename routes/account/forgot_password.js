@@ -9,9 +9,8 @@ module.exports ={
     get: function(req, res){
         var is_no_sheatufim = false;
         var host = req.get('host');
-        if(host != 'www.sheatufim-roundtable.org.il' && host != 'www.sheatufim-roundtable.org.il:8080' && host != 'localhost:8080') {
-            is_no_sheatufim = true;
-
+        if(!_.find(config.hosts, function(hst){return hst == host; })){
+            data.is_no_sheatufim = true;
 
             models.Subject.findOne().where('host_details.host_address', 'http://' + host).exec(function (err, subject) {
                 if (err || !subject) throw new Error('Subject with this host was not found');
