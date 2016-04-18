@@ -5,7 +5,7 @@ module.exports = function(req, res){
     var config = require('../../config.js');
     var _ = require('underscore');
 
-    if(!_.find(config.hosts, function(hst){return hst == host; })){
+    if(false){
         console.log('hosting_subject');
         console.log("req.get('host')", host);
         models.Subject.findOne().where('host_details.host_address', 'http://' + req.get('host')).exec(function(err, subject){
