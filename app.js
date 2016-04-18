@@ -32,6 +32,7 @@ var IS_ADMIN = false;
 
 var IS_PROCESS_CRON = (process.argv[2] === 'cron');
 var IS_PROCESS_WEB = !IS_PROCESS_CRON;
+console.log('Cron', IS_PROCESS_CRON, 'Web', IS_PROCESS_WEB);
 
 var auth_middleware = auth({
     strategies: [
