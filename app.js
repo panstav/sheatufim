@@ -15,7 +15,7 @@ var formage_admin = require('formage-admin');
 var config = require('./config');
 formage_admin.forms.loadTypes(mongoose);
 
-
+console.log('Loaded requirements');
 
 var app = module.exports = express();
 app.set('show_only_published', process.env.SHOW_ONLY_PUBLISHED == '1');
@@ -49,10 +49,12 @@ var auth_middleware = auth({
 // Run some compilations
 require('./tools/compile_dust_templates');
 
-
+console.log('Finished init middleware setup');
 
 // ######### connect to DB #########
 if (!mongoose.connection.host) {
+    console.log('Connecting to DB at', config.DB_URL);
+
     mongoose.connect(config.DB_URL, {safe: true}, function (db) { console.log("connected to db %s:%s/%s", mongoose.connection.host, mongoose.connection.port, mongoose.connection.name); });
     mongoose.connection.on('error', function (err) { console.error('db connection error: ', err); });
     mongoose.connection.on('disconnected', function (err) {
@@ -93,6 +95,9 @@ app.set('is_developement', app.settings.env == 'development');
 app.set('send_mails', true);
 app.set('view engine', 'jade');
 app.set('view options', { layout: false });
+
+console.log('Finished setting app settings');
+
 formage_admin.forms.setAmazonCredentials(config.s3_creds);
 if(app.settings.env == 'staging' || app.settings.env == 'production'){
     formage_admin.forms.setUploadDirectory(config.upload_dir);
@@ -102,6 +107,7 @@ var models = require('./models');
 models.setDefaultPublish(app.settings.show_only_published);
 // ######### settings #########
 
+console.log('Loaded models');
 
 // ######### error handling #########
 
@@ -161,6 +167,8 @@ app.use(function (req, res, next) {
     });
     next();
 });
+
+console.log('Loaded more middleware');
 
 app.locals({
     footer_links: function (place) {
@@ -251,6 +259,8 @@ app.configure('production',function(){
 
 });
 
+console.log('Loaded environment specific middleware');
+
 if (IS_ADMIN) {
     require('./admin')(app);
 }
@@ -261,6 +271,7 @@ if (IS_PROCESS_WEB) {
     require('./lib/templates').load(app);
     require('./routes')(app);
     require('./api/common');
+    console.log('Required web controllers');
 }
 
 if (app.get('send_mails')) {
@@ -324,6 +335,7 @@ if (IS_PROCESS_WEB) {
     });
 }
 
+console.log('Finished with index.js');
 
 
 // Redirect http to https
