@@ -291,10 +291,12 @@ if (IS_PROCESS_CRON) {
 if (IS_PROCESS_WEB) {
     async.waterfall([
         function (cbk) {
+            console.log('Loading FooterLink model');
             mongoose.model('FooterLink').load(cbk);
         },
 
         function (cbk) {
+            console.log('Loading General model');
             mongoose.model('General').load(cbk);
         }
     ], function (err, general) {
@@ -307,6 +309,9 @@ if (IS_PROCESS_WEB) {
         var server;
 
         if(app.get('listenHttps')){
+            
+            console.log('Starting secure server');
+            
             // create HTTPS server, listen on 443
             var fs = require('fs');
             var privateKey = fs.readFileSync(__dirname + '/cert/key.pem').toString();
@@ -325,10 +330,13 @@ if (IS_PROCESS_WEB) {
                     return res.end();
                 }
                 app(req,res);
-            }).listen(app.get('port')); console.log('Initiated http @', app.get('port'));
+            }).listen(app.get('port')); 
+            
+            console.log('Initiated http @', app.get('port'));
         }
         else {
-            console.log('listening on port ',app.get('port'));
+            console.log('Starting insecure http server');
+            
             server = app.listen(app.get('port'), function (err) {
                 if (err) {
                     console.error(err.stack || err);
