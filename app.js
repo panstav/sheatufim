@@ -297,6 +297,9 @@ if (IS_PROCESS_WEB) {
             mongoose.model('General').load(cbk);
         }
     ], function (err, general) {
+        if (err) console.log(err);
+        
+        console.log('Got to "run web init"');
 //        app.set('general', general);
 
         // Redirect http to https
@@ -340,7 +343,6 @@ if (IS_PROCESS_WEB) {
 }
 
 console.log('Finished with index.js');
-
 
 // Redirect http to https
 // require('http').createServer(function(req,res){
