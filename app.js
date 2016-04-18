@@ -306,8 +306,10 @@ if (IS_PROCESS_WEB) {
             var fs = require('fs');
             var privateKey = fs.readFileSync(__dirname + '/cert/key.pem').toString();
             var certificate = fs.readFileSync(__dirname + '/cert/cert.cer').toString();
+            
             server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
-
+            console.log('Initiated certified Https server on 443');
+            
             // create HTTP server that redirects to HTTPS
             require('http').createServer(function(req,res){
                 var domain = req.headers['host'].toLowerCase();
@@ -318,7 +320,7 @@ if (IS_PROCESS_WEB) {
                     return res.end();
                 }
                 app(req,res);
-            }).listen(app.get('port'));
+            }).listen(app.get('port')); console.log('Initiated http @', app.get('port'));
         }
         else {
             console.log('listening on port ',app.get('port'));
