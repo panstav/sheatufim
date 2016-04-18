@@ -59,7 +59,6 @@ if (!mongoose.connection.host) {
     mongoose.connection.on('error', function (err) { console.error('db connection error: ', err); });
     mongoose.connection.on('disconnected', function (err) {
         console.error('DB disconnected', err);
-        setTimeout(function () {mongoose.connect(config.DB_URL, function (err) { if (err) console.error(err); });}, 200);
     });
 }
 // ######### end connect to DB #########
