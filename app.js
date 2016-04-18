@@ -289,66 +289,57 @@ if (IS_PROCESS_CRON) {
 
 // run web init
 if (IS_PROCESS_WEB) {
-    async.waterfall([
-        function (cbk) {
-            console.log('Loading FooterLink model');
-            mongoose.model('FooterLink').load(cbk);
-        },
 
-        function (cbk) {
-            console.log('Loading General model');
-            mongoose.model('General').load(cbk);
-        }
-    ], function (err, general) {
-        if (err) console.log(err);
-        
-        console.log('Got to "run web init"');
-//        app.set('general', general);
+    mongoose.model('FooterLink').load();
+    mongoose.model('General').load();
 
-        // Redirect http to https
-        var server;
+    console.log('Got to "run web init"');
+    //        app.set('general', general);
 
-        if(app.get('listenHttps')){
-            
-            console.log('Starting secure server');
-            
-            // create HTTPS server, listen on 443
-            var fs = require('fs');
-            var privateKey = fs.readFileSync(__dirname + '/cert/key.pem').toString();
-            var certificate = fs.readFileSync(__dirname + '/cert/cert.cer').toString();
-            
-            server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
-            console.log('Initiated certified Https server on 443');
-            
-            // create HTTP server that redirects to HTTPS
-            require('http').createServer(function(req,res){
-                var domain = req.headers['host'].toLowerCase();
-                if(domain == 'sheatufim-roundtable.org.il'){
-                    res.writeHead(301, {
-                        'Location': 'https://sheatufim-roundtable.org.il' + req.url
-                    });
-                    return res.end();
-                }
-                app(req,res);
-            }).listen(app.get('port')); 
-            
-            console.log('Initiated http @', app.get('port'));
-        }
-        else {
-            console.log('Starting insecure http server');
-            
-            server = app.listen(app.get('port'), function (err) {
-                if (err) {
-                    console.error(err.stack || err);
-                    process.exit(1);
-                }
-                console.log("Express server listening on port %d in %s mode", (server.address() || {}).port, app.get('env'));
-            });
-        }
-        server.on('error', function (err) {
-            console.error('********* Server Is NOT Working !!!! ***************\n %s', err);
+    // Redirect http to https
+    var server;
+
+    if(app.get('listenHttps')){
+
+        console.log('Starting secure server');
+
+        // create HTTPS server, listen on 443
+        var fs = require('fs');
+        var privateKey = fs.readFileSync(__dirname + '/cert/key.pem').toString();
+        var certificate = fs.readFileSync(__dirname + '/cert/cert.cer').toString();
+
+        server = require('https').createServer({key: privateKey, cert: certificate},app).listen(443);
+        console.log('Initiated certified Https server on 443');
+
+        // create HTTP server that redirects to HTTPS
+        require('http').createServer(function(req,res){
+            var domain = req.headers['host'].toLowerCase();
+            if(domain == 'sheatufim-roundtable.org.il'){
+                res.writeHead(301, {
+                    'Location': 'https://sheatufim-roundtable.org.il' + req.url
+                });
+                return res.end();
+            }
+            app(req,res);
+        }).listen(app.get('port'));
+
+        console.log('Initiated http @', app.get('port'));
+    }
+    else {
+        console.log('Starting insecure http server');
+
+        server = app.listen(app.get('port'), function (err) {
+            if (err) {
+                console.error(err.stack || err);
+                process.exit(1);
+            }
+            console.log("Express server listening on port %d in %s mode", (server.address() || {}).port, app.get('env'));
         });
+    }
+    server.on('error', function (err) {
+        console.error('********* Server Is NOT Working !!!! ***************\n %s', err);
     });
+
 }
 
 console.log('Finished with index.js');
