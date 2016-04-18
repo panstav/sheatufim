@@ -58,7 +58,7 @@ if (!mongoose.connection.host) {
     mongoose.connect(config.DB_URL, {safe: true}, function (db) { console.log("connected to db %s:%s/%s", mongoose.connection.host, mongoose.connection.port, mongoose.connection.name); });
     mongoose.connection.on('error', function (err) { console.error('db connection error: ', err); });
     mongoose.connection.on('disconnected', function (err) {
-        console.error('DB disconnected', err);
+        console.error('DB disconnected', err || 'with no error');
     });
 }
 // ######### end connect to DB #########
