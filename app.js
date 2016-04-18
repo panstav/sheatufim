@@ -226,12 +226,14 @@ app.locals({
 // ######### environment specific settings #########
 
 app.configure('development', function(){
+    console.log('Apply development environments middleware');
     app.set('send_mails', true);
     IS_ADMIN = true;
     //app.set('listenHttps',true);
 });
 
 app.configure('staging',function(){
+    console.log('Apply staging environments middleware');
     IS_ADMIN = true;
     // ######### error handling #########
     app.set('listenHttps',false);
@@ -245,6 +247,7 @@ app.configure('staging',function(){
 });
 
 app.configure('production',function(){
+    console.log('Apply production environments middleware');
     app.use(function (req, res, next) {
         if(req.headers['host'] == 'sheatufim-roundtable.org.il')
             return res.redirect('http://www.sheatufim-roundtable.org.il' + req.url);
@@ -259,8 +262,6 @@ app.configure('production',function(){
     });
 
 });
-
-console.log('Loaded environment specific middleware');
 
 if (IS_ADMIN) {
     require('./admin')(app);
