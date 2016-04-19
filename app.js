@@ -226,28 +226,27 @@ app.locals({
 
 // ######### environment specific settings #########
 
-app.configure('development', function(){
+if (process.env.NODE_ENV === 'development'){
     console.log('Apply development environments middleware');
     app.set('send_mails', true);
     IS_ADMIN = true;
     //app.set('listenHttps',true);
-});
+}
 
-app.configure('staging',function(){
+if (process.env.NODE_ENV === 'staging'){
     console.log('Apply staging environments middleware');
     IS_ADMIN = true;
     // ######### error handling #########
     app.set('listenHttps',false);
-    
+
     process.on('uncaughtException', function(err) {
         console.error('*************************  unhandled exception !!!!! ********************************');
         console.error(err);
         console.error(err.stack);
     });
+}
 
-});
-
-app.configure('production',function(){
+if (process.env.NODE_ENV === 'production'){
     console.log('Apply production environments middleware');
     app.use(function (req, res, next) {
         if(req.headers['host'] == 'sheatufim-roundtable.org.il')
@@ -261,8 +260,7 @@ app.configure('production',function(){
         console.error(err);
         console.error(err.stack);
     });
-
-});
+}
 
 if (IS_ADMIN) {
     require('./admin')(app);
